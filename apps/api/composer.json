@@ -1,0 +1,26 @@
+{
+    "name": "echoo/api",
+    "description": "Une application musicale communautaire innovante permettant d'écouter de la musique et de la partager avec ses amis !",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Echoo\\Api\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Elouan TISSIER",
+            "email": "121400663+Eloups@users.noreply.github.com"
+        },
+        {
+            "name": "Corentin SCHEER"
+        },
+        {
+            "name": "Romain DURAND"
+        },
+        {
+            "name": "Thibault CALLERAND"
+        }
+    ],
+    "require": {}
+}
