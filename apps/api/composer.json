@@ -4,7 +4,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Echoo\\Api\\": "src/"
+            "Api\\": "src/router"
         }
     },
     "authors": [
@@ -22,5 +22,8 @@
             "name": "Thibault CALLERAND"
         }
     ],
-    "require": {}
+    "require": {
+        "symfony/routing": "^7.3",
+        "symfony/http-foundation": "^7.3"
+    }
 }
