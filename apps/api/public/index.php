@@ -14,9 +14,6 @@ try {
     // On récupère la collection de routes pour le routeur
     $routeCollection = include __DIR__ . '/../src/router/routes.php';
 
-    //* Exemple
-    $request = Request::create('/musics');
-
     // On crée le routeur de l'API
     $router = new Router($routeCollection, $request);
 

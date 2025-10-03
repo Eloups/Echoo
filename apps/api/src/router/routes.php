@@ -6,7 +6,6 @@ use Symfony\Component\Routing\RouteCollection;
 $routes = new RouteCollection();
 
 // On crée les routes ici
-//* test
-$routes->add('getMusic', new Route('/music', methods: ['GET', 'POST']));
+$routes->add('getMusics', new Route('/musics', methods: 'GET'));
 
 return $routes;
