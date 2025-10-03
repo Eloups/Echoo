@@ -29,6 +29,11 @@ class Artist {
      * @var string
      */
     private string $image_path;
+    /**
+     * Réseau social de l'artiste
+     * @var ?Network[]
+     */
+    private ?array $network;
 
     /**
      * Constructeur de l'artiste
@@ -37,13 +42,15 @@ class Artist {
      * @param bool $isVerified
      * @param string $description
      * @param string $image_path
+     * @param ?Network[] $network
      */
-    public function __construct(?int $id, string $name, bool $isVerified, string $description, string $image_path) {
+    public function __construct(?int $id, string $name, bool $isVerified, string $description, string $image_path, ?array $network) {
         $this->id = $id;
         $this->name = $name;
         $this->isVerified = $isVerified;
         $this->description = $description;
         $this->image_path = $image_path;
+        $this->network = $network;
     }
 
     /**
@@ -80,5 +87,13 @@ class Artist {
      */
     public function getImagePath(): string {
         return $this->image_path;
+    }
+
+    /**
+     * Accesseur des réseaux sociaux de l'artiste
+     * @return Network[]|null
+     */
+    public function getNetwork(): ?array {
+        return $this->network;
     }
 }
