@@ -58,7 +58,7 @@ class RouterTest extends TestCase
         $router = new Router($routes, $request);
 
         // Test de la requête
-        $response = $router->useRoute($request);
+        $response = $router->useRoutes($request);
 
         // Test de l'utilisation du routeur
         $this->assertEquals(200, $response->getStatusCode());

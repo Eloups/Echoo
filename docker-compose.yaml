@@ -1,0 +1,18 @@
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./apps/api:/var/www/api
+    depends_on:
+      php:
+        condition: service_started
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    volumes:
+    - ./apps/api:/var/www/api
+

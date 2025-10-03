@@ -56,7 +56,7 @@ class Router
      * @throws ResourceNotFoundException si la requête ne correspond à aucune routes
      * @return Response
      */
-    public function useRoute(Request $request): Response
+    public function useRoutes(Request $request): Response
     {
         try {
             // Utilisation du matcher pour la correspondance
@@ -64,7 +64,7 @@ class Router
 
             // Renvoie vers la bonne route
             match ($match['_route']) {
-                'getMusic' => $response = new Response(json_encode(['code' => 200, 'message' => 'Réussi']), 200),
+                'getMusics' => $response = new Response(json_encode(['code' => 200, 'message' => 'Réussi']), 200),
                 default => throw new ResourceNotFoundException(),
             };
         } catch (ResourceNotFoundException $e) {
