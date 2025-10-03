@@ -56,7 +56,7 @@ class Router
      * @throws ResourceNotFoundException si la requête ne correspond à aucune routes
      * @return Response
      */
-    public function useRoute(Request $request): Response
+    public function useRoutes(Request $request): Response
     {
         try {
             // Utilisation du matcher pour la correspondance
