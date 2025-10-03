@@ -18,7 +18,7 @@ try {
     $router = new Router($routeCollection, $request);
 
     // On utilise le routeur avec la request
-    $response = $router->useRoute($request);
+    $response = $router->useRoutes($request);
 } catch (Exception $e) {
     $response = new Response(json_encode(['code' => 500, 'message' => 'Internal server error']), 500);
 }
