@@ -31,9 +31,9 @@ class Artist {
     private string $image_path;
     /**
      * Réseau social de l'artiste
-     * @var ?Network[]
+     * @var Network[]
      */
-    private ?array $network;
+    private array $network = [];
 
     /**
      * Constructeur de l'artiste
@@ -42,9 +42,9 @@ class Artist {
      * @param bool $isVerified
      * @param string $description
      * @param string $image_path
-     * @param ?Network[] $network
+     * @param Network[] $network
      */
-    public function __construct(?int $id, string $name, bool $isVerified, string $description, string $image_path, ?array $network) {
+    public function __construct(?int $id, string $name, bool $isVerified, string $description, string $image_path, array $network) {
         $this->id = $id;
         $this->name = $name;
         $this->isVerified = $isVerified;
