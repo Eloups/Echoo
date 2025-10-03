@@ -2,7 +2,7 @@
 /**
  * Classe des genres de musiques
  */
-class Gender {
+class Genre {
     /**
      * Id du genre
      * @var ?int
