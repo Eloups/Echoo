@@ -2,6 +2,7 @@
 
 namespace Api;
 
+use Api\Controller\MusicController;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,11 +63,17 @@ class Router
             // Utilisation du matcher pour la correspondance
             $match = $this->urlMatcher->matchRequest($request);
 
+            // Récupération du use case et de l'action
+            [$useCase, $action] = explode('|', $match['_route'], 2);
+
             // Renvoie vers la bonne route
-            match ($match['_route']) {
-                'getMusics' => $response = new Response(json_encode(['code' => 200, 'message' => 'Réussi']), 200),
+            $controller = match ($useCase) {
+                'music' => new MusicController($action),
                 default => throw new ResourceNotFoundException(),
             };
+
+            $response = $controller->run();
+
         } catch (ResourceNotFoundException $e) {
             $response = new Response(json_encode(['code' => 404, 'message' => 'Route introuvable'], 404));
         } catch (Exception $e) {
