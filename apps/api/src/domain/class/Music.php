@@ -44,6 +44,11 @@ class Music {
      * @var Rating[]
      */
     private array $rates = [];
+    /**
+     * Projet de la musique
+     * @var Project
+     */
+    private Project $project;
 
     /**
      * Constructeur de la musique
@@ -55,8 +60,9 @@ class Music {
      * @param Genre $gender
      * @param int $nbStreams
      * @param Rating[] $rates
+     * @param Project $project
      */
-    public function __construct(?int $id, string $title, int $duration, DateTime $release, string $file_path, Genre $gender, int $nbStreams, array $rates) {
+    public function __construct(?int $id, string $title, int $duration, DateTime $release, string $file_path, Genre $gender, int $nbStreams, array $rates, Project $project) {
         $this->id = $id;
         $this->title = $title;
         $this->duration = $duration;
@@ -65,6 +71,7 @@ class Music {
         $this->gender = $gender;
         $this->nbStreams = $nbStreams;
         $this->rates = $rates;
+        $this->project = $project;
     }
 
     /**
@@ -122,5 +129,12 @@ class Music {
      */
     public function getRates(): array {
         return $this->rates;
+    }
+    /**
+     * Accesseur du projet de la musique
+     * @return Project
+     */
+    public function getProject(): Project {
+        return $this->project;
     }
 }

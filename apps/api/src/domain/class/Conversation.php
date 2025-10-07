@@ -38,7 +38,7 @@ class Conversation {
      * Utilisateurs qui participent à la conversation
      * @var array
      */
-    private array $users = [];
+    private array $participants = [];
     /**
      * Constructeur d'une conversation
      * @param ?int $id
@@ -47,16 +47,16 @@ class Conversation {
      * @param string $imagePath
      * @param Message[] $messages
      * @param User $creator
-     * @param User[] $users
+     * @param User[] $participants
      */
-    public function __construct(?int $id, ?string $name, DateTime $createdAt, ?string $imagePath, array $messages, User $creator, array $users) {
+    public function __construct(?int $id, ?string $name, DateTime $createdAt, ?string $imagePath, array $messages, User $creator, array $participants) {
         $this->id = $id;
         $this->name = $name;
         $this->createdAt = $createdAt;
         $this->imagePath = $imagePath;
         $this->creator = $creator;
         $this->messages = $messages;
-        $this->users = $users;
+        $this->participants = $participants;
     }
 
     /**
@@ -105,7 +105,7 @@ class Conversation {
      * Accesseur des utilisateurs qui participent à la conversation
      * @return User[]
      */
-    public function getUsers(): array {
-        return $this->users;
+    public function getParticipants(): array {
+        return $this->participants;
     }
 }
