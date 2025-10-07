@@ -39,6 +39,11 @@ class Music {
      * @var int
      */
     private int $nbStreams;
+    /**
+     * Liste des notes de la musique
+     * @var Rating[]
+     */
+    private array $rates = [];
 
     /**
      * Constructeur de la musique
@@ -49,8 +54,9 @@ class Music {
      * @param string $file_path
      * @param Genre $gender
      * @param int $nbStreams
+     * @param Rating[] $rates
      */
-    public function __construct(?int $id, string $title, int $duration, DateTime $release, string $file_path, Genre $gender, int $nbStreams) {
+    public function __construct(?int $id, string $title, int $duration, DateTime $release, string $file_path, Genre $gender, int $nbStreams, array $rates) {
         $this->id = $id;
         $this->title = $title;
         $this->duration = $duration;
@@ -58,6 +64,7 @@ class Music {
         $this->file_path = $file_path;
         $this->gender = $gender;
         $this->nbStreams = $nbStreams;
+        $this->rates = $rates;
     }
 
     /**
@@ -108,5 +115,12 @@ class Music {
      */
     public function getNbStreams(): int {
         return $this->nbStreams;
+    }
+    /**
+     * Accesseur des notes de la musique
+     * @return Rating[]
+     */
+    public function getRates(): array {
+        return $this->rates;
     }
 }

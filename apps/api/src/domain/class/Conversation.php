@@ -25,24 +25,38 @@ class Conversation {
      */
     private ?string $imagePath;
     /**
+     * Liste des messages
+     * @var Message[]
+     */
+    private array $messages = [];
+    /**
      * Utilisateur créateur de la conversation
      * @var User
      */
     private User $creator;
-    
+    /**
+     * Utilisateurs qui participent à la conversation
+     * @var array
+     */
+    private array $users = [];
     /**
      * Constructeur d'une conversation
      * @param ?int $id
      * @param ?string $name
      * @param DateTime $createdAt
      * @param string $imagePath
+     * @param Message[] $messages
+     * @param User $creator
+     * @param User[] $users
      */
-    public function __construct(?int $id, ?string $name, DateTime $createdAt, ?string $imagePath, User $creator) {
+    public function __construct(?int $id, ?string $name, DateTime $createdAt, ?string $imagePath, array $messages, User $creator, array $users) {
         $this->id = $id;
         $this->name = $name;
         $this->createdAt = $createdAt;
         $this->imagePath = $imagePath;
         $this->creator = $creator;
+        $this->messages = $messages;
+        $this->users = $users;
     }
 
     /**
@@ -73,7 +87,25 @@ class Conversation {
     public function getImagePath(): ?string {
         return $this->imagePath;
     }
+    /**
+     * Accesseur des messages de la conversation
+     * @return Message[]
+     */
+    public function getMessages(): array {
+        return $this->messages;
+    }
+    /**
+     * Accesseur du créateur de la conversation
+     * @return User
+     */
     public function getCreator(): User {
         return $this->creator;
+    }
+    /**
+     * Accesseur des utilisateurs qui participent à la conversation
+     * @return User[]
+     */
+    public function getUsers(): array {
+        return $this->users;
     }
 }

@@ -44,6 +44,16 @@ class User {
      * @var 
      */
     private ?Artist $artist;
+    /**
+     * Amis de l'utilisateur
+     * @var User[]
+     */
+    private array $friends = [];
+    /**
+     * Liste des conversations de l'utilisateur
+     * @var Conversation[]
+     */
+    private array $conversations = [];
 
     /**
      * Constructeur de l'utilisateur
@@ -55,8 +65,10 @@ class User {
      * @param Library $library
      * @param UserRole $userRole
      * @param Artist $artist
+     * @param User[] $friends
+     * @param Conversation[] $conversations
      */
-    public function __construct(?int $id, string $username, string $email, string $password, string $imagePath, Library $library, UserRole $userRole, Artist $artist) {
+    public function __construct(?int $id, string $username, string $email, string $password, string $imagePath, Library $library, UserRole $userRole, Artist $artist, array $friends, array $conversations) {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
@@ -65,6 +77,8 @@ class User {
         $this->library = $library;
         $this->userRole = $userRole;
         $this->artist = $artist;
+        $this->friends = $friends;
+        $this->conversations = $conversations;
     }
 
     /**
@@ -122,5 +136,20 @@ class User {
      */
     public function getArtist(): Artist {
         return $this->artist;
+    }
+
+    /**
+     * Accesseur de la liste d'amis de l'utilisateur
+     * @return User[]
+     */
+    public function getFriends(): array {
+        return $this->friends;
+    }
+    /**
+     * Accesseur des conversations de l'utilisateur
+     * @return Conversation[]
+     */
+    public function getConversations(): array {
+        return $this->conversations;
     }
 }

@@ -29,6 +29,11 @@ class Project {
      * @var ProjectType
      */
     private ProjectType $projectType;
+    /**
+     * Liste des musiques du projet
+     * @var Music[]
+     */
+    private array $musics = [];
 
     /**
      * Constructeur du projet de musique
@@ -37,13 +42,15 @@ class Project {
      * @param DateTime $release
      * @param string $cover_path
      * @param ProjectType $projectType
+     * @param Music[] $musics
      */
-    public function __construct(?int $id, string $title, DateTime $release, string $cover_path, ProjectType $projectType) {
+    public function __construct(?int $id, string $title, DateTime $release, string $cover_path, ProjectType $projectType, array $musics) {
         $this->id = $id;
         $this->title = $title;
         $this->release = $release;
         $this->cover_path = $cover_path;
         $this->projectType = $projectType;
+        $this->musics = $musics;
     }
 
     /**
@@ -80,5 +87,12 @@ class Project {
      */
     public function getProjectType(): ProjectType {
         return $this->projectType;
+    }
+    /**
+     * Accesseur de la liste de musique du projet
+     * @return Music[]
+     */
+    public function getMusics(): array {
+        return $this->musics;
     }
 }

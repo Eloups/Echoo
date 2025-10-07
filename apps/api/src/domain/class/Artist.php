@@ -34,6 +34,16 @@ class Artist {
      * @var Network[]
      */
     private array $network = [];
+    /**
+     * Liste des projets créés
+     * @var Project[]
+     */
+    private array $projects = [];
+    /**
+     * Liste des featuring de l'artiste
+     * @var Music[]
+     */
+    private array $featuredMusic = [];
 
     /**
      * Constructeur de l'artiste
@@ -43,14 +53,18 @@ class Artist {
      * @param string $description
      * @param string $image_path
      * @param Network[] $network
+     * @param Project[] $projects
+     * @param Music[] $featuredMusic
      */
-    public function __construct(?int $id, string $name, bool $isVerified, string $description, string $image_path, array $network) {
+    public function __construct(?int $id, string $name, bool $isVerified, string $description, string $image_path, array $network, array $projects, array $featuredMusic) {
         $this->id = $id;
         $this->name = $name;
         $this->isVerified = $isVerified;
         $this->description = $description;
         $this->image_path = $image_path;
         $this->network = $network;
+        $this->projects = $projects;
+        $this->featuredMusic = $featuredMusic;
     }
 
     /**
@@ -95,5 +109,19 @@ class Artist {
      */
     public function getNetwork(): ?array {
         return $this->network;
+    }
+    /**
+     * Accesseur des musiques créées par l'artiste
+     * @return Music[]
+     */
+    public function getProjects(): array {
+        return $this->projects;
+    }
+    /**
+     * Accesseur des musiques en feat de l'artiste
+     * @return Music[]
+     */
+    public function getFeaturedMusic(): array {
+        return $this->featuredMusic;
     }
 }
