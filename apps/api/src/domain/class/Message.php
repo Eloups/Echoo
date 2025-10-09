@@ -1,5 +1,9 @@
 <?php 
 
+namespace Api\Domain\Class;
+
+use DateTime;
+
 /**
  * Classe Message
  */

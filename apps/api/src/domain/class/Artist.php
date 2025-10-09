@@ -1,5 +1,7 @@
 <?php
 
+namespace Api\Domain\Class;
+
 /**
  * Classe de l'artiste
  */

@@ -1,4 +1,7 @@
 <?php
+
+namespace Api\Domain\Class;
+
 /**
  * Classe des genres de musiques
  */

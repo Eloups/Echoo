@@ -1,5 +1,7 @@
 <?php
 
+namespace Api\Domain\Class;
+
 /**
  * Classe des bibliothèques des utilisateurs
  */

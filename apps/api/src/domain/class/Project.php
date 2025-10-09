@@ -1,5 +1,9 @@
 <?php
 
+namespace Api\Domain\Class;
+
+use DateTime;
+
 /**
  * Classe pour les projets de musiques (ex : albums)
  */
@@ -34,11 +38,6 @@ class Project {
      * @var Music[]
      */
     private array $musics = [];
-    /**
-     * Artiste du projet
-     * @var Artist
-     */
-    private Artist $artist;
 
     /**
      * Constructeur du projet de musique
@@ -48,16 +47,14 @@ class Project {
      * @param string $cover_path
      * @param ProjectType $projectType
      * @param Music[] $musics
-     * @param Artist $artist
      */
-    public function __construct(?int $id, string $title, DateTime $release, string $cover_path, ProjectType $projectType, array $musics, Artist $artist) {
+    public function __construct(?int $id, string $title, DateTime $release, string $cover_path, ProjectType $projectType, array $musics) {
         $this->id = $id;
         $this->title = $title;
         $this->release = $release;
         $this->cover_path = $cover_path;
         $this->projectType = $projectType;
         $this->musics = $musics;
-        $this->artist = $artist;
     }
 
     /**
@@ -101,12 +98,5 @@ class Project {
      */
     public function getMusics(): array {
         return $this->musics;
-    }
-    /**
-     * Accesseur de l'artiste du projet
-     * @return Artist
-     */
-    public function getArtist(): Artist {
-        return $this->artist;
     }
 }

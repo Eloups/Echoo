@@ -1,5 +1,8 @@
 <?php 
 
+namespace Api\Domain\Class;
+
+
 /**
  * Classe pour les réseaux sociaux des artistes
  */

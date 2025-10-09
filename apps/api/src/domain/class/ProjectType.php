@@ -1,5 +1,8 @@
 <?php
 
+namespace Api\Domain\Class;
+
+
 /**
  * Classe pour définir les différents types de projets
  */

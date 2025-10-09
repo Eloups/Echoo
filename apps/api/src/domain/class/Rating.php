@@ -1,5 +1,8 @@
 <?php 
 
+namespace Api\Domain\Class;
+
+
 /**
  * Classe des notes des musiques
  */

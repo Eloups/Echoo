@@ -1,5 +1,8 @@
 <?php
 
+namespace Api\Domain\Class;
+
+
 /**
  * Classe du rôle de l'utilisateur (ex : admin)
  */

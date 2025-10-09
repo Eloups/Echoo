@@ -1,5 +1,8 @@
 <?php 
 
+namespace Api\Domain\Class;
+
+
 /**
  * Classe Playlist
  */
