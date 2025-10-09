@@ -28,7 +28,7 @@ const useAppStore = create<AppState>((set) => ({
     addAlbumExemple: (titre: string, artisteId: number) => {
 
     },
-    getAlbumsByArtisteId: (artisteId: number) => {
+    getAlbumsByArtistId: (artisteId: number) => {
 
     },
     getAllAlbums: async () => {
