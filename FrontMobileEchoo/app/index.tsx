@@ -1,6 +1,9 @@
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { Stack, useRouter } from "expo-router";
 
 export default function Index() {
+  const router = useRouter();
+  
   return (
     <View
       style={{
@@ -9,7 +12,19 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Pressable 
+        onPress={() => router.push("/bases/connexion")}
+        style={{
+          marginTop: 20,
+          padding: 10,
+          backgroundColor: "blue",
+          borderRadius: 5,
+        }}
+      >
+        <Text style={{ color: "white" }}>Début aplication</Text>
+      </Pressable>
+    
+    
     </View>
   );
 }
