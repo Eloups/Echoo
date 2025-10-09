@@ -54,6 +54,11 @@ class User {
      * @var Conversation[]
      */
     private array $conversations = [];
+    /**
+     * Liste de toutes les notes de l'utilisateur
+     * @var Rating[]
+     */
+    private array $rates = [];
 
     /**
      * Constructeur de l'utilisateur
@@ -67,8 +72,9 @@ class User {
      * @param Artist $artist
      * @param User[] $friends
      * @param Conversation[] $conversations
+     * @param Rating[] $rates
      */
-    public function __construct(?int $id, string $username, string $email, string $password, string $imagePath, Library $library, UserRole $userRole, Artist $artist, array $friends, array $conversations) {
+    public function __construct(?int $id, string $username, string $email, string $password, string $imagePath, Library $library, UserRole $userRole, Artist $artist, array $friends, array $conversations, array $rates) {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
@@ -79,6 +85,7 @@ class User {
         $this->artist = $artist;
         $this->friends = $friends;
         $this->conversations = $conversations;
+        $this->rates = $rates;
     }
 
     /**
@@ -151,5 +158,12 @@ class User {
      */
     public function getConversations(): array {
         return $this->conversations;
+    }
+    /**
+     * Accesseur de la liste de toutes les notes de l'utilisateur
+     * @return Rating[]
+     */
+    public function getRates(): array {
+        return $this->rates;
     }
 }
