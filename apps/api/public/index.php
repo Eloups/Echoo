@@ -14,14 +14,11 @@ try {
     // On récupère la collection de routes pour le routeur
     $routeCollection = include __DIR__ . '/../src/router/routes.php';
 
-    //* Exemple
-    $request = Request::create('/musics');
-
     // On crée le routeur de l'API
     $router = new Router($routeCollection, $request);
 
     // On utilise le routeur avec la request
-    $response = $router->useRoute($request);
+    $response = $router->useRoutes($request);
 } catch (Exception $e) {
     $response = new Response(json_encode(['code' => 500, 'message' => 'Internal server error']), 500);
 }
