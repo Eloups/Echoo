@@ -2,10 +2,10 @@
 
 namespace Api;
 
+use Api\Controller\ControllerInterface;
 use Api\Controller\MusicController;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RuntimeException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -52,36 +52,23 @@ class Router
     }
 
     /**
-     * Fonction pour utiliser le routeur
+     * Fonction pour matcher la requête et renvoyer le bon contrôleur
      * @param Request $request
-     * @throws ResourceNotFoundException si la requête ne correspond à aucune routes
-     * @return Response
+     * @return MusicController
      */
-    public function useRoutes(Request $request): Response
+    public function matchController(Request $request): ControllerInterface
     {
-        try {
-            // Utilisation du matcher pour la correspondance
-            $match = $this->urlMatcher->matchRequest($request);
+        // Utilisation du matcher pour la correspondance
+        $match = $this->urlMatcher->matchRequest($request);
 
-            // Récupération du use case et de l'action
-            [$useCase, $action] = explode('|', $match['_route'], 2);
+        // Récupération du use case et de l'action
+        [$useCase, $action] = explode('|', $match['_route'], 2);
 
-            // Renvoie vers la bonne route
-            $controller = match ($useCase) {
-                'music' => new MusicController($action),
-                default => throw new ResourceNotFoundException(),
-            };
-
-            $response = $controller->run();
-
-        } catch (ResourceNotFoundException $e) {
-            $response = new Response(json_encode(['code' => 404, 'message' => 'Route introuvable'], 404));
-        } catch (Exception $e) {
-            print_r($e);
-            $response = new Response(json_encode(['code' => 500, 'message' => 'Internal server error']));
-        }
-
-        return $response;
+        // Renvoie vers la bonne route
+        return match ($useCase) {
+            'music' => new MusicController($action),
+            default => throw new ResourceNotFoundException(),
+        };
     }
 
     /**
