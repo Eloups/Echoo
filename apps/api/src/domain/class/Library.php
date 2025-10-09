@@ -34,7 +34,7 @@ class Library {
      * @param array $playlists
      * @param array $projects
      */
-    public function __construct(int $id, array $artists, array $playlists, array $projects) {
+    public function __construct(?int $id, array $artists, array $playlists, array $projects) {
         $this->id = $id;
         $this->artists = $artists;
         $this->playlists = $playlists;

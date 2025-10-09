@@ -47,7 +47,7 @@ class Playlist {
      * @param ?string $cover_path
      * @param Music[] $musics
      */
-    public function __construct(?int $id, string $title, bool $isPublic, string $description, string $cover_path, array $musics) {
+    public function __construct(?int $id, string $title, bool $isPublic, ?string $description, ?string $cover_path, array $musics) {
         $this->id = $id;
         $this->title = $title;
         $this->isPublic = $isPublic;

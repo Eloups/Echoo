@@ -27,11 +27,6 @@ class Rating {
      * @var User
      */
     private User $user;
-    /**
-     * La musique que l'on veut noter
-     * @var Music
-     */
-    private Music $music;
 
     /**
      * Constructeur de la note
@@ -39,14 +34,12 @@ class Rating {
      * @param int $rate
      * @param ?string $comment
      * @param User $user
-     * @param Music $music
      */
-    public function __construct(?int $id, int $rate, ?string $comment = null, User $user, Music $music) {
+    public function __construct(?int $id, int $rate, ?string $comment = null, User $user) {
         $this->id = $id;
         $this->rate = $rate;
         $this->comment = $comment;
         $this->user = $user;
-        $this->music = $music;
     }
 
     /**
@@ -76,12 +69,5 @@ class Rating {
      */
     public function getUser(): User {
         return $this->user;
-    }
-    /**
-     * Accesseur de la musique qui a été noté
-     * @return Music
-     */
-    public function getMusic(): Music {
-        return $this->music;
     }
 }

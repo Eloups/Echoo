@@ -72,12 +72,12 @@ class User {
      * @param string $imagePath
      * @param Library $library
      * @param UserRole $userRole
-     * @param Artist $artist
      * @param User[] $friends
      * @param Conversation[] $conversations
      * @param Rating[] $rates
+     * @param ?Artist $artist
      */
-    public function __construct(?int $id, string $username, string $email, string $password, string $imagePath, Library $library, UserRole $userRole, Artist $artist, array $friends, array $conversations, array $rates) {
+    public function __construct(?int $id, string $username, string $email, string $password, string $imagePath, Library $library, UserRole $userRole, array $friends, array $conversations, array $rates, ?Artist $artist) {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
@@ -85,10 +85,10 @@ class User {
         $this->imagePath = $imagePath;
         $this->library = $library;
         $this->userRole = $userRole;
-        $this->artist = $artist;
         $this->friends = $friends;
         $this->conversations = $conversations;
         $this->rates = $rates;
+        $this->artist = $artist;
     }
 
     /**

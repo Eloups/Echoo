@@ -28,7 +28,7 @@ class Network {
      * @param string $name
      * @param string $link
      */
-    public function __construct(int $id, string $name, string $link) {
+    public function __construct(?int $id, string $name, string $link) {
         $this->id = $id;
         $this->name = $name;
         $this->link = $link;
