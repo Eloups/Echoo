@@ -35,7 +35,7 @@ class Rating {
      * @param ?string $comment
      * @param User $user
      */
-    public function __construct(?int $id, int $rate, ?string $comment = null, User $user) {
+    public function __construct(?int $id, int $rate, ?string $comment, User $user) {
         $this->id = $id;
         $this->rate = $rate;
         $this->comment = $comment;
