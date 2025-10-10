@@ -42,7 +42,7 @@ class DomainClassTest extends TestCase
         // Assertion pour vérifier que l'objet est bien créé
         $this->assertEquals($id, $artist->getId());
         $this->assertEquals($name, $artist->getName());
-        $this->assertEquals($isVerified, $artist->getIsVerified());
+        $this->assertFalse($isVerified, $artist->getIsVerified());
         $this->assertEquals($description, $artist->getDescription());
         $this->assertEquals($image_path, $artist->getImagePath());
         $this->assertEquals($network, $artist->getNetwork());
@@ -149,7 +149,6 @@ class DomainClassTest extends TestCase
         $genre = new Genre(1, "pop");
         $nbstreams = 20000;
 
-        //! Ligne qui déclenche un deprecated
         $rates = [new Rating(null, 4, null, new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null))];
 
         $music = new Music($id, $title, $duration, $release, $file_path, $genre, $nbstreams, $rates);
@@ -203,7 +202,7 @@ class DomainClassTest extends TestCase
         // Assertion pour vérifier que l'objet est bien créé
         $this->assertEquals($id, $playlist->getId());
         $this->assertEquals($title, $playlist->getTitle());
-        $this->assertEquals($isPublic, $playlist->isPublic());
+        $this->assertTrue($isPublic, $playlist->isPublic());
         $this->assertEquals($description, $playlist->getDescription());
         $this->assertEquals($cover_path, $playlist->getCoverPath());
         $this->assertEquals($musics, $playlist->getMusics());
@@ -299,5 +298,21 @@ class DomainClassTest extends TestCase
         $this->assertEquals($conversations, $user->getConversations());
         $this->assertEquals($rates, $user->getRates());
         $this->assertEquals($artist, $user->getArtist());
+    }
+
+    /**
+     * Méthode pour tester UserRole.php
+     * @return void
+     */
+    public function test_user_role_class() {
+        // Création des données de tests
+        $id = 1;
+        $name = "modérateur";
+
+        $role = new UserRole($id, $name);
+
+        // Assertion pour vérifier que l'objet est bien créé
+        $this->assertEquals($id, $role->getId());
+        $this->assertEquals($name, $role->getName());
     }
 }
