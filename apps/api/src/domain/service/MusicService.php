@@ -4,6 +4,9 @@ namespace Api\Domain\Service;
 
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Classe de service des musiques
+ */
 class MusicService implements MusicServiceInterface {
     /**
      * Action du listage des musiques
