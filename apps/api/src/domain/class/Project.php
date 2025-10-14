@@ -38,6 +38,16 @@ class Project {
      * @var Music[]
      */
     private array $musics = [];
+    /**
+     * Couleur principale du projet
+     * @var string
+     */
+    private string $color1;
+    /**
+     * couleur secondaire du projet
+     * @var string
+     */
+    private string $color2;
 
     /**
      * Constructeur du projet de musique
@@ -47,14 +57,18 @@ class Project {
      * @param string $cover_path
      * @param ProjectType $projectType
      * @param Music[] $musics
+     * @param string $color1
+     * @param string $color2
      */
-    public function __construct(?int $id, string $title, DateTime $release, string $cover_path, ProjectType $projectType, array $musics) {
+    public function __construct(?int $id, string $title, DateTime $release, string $cover_path, ProjectType $projectType, array $musics, string $color1, string $color2) {
         $this->id = $id;
         $this->title = $title;
         $this->release = $release;
         $this->cover_path = $cover_path;
         $this->projectType = $projectType;
         $this->musics = $musics;
+        $this->color1 = $color1;
+        $this->color2 = $color2;
     }
 
     /**
@@ -98,5 +112,19 @@ class Project {
      */
     public function getMusics(): array {
         return $this->musics;
+    }
+    /**
+     * Accesseur de la couleur principale du projet
+     * @return string
+     */
+    public function getColor1(): string {
+        return $this->color1;
+    }
+    /**
+     * Accesseur de la couleur secondaire du projet
+     * @return string
+     */
+    public function getColor2(): string {
+        return $this->color2;
     }
 }
