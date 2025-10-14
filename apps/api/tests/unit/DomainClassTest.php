@@ -43,7 +43,7 @@ class DomainClassTest extends TestCase
                 new DateTime("2025-10-09 14:33:00"),
                 "cover_path",
                 new ProjectType(1, "album"),
-                []
+                [], "color1", "color2"
             ),
         ];
         $featuring = [];
@@ -105,7 +105,7 @@ class DomainClassTest extends TestCase
                     120,
                     new DateTime("2023-05-12 14:30:25"),
                     "file_path",
-                    new Genre(1, "pop"),
+                    [new Genre(1, "pop")],
                     20000,
                     []
                 ),
@@ -135,7 +135,7 @@ class DomainClassTest extends TestCase
                     120,
                     new DateTime("2023-05-12 14:30:25"),
                     "file_path",
-                    new Genre(1, "pop"),
+                    [new Genre(1, "pop")],
                     20000,
                     []
                 ),
@@ -218,7 +218,7 @@ class DomainClassTest extends TestCase
                         new DateTime("2025-10-09 14:33:00"),
                         "cover_path",
                         new ProjectType(1, "album"),
-                        []
+                        [], "color1", "color2"
                     ),
                 ],
                 []
@@ -232,7 +232,7 @@ class DomainClassTest extends TestCase
                     120,
                     new DateTime("2023-05-12 14:30:25"),
                     "file_path",
-                    new Genre(1, "pop"),
+                    [new Genre(1, "pop")],
                     20000,
                     []
                 ),
@@ -258,7 +258,7 @@ class DomainClassTest extends TestCase
                 new DateTime("2025-10-09 14:33:00"),
                 "cover_path",
                 new ProjectType(1, "album"),
-                []
+                [], "color1", "color2"
             ),
         ];
 
@@ -286,7 +286,7 @@ class DomainClassTest extends TestCase
             120,
             new DateTime("2023-05-12 14:30:25"),
             "file_path",
-            new Genre(1, "pop"),
+            [new Genre(1, "pop")],
             20000,
             []
         );
@@ -326,7 +326,7 @@ class DomainClassTest extends TestCase
         $duration = 120;
         $release = new DateTime("2023-05-12 14:30:25");
         $file_path = "file_path";
-        $genre = new Genre(1, "pop");
+        $genre = [new Genre(1, "pop")];
         $nbstreams = 20000;
 
         $rates = [
@@ -368,7 +368,7 @@ class DomainClassTest extends TestCase
         $this->assertEquals($duration, $music->getDuration());
         $this->assertEquals($release, $music->getRelease());
         $this->assertEquals($file_path, $music->getFilePath());
-        $this->assertEquals($genre, $music->getGenre());
+        $this->assertEquals($genre, $music->getGenres());
         $this->assertEquals($nbstreams, $music->getNbstreams());
         $this->assertEquals($rates, $music->getRates());
     }
@@ -412,7 +412,7 @@ class DomainClassTest extends TestCase
                 120,
                 new DateTime("2023-05-12 14:30:25"),
                 "file_path",
-                new Genre(1, "pop"),
+                [new Genre(1, "pop")],
                 20000,
                 []
             ),
@@ -455,11 +455,13 @@ class DomainClassTest extends TestCase
                 120,
                 new DateTime("2023-05-12 14:30:25"),
                 "file_path",
-                new Genre(1, "pop"),
+                [new Genre(1, "pop")],
                 20000,
                 []
             ),
         ];
+        $color1 = "color1";
+        $color2 = "color2";
 
         $project = new Project(
             $id,
@@ -467,7 +469,9 @@ class DomainClassTest extends TestCase
             $release,
             $cover_path,
             $projectType,
-            $musics
+            $musics,
+            $color1,
+            $color2
         );
 
         // Assertion pour vérifier que l'objet est bien créé
@@ -559,7 +563,7 @@ class DomainClassTest extends TestCase
                             new DateTime("2025-10-09 14:33:00"),
                             "cover_path",
                             new ProjectType(1, "album"),
-                            []
+                            [], "color1", "color2"
                         ),
                     ],
                     []
@@ -573,7 +577,7 @@ class DomainClassTest extends TestCase
                         120,
                         new DateTime("2023-05-12 14:30:25"),
                         "file_path",
-                        new Genre(1, "pop"),
+                        [new Genre(1, "pop")],
                         20000,
                         []
                     ),
@@ -599,7 +603,7 @@ class DomainClassTest extends TestCase
                     new DateTime("2025-10-09 14:33:00"),
                     "cover_path",
                     new ProjectType(1, "album"),
-                    []
+                    [], "color1", "color2"
                 ),
             ]
         );
@@ -675,7 +679,7 @@ class DomainClassTest extends TestCase
                             120,
                             new DateTime("2023-05-12 14:30:25"),
                             "file_path",
-                            new Genre(1, "pop"),
+                            [new Genre(1, "pop")],
                             20000,
                             []
                         ),
@@ -718,7 +722,7 @@ class DomainClassTest extends TestCase
                             120,
                             new DateTime("2023-05-12 14:30:25"),
                             "file_path",
-                            new Genre(1, "pop"),
+                            [new Genre(1, "pop")],
                             20000,
                             []
                         ),
@@ -776,7 +780,7 @@ class DomainClassTest extends TestCase
                     new DateTime("2025-10-09 14:33:00"),
                     "cover_path",
                     new ProjectType(1, "album"),
-                    []
+                    [], "color1", "color2"
                 ),
             ],
             [
@@ -787,7 +791,7 @@ class DomainClassTest extends TestCase
                         120,
                         new DateTime("2023-05-12 14:30:25"),
                         "file_path",
-                        new Genre(1, "pop"),
+                        [new Genre(1, "pop")],
                         20000,
                         []
                     ),

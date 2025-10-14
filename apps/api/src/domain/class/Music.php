@@ -34,10 +34,10 @@ class Music {
      */
     private string $file_path;
     /**
-     * Genre de la musique
-     * @var Genre
+     * Liste des genres de la musique
+     * @var Genre[]
      */
-    private Genre $genre;
+    private array $genres;
     /**
      * Nombre de streams total de la musique
      * @var int
@@ -56,17 +56,17 @@ class Music {
      * @param int $duration
      * @param DateTime $release
      * @param string $file_path
-     * @param Genre $genre
+     * @param Genre[] $genres
      * @param int $nbStreams
      * @param Rating[] $rates
      */
-    public function __construct(?int $id, string $title, int $duration, DateTime $release, string $file_path, Genre $genre, int $nbStreams, array $rates) {
+    public function __construct(?int $id, string $title, int $duration, DateTime $release, string $file_path, array $genres, int $nbStreams, array $rates) {
         $this->id = $id;
         $this->title = $title;
         $this->duration = $duration;
         $this->release = $release;
         $this->file_path = $file_path;
-        $this->genre = $genre;
+        $this->genres = $genres;
         $this->nbStreams = $nbStreams;
         $this->rates = $rates;
     }
@@ -107,11 +107,11 @@ class Music {
         return $this->file_path;
     }
     /**
-     * Accesseur du genre de la musique
+     * Accesseur de la liste des genres de la musique
      * @return Genre
      */
-    public function getGenre(): Genre {
-        return $this->genre;
+    public function getGenres(): array {
+        return $this->genres;
     }
     /**
      * Accesseur du nombre de streams de la musique
