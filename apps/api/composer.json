@@ -4,7 +4,10 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Api\\": "src/router",
+            "Api\\": [
+                "src/router"
+            ],
+            "Api\\Controller\\": "src/controller",
             "Api\\Domain\\Class\\": "src/domain/class"
         }
     },
