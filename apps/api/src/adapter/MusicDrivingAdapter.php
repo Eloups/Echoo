@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MusicDrivingAdapter {
     /**
-     * Récupération des données de la requête "liste des musiques" puis utilisation du bon service
+     * Récupération des données de la requête puis lancement du service des musiques avec la bonne fonction
      * @param Request $request
      * @return Response
      */
