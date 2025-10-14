@@ -2,6 +2,7 @@
 
 namespace Api\Domain\Service;
 
+use Api\Domain\Ports\MusicServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

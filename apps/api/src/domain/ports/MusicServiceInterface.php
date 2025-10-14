@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Domain\Service;
+namespace Api\Domain\Ports;
 
 use Symfony\Component\HttpFoundation\Response;
 
