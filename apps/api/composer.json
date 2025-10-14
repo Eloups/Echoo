@@ -9,6 +9,7 @@
             ],
             "Api\\Controller\\": "src/controller",
             "Api\\Domain\\Class\\": "src/domain/class",
+            "Api\\Domain\\Service\\": "src/domain/service",
             "Api\\Adapter\\": "src/adapter"
         }
     },

@@ -2,7 +2,7 @@
 
 namespace Api\Adapter;
 
-use MusicService;
+use Api\Domain\Service\MusicService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
