@@ -15,7 +15,6 @@ use Api\Domain\Class\Music;
 use Api\Domain\Class\UserRole;
 use Api\Domain\Class\Conversation;
 
-
 /**
  * Classe de test unitaire pour les classes du domaine
  */
@@ -33,11 +32,32 @@ class DomainClassTest extends TestCase
         $isVerified = false;
         $description = "Description";
         $image_path = "image_path";
-        $network = [new Network(1, "instagram", "instagram/Elouan"), new Network(2, "discord", "discord/Elouan")];
-        $projects = [new Project(null, "title", new DateTime("2025-10-09 14:33:00"), "cover_path", new ProjectType(1, "album"), [])];
+        $network = [
+            new Network(1, "instagram", "instagram/Elouan"),
+            new Network(2, "discord", "discord/Elouan"),
+        ];
+        $projects = [
+            new Project(
+                null,
+                "title",
+                new DateTime("2025-10-09 14:33:00"),
+                "cover_path",
+                new ProjectType(1, "album"),
+                []
+            ),
+        ];
         $featuring = [];
 
-        $artist = new Artist($id, $name, $isVerified, $description, $image_path, $network, $projects, $featuring);
+        $artist = new Artist(
+            $id,
+            $name,
+            $isVerified,
+            $description,
+            $image_path,
+            $network,
+            $projects,
+            $featuring
+        );
 
         // Assertion pour vérifier que l'objet est bien créé
         $this->assertEquals($id, $artist->getId());
@@ -61,11 +81,89 @@ class DomainClassTest extends TestCase
         $name = "Thibault";
         $createdAt = new DateTime("2023-05-12 14:30:25");
         $imagePath = "image_path";
-        $creator = new User(null, "name", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null);
-        $messages = [new Message(null, new DateTime("2023-05-12 14:30:25"), "content", new Music(null, "title", 120, new DateTime("2023-05-12 14:30:25"), "file_path", new Genre(1, "pop"), 20000, []), new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null))];
-        $participants = [new Message(null, new DateTime("2023-05-12 14:30:25"), "content", new Music(null, "title", 120, new DateTime("2023-05-12 14:30:25"), "file_path", new Genre(1, "pop"), 20000, []), new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null))];
+        $creator = new User(
+            null,
+            "name",
+            "email",
+            "password",
+            "image_path",
+            new Library(null, [], [], []),
+            new UserRole(1, "admin"),
+            [],
+            [],
+            [],
+            null
+        );
+        $messages = [
+            new Message(
+                null,
+                new DateTime("2023-05-12 14:30:25"),
+                "content",
+                new Music(
+                    null,
+                    "title",
+                    120,
+                    new DateTime("2023-05-12 14:30:25"),
+                    "file_path",
+                    new Genre(1, "pop"),
+                    20000,
+                    []
+                ),
+                new User(
+                    null,
+                    "username",
+                    "email",
+                    "password",
+                    "image_path",
+                    new Library(null, [], [], []),
+                    new UserRole(1, "admin"),
+                    [],
+                    [],
+                    [],
+                    null
+                )
+            ),
+        ];
+        $participants = [
+            new Message(
+                null,
+                new DateTime("2023-05-12 14:30:25"),
+                "content",
+                new Music(
+                    null,
+                    "title",
+                    120,
+                    new DateTime("2023-05-12 14:30:25"),
+                    "file_path",
+                    new Genre(1, "pop"),
+                    20000,
+                    []
+                ),
+                new User(
+                    null,
+                    "username",
+                    "email",
+                    "password",
+                    "image_path",
+                    new Library(null, [], [], []),
+                    new UserRole(1, "admin"),
+                    [],
+                    [],
+                    [],
+                    null
+                )
+            ),
+        ];
 
-        $conversation = new Conversation($id, $name, $createdAt, $imagePath, $messages, $creator, $participants);
+        $conversation = new Conversation(
+            $id,
+            $name,
+            $createdAt,
+            $imagePath,
+            $messages,
+            $creator,
+            $participants
+        );
 
         // Assertion pour vérifier que l'objet est bien créé
         $this->assertEquals($id, $conversation->getId());
@@ -81,7 +179,8 @@ class DomainClassTest extends TestCase
      * Méthode pour tester Genre.php
      * @return void
      */
-    public function test_genre_class() {
+    public function test_genre_class()
+    {
         // Création des données de tests
         $id = null;
         $name = "name";
@@ -97,33 +196,113 @@ class DomainClassTest extends TestCase
      * Méthode pour tester Library.php
      * @return void
      */
-    public function test_library_class() {
+    public function test_library_class()
+    {
         // Création des données de tests
         $id = null;
-        $authors = [new Artist(null, "Elouan", false, "Description", "image_path", [new Network(1, "instagram", "instagram/Elouan"), new Network(2, "discord", "discord/Elouan")], [new Project(null, "title", new DateTime("2025-10-09 14:33:00"), "cover_path", new ProjectType(1, "album"), [])], [])];
-        $playlists = [new Playlist(null, "title", true, null, null, [new Music(null, "title", 120, new DateTime("2023-05-12 14:30:25"), "file_path", new Genre(1, "pop"), 20000, []), new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null)])];
-        $projects = [new Project(null, "title", new DateTime("2025-10-09 14:33:00"), "cover_path", new ProjectType(1, "album"), [])];
+        $authors = [
+            new Artist(
+                null,
+                "Elouan",
+                false,
+                "Description",
+                "image_path",
+                [
+                    new Network(1, "instagram", "instagram/Elouan"),
+                    new Network(2, "discord", "discord/Elouan"),
+                ],
+                [
+                    new Project(
+                        null,
+                        "title",
+                        new DateTime("2025-10-09 14:33:00"),
+                        "cover_path",
+                        new ProjectType(1, "album"),
+                        []
+                    ),
+                ],
+                []
+            ),
+        ];
+        $playlists = [
+            new Playlist(null, "title", true, null, null, [
+                new Music(
+                    null,
+                    "title",
+                    120,
+                    new DateTime("2023-05-12 14:30:25"),
+                    "file_path",
+                    new Genre(1, "pop"),
+                    20000,
+                    []
+                ),
+                new User(
+                    null,
+                    "username",
+                    "email",
+                    "password",
+                    "image_path",
+                    new Library(null, [], [], []),
+                    new UserRole(1, "admin"),
+                    [],
+                    [],
+                    [],
+                    null
+                ),
+            ]),
+        ];
+        $projects = [
+            new Project(
+                null,
+                "title",
+                new DateTime("2025-10-09 14:33:00"),
+                "cover_path",
+                new ProjectType(1, "album"),
+                []
+            ),
+        ];
 
         $library = new Library($id, $authors, $playlists, $projects);
-        
+
         // Assertion pour vérifier que l'objet est bien créé
         $this->assertEquals($id, $library->getId());
         $this->assertEquals($authors, $library->getAuthors());
         $this->assertEquals($playlists, $library->getPlaylists());
         $this->assertEquals($projects, $library->getProjects());
-    
     }
     /**
      * Méthode pour tester Message.php
      * @return void
      */
-    public function test_message_class() {
+    public function test_message_class()
+    {
         // Création des données de tests
         $id = null;
         $sendAt = new DateTime("2025-04-19 13:25:04");
         $content = "content";
-        $music = new Music(null, "title", 120, new DateTime("2023-05-12 14:30:25"), "file_path", new Genre(1, "pop"), 20000, []);
-        $user = new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null);
+        $music = new Music(
+            null,
+            "title",
+            120,
+            new DateTime("2023-05-12 14:30:25"),
+            "file_path",
+            new Genre(1, "pop"),
+            20000,
+            []
+        );
+        $user = new User(
+            null,
+            "username",
+            "email",
+            "password",
+            "image_path",
+            new Library(null, [], [], []),
+            new UserRole(1, "admin"),
+            [],
+            [],
+            [],
+            null
+        );
 
         $message = new Message($id, $sendAt, $content, $music, $user);
 
@@ -139,7 +318,8 @@ class DomainClassTest extends TestCase
      * Méthode pour tester Music.php
      * @return void
      */
-    public function test_music_class() {
+    public function test_music_class()
+    {
         // Création des données de tests
         $id = null;
         $title = "title";
@@ -149,9 +329,37 @@ class DomainClassTest extends TestCase
         $genre = new Genre(1, "pop");
         $nbstreams = 20000;
 
-        $rates = [new Rating(null, 4, null, new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null))];
+        $rates = [
+            new Rating(
+                null,
+                4,
+                null,
+                new User(
+                    null,
+                    "username",
+                    "email",
+                    "password",
+                    "image_path",
+                    new Library(null, [], [], []),
+                    new UserRole(1, "admin"),
+                    [],
+                    [],
+                    [],
+                    null
+                )
+            ),
+        ];
 
-        $music = new Music($id, $title, $duration, $release, $file_path, $genre, $nbstreams, $rates);
+        $music = new Music(
+            $id,
+            $title,
+            $duration,
+            $release,
+            $file_path,
+            $genre,
+            $nbstreams,
+            $rates
+        );
 
         // Assertion pour vérifier que l'objet est bien créé
 
@@ -169,7 +377,8 @@ class DomainClassTest extends TestCase
      * Méthode pour tester Network.php
      * @return void
      */
-    public function test_network_class() {
+    public function test_network_class()
+    {
         // Création des données de tests
         $id = null;
         $name = "Instagram";
@@ -188,16 +397,35 @@ class DomainClassTest extends TestCase
      * Méthode pour tester Playlist.php
      * @return void
      */
-    public function test_playlist_class() {
+    public function test_playlist_class()
+    {
         // Création des données de tests
         $id = null;
         $title = "title";
         $isPublic = true;
         $description = "description";
         $cover_path = "cover_path";
-        $musics = [new Music(null, "title", 120, new DateTime("2023-05-12 14:30:25"), "file_path", new Genre(1, "pop"), 20000, [])];
+        $musics = [
+            new Music(
+                null,
+                "title",
+                120,
+                new DateTime("2023-05-12 14:30:25"),
+                "file_path",
+                new Genre(1, "pop"),
+                20000,
+                []
+            ),
+        ];
 
-        $playlist = new Playlist($id, $title, $isPublic, $description, $cover_path, $musics);
+        $playlist = new Playlist(
+            $id,
+            $title,
+            $isPublic,
+            $description,
+            $cover_path,
+            $musics
+        );
 
         // Assertion pour vérifier que l'objet est bien créé
         $this->assertEquals($id, $playlist->getId());
@@ -212,16 +440,35 @@ class DomainClassTest extends TestCase
      * Méthode pour tester Project.php
      * @return void
      */
-    public function test_project_class() {
+    public function test_project_class()
+    {
         // Création des données de tests
         $id = null;
         $title = "title";
         $release = new DateTime("2025-02-14 10:26:25");
         $cover_path = "cover_path";
         $projectType = new ProjectType(2, "single");
-        $musics = [new Music(null, "title", 120, new DateTime("2023-05-12 14:30:25"), "file_path", new Genre(1, "pop"), 20000, [])];
+        $musics = [
+            new Music(
+                null,
+                "title",
+                120,
+                new DateTime("2023-05-12 14:30:25"),
+                "file_path",
+                new Genre(1, "pop"),
+                20000,
+                []
+            ),
+        ];
 
-        $project = new Project($id, $title, $release, $cover_path, $projectType, $musics);
+        $project = new Project(
+            $id,
+            $title,
+            $release,
+            $cover_path,
+            $projectType,
+            $musics
+        );
 
         // Assertion pour vérifier que l'objet est bien créé
         $this->assertEquals($id, $project->getId());
@@ -235,12 +482,13 @@ class DomainClassTest extends TestCase
      * Méthode pour tester ProjectType.php
      * @return void
      */
-    public function test_project_type_class() {
+    public function test_project_type_class()
+    {
         // Création des données de tests
         $id = null;
         $name = "album";
 
-        $projectType = new ProjectType($id,$name);
+        $projectType = new ProjectType($id, $name);
 
         // Assertion pour vérifier que l'objet est bien créé
         $this->assertEquals($id, $projectType->getId());
@@ -251,12 +499,25 @@ class DomainClassTest extends TestCase
      * Méthode pour tester Rating.php
      * @return void
      */
-    public function test_Rating_class() {
+    public function test_Rating_class()
+    {
         // Création des données de tests
         $id = null;
         $rate = 3;
         $comment = "un commentaire";
-        $user = new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null);
+        $user = new User(
+            null,
+            "username",
+            "email",
+            "password",
+            "image_path",
+            new Library(null, [], [], []),
+            new UserRole(1, "admin"),
+            [],
+            [],
+            [],
+            null
+        );
 
         $rating = new Rating($id, $rate, $comment, $user);
 
@@ -270,21 +531,296 @@ class DomainClassTest extends TestCase
      * Méthode pour tester User.php
      * @return void
      */
-    public function test_user_class() {
+    public function test_user_class()
+    {
         // Création des données de tests
         $id = null;
         $username = "Romain";
         $email = "romain@gmail.com";
         $password = "password";
         $imagePath = "/img/image.png";
-        $library = new Library(null, [new Artist($id, $username, false, "description", "image_path", [new Network(1, "instagram", "instagram/Elouan"), new Network(2, "discord", "discord/Elouan")], [new Project(null, "title", new DateTime("2025-10-09 14:33:00"), "cover_path", new ProjectType(1, "album"), [])], [])], [new Playlist(null, "title", true, null, null, [new Music(null, "title", 120, new DateTime("2023-05-12 14:30:25"), "file_path", new Genre(1, "pop"), 20000, []), new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null)])], [new Project(null, "title", new DateTime("2025-10-09 14:33:00"), "cover_path", new ProjectType(1, "album"), [])]);
+        $library = new Library(
+            null,
+            [
+                new Artist(
+                    $id,
+                    $username,
+                    false,
+                    "description",
+                    "image_path",
+                    [
+                        new Network(1, "instagram", "instagram/Elouan"),
+                        new Network(2, "discord", "discord/Elouan"),
+                    ],
+                    [
+                        new Project(
+                            null,
+                            "title",
+                            new DateTime("2025-10-09 14:33:00"),
+                            "cover_path",
+                            new ProjectType(1, "album"),
+                            []
+                        ),
+                    ],
+                    []
+                ),
+            ],
+            [
+                new Playlist(null, "title", true, null, null, [
+                    new Music(
+                        null,
+                        "title",
+                        120,
+                        new DateTime("2023-05-12 14:30:25"),
+                        "file_path",
+                        new Genre(1, "pop"),
+                        20000,
+                        []
+                    ),
+                    new User(
+                        null,
+                        "username",
+                        "email",
+                        "password",
+                        "image_path",
+                        new Library(null, [], [], []),
+                        new UserRole(1, "admin"),
+                        [],
+                        [],
+                        [],
+                        null
+                    ),
+                ]),
+            ],
+            [
+                new Project(
+                    null,
+                    "title",
+                    new DateTime("2025-10-09 14:33:00"),
+                    "cover_path",
+                    new ProjectType(1, "album"),
+                    []
+                ),
+            ]
+        );
         $userRole = new UserRole(null, "modérateur");
-        $friends = [new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null), new User(null, "name", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null), new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null), new User(null, "name", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null)];
-        $conversations = [new Conversation(null, "Thibault", new DateTime("2023-05-12 14:30:25"), "image_path", [new Message(null, new DateTime("2023-05-12 14:30:25"), "content", new Music(null, "title", 120, new DateTime("2023-05-12 14:30:25"), "file_path", new Genre(1, "pop"), 20000, []), new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null))], new User(null, "name", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null), [new Message(null, new DateTime("2023-05-12 14:30:25"), "content", new Music(null, "title", 120, new DateTime("2023-05-12 14:30:25"), "file_path", new Genre(1, "pop"), 20000, []), new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null))])];
-        $rates = [new Rating(null, 4, null, new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null))];
-        $artist = new Artist($id, $username, false, "description", "image_path", [new Network(1, "instagram", "instagram/Elouan"), new Network(2, "discord", "discord/Elouan")], [new Project(null, "title", new DateTime("2025-10-09 14:33:00"), "cover_path", new ProjectType(1, "album"), [])], [new Playlist(null, "title", true, null, null, [new Music(null, "title", 120, new DateTime("2023-05-12 14:30:25"), "file_path", new Genre(1, "pop"), 20000, []), new User(null, "username", "email", "password", "image_path", new Library(null, [], [], []), new UserRole(1, "admin"), [], [], [], null)])]);
+        $friends = [
+            new User(
+                null,
+                "username",
+                "email",
+                "password",
+                "image_path",
+                new Library(null, [], [], []),
+                new UserRole(1, "admin"),
+                [],
+                [],
+                [],
+                null
+            ),
+            new User(
+                null,
+                "name",
+                "email",
+                "password",
+                "image_path",
+                new Library(null, [], [], []),
+                new UserRole(1, "admin"),
+                [],
+                [],
+                [],
+                null
+            ),
+            new User(
+                null,
+                "username",
+                "email",
+                "password",
+                "image_path",
+                new Library(null, [], [], []),
+                new UserRole(1, "admin"),
+                [],
+                [],
+                [],
+                null
+            ),
+            new User(
+                null,
+                "name",
+                "email",
+                "password",
+                "image_path",
+                new Library(null, [], [], []),
+                new UserRole(1, "admin"),
+                [],
+                [],
+                [],
+                null
+            ),
+        ];
+        $conversations = [
+            new Conversation(
+                null,
+                "Thibault",
+                new DateTime("2023-05-12 14:30:25"),
+                "image_path",
+                [
+                    new Message(
+                        null,
+                        new DateTime("2023-05-12 14:30:25"),
+                        "content",
+                        new Music(
+                            null,
+                            "title",
+                            120,
+                            new DateTime("2023-05-12 14:30:25"),
+                            "file_path",
+                            new Genre(1, "pop"),
+                            20000,
+                            []
+                        ),
+                        new User(
+                            null,
+                            "username",
+                            "email",
+                            "password",
+                            "image_path",
+                            new Library(null, [], [], []),
+                            new UserRole(1, "admin"),
+                            [],
+                            [],
+                            [],
+                            null
+                        )
+                    ),
+                ],
+                new User(
+                    null,
+                    "name",
+                    "email",
+                    "password",
+                    "image_path",
+                    new Library(null, [], [], []),
+                    new UserRole(1, "admin"),
+                    [],
+                    [],
+                    [],
+                    null
+                ),
+                [
+                    new Message(
+                        null,
+                        new DateTime("2023-05-12 14:30:25"),
+                        "content",
+                        new Music(
+                            null,
+                            "title",
+                            120,
+                            new DateTime("2023-05-12 14:30:25"),
+                            "file_path",
+                            new Genre(1, "pop"),
+                            20000,
+                            []
+                        ),
+                        new User(
+                            null,
+                            "username",
+                            "email",
+                            "password",
+                            "image_path",
+                            new Library(null, [], [], []),
+                            new UserRole(1, "admin"),
+                            [],
+                            [],
+                            [],
+                            null
+                        )
+                    ),
+                ]
+            ),
+        ];
+        $rates = [
+            new Rating(
+                null,
+                4,
+                null,
+                new User(
+                    null,
+                    "username",
+                    "email",
+                    "password",
+                    "image_path",
+                    new Library(null, [], [], []),
+                    new UserRole(1, "admin"),
+                    [],
+                    [],
+                    [],
+                    null
+                )
+            ),
+        ];
+        $artist = new Artist(
+            $id,
+            $username,
+            false,
+            "description",
+            "image_path",
+            [
+                new Network(1, "instagram", "instagram/Elouan"),
+                new Network(2, "discord", "discord/Elouan"),
+            ],
+            [
+                new Project(
+                    null,
+                    "title",
+                    new DateTime("2025-10-09 14:33:00"),
+                    "cover_path",
+                    new ProjectType(1, "album"),
+                    []
+                ),
+            ],
+            [
+                new Playlist(null, "title", true, null, null, [
+                    new Music(
+                        null,
+                        "title",
+                        120,
+                        new DateTime("2023-05-12 14:30:25"),
+                        "file_path",
+                        new Genre(1, "pop"),
+                        20000,
+                        []
+                    ),
+                    new User(
+                        null,
+                        "username",
+                        "email",
+                        "password",
+                        "image_path",
+                        new Library(null, [], [], []),
+                        new UserRole(1, "admin"),
+                        [],
+                        [],
+                        [],
+                        null
+                    ),
+                ]),
+            ]
+        );
 
-        $user = new User($id, $username, $email, $password, $imagePath, $library, $userRole, $friends, $conversations, $rates, $artist);
+        $user = new User(
+            $id,
+            $username,
+            $email,
+            $password,
+            $imagePath,
+            $library,
+            $userRole,
+            $friends,
+            $conversations,
+            $rates,
+            $artist
+        );
 
         // Assertion pour vérifier que l'objet est bien créé
         $this->assertEquals($id, $user->getId());
@@ -304,7 +840,8 @@ class DomainClassTest extends TestCase
      * Méthode pour tester UserRole.php
      * @return void
      */
-    public function test_user_role_class() {
+    public function test_user_role_class()
+    {
         // Création des données de tests
         $id = 1;
         $name = "modérateur";
