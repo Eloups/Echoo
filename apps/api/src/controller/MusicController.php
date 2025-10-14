@@ -2,6 +2,7 @@
 
 namespace Api\Controller;
 
+use Api\Adapter\MusicDrivingAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -35,8 +36,10 @@ class MusicController implements ControllerInterface
      */
     public function run(Request $request): Response
     {
+        $adapter = new MusicDrivingAdapter();
+
         return match ($this->action) {
-            'list' => listMusics($request),
+            'list' => $adapter->listMusics($request),
             default => throw new ResourceNotFoundException(),
         };
     }
