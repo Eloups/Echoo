@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "FrontMobileEchoo",
+    "name": "Echoo",
     "slug": "FrontMobileEchoo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/img/Mobile_Icon_Echoo_White.png",
     "scheme": "frontmobileechoo",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
