@@ -87,7 +87,7 @@ export default function home() {
                     <AppText size={"lg"} style={{marginBottom: 10}}>Dernier album écouté</AppText>
                     <Image source={albumTemp.cover} style={{ width: 144, height: 144, borderRadius: 5}} />
                     <AppText size={"md"}>{albumTemp.title}</AppText>
-                    <AppText size={"sm"} color="text2">{albumTemp.artist}</AppText>
+                    <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -6 }] }}>{albumTemp.artist}</AppText>
                 </View>
                 <View style={{display: "flex", justifyContent: "center", alignItems: "center", gap: 3}}>
                     <AppText size={"lg"} style={{marginBottom: 10}}>Derniers morceaux écoutés</AppText>
