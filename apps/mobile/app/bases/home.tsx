@@ -4,12 +4,15 @@ import AppText from "@/lib/components/appText";
 import LastSongPlayedCard from "@/lib/components/home_last_song_played_card";
 import { BaseInfos } from "@/lib/types/baseInfos";
 import SectionTitle from "@/lib/components/sectionTitle";
+import MusicCard from "@/lib/components/musicCard";
+const cover = require("../../assets/tempImg/Covers_Albums/HMHAS.jpg");
+const cover2 = require("../../assets/tempImg/Covers_Albums/RichMan.webp");
+const cover3 = require("../../assets/tempImg/Covers_Albums/Jann.jpg");
+const PPartist1 = require("../../assets/tempImg/Profils_Artistes/Madison_beer.jpg");
 
 export default function home() {
     const { theme, toggleTheme } = useTheme();
-    const cover = require("../../assets/tempImg/Covers_Albums/HMHAS.jpg");
-    const cover2 = require("../../assets/tempImg/Covers_Albums/RichMan.webp");
-    const cover3 = require("../../assets/tempImg/Covers_Albums/Jann.jpg");
+
 
     const albumTemp: BaseInfos = {
         cover: cover,
@@ -35,8 +38,16 @@ export default function home() {
 
     const musicTemp3: BaseInfos = {
         cover: cover3,
-        title: "What do you want frome me ?",
+        title: "What do you want from me ?",
         artist: "Jann",
+        color1: "#965F4C",
+        color2: "#291A15"
+    }
+    
+    const artist1: BaseInfos = {
+        cover: PPartist1,
+        title: "Madison Beer",
+        artist: "",
         color1: "#965F4C",
         color2: "#291A15"
     }
@@ -60,6 +71,15 @@ export default function home() {
                 </View>
             </View>
             <SectionTitle text="Dernières sorties"></SectionTitle>
+
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{gap: 10}} style={{paddingLeft: 24}}>
+                <MusicCard infos={musicTemp3} isArtist={false}></MusicCard>
+                <MusicCard infos={musicTemp2} isArtist={false}></MusicCard>
+                <MusicCard infos={artist1} isArtist={true}></MusicCard>
+                <MusicCard infos={musicTemp} isArtist={false}></MusicCard>
+                <MusicCard infos={musicTemp2} isArtist={false}></MusicCard>
+                <MusicCard infos={musicTemp3} isArtist={false}></MusicCard>
+            </ScrollView>
         </ScrollView>
     )
 }
