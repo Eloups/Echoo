@@ -32,7 +32,7 @@ export default function home() {
         artist: "Billie Eilish",
         color1: "#04131D",
         color2: "#082840",
-        nbListens: 46
+        nbStreams: 46
     }
 
     const musicTemp2: BaseInfos = {
@@ -41,7 +41,7 @@ export default function home() {
         artist: "aespa",
         color1: "#000000",
         color2: "#0E0E0E",
-        nbListens: 24
+        nbStreams: 24
     }
 
     const musicTemp3: BaseInfos = {
@@ -50,7 +50,7 @@ export default function home() {
         artist: "Jann",
         color1: "#965F4C",
         color2: "#291A15",
-        nbListens: 11
+        nbStreams: 11
     }
     
     const artist1: BaseInfos = {

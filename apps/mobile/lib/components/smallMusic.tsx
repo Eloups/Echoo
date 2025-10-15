@@ -21,7 +21,7 @@ export default function SmallMuisc(props: Pageprops){
                     <AppText size="md" color="text2" style={{ transform: [{ translateY: -3 }]}}>{props.music.artist}</AppText>
                 </View>
                 <View style={{paddingRight: 5}}>
-                    <AppText size={"sm"}>{props.music.nbListens} écoutes</AppText>
+                    <AppText size={"sm"}>{props.music.nbStreams} écoutes</AppText>
                 </View>
             </View>
         </LinearGradient>

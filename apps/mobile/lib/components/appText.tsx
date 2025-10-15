@@ -56,12 +56,8 @@ export default function AppText({
     };
 
     return (
-        <Text {...rest} style={[styles.base, baseStyle, style]}>
+        <Text {...rest} style={[baseStyle, style]}>
             {children}
         </Text>
     );
 }
-
-const styles = StyleSheet.create({
-    base: {},
-});

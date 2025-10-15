@@ -4,5 +4,5 @@ export type BaseInfos = {
     artist: string[] | string,
     color1: string,
     color2: string,
-    nbListens?: number
+    nbStreams?: number
 }
