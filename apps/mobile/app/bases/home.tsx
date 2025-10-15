@@ -118,8 +118,3 @@ export default function home() {
         </ScrollView>
     )
 }
-
-const styles = StyleSheet.create({
-    view: {
-    },
-});
