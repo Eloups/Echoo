@@ -10,7 +10,9 @@
             "Api\\Controller\\": "src/controller",
             "Api\\Domain\\Class\\": "src/domain/class",
             "Api\\Domain\\Service\\": "src/domain/service",
-            "Api\\Adapter\\": "src/adapter"
+            "Api\\Adapter\\": "src/adapter",
+            "Api\\Database\\": "src/database",
+            "Api\\Database\\Requests\\": "src/database/requests"
         }
     },
     "authors": [
