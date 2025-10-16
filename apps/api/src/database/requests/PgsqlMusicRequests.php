@@ -4,6 +4,9 @@ namespace Api\Database\Requests;
 
 use PDO;
 
+/**
+ * Classe permettant de lancer des requêtes SQL sur les musiques de la base de données
+ */
 class PgsqlMusicRequests
 {
     /**
