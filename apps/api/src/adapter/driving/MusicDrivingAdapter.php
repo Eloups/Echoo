@@ -3,8 +3,10 @@
 namespace Api\Adapter;
 
 use Api\Domain\Service\MusicService;
+use Api\Utils\SerializerUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Classe pour l'adaptateur des musiques
@@ -16,8 +18,11 @@ class MusicDrivingAdapter {
      * @return Response
      */
     public function listMusics(Request $request): Response {
+        
         $service = new MusicService();
     
-        return $service->listMusics();
+        $musics = $service->listMusics();
+
+        return new Response(SerializerUtils::get()->serialize(['musics' => $musics], "json"), 200);
     }
 }

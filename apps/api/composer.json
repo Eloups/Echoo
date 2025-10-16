@@ -10,7 +10,12 @@
             "Api\\Controller\\": "src/controller",
             "Api\\Domain\\Class\\": "src/domain/class",
             "Api\\Domain\\Service\\": "src/domain/service",
-            "Api\\Adapter\\": "src/adapter",
+            "Api\\Domain\\Ports\\": "src/domain/ports",
+            "Api\\Adapter\\": [
+                "src/adapter/driving",
+                "src/adapter/driven"
+            ],
+            "Api\\Utils\\": "src/utils",
             "Api\\Database\\": "src/database",
             "Api\\Database\\Requests\\": "src/database/requests"
         }
@@ -33,7 +38,7 @@
     "require": {
         "symfony/routing": "^7.3",
         "symfony/http-foundation": "^7.3",
-        "symfony/dotenv": "^7.3"
+        "symfony/serializer-pack": "^1.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^12.3"
