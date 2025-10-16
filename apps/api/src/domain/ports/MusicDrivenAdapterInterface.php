@@ -1,7 +1,7 @@
 <?php 
 
-use Symfony\Component\HttpFoundation\Response;
+namespace Api\Domain\Ports;
 
 interface MusicDrivenAdapterInterface {
-    public function getMusicList(): Response;
+    public function getMusicList(): array;
 }

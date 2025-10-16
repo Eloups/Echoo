@@ -2,7 +2,10 @@
 
 namespace Api\Domain\Service;
 
+use Api\Adapter\MusicDrivenAdapter;
+use Api\Domain\Class\Music;
 use Api\Domain\Ports\MusicServiceInterface;
+use DateTime;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -13,7 +16,10 @@ class MusicService implements MusicServiceInterface {
      * Action du listage des musiques
      * @return Response
      */
-    public function listMusics(): Response {
-        return new Response(json_encode(['code' => 200, 'message' => 'Réussi']), 200);
+    public function listMusics(): array {
+        $driven = new MusicDrivenAdapter();
+
+        $musics = $driven->getMusicList();
+        return $musics;
     }
 }
