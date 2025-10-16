@@ -1,12 +1,17 @@
 <?php
 
 use Api\Router;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 // On lance l'autoload de composer
 require_once __DIR__ . '/../vendor/autoload.php';
+
+// On charge les variables d'environnement
+$dotenv = new Dotenv();
+$dotenv->loadEnv(__DIR__ . '/../.env', overrideExistingVars: true);
 
 try {
     // On récupère la requête utilisateur
