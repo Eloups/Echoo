@@ -113,6 +113,13 @@ class Music {
     public function getGenres(): array {
         return $this->genres;
     }
+
+    public function addGenre(Genre $genre): void {
+        $this->genres[] = $genre;
+    }
+    public function addRate(Rating $rate): void {
+        $this->rates[] = $rate;
+    }
     /**
      * Accesseur du nombre de streams de la musique
      * @return int

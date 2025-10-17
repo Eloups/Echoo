@@ -2,6 +2,7 @@
 
 namespace Api\Database;
 
+use Api\Utils\EnvironmentUtils;
 use Exception;
 use PDO;
 use PDOException;
@@ -52,11 +53,11 @@ class PgsqlServer
      */
     public function __construct()
     {
-        $this->host = $_ENV["DB_HOST"];
-        $this->port = $_ENV["DB_PORT"];
-        $this->dbName = $_ENV["DB_NAME"];
-        $this->username = $_ENV["DB_USER"];
-        $this->password = $_ENV["DB_PASSWORD"];
+        $this->host = EnvironmentUtils::checkEnvironment($_ENV["DB_HOST"]);
+        $this->port = EnvironmentUtils::checkEnvironment($_ENV["DB_PORT"]);
+        $this->dbName = EnvironmentUtils::checkEnvironment($_ENV["DB_NAME"]);
+        $this->username = EnvironmentUtils::checkEnvironment($_ENV["DB_USER"]);
+        $this->password = EnvironmentUtils::checkEnvironment($_ENV["DB_PASSWORD"]);
     }
 
     /**
