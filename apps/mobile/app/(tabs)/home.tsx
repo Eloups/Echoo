@@ -81,7 +81,7 @@ export default function home() {
     const musicList: BaseInfos[] = [musicTemp,musicTemp2,musicTemp3,musicTemp];
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: theme.colors.background}}>
             <View style={{display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "row", alignSelf: 'stretch', gap: 17, marginTop: 10}}>
                 <View style={{display: "flex", justifyContent: "center", alignItems: "center", gap: 3}}>
                     <AppText size={"lg"} style={{marginBottom: 10}}>Dernier album écouté</AppText>
