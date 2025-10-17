@@ -5,6 +5,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Tabs } from 'expo-router';
 import LibraryIcon from '@/assets/icons/libraryIcon';
+import AppHeader from '@/lib/components/appHeader';
 
 export default function TabLayout() {
     const { theme } = useTheme();
@@ -23,6 +24,12 @@ export default function TabLayout() {
                 marginBottom: 7,
                 borderTopColor: theme.colors.primary
             },
+            header: (props) => (
+                <AppHeader
+                    title={(props.options.title as string) ?? ""}
+                    subtitle={(props.options as any).subtitle}
+                />
+            ),
             tabBarButton: (props) => { return <NavBarButton href={props.href} children={props.children} selected={props['aria-selected']}></NavBarButton> }
         }}>
             <Tabs.Screen
@@ -40,7 +47,7 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="library"
+                name="library/playlists"
                 options={{
                     title: 'Librairie',
                     tabBarIcon: ({ color }) => <LibraryIcon size={26} strokeColor={color} />

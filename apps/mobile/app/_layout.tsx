@@ -2,6 +2,7 @@ import { Stack } from "expo-router";
 import { StatusBar, View } from "react-native";
 import { ThemeProvider, useTheme } from "@/lib/theme/provider";
 import { useFonts } from "expo-font";
+import AppHeader from "@/lib/components/appHeader";
 
 function ThemedRoot() {
   const { theme } = useTheme();
@@ -9,10 +10,8 @@ function ThemedRoot() {
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <StatusBar barStyle={theme.name === "dark" ? "light-content" : "dark-content"} />
       <Stack screenOptions={{
-        headerStyle: { backgroundColor: theme.colors.background },
-        headerTintColor: theme.colors.text,
-        contentStyle: { backgroundColor: theme.colors.background },
         headerShown: false,
+        contentStyle: { backgroundColor: theme.colors.background },
       }} />
     </View>
   );
