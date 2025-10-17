@@ -7,6 +7,12 @@ import { useEffect } from "react";
 
 function ThemedRoot() {
   const { theme } = useTheme();
+  useEffect(() => {
+    NavigationBar.setBackgroundColorAsync(theme.colors.background);
+    NavigationBar.setButtonStyleAsync(
+      theme.name === "dark" ? "light" : "dark"
+    );
+  }, [theme]);
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <StatusBar barStyle={theme.name === "dark" ? "light-content" : "dark-content"} />
@@ -24,14 +30,7 @@ export default function RootLayout() {
     "Kanit-Bold": require("@/assets/fonts/Kanit-Bold.ttf"),
   });
   if (!fontsLoaded) return null;
-
-  const { theme } = useTheme();
-  useEffect(() => {
-    NavigationBar.setBackgroundColorAsync(theme.colors.background);
-    NavigationBar.setButtonStyleAsync(
-      theme.name === "dark" ? "light" : "dark"
-    );
-  }, [theme]);
+  
 
   return (
     <ThemeProvider>
