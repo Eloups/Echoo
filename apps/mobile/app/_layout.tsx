@@ -2,7 +2,8 @@ import { Stack } from "expo-router";
 import { StatusBar, View } from "react-native";
 import { ThemeProvider, useTheme } from "@/lib/theme/provider";
 import { useFonts } from "expo-font";
-import AppHeader from "@/lib/components/appHeader";
+import * as NavigationBar from "expo-navigation-bar";
+import { useEffect } from "react";
 
 function ThemedRoot() {
   const { theme } = useTheme();
@@ -23,6 +24,14 @@ export default function RootLayout() {
     "Kanit-Bold": require("@/assets/fonts/Kanit-Bold.ttf"),
   });
   if (!fontsLoaded) return null;
+
+  const { theme } = useTheme();
+  useEffect(() => {
+    NavigationBar.setBackgroundColorAsync(theme.colors.background);
+    NavigationBar.setButtonStyleAsync(
+      theme.name === "dark" ? "light" : "dark"
+    );
+  }, [theme]);
 
   return (
     <ThemeProvider>
