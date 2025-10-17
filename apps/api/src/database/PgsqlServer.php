@@ -49,19 +49,14 @@ class PgsqlServer
 
     /**
      * Constructeur de la classe PostgresSqlServer.
-     * @param string $host
-     * @param string $port
-     * @param string $dbName
-     * @param string $username
-     * @param string $password
      */
-    public function __construct(string $host, string $port, string $dbName, string $username, string $password)
+    public function __construct()
     {
-        $this->host = $host;
-        $this->port = $port;
-        $this->dbName = $dbName;
-        $this->username = $username;
-        $this->password = $password;
+        $this->host = $_ENV["DB_HOST"];
+        $this->port = $_ENV["DB_PORT"];
+        $this->dbName = $_ENV["DB_NAME"];
+        $this->username = $_ENV["DB_USER"];
+        $this->password = $_ENV["DB_PASSWORD"];
     }
 
     /**

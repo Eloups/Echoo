@@ -6,6 +6,7 @@ use Api\Adapter\MusicDrivenAdapter;
 use Api\Domain\Class\Music;
 use Api\Domain\Ports\MusicServiceInterface;
 use DateTime;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -20,6 +21,11 @@ class MusicService implements MusicServiceInterface {
         $driven = new MusicDrivenAdapter();
 
         $musics = $driven->getMusicList();
+        foreach ($musics as $music) {
+            if (!$music instanceof Music) {
+                throw new Exception("Les données ne sont pas du type Music");
+            }
+        }
         return $musics;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Api\Adapter;
 
+use Api\Database\PgsqlServer;
+use Api\Database\Requests\PgsqlMusicRequests;
 use Api\Domain\Class\Music;
 use Api\Domain\Ports\MusicDrivenAdapterInterface;
 use DateTime;
@@ -15,9 +17,38 @@ class MusicDrivenAdapter implements MusicDrivenAdapterInterface {
      * @return Music[]
      */
     public function getMusicList(): array {
-        // On appelle PDO pour se connecter à la base et récupérer les musiques
-        // données de test pour l'instant
-        $musics = [new Music(1, "title", 120, new DateTime("2025-10-02 12:45:30"), "file_path", [], 2000, [])];
-         return $musics;
+        // On appelle la connexion à la base de données
+        $pgslserver = new PgsqlServer();
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlMusicRequests($pdo);
+
+        // On exécute la requête
+        $rows = $request->getAllMusics() ?? [];
+
+        // Conversion du résultat en tableau d'objets Music
+        $musics = $this->convertToMusic($rows);
+        return $musics;
+    }
+
+    private function convertToMusic(array $rows): array
+    {
+        $musics = [];
+
+        foreach ($rows as $row) {
+            $music = new Music(
+                id: $row['id'] ?? null,
+                title: $row['title'],
+                duration: (int) $row['duration'],
+                release: new DateTime($row['release']),
+                file_path: $row['file_path'],
+                genres: [], // à compléter plus tard pour charger les genres
+                nbStreams: (int) $row['nb_streams'],
+                rates: [] // à compléter plus tard pour charger les notes
+            );
+
+            $musics[] = $music;
+        }
+
+        return $musics;
     }
 }

@@ -37,7 +37,7 @@ class MusicController implements ControllerInterface
         $adapter = new MusicDrivingAdapter();
 
         return match ($this->action) {
-            'list' => $adapter->listMusics($request),
+            'list' => $adapter->listMusics(),
             default => throw new ResourceNotFoundException(),
         };
     }

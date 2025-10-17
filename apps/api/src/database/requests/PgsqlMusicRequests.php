@@ -30,16 +30,9 @@ class PgsqlMusicRequests
      */
     public function getAllMusics(): array
     {
-        // $this->pdo->beginTransaction();
-
-        $request = $this->pdo->prepare("SELECT * FROM music");
-        // $request->bindParam(':exemple', $exemple, PDO::PARAM_STR);
+        $request = $this->pdo->prepare("SELECT id, title, duration, release, nb_streams, file_path FROM music");
         $request->execute();
-
         $result = $request->fetchAll();
-
-        // $this->pdo->commit();
-
         return $result;
     }
 }
