@@ -2,6 +2,7 @@
 
 namespace Api\Database\Requests;
 
+use Api\Utils\RequestUtils;
 use PDO;
 
 /**
@@ -25,12 +26,12 @@ class PgsqlMusicRequests
     }
 
     /**
-     * Ceci est une requête d'exemple
-     * @return void
+     * Requête pour récupérer toutes les musiques
+     * @return array
      */
     public function getAllMusics(): array
     {
-        $request = $this->pdo->prepare("SELECT id, title, duration, release, nb_streams, file_path FROM music");
+        $request = $this->pdo->prepare(RequestUtils::$getAllMusics);
         $request->execute();
         $result = $request->fetchAll();
         return $result;
