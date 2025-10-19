@@ -19,9 +19,13 @@ services:
     - ./apps/api/.env.docker:/var/www/api/.env
 
   database:
-    image: postgres:16.10-alpine3.22
+    build:
+      context: .
+      dockerfile: ./docker/postgresql/Dockerfile
     restart: always
     shm_size: 128mb
+    volumes:
+      - ./docker/postgresql/dataset:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
