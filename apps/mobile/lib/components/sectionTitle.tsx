@@ -1,5 +1,5 @@
 import { View } from "react-native"
-import AppText from "./appText"
+import AppText from "./global/appText"
 import { useTheme } from "../theme/provider";
 
 

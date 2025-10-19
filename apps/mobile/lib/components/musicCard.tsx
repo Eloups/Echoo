@@ -1,6 +1,6 @@
 import { View, Image, StyleSheet } from "react-native";
 import { BaseInfos } from "../types/baseInfos";
-import AppText from "./appText";
+import AppText from "./global/appText";
 
 type PageProps = {
     infos: BaseInfos,

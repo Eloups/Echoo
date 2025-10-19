@@ -9,8 +9,8 @@
 //     </View>);
 // }
 
-import { Stack } from "expo-router";
-import { View, StatusBar } from "react-native";
+import { Stack, Tabs } from "expo-router";
+import { View, StatusBar, KeyboardAvoidingView, Platform } from "react-native";
 import { ThemeProvider, useTheme } from "@/lib/theme/provider";
 import { Text, TextInput } from "react-native";
 import { useFonts } from "expo-font";
@@ -19,16 +19,16 @@ function ThemedStack() {
   const { theme } = useTheme();
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <StatusBar barStyle={theme.name === "dark" ? "light-content" : "dark-content"} />
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: theme.colors.background },
-          headerTintColor: theme.colors.text,
-          contentStyle: { backgroundColor: theme.colors.background },
-        }}
-      />
-    </View>
+      <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        <StatusBar barStyle={theme.name === "dark" ? "light-content" : "dark-content"} />
+        <Stack
+          screenOptions={{
+            headerStyle: { backgroundColor: theme.colors.background },
+            headerTintColor: theme.colors.text,
+            contentStyle: { backgroundColor: theme.colors.background },
+          }}
+        />
+      </View>
   );
 }
 

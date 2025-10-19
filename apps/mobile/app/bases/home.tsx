@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
-import AppText from "@/lib/components/appText";
+import AppText from "@/lib/components/global/appText";
 import LastSongPlayedCard from "@/lib/components/home_last_song_played_card";
 import { BaseInfos } from "@/lib/types/baseInfos";
 import SectionTitle from "@/lib/components/sectionTitle";
