@@ -13,12 +13,12 @@ use DateTime;
 class ConvertUtils {
     /**
      * Convertir les données de la base en objets Music
-     * @param ?array $rows
+     * @param array $rows
      * @return Music[]
      */
-    public static function convertRowToMusic(?array $rows): array
+    public static function convertRowToMusic(array $rows): array
     {
-        if ($rows === null) {
+        if ($rows === []) {
             return [];
         }
 
@@ -26,65 +26,60 @@ class ConvertUtils {
 
         foreach ($rows as $row) {
             // Récupération de l'ID de la musique
-            $musicId = (int)($row['music_id'] ?? 0);
-            if ($musicId === 0) continue;
+            $musicId = $row['music_id'];
 
             // Création de l'objet Music si non existant
             if (!isset($musics[$musicId])) {
-                try {
-                    $release = isset($row['music_release']) ? new DateTime($row['music_release']) : new DateTime();
-                } catch (\Exception $e) {
-                    $release = new DateTime();
-                }
+                $release = new DateTime($row['music_release']);
 
                 $musics[$musicId] = new Music(
                     id: $musicId,
-                    title: $row['music_title'] ?? '',
-                    duration: (int)($row['music_duration'] ?? 0),
+                    title: $row['music_title'],
+                    duration: $row['music_duration'],
                     release: $release,
-                    file_path: $row['music_path'] ?? '',
+                    file_path: $row['music_path'],
                     genres: [],
-                    nbStreams: (int)($row['music_streams'] ?? 0),
+                    nbStreams: $row['music_streams'],
                     rates: []
                 );
             }
 
             $music = $musics[$musicId];
 
-            // --- Ajout du genre si présent ---
-            $genreId = $row['genre_id'] ?? null;
-            $genreName = $row['genre_name'] ?? null;
+            // Ajout du genre si présent
+            $genreId = $row['genre_id'];
+            $genreName = $row['genre_name'];
             if ($genreId !== null && $genreName !== null) {
                 // Vérifie qu'on n'ajoute pas de doublon
                 $alreadyHas = false;
                 foreach ($music->getGenres() as $g) {
-                    if ($g->getId() === (int)$genreId) {
+                    if ($g->getId() === $genreId) {
                         $alreadyHas = true;
                         break;
                     }
                 }
                 if (!$alreadyHas) {
-                    $music->addGenre(new Genre((int)$genreId, $genreName));
+                    $music->addGenre(new Genre($genreId, $genreName));
                 }
             }
 
             // Ajout de la note si présente
-            $rateId = $row['rate_id'] ?? null;
+            $rateId = $row['rate_id'];
             if ($rateId !== null) {
-                $rateValue = isset($row['rate_rate']) ? (int)$row['rate_rate'] : 0;
-                $rateComment = $row['rate_comment'] ?? null;
+                $rateValue = $row['rate_rate'];
+                $rateComment = $row['rate_comment'];
 
                 // Vérifie qu'on n'ajoute pas de doublon
                 $alreadyHasRate = false;
                 foreach ($music->getRates() as $r) {
-                    if ($r->getId() === (int)$rateId) {
+                    if ($r->getId() === $rateId) {
                         $alreadyHasRate = true;
                         break;
                     }
                 }
                 if (!$alreadyHasRate) {
                     $music->addRate(new Rating(
-                        id: (int)$rateId,
+                        id: $rateId,
                         rate: $rateValue,
                         comment: $rateComment,
                         user: null
@@ -93,7 +88,7 @@ class ConvertUtils {
             }
         }
 
-        // Retourne un tableau indexé
+        // On enlève l'indexation
         return array_values($musics);
     }
 }
