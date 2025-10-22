@@ -85,12 +85,20 @@ create table message (
     id_music integer references music(id)
 );
 
-create table rating (
+create table music_rating (
     id serial primary key,
     rate smallint not null,
     comment text,
     id_user integer references "user"(id) not null,
     id_music integer references music(id) not null
+);
+
+create table project_rating (
+    id serial primary key,
+    rate smallint not null,
+    comment text,
+    id_user integer references "user"(id) not null,
+    id_project integer references project(id) not null
 );
 
 create table friendship (
@@ -295,12 +303,12 @@ insert into message (id, send_at, content, id_conversation, id_user, id_music) v
 (14, '2023-08-28 13:10:00', 'Message content 14', 4, 4, NULL),
 (15, '2023-09-20 13:15:00', 'Message content 15', 5, 5, 15),
 (16, '2023-05-18 13:20:00', 'Message content 16', 1, 6, NULL),
-(17, '2023-06-25 13:25:00', 'Message content 17', 2, 7, 17),
+(17, '2023-06-25 13:25:00', 'Message content 17', 2, 7, 2),
 (18, '2023-07-13 13:30:00', 'Message content 18', 3, 8, NULL),
-(19, '2023-08-29 13:35:00', 'Message content 19', 4, 9, 19),
+(19, '2023-08-29 13:35:00', 'Message content 19', 4, 9, 4),
 (20, '2023-09-21 13:40:00', 'Message content 20', 5, 10, NULL);
 
-insert into rating (id, rate, comment, id_user, id_music) values
+insert into music_rating (id, rate, comment, id_user, id_music) values
 (1, 5, 'Comment 1', 1, 1),
 (2, 4, 'Comment 2', 2, 2),
 (3, 3, 'Comment 3', 3, 3),
@@ -331,6 +339,38 @@ insert into rating (id, rate, comment, id_user, id_music) values
 (28, 3, 'Comment 28', 8, 13),
 (29, 4, 'Comment 29', 9, 14),
 (30, 5, 'Comment 30', 10, 15);
+
+insert into project_rating (id, rate, comment, id_user, id_project) values
+(1, 5, 'Comment 1', 1, 1),
+(2, 4, 'Comment 2', 2, 2),
+(3, 3, 'Comment 3', 3, 3),
+(4, 5, 'Comment 4', 4, 4),
+(5, 2, 'Comment 5', 5, 5),
+(6, 4, 'Comment 6', 6, 6),
+(7, 5, 'Comment 7', 7, 7),
+(8, 3, 'Comment 8', 8, 8),
+(9, 4, 'Comment 9', 9, 9),
+(10, 5, 'Comment 10', 10, 10),
+(11, 2, 'Comment 11', 1, 1),
+(12, 3, 'Comment 12', 2, 2),
+(13, 4, 'Comment 13', 3, 3),
+(14, 5, 'Comment 14', 4, 4),
+(15, 1, 'Comment 15', 5, 5),
+(16, 4, 'Comment 16', 6, 6),
+(17, 5, 'Comment 17', 7, 7),
+(18, 3, 'Comment 18', 8, 8),
+(19, 2, 'Comment 19', 9, 9),
+(20, 4, 'Comment 20', 10, 10),
+(21, 5, 'Comment 21', 1, 1),
+(22, 3, 'Comment 22', 2, 2),
+(23, 4, 'Comment 23', 3, 3),
+(24, 5, 'Comment 24', 4, 4),
+(25, 2, 'Comment 25', 5, 5),
+(26, 4, 'Comment 26', 6, 6),
+(27, 5, 'Comment 27', 7, 7),
+(28, 3, 'Comment 28', 8, 8),
+(29, 4, 'Comment 29', 9, 9),
+(30, 5, 'Comment 30', 10, 10);
 
 insert into friendship (user1, user2) values
 (1, 2), (1, 3), (1, 5), (2, 4), (2, 6), (3, 4), (3, 7), (4, 8), (5, 9), (6, 10);
@@ -387,7 +427,7 @@ insert into artist_project (id_artist, id_project) values
 
 insert into library_artist (id_library, id_artist) values
 (1, 1), (1, 2), (1, 3), (2, 4), (2, 5), (3, 6), (3, 7), (4, 8), (4, 9), (5, 10),
-(1, 11), (2, 12), (3, 13), (4, 14), (5, 15), (1, 6), (2, 7), (3, 8), (4, 9), (5, 10);
+(1, 11), (2, 12), (3, 13), (4, 14), (5, 15), (1, 6), (2, 7), (3, 8);
 
 insert into library_project (id_library, id_project) values
 (1, 1), (1, 2), (2, 3), (2, 4), (3, 5), (3, 6), (4, 7), (4, 8), (5, 9), (5, 10),
@@ -400,7 +440,7 @@ insert into library_playlist (id_library, id_playlist) values
 insert into playlist_music (id_playlist, id_music) values
 (1, 1), (1, 2), (2, 3), (2, 4), (3, 5), (3, 6), (4, 7), (4, 8), (5, 9), (5, 10),
 (6, 11), (6, 12), (7, 13), (7, 14), (8, 15), (8, 1), (9, 2), (9, 3), (10, 4), (10, 5),
-(1, 6), (2, 7), (3, 8), (4, 9), (5, 10), (6, 11), (7, 12), (8, 13), (9, 14), (10, 15);
+(1, 6), (2, 7), (3, 8), (4, 9), (7, 12), (8, 13), (9, 14), (10, 15);
 
 insert into user_conversation (id_user, id_conversation) values
 (1, 1), (1, 2), (2, 1), (2, 3), (3, 2), (3, 4), (4, 3), (4, 5), (5, 4), (5, 1),
