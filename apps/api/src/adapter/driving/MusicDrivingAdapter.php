@@ -17,7 +17,9 @@ class MusicDrivingAdapter {
      * @param Request $request
      * @return Response
      */
-    public function listMusics(): Response {
+    public function listMusics(Request $request): Response {
+
+        var_dump($request->attributes->get("id"));
         
         $service = new MusicService();
     
