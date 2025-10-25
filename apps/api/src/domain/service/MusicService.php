@@ -17,10 +17,10 @@ class MusicService implements MusicServiceInterface {
      * Action du listage des musiques
      * @return Response
      */
-    public function listMusics(): array {
+    public function listMusics(int $idArtist): array {
         $driven = new MusicDrivenAdapter();
 
-        $musics = $driven->getMusicList();
+        $musics = $driven->getMusicList($idArtist);
         foreach ($musics as $music) {
             if (!$music instanceof Music) {
                 throw new Exception("Les données ne sont pas du type Music");

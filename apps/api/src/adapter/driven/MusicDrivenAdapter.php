@@ -17,14 +17,14 @@ class MusicDrivenAdapter implements MusicDrivenAdapterInterface {
      * Méthode pour récupérer la liste des musiques
      * @return Music[]
      */
-    public function getMusicList(): array {
+    public function getMusicList(int $idArtist): array {
         // On appelle la connexion à la base de données
         $pgslserver = new PgsqlServer();
         $pdo = $pgslserver->getConnection();
         $request = new PgsqlMusicRequests($pdo);
 
         // On exécute la requête
-        $rows = $request->getAllMusics();
+        $rows = $request->getAllMusics($idArtist);
 
         // Conversion du résultat en tableau d'objets 
         $musics = ConvertUtils::convertRowToMusic($rows);

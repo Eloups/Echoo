@@ -8,7 +8,8 @@ namespace Api\Domain\Ports;
 interface MusicServiceInterface {
     /**
      * Action du listage des musiques
+     * @param int $idArtist
      * @return array
      */
-    public function listMusics(): array;
+    public function listMusics(int $idArtist): array;
 }
