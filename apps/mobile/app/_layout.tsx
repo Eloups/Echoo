@@ -19,16 +19,19 @@ function ThemedStack() {
   const { theme } = useTheme();
 
   return (
-      <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-        <StatusBar barStyle={theme.name === "dark" ? "light-content" : "dark-content"} />
-        <Stack
-          screenOptions={{
-            headerStyle: { backgroundColor: theme.colors.background },
-            headerTintColor: theme.colors.text,
-            contentStyle: { backgroundColor: theme.colors.background },
-          }}
-        />
-      </View>
+    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <StatusBar barStyle={theme.name === "dark" ? "light-content" : "dark-content"} />
+      <Stack
+        screenOptions={{
+          headerStyle: { backgroundColor: theme.colors.background },
+          headerTintColor: theme.colors.text,
+          contentStyle: { backgroundColor: theme.colors.background },
+        }}
+      >
+        <Stack.Screen name="bases/connexion" options={{ headerShown: false }} />
+        <Stack.Screen name="bases/inscription" options={{ headerShown: false }} />
+      </Stack>
+    </View>
   );
 }
 

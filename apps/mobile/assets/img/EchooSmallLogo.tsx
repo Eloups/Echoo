@@ -1,13 +1,19 @@
 
 import * as React from "react";
-import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg";
+import Svg, { Path, Defs, LinearGradient, Stop, SvgProps } from "react-native-svg";
 
-const EchooSmallLogo = () => (
+type Props = Partial<SvgProps> & {
+    width?: number | string;
+    height?: number | string;
+};
+
+const EchooSmallLogo: React.FC<Props> = ({ width = 240, height = 61, ...props }) => (
     <Svg
-        width={154}
-        height={154}
+        width={width}
+        height={height}
         viewBox="0 0 154 154"
         fill="none"
+        {...props}
     >
         <Path
             opacity={0.984}
