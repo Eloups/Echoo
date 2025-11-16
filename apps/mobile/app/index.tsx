@@ -7,65 +7,75 @@ export default function Index() {
   const { theme, setThemeByName } = useTheme();
 
   return (
-      <View
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Pressable
+        onPress={() => router.push("/bases/connexion/connexion")}
         style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
+          marginTop: 20,
+          padding: 10,
+          backgroundColor: "blue",
+          borderRadius: 5,
         }}
       >
-        <Pressable
-          onPress={() => router.push("/bases/connexion")}
-          style={{
-            marginTop: 20,
-            padding: 10,
-            backgroundColor: "blue",
-            borderRadius: 5,
-          }}
-        >
-          <Text style={{ color: "white" }}>Début application</Text>
-        </Pressable>
+        <Text style={{ color: "white" }}>Début application</Text>
+      </Pressable>
 
-        <Pressable
-          onPress={() => router.push("/bases/home")}
-          style={{
-            marginTop: 20,
-            padding: 10,
-            backgroundColor: "blue",
-            borderRadius: 5,
-          }}
-        >
-          <Text style={{ color: "white" }}>Accueil</Text>
-        </Pressable>
+      <Pressable
+        onPress={() => router.push("/bases/home")}
+        style={{
+          marginTop: 20,
+          padding: 10,
+          backgroundColor: "blue",
+          borderRadius: 5,
+        }}
+      >
+        <Text style={{ color: "white" }}>Accueil</Text>
+      </Pressable>
 
-        <Pressable
-          onPress={() => setThemeByName("light")}
-          style={{
-            backgroundColor: theme.colors.primary,
-            padding: 12,
-            borderRadius: 10,
-            borderWidth: 1,
-            borderColor: theme.colors.primaryLight,
-            marginBottom: 10,
-          }}
-        >
-          <Text style={{ color: theme.colors.text, textAlign: "center" }}>Thème clair</Text>
-        </Pressable>
+      <Pressable
+        onPress={() => setThemeByName("light")}
+        style={{
+          backgroundColor: theme.colors.primary,
+          padding: 12,
+          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: theme.colors.primaryLight,
+          marginBottom: 10,
+        }}
+      >
+        <Text style={{ color: theme.colors.text, textAlign: "center" }}>Thème clair</Text>
+      </Pressable>
 
-        <Pressable
-          onPress={() => setThemeByName("dark")}
-          style={{
-            backgroundColor: theme.colors.primary,
-            padding: 12,
-            borderRadius: 10,
-          }}
-        >
-          <Text style={{ color: theme.colors.background, textAlign: "center" }}>
-            Thème sombre
-          </Text>
-        </Pressable>
+      <Pressable
+        onPress={() => setThemeByName("dark")}
+        style={{
+          backgroundColor: theme.colors.primary,
+          padding: 12,
+          borderRadius: 10,
+        }}
+      >
+        <Text style={{ color: theme.colors.background, textAlign: "center" }}>
+          Thème sombre
+        </Text>
+      </Pressable>
 
-
-      </View>
+      <Pressable
+        onPress={() => router.push("/TestTempo")}
+        style={{
+          marginTop: 20,
+          padding: 10,
+          backgroundColor: "blue",
+          borderRadius: 5,
+        }}
+      >
+        <Text style={{ color: "white" }}>Test Titi</Text>
+      </Pressable>
+    </View>
   );
 }

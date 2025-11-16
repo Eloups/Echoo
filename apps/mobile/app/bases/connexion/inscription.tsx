@@ -6,6 +6,8 @@ import EchooSmallLogo from "@/assets/img/EchooSmallLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
+import { verifEmail, verifMdp, verifPseudo } from "@/lib/utils/verifications";
+
 
 export default function InscriptionScreen() {
     const router = useRouter();
@@ -15,6 +17,20 @@ export default function InscriptionScreen() {
     const [mdp, setMdp] = React.useState("");
     const [mdpConf, setMdpConf] = React.useState("");
     const [imagePdp, setImagePdp] = React.useState<string | null>(null);
+
+    const [messageErrorMdp, setMessageErrorMdp] = React.useState<string>("");
+
+    function verifCreation() {
+        let messageError = "";
+        messageError += verifEmail(email);
+        messageError += verifPseudo(pseudo);
+        messageError += verifMdp(mdp, mdpConf);
+
+        if (messageError !== "") {
+            setMessageErrorMdp(messageError);
+            console.log(messageError);
+        }
+    }
 
     return (
         <View
@@ -98,6 +114,7 @@ export default function InscriptionScreen() {
                 <BtnConnexion
                     title="Créer mon compte"
                     onClick={() => {
+                        verifCreation();
                         console.log("Créer mon compte");
                     }}
                 />
@@ -107,7 +124,7 @@ export default function InscriptionScreen() {
                 color="primary"
                 size="lg"
                 onPress={() => {
-                    router.push("/bases/connexion");
+                    router.push("/bases/connexion/connexion");
                 }}
             >
                 Déjà un compte ? Se connecter

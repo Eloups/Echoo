@@ -3,12 +3,11 @@ import { View, Image, Text, } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
 import { TextInputGlobal } from "@/lib/components/global/TextInput";
 import { StyleSheet } from "react-native";
-import EchoCompleteLogo from "../../assets/img/EchoCompleteLogo";
+import EchoCompleteLogo from "@/assets/img/EchoCompleteLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { Stack, useRouter } from "expo-router";
 
-const logoEchooComplet = require("../../assets/img/EchoCompleteLogo.svg");
 export default function ConnexionScreen() {
     const router = useRouter();
 
@@ -40,8 +39,7 @@ export default function ConnexionScreen() {
                     style={{
                         flex: 1,
                         gap: 7,
-                        alignItems: "center",
-
+                        alignItems: "center"
                     }}
                 >
                     <View style={{ width: "100%" }}>
@@ -55,7 +53,7 @@ export default function ConnexionScreen() {
                         <BtnConnexion title="Se connecter" onClick={() => { console.log("Se connecter click") }} />
                     </View>
                     <View style={{ width: "100%", alignItems: "center", marginTop: 33 }}>
-                        <AppText color="primary" size="lg" onPress={() => { console.log("Pas de compte click"); router.push("/bases/inscription") }}>Pas de compte ? S'inscrire</AppText>
+                        <AppText color="primary" size="lg" onPress={() => { console.log("Pas de compte click"); router.push("/bases/connexion/inscription") }}>Pas de compte ? S'inscrire</AppText>
                     </View>
                 </View>
             </View>

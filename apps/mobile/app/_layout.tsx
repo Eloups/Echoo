@@ -28,8 +28,13 @@ function ThemedStack() {
           contentStyle: { backgroundColor: theme.colors.background },
         }}
       >
-        <Stack.Screen name="bases/connexion" options={{ headerShown: false }} />
-        <Stack.Screen name="bases/inscription" options={{ headerShown: false }} />
+
+        <Stack.Screen name="index" />
+        <Stack.Screen name="bases/connexion/connexion" options={{ headerShown: false }} />
+        <Stack.Screen name="bases/connexion/inscription" options={{ headerShown: false }} />
+        <Stack.Screen name="TestTempo/index" />
+        <Stack.Screen name="TestTempo/TestVerificationTempo" />
+
       </Stack>
     </View>
   );
