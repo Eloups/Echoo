@@ -1,21 +1,39 @@
 import React from "react";
-import { View, Image, Text, } from "react-native";
-import { useTheme } from "@/lib/theme/provider";
+import { View } from "react-native";
 import { TextInputGlobal } from "@/lib/components/global/TextInput";
-import { StyleSheet } from "react-native";
 import EchoCompleteLogo from "@/assets/img/EchoCompleteLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
+import useGlobalHook from "@/hook/globalHook";
 
 export default function ConnexionScreen() {
     const router = useRouter();
+    const{ setError } = useGlobalHook();
 
-    const [pseudo, setPseudo] = React.useState("")
-    const [mdp, setMdp] = React.useState("")
+    const [pseudo, setPseudo] = React.useState<string>("")
+    const [mdp, setMdp] = React.useState<string>("")
 
 
-    {/* voir https://docs.expo.dev/guides/keyboard-handling/ */ }
+    function handleConect() {
+        if (pseudo.trim() !== ""  && mdp.trim() !== "") {
+            // pass pour le dev Tempo 
+            if (pseudo == "Admin" && mdp == "Admin") {
+                router.push("/bases/home");
+                return;
+            }
+        }
+        else {
+            let messageError = "";
+            if (pseudo.trim() === "") {
+                messageError += "Le pseudo ne peut pas être vide.\n";
+            }
+            if (mdp.trim() === "") {
+                messageError += "Le mot de passe ne peut pas être vide.\n";
+            }
+            setError(messageError);
+        }
+    }
 
     return (
         <View
@@ -50,7 +68,7 @@ export default function ConnexionScreen() {
                     </View>
                     <AppText color="primary" size="lg" onPress={() => { console.log("Mdp oublié click") }}>Mot de passe oublié ?</AppText>
                     <View style={{ width: "100%", height: 50 }}>
-                        <BtnConnexion title="Se connecter" onClick={() => { console.log("Se connecter click") }} />
+                        <BtnConnexion title="Se connecter" onClick={() => { console.log("Se connecter click"); handleConect() }} />
                     </View>
                     <View style={{ width: "100%", alignItems: "center", marginTop: 33 }}>
                         <AppText color="primary" size="lg" onPress={() => { console.log("Pas de compte click"); router.push("/bases/connexion/inscription") }}>Pas de compte ? S'inscrire</AppText>
@@ -58,7 +76,6 @@ export default function ConnexionScreen() {
                 </View>
             </View>
         </View>
-
     );
 
 

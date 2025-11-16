@@ -1,16 +1,19 @@
 import React from "react";
 import { View } from "react-native";
 import { TextInputGlobal } from "@/lib/components/global/TextInput";
-import { ProfilImagePicker } from "@/lib/components/global/profilImagePicker";
+import { ProfilImagePickerModal } from "@/lib/components/global/profilImagePickerModal";
 import EchooSmallLogo from "@/assets/img/EchooSmallLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
 import { verifEmail, verifMdp, verifPseudo } from "@/lib/utils/verifications";
+import ErrorModal from "@/lib/components/global/ErrorModal";
+import useGlobalHook from "@/hook/globalHook";
 
 
 export default function InscriptionScreen() {
     const router = useRouter();
+    const{ setError } = useGlobalHook();
 
     const [pseudo, setPseudo] = React.useState("");
     const [email, setEmail] = React.useState("");
@@ -18,7 +21,7 @@ export default function InscriptionScreen() {
     const [mdpConf, setMdpConf] = React.useState("");
     const [imagePdp, setImagePdp] = React.useState<string | null>(null);
 
-    const [messageErrorMdp, setMessageErrorMdp] = React.useState<string>("");
+    const [errorMessage, setErrorMessage] = React.useState<string>("");
 
     function verifCreation() {
         let messageError = "";
@@ -27,7 +30,7 @@ export default function InscriptionScreen() {
         messageError += verifMdp(mdp, mdpConf);
 
         if (messageError !== "") {
-            setMessageErrorMdp(messageError);
+            setErrorMessage(messageError);
             console.log(messageError);
         }
     }
@@ -72,8 +75,7 @@ export default function InscriptionScreen() {
                     justifyContent: "space-around",
                 }}
             >
-                <ProfilImagePicker imagePdp={imagePdp} setImagePdp={setImagePdp} height={74} width={74} />
-
+                <ProfilImagePickerModal imagePdp={imagePdp} setImagePdp={setImagePdp} height={74} width={74} />
                 <View
                     style={{
                         height: "100%",
@@ -129,6 +131,9 @@ export default function InscriptionScreen() {
             >
                 Déjà un compte ? Se connecter
             </AppText>
+
+            <ErrorModal message={errorMessage} onClose={() => { setErrorMessage("") }} />
+
         </View>
     );
 }

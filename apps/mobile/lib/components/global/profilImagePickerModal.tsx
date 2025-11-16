@@ -14,7 +14,7 @@ type ProfilImagePickerProps = {
     width?: number;
 };
 
-export function ProfilImagePicker(props: ProfilImagePickerProps) {
+export function ProfilImagePickerModal(props: ProfilImagePickerProps) {
     const { theme } = useTheme();
 
     const [modalVisible, setModalVisible] = React.useState(false);

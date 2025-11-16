@@ -8,11 +8,9 @@
 // - Contien un . au moins (j'ai découvert que dans des domaines on peut avoir plusieurs . )
 // - Au moins un caractère après le dernier . (pas espace, tab, ...)
 export function verifEmail(email: string): string {
-    return "";
-
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!regex.test(email)) {
-        return "Email non valide";
+        return "Email non valide \n";
     }
     return "";
 }
@@ -23,7 +21,7 @@ export function verifEmail(email: string): string {
 export function verifPseudo(pseudo: string): string {
     const regex = /^(?!.*(.)\1{2,})[a-zA-Z0-9_\-À-ÖØ-öø-ÿ]{3,20}$/;
     if (!regex.test(pseudo)) {
-        var messageError: string = "erreur dans le mot de passe";
+        var messageError: string = "Pseudo non valide \n";
         // var messageError: string = "Le mot de passe doit contenir :\n";
 
         return messageError;
@@ -57,7 +55,7 @@ export function verifMdp(mdp: string, mdpConf: string): string {
         if (!regexLower.test(mdp)) { messageError += "- Au moins une lettre minuscule\n"; }
         if (!regexDigit.test(mdp)) { messageError += "- Au moins un chiffre\n"; }
         if (!regexSpecial.test(mdp)) { messageError += "- Au moins un caractère spécial\n"; }
-
+        // messageError += "\n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n test \n ";
         return messageError;
     };
     return "";

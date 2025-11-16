@@ -14,9 +14,12 @@ import { View, StatusBar, KeyboardAvoidingView, Platform } from "react-native";
 import { ThemeProvider, useTheme } from "@/lib/theme/provider";
 import { Text, TextInput } from "react-native";
 import { useFonts } from "expo-font";
+import ErrorModal from "@/lib/components/global/ErrorModal";
+import useGlobalHook from "@/hook/globalHook";
 
 function ThemedStack() {
   const { theme } = useTheme();
+  const{ error, setError } = useGlobalHook();
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -36,6 +39,8 @@ function ThemedStack() {
         <Stack.Screen name="TestTempo/TestVerificationTempo" />
 
       </Stack>
+
+      <ErrorModal message={error} onClose={() => {setError("")}}/>
     </View>
   );
 }
