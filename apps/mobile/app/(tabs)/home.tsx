@@ -32,7 +32,8 @@ export default function home() {
         title: "HIT ME HARD AND SOFT",
         artist: "Billie Eilish",
         color1: "",
-        color2: ""
+        color2: "",
+        type: "album"
     }
 
     const musicTemp: BaseInfos = {
@@ -41,7 +42,8 @@ export default function home() {
         artist: "Billie Eilish",
         color1: "#04131D",
         color2: "#082840",
-        nbStreams: 46
+        nbStreams: 46,
+        type: "music"
     }
 
     const musicTemp2: BaseInfos = {
@@ -50,7 +52,8 @@ export default function home() {
         artist: "aespa",
         color1: "#000000",
         color2: "#0E0E0E",
-        nbStreams: 24
+        nbStreams: 24,
+        type: "music"
     }
 
     const musicTemp3: BaseInfos = {
@@ -59,7 +62,8 @@ export default function home() {
         artist: "Jann",
         color1: "#965F4C",
         color2: "#291A15",
-        nbStreams: 11
+        nbStreams: 11,
+        type: "music"
     }
 
     const artist1: BaseInfos = {
@@ -67,7 +71,8 @@ export default function home() {
         title: "Madison Beer",
         artist: "",
         color1: "",
-        color2: ""
+        color2: "",
+        type: "artist"
     }
 
     const artist2: BaseInfos = {
@@ -75,7 +80,8 @@ export default function home() {
         title: "Billie Eilish",
         artist: "",
         color1: "",
-        color2: ""
+        color2: "",
+        type: "artist"
     }
 
     const artist3: BaseInfos = {
@@ -83,11 +89,15 @@ export default function home() {
         title: "aespa",
         artist: "",
         color1: "",
-        color2: ""
+        color2: "",
+        type: "artist"
     }
 
+    // TODO : remplacer les infos par celles de la BDD
     const artistList: BaseInfos[] = [artist1, artist2, artist3, artist1, artist2, artist3];
     const musicList: BaseInfos[] = [musicTemp, musicTemp2, musicTemp3, musicTemp];
+    const releasedRecentlyList: BaseInfos[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
+    
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: theme.colors.background }}>
@@ -110,11 +120,9 @@ export default function home() {
             <SectionTitle text="Dernières sorties"></SectionTitle>
 
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
-                <MusicCard infos={musicTemp3} isArtist={false}></MusicCard>
-                <MusicCard infos={musicTemp2} isArtist={false}></MusicCard>
-                <MusicCard infos={musicTemp} isArtist={false}></MusicCard>
-                <MusicCard infos={musicTemp2} isArtist={false}></MusicCard>
-                <MusicCard infos={musicTemp3} isArtist={false}></MusicCard>
+                {releasedRecentlyList.map((music, key) =>
+                    <MusicCard key={key} infos={music}  isSearch={false}></MusicCard>
+                )}
             </ScrollView>
 
             <SectionTitle text="Mes artistes du mois"></SectionTitle>
