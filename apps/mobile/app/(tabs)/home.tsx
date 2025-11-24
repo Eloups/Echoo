@@ -7,6 +7,8 @@ import SectionTitle from "@/lib/components/sectionTitle";
 import MusicCard from "@/lib/components/musicCard";
 import MonthArtists from "@/lib/components/monthArtists";
 import MonthMusics from "@/lib/components/monthMusics";
+import { useEffect } from "react";
+import { useNavigation } from "expo-router";
 const cover = require("../../assets/tempImg/Covers_Albums/HMHAS.jpg");
 const cover2 = require("../../assets/tempImg/Covers_Albums/RichMan.webp");
 const cover3 = require("../../assets/tempImg/Covers_Albums/Jann.jpg");
@@ -16,6 +18,13 @@ const PPartist3 = require("../../assets/tempImg/Profils_Artistes/aespa.jpg");
 
 export default function home() {
     const { theme, toggleTheme } = useTheme();
+    const navigation = useNavigation();
+    useEffect(() => {
+        navigation.setOptions({
+            title: "Accueil",
+            subtitle: "",
+        } as any);
+    }, [navigation]);
 
 
     const albumTemp: BaseInfos = {
@@ -23,7 +32,8 @@ export default function home() {
         title: "HIT ME HARD AND SOFT",
         artist: "Billie Eilish",
         color1: "",
-        color2: ""
+        color2: "",
+        type: "album"
     }
 
     const musicTemp: BaseInfos = {
@@ -32,7 +42,8 @@ export default function home() {
         artist: "Billie Eilish",
         color1: "#04131D",
         color2: "#082840",
-        nbStreams: 46
+        nbStreams: 46,
+        type: "music"
     }
 
     const musicTemp2: BaseInfos = {
@@ -41,7 +52,8 @@ export default function home() {
         artist: "aespa",
         color1: "#000000",
         color2: "#0E0E0E",
-        nbStreams: 24
+        nbStreams: 24,
+        type: "music"
     }
 
     const musicTemp3: BaseInfos = {
@@ -50,23 +62,26 @@ export default function home() {
         artist: "Jann",
         color1: "#965F4C",
         color2: "#291A15",
-        nbStreams: 11
+        nbStreams: 11,
+        type: "music"
     }
-    
+
     const artist1: BaseInfos = {
         cover: PPartist1,
         title: "Madison Beer",
         artist: "",
         color1: "",
-        color2: ""
+        color2: "",
+        type: "artist"
     }
-    
+
     const artist2: BaseInfos = {
         cover: PPartist2,
         title: "Billie Eilish",
         artist: "",
         color1: "",
-        color2: ""
+        color2: "",
+        type: "artist"
     }
 
     const artist3: BaseInfos = {
@@ -74,24 +89,28 @@ export default function home() {
         title: "aespa",
         artist: "",
         color1: "",
-        color2: ""
+        color2: "",
+        type: "artist"
     }
 
-    const artistList: BaseInfos[] = [artist1,artist2,artist3,artist1,artist2,artist3];
-    const musicList: BaseInfos[] = [musicTemp,musicTemp2,musicTemp3,musicTemp];
+    // TODO : remplacer les infos par celles de la BDD
+    const artistList: BaseInfos[] = [artist1, artist2, artist3, artist1, artist2, artist3];
+    const musicList: BaseInfos[] = [musicTemp, musicTemp2, musicTemp3, musicTemp];
+    const releasedRecentlyList: BaseInfos[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
+    
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={{display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "row", alignSelf: 'stretch', gap: 17, marginTop: 10}}>
-                <View style={{display: "flex", justifyContent: "center", alignItems: "center", gap: 3}}>
-                    <AppText size={"lg"} style={{marginBottom: 10}}>Dernier album écouté</AppText>
-                    <Image source={albumTemp.cover} style={{ width: 144, height: 144, borderRadius: 5}} />
+        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: theme.colors.background }}>
+            <View style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "row", alignSelf: 'stretch', gap: 17, marginTop: 10 }}>
+                <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
+                    <AppText size={"lg"} style={{ marginBottom: 10 }}>Dernier album écouté</AppText>
+                    <Image source={albumTemp.cover} style={{ width: 144, height: 144, borderRadius: 5 }} />
                     <AppText size={"md"}>{albumTemp.title}</AppText>
                     <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -6 }] }}>{albumTemp.artist}</AppText>
                 </View>
-                <View style={{display: "flex", justifyContent: "center", alignItems: "center", gap: 3}}>
-                    <AppText size={"lg"} style={{marginBottom: 10}}>Derniers morceaux écoutés</AppText>
-                    <View style={{display: "flex", gap: 9}}>
+                <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
+                    <AppText size={"lg"} style={{ marginBottom: 10 }}>Derniers morceaux écoutés</AppText>
+                    <View style={{ display: "flex", gap: 9 }}>
                         <LastSongPlayedCard music={musicTemp}></LastSongPlayedCard>
                         <LastSongPlayedCard music={musicTemp2}></LastSongPlayedCard>
                         <LastSongPlayedCard music={musicTemp3}></LastSongPlayedCard>
@@ -100,12 +119,10 @@ export default function home() {
             </View>
             <SectionTitle text="Dernières sorties"></SectionTitle>
 
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{gap: 10}} style={{paddingLeft: 24}}>
-                <MusicCard infos={musicTemp3} isArtist={false}></MusicCard>
-                <MusicCard infos={musicTemp2} isArtist={false}></MusicCard>
-                <MusicCard infos={musicTemp} isArtist={false}></MusicCard>
-                <MusicCard infos={musicTemp2} isArtist={false}></MusicCard>
-                <MusicCard infos={musicTemp3} isArtist={false}></MusicCard>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
+                {releasedRecentlyList.map((music, key) =>
+                    <MusicCard key={key} infos={music}  isSearch={false}></MusicCard>
+                )}
             </ScrollView>
 
             <SectionTitle text="Mes artistes du mois"></SectionTitle>

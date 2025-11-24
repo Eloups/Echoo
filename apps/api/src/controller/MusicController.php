@@ -19,12 +19,19 @@ class MusicController implements ControllerInterface
     private string $action;
 
     /**
+     * Récupérer les paramètres de la requête depuis le routeur
+     * @var array
+     */
+    private array $params = [];
+
+    /**
      * Constructeur du contrôlleur de musiques
      * @param string $action
      */
-    public function __construct(string $action)
+    public function __construct(string $action, array $params = [])
     {
         $this->action = $action;
+        $this->params = $params;
     }
 
     /**
@@ -35,9 +42,10 @@ class MusicController implements ControllerInterface
     public function run(Request $request): Response
     {
         $adapter = new MusicDrivingAdapter();
+        $idArtist = $this->params["id"];
 
         return match ($this->action) {
-            'list' => $adapter->listMusics($request),
+            'list' => $adapter->listMusics( $idArtist),
             default => throw new ResourceNotFoundException(),
         };
     }

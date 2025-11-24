@@ -26,8 +26,8 @@ export default function Index() {
         <Text style={{ color: "white" }}>Début application</Text>
       </Pressable>
 
-      <Pressable
-        onPress={() => router.push("/bases/home")}
+      <Pressable 
+        onPress={() => router.push("/(tabs)/home")}
         style={{
           marginTop: 20,
           padding: 10,

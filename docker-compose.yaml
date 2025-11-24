@@ -6,6 +6,7 @@ services:
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./apps/api:/var/www/api
+      - ./apps/api/.env.docker:/var/www/api/.env
     depends_on:
       php:
         condition: service_started
@@ -15,4 +16,17 @@ services:
       dockerfile: ./docker/php-fpm/Dockerfile
     volumes:
     - ./apps/api:/var/www/api
+    - ./apps/api/.env.docker:/var/www/api/.env
 
+  database:
+    build:
+      context: .
+      dockerfile: ./docker/postgresql/Dockerfile
+    restart: always
+    shm_size: 128mb
+    volumes:
+      - ./docker/postgresql/dataset:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: echoo

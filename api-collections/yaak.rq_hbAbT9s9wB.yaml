@@ -1,0 +1,26 @@
+type: http_request
+model: http_request
+id: rq_hbAbT9s9wB
+createdAt: 2025-10-16T07:23:18.216639300
+updatedAt: 2025-10-22T16:03:25.736987600
+workspaceId: wk_uYbS3VsxD9
+folderId: null
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: ''
+sortPriority: -1760599398215.0
+url: ${[ API_HOST ]}/artist/1/musics
+urlParameters:
+- enabled: true
+  name: :id
+  value: ${[ response.body.path(request='rq_fo6VhmNmsw', path=b64'JC5pZA', behavior='smart') ]}
+  id: PH28Bs6Uvb
+- enabled: true
+  name: ''
+  value: ''
+  id: TDer5Rmtcg

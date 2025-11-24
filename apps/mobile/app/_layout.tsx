@@ -1,23 +1,21 @@
-// import { Stack } from "expo-router";
-// import { Colors } from "@/styles/constants/colors";
-// import { View } from "react-native";
-
-// export default function RootLayout() {
-//   return (
-//     <View style={{backgroundColor: Colors.background}}>
-//       <Stack screenOptions={{ headerShown: false }} />
-//     </View>);
-// }
-
-import { Stack, Tabs } from "expo-router";
-import { View, StatusBar, KeyboardAvoidingView, Platform } from "react-native";
+import { Stack } from "expo-router";
+import { StatusBar, View, Platform  } from "react-native";
 import { ThemeProvider, useTheme } from "@/lib/theme/provider";
-import { Text, TextInput } from "react-native";
 import { useFonts } from "expo-font";
+import * as NavigationBar from "expo-navigation-bar";
+import { useEffect } from "react";
 import useGlobalHook from "@/hook/globalHook";
 
-function ThemedStack() {
+function ThemedRoot() {
   const { theme } = useTheme();
+  if (Platform.OS == "android") {
+    useEffect(() => {
+      NavigationBar.setBackgroundColorAsync(theme.colors.background);
+      NavigationBar.setButtonStyleAsync(
+        theme.name === "dark" ? "light" : "dark"
+      );
+    }, [theme]);
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -38,7 +36,7 @@ function ThemedStack() {
 
       </Stack>
 
-j    </View>
+    </View>
   );
 }
 
@@ -47,10 +45,11 @@ export default function RootLayout() {
     "Kanit-Regular": require("@/assets/fonts/Kanit-Regular.ttf"),
     "Kanit-Bold": require("@/assets/fonts/Kanit-Bold.ttf"),
   });
+  if (!fontsLoaded) return null;
 
   return (
     <ThemeProvider>
-      <ThemedStack />
+      <ThemedRoot />
     </ThemeProvider>
   );
 }
