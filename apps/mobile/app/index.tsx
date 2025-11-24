@@ -27,7 +27,7 @@ export default function Index() {
       </Pressable>
 
       <Pressable 
-        onPress={() => router.push("/bases/home")}
+        onPress={() => router.push("/(tabs)/home")}
         style={{
           marginTop: 20,
           padding: 10,

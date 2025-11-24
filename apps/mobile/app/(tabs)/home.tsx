@@ -7,6 +7,8 @@ import SectionTitle from "@/lib/components/sectionTitle";
 import MusicCard from "@/lib/components/musicCard";
 import MonthArtists from "@/lib/components/monthArtists";
 import MonthMusics from "@/lib/components/monthMusics";
+import { useEffect } from "react";
+import { useNavigation } from "expo-router";
 const cover = require("../../assets/tempImg/Covers_Albums/HMHAS.jpg");
 const cover2 = require("../../assets/tempImg/Covers_Albums/RichMan.webp");
 const cover3 = require("../../assets/tempImg/Covers_Albums/Jann.jpg");
@@ -16,6 +18,13 @@ const PPartist3 = require("../../assets/tempImg/Profils_Artistes/aespa.jpg");
 
 export default function home() {
     const { theme, toggleTheme } = useTheme();
+    const navigation = useNavigation();
+    useEffect(() => {
+        navigation.setOptions({
+            title: "Accueil",
+            subtitle: "",
+        } as any);
+    }, [navigation]);
 
 
     const albumTemp: BaseInfos = {
@@ -52,7 +61,7 @@ export default function home() {
         color2: "#291A15",
         nbStreams: 11
     }
-    
+
     const artist1: BaseInfos = {
         cover: PPartist1,
         title: "Madison Beer",
@@ -60,7 +69,7 @@ export default function home() {
         color1: "",
         color2: ""
     }
-    
+
     const artist2: BaseInfos = {
         cover: PPartist2,
         title: "Billie Eilish",
@@ -77,21 +86,21 @@ export default function home() {
         color2: ""
     }
 
-    const artistList: BaseInfos[] = [artist1,artist2,artist3,artist1,artist2,artist3];
-    const musicList: BaseInfos[] = [musicTemp,musicTemp2,musicTemp3,musicTemp];
+    const artistList: BaseInfos[] = [artist1, artist2, artist3, artist1, artist2, artist3];
+    const musicList: BaseInfos[] = [musicTemp, musicTemp2, musicTemp3, musicTemp];
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={{display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "row", alignSelf: 'stretch', gap: 17, marginTop: 10}}>
-                <View style={{display: "flex", justifyContent: "center", alignItems: "center", gap: 3}}>
-                    <AppText size={"lg"} style={{marginBottom: 10}}>Dernier album écouté</AppText>
-                    <Image source={albumTemp.cover} style={{ width: 144, height: 144, borderRadius: 5}} />
+        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: theme.colors.background }}>
+            <View style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "row", alignSelf: 'stretch', gap: 17, marginTop: 10 }}>
+                <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
+                    <AppText size={"lg"} style={{ marginBottom: 10 }}>Dernier album écouté</AppText>
+                    <Image source={albumTemp.cover} style={{ width: 144, height: 144, borderRadius: 5 }} />
                     <AppText size={"md"}>{albumTemp.title}</AppText>
                     <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -6 }] }}>{albumTemp.artist}</AppText>
                 </View>
-                <View style={{display: "flex", justifyContent: "center", alignItems: "center", gap: 3}}>
-                    <AppText size={"lg"} style={{marginBottom: 10}}>Derniers morceaux écoutés</AppText>
-                    <View style={{display: "flex", gap: 9}}>
+                <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
+                    <AppText size={"lg"} style={{ marginBottom: 10 }}>Derniers morceaux écoutés</AppText>
+                    <View style={{ display: "flex", gap: 9 }}>
                         <LastSongPlayedCard music={musicTemp}></LastSongPlayedCard>
                         <LastSongPlayedCard music={musicTemp2}></LastSongPlayedCard>
                         <LastSongPlayedCard music={musicTemp3}></LastSongPlayedCard>
@@ -100,7 +109,7 @@ export default function home() {
             </View>
             <SectionTitle text="Dernières sorties"></SectionTitle>
 
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{gap: 10}} style={{paddingLeft: 24}}>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
                 <MusicCard infos={musicTemp3} isArtist={false}></MusicCard>
                 <MusicCard infos={musicTemp2} isArtist={false}></MusicCard>
                 <MusicCard infos={musicTemp} isArtist={false}></MusicCard>
