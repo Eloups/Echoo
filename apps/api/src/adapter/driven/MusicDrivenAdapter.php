@@ -20,6 +20,7 @@ class MusicDrivenAdapter implements MusicDrivenAdapterInterface {
     public function getMusicList(int $idArtist): array {
         // On appelle la connexion à la base de données
         $pgslserver = new PgsqlServer();
+        
         $pdo = $pgslserver->getConnection();
         $request = new PgsqlMusicRequests($pdo);
 

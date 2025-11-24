@@ -59,13 +59,13 @@ class PgsqlMusicRequests
             ON m.id = mg.id_music
         LEFT JOIN genre g
             ON mg.id_genre = g.id
-        LEFT JOIN rating r
+        LEFT JOIN music_rating r
             ON m.id = r.id_music
         WHERE a.id = :id_artist
         ORDER BY p.id, m.id;
         ";
         $request = $this->pdo->prepare($getAllMusics);
-        $request->execute(["id_artist", $idArtist]);
+        $request->execute([":id_artist" => $idArtist]);
         $result = $request->fetchAll();
         return $result;
     }

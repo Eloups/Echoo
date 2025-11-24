@@ -36,7 +36,7 @@ class Rating
      * @param ?string $comment
      * @param ?User $user
      */
-    public function __construct(?int $id, int $rate, ?string $comment, User $user)
+    public function __construct(?int $id, int $rate, ?string $comment, ?User $user)
     {
         $this->id = $id;
         $this->rate = $rate;
@@ -72,7 +72,7 @@ class Rating
      * Accesseur de l'utilisateur qui met la note
      * @return User
      */
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }
