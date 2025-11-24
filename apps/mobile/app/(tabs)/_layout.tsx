@@ -21,7 +21,7 @@ export default function TabLayout() {
             },
             tabBarStyle: {
                 backgroundColor: theme.colors.background,
-                marginBottom: 7,
+                paddingBottom: 7,
                 borderTopColor: theme.colors.primary
             },
             header: (props) => (
