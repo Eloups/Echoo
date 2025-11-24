@@ -25,16 +25,16 @@ class Rating
     private ?string $comment;
     /**
      * Utilisateur qui met la note
-     * @var User
+     * @var ?User
      */
-    private User $user;
+    private ?User $user;
 
     /**
      * Constructeur de la note
      * @param ?int $id
      * @param int $rate
      * @param ?string $comment
-     * @param User $user
+     * @param ?User $user
      */
     public function __construct(?int $id, int $rate, ?string $comment, User $user)
     {

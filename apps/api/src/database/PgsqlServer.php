@@ -2,6 +2,7 @@
 
 namespace Api\Database;
 
+use Api\Utils\EnvironmentUtils;
 use Exception;
 use PDO;
 use PDOException;
@@ -49,19 +50,14 @@ class PgsqlServer
 
     /**
      * Constructeur de la classe PostgresSqlServer.
-     * @param string $host
-     * @param string $port
-     * @param string $dbName
-     * @param string $username
-     * @param string $password
      */
-    public function __construct(string $host, string $port, string $dbName, string $username, string $password)
+    public function __construct()
     {
-        $this->host = $host;
-        $this->port = $port;
-        $this->dbName = $dbName;
-        $this->username = $username;
-        $this->password = $password;
+        $this->host = EnvironmentUtils::checkEnvironment($_ENV["DB_HOST"]);
+        $this->port = EnvironmentUtils::checkEnvironment($_ENV["DB_PORT"]);
+        $this->dbName = EnvironmentUtils::checkEnvironment($_ENV["DB_NAME"]);
+        $this->username = EnvironmentUtils::checkEnvironment($_ENV["DB_USER"]);
+        $this->password = EnvironmentUtils::checkEnvironment($_ENV["DB_PASSWORD"]);
     }
 
     /**
