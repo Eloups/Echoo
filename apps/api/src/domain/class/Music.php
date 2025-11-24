@@ -7,7 +7,8 @@ use DateTime;
 /**
  * Classe des musiques
  */
-class Music {
+class Music
+{
     /**
      * Id de la musique
      * @var ?int
@@ -60,7 +61,8 @@ class Music {
      * @param int $nbStreams
      * @param Rating[] $rates
      */
-    public function __construct(?int $id, string $title, int $duration, DateTime $release, string $file_path, array $genres, int $nbStreams, array $rates) {
+    public function __construct(?int $id, string $title, int $duration, DateTime $release, string $file_path, array $genres, int $nbStreams, array $rates)
+    {
         $this->id = $id;
         $this->title = $title;
         $this->duration = $duration;
@@ -75,42 +77,48 @@ class Music {
      * Accesseur de l'id de la musique
      * @return ?int
      */
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
     /**
      * Accesseur du titre de la musique
      * @return string
      */
-    public function getTitle(): string {
+    public function getTitle(): string
+    {
         return $this->title;
     }
     /**
      * Accesseur de la durée de la musique
      * @return int
      */
-    public function getDuration(): int {
+    public function getDuration(): int
+    {
         return $this->duration;
     }
     /**
      * Accesseur de la date de sortie de la musique
      * @return DateTime
      */
-    public function getRelease(): DateTime {
+    public function getRelease(): DateTime
+    {
         return $this->release;
     }
     /**
      * Accesseur du chemin du fichier de la musique
      * @return string
      */
-    public function getFilePath(): string {
+    public function getFilePath(): string
+    {
         return $this->file_path;
     }
     /**
      * Accesseur de la liste des genres de la musique
      * @return Genre
      */
-    public function getGenres(): array {
+    public function getGenres(): array
+    {
         return $this->genres;
     }
 
@@ -124,14 +132,16 @@ class Music {
      * Accesseur du nombre de streams de la musique
      * @return int
      */
-    public function getNbStreams(): int {
+    public function getNbStreams(): int
+    {
         return $this->nbStreams;
     }
     /**
      * Accesseur des notes de la musique
      * @return Rating[]
      */
-    public function getRates(): array {
+    public function getRates(): array
+    {
         return $this->rates;
     }
 }
