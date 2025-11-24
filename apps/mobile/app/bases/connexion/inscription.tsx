@@ -7,13 +7,10 @@ import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
 import { verifEmail, verifMdp, verifPseudo } from "@/lib/utils/verifications";
-import ErrorModal from "@/lib/components/global/ErrorModal";
-import useGlobalHook from "@/hook/globalHook";
 
 
 export default function InscriptionScreen() {
     const router = useRouter();
-    const{ setError } = useGlobalHook();
 
     const [pseudo, setPseudo] = React.useState("");
     const [email, setEmail] = React.useState("");
@@ -21,18 +18,12 @@ export default function InscriptionScreen() {
     const [mdpConf, setMdpConf] = React.useState("");
     const [imagePdp, setImagePdp] = React.useState<string | null>(null);
 
-    const [errorMessage, setErrorMessage] = React.useState<string>("");
 
     function verifCreation() {
         let messageError = "";
         messageError += verifEmail(email);
         messageError += verifPseudo(pseudo);
         messageError += verifMdp(mdp, mdpConf);
-
-        if (messageError !== "") {
-            setErrorMessage(messageError);
-            console.log(messageError);
-        }
     }
 
     return (
@@ -131,9 +122,6 @@ export default function InscriptionScreen() {
             >
                 Déjà un compte ? Se connecter
             </AppText>
-
-            <ErrorModal message={errorMessage} onClose={() => { setErrorMessage("") }} />
-
         </View>
     );
 }

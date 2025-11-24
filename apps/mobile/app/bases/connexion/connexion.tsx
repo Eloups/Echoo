@@ -5,11 +5,9 @@ import EchoCompleteLogo from "@/assets/img/EchoCompleteLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
-import useGlobalHook from "@/hook/globalHook";
 
 export default function ConnexionScreen() {
     const router = useRouter();
-    const{ setError } = useGlobalHook();
 
     const [pseudo, setPseudo] = React.useState<string>("")
     const [mdp, setMdp] = React.useState<string>("")
@@ -31,7 +29,6 @@ export default function ConnexionScreen() {
             if (mdp.trim() === "") {
                 messageError += "Le mot de passe ne peut pas être vide.\n";
             }
-            setError(messageError);
         }
     }
 
