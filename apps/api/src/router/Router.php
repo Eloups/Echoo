@@ -66,7 +66,7 @@ class Router
 
         // Renvoie vers la bonne route
         return match ($useCase) {
-            'music' => new MusicController($action),
+            'music' => new MusicController($action, $match),
             default => throw new ResourceNotFoundException(),
         };
     }

@@ -17,11 +17,11 @@ class MusicDrivingAdapter {
      * @param Request $request
      * @return Response
      */
-    public function listMusics(): Response {
+    public function listMusics(int $idArtist): Response {
         
         $service = new MusicService();
     
-        $musics = $service->listMusics();
+        $musics = $service->listMusics($idArtist);
 
         return new Response(SerializerUtils::get()->serialize(['musics' => $musics], "json"), 200);
     }
