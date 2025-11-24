@@ -17,7 +17,7 @@ class MusicDrivingAdapter {
      * @param Request $request
      * @return Response
      */
-    public function listMusics(Request $request): Response {
+    public function listMusics(): Response {
         
         $service = new MusicService();
     

@@ -7,7 +7,8 @@ use DateTime;
 /**
  * Classe pour les projets de musiques (ex : albums)
  */
-class Project {
+class Project
+{
     /**
      * Id du projet de musique
      * @var ?int
@@ -48,6 +49,11 @@ class Project {
      * @var string
      */
     private string $color2;
+    /**
+     * Liste des notes de la musique
+     * @var Rating[]
+     */
+    private array $rates = [];
 
     /**
      * Constructeur du projet de musique
@@ -59,8 +65,10 @@ class Project {
      * @param Music[] $musics
      * @param string $color1
      * @param string $color2
+     * @param Rating[] $rates
      */
-    public function __construct(?int $id, string $title, DateTime $release, string $cover_path, ProjectType $projectType, array $musics, string $color1, string $color2) {
+    public function __construct(?int $id, string $title, DateTime $release, string $cover_path, ProjectType $projectType, array $musics, string $color1, string $color2, array $rates)
+    {
         $this->id = $id;
         $this->title = $title;
         $this->release = $release;
@@ -69,62 +77,79 @@ class Project {
         $this->musics = $musics;
         $this->color1 = $color1;
         $this->color2 = $color2;
+        $this->rates = $rates;
     }
 
     /**
      * Accesseur de l'id du projet de musique
      * @return int|null
      */
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
     /**
      * Accesseur du titre du projet de musique
      * @return string
      */
-    public function getTitle(): string {
+    public function getTitle(): string
+    {
         return $this->title;
     }
     /**
      * Accesseur de la date de sortie du projet de musique
      * @return DateTime
      */
-    public function getRelease(): DateTime {
+    public function getRelease(): DateTime
+    {
         return $this->release;
     }
     /**
      * Accesseur du chemin du fichier de la cover du projet de musique
      * @return string
      */
-    public function getCoverPath(): string {
+    public function getCoverPath(): string
+    {
         return $this->cover_path;
     }
     /**
      * Accesseur du type de projet de musique
      * @return ProjectType
      */
-    public function getProjectType(): ProjectType {
+    public function getProjectType(): ProjectType
+    {
         return $this->projectType;
     }
     /**
      * Accesseur de la liste de musique du projet
      * @return Music[]
      */
-    public function getMusics(): array {
+    public function getMusics(): array
+    {
         return $this->musics;
     }
     /**
      * Accesseur de la couleur principale du projet
      * @return string
      */
-    public function getColor1(): string {
+    public function getColor1(): string
+    {
         return $this->color1;
     }
     /**
      * Accesseur de la couleur secondaire du projet
      * @return string
      */
-    public function getColor2(): string {
+    public function getColor2(): string
+    {
         return $this->color2;
+    }
+    /**
+     * Accesseur des notes de la musique
+     * @return Rating[]
+     */
+    public function getRates(): array
+    {
+        return $this->rates;
     }
 }
