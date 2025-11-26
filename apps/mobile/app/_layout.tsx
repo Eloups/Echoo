@@ -21,9 +21,8 @@ function ThemedRoot() {
       <StatusBar barStyle={theme.name === "dark" ? "light-content" : "dark-content"} />
       <Stack
         screenOptions={{
-          headerStyle: { backgroundColor: theme.colors.background },
-          headerTintColor: theme.colors.text,
-          contentStyle: { backgroundColor: theme.colors.background },
+        headerShown: false,
+        contentStyle: { backgroundColor: theme.colors.background },
         }}
       >
         <Stack.Screen name="index" />
