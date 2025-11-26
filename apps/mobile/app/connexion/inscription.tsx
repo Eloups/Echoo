@@ -43,8 +43,8 @@ export default function InscriptionScreen() {
                     flexDirection: "row",
                 }}
             >
-                <EchooSmallLogo height={64} width={40} />
-                <AppText size="2xl" weight="bold">
+                <EchooSmallLogo height={40} width={65} style={{marginRight : 14}}/>
+                <AppText size="3xl" weight="bold">
                     Inscription
                 </AppText>
             </View>
