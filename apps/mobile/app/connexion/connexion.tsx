@@ -63,12 +63,12 @@ export default function ConnexionScreen() {
                     <View style={{ width: "100%" }}>
                         <TextInputGlobal text={mdp} setText={setMdp} label="Mot de passe" star={true} />
                     </View>
-                    <AppText color="primary" size="lg" onPress={() => { console.log("Mdp oublié click") }}>Mot de passe oublié ?</AppText>
+                    <AppText color="primary" size="lg" onPress={() => {  }}>Mot de passe oublié ?</AppText>
                     <View style={{ width: "100%", height: 50 }}>
-                        <BtnConnexion title="Se connecter" onClick={() => { console.log("Se connecter click"); handleConect() }} />
+                        <BtnConnexion title="Se connecter" onClick={() => { handleConect() }} />
                     </View>
                     <View style={{ width: "100%", alignItems: "center", marginTop: 33 }}>
-                        <AppText color="primary" size="lg" onPress={() => { console.log("Pas de compte click"); router.push("/connexion/inscription") }}>Pas de compte ? S'inscrire</AppText>
+                        <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/inscription") }}>Pas de compte ? S'inscrire</AppText>
                     </View>
                 </View>
             </View>

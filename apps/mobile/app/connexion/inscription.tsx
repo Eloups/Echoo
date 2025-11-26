@@ -107,7 +107,6 @@ export default function InscriptionScreen() {
                     title="Créer mon compte"
                     onClick={() => {
                         verifCreation();
-                        console.log("Créer mon compte");
                     }}
                 />
             </View>
