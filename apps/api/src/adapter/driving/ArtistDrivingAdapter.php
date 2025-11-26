@@ -21,8 +21,8 @@ class ArtistDrivingAdapter {
         
         $service = new ArtistService();
     
-        //$musics = $service->listMusics($idArtist);
+        $artist = $service->artistPage($idArtist);
 
-        //return new Response(SerializerUtils::get()->serialize(['musics' => $musics], "json"), 200);
+        return new Response(SerializerUtils::get()->serialize(['artist' => $artist], "json"), 200);
     }
 }

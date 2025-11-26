@@ -2,6 +2,7 @@
 
 namespace Api\Utils;
 
+use Api\Domain\Class\Artist;
 use Api\Domain\Class\Genre;
 use Api\Domain\Class\Music;
 use Api\Domain\Class\Rating;
@@ -90,5 +91,24 @@ class ConvertUtils {
 
         // On enlève l'indexation
         return array_values($musics);
+    }
+    
+    /**
+     * Convertir les données de la base en objets Artist
+     * @param array $rows
+     * @return Artist
+     */
+    public static function ConvertRowToArtist(array $rows): Artist {
+        
+        return new Artist(
+            isset($rows['id']) ? (int)$rows['id'] : null,
+            $rows['name'],
+            isset($rows['isverified']) ? filter_var($rows['isverified'], FILTER_VALIDATE_BOOLEAN) : false,
+            $rows['description'],
+            $rows['image_path'],
+            [],
+            [],
+            []
+        );
     }
 }
