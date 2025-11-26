@@ -17,7 +17,7 @@ const PPartist2 = require("../../assets/tempImg/Profils_Artistes/Billie_Eilish.j
 const PPartist3 = require("../../assets/tempImg/Profils_Artistes/aespa.jpg");
 
 export default function home() {
-    const { theme, toggleTheme } = useTheme();
+    const { theme } = useTheme();
     const navigation = useNavigation();
     useEffect(() => {
         navigation.setOptions({

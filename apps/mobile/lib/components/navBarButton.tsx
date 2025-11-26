@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet } from "react-native";
-import AppText from "./appText";
 import { ReactNode } from "react";
 import { router } from "expo-router";
 import { useTheme } from "../theme/provider";
@@ -13,7 +12,7 @@ type Props = {
 
 
 export default function NavBarButton(props: Props) {
-    const { theme, toggleTheme } = useTheme();
+    const { theme } = useTheme();
 
     const styles = StyleSheet.create({
         ButtonActivated: {

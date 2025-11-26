@@ -15,7 +15,7 @@ export default function Index() {
       }}
     >
       <Pressable
-        onPress={() => router.push("/bases/connexion/connexion")}
+        onPress={() => router.push("/connexion/connexion")}
         style={{
           marginTop: 20,
           padding: 10,

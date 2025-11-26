@@ -17,7 +17,7 @@ export default function ConnexionScreen() {
         if (pseudo.trim() !== ""  && mdp.trim() !== "") {
             // pass pour le dev Tempo 
             if (pseudo == "Admin" && mdp == "Admin") {
-                router.push("/bases/home");
+                router.push("/(tabs)/home");
                 return;
             }
         }
@@ -68,7 +68,7 @@ export default function ConnexionScreen() {
                         <BtnConnexion title="Se connecter" onClick={() => { console.log("Se connecter click"); handleConect() }} />
                     </View>
                     <View style={{ width: "100%", alignItems: "center", marginTop: 33 }}>
-                        <AppText color="primary" size="lg" onPress={() => { console.log("Pas de compte click"); router.push("/bases/connexion/inscription") }}>Pas de compte ? S'inscrire</AppText>
+                        <AppText color="primary" size="lg" onPress={() => { console.log("Pas de compte click"); router.push("/connexion/inscription") }}>Pas de compte ? S'inscrire</AppText>
                     </View>
                 </View>
             </View>

@@ -6,7 +6,6 @@ import EchooSmallLogo from "@/assets/img/EchooSmallLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
-import { verifEmail, verifMdp, verifPseudo } from "@/lib/utils/verifications";
 
 
 export default function InscriptionScreen() {
@@ -20,10 +19,10 @@ export default function InscriptionScreen() {
 
 
     function verifCreation() {
-        let messageError = "";
-        messageError += verifEmail(email);
-        messageError += verifPseudo(pseudo);
-        messageError += verifMdp(mdp, mdpConf);
+        // TODO Mettre la vérification front des champs 
+
+        // Tempo redirection
+        router.push("/(tabs)/home");
     }
 
     return (
@@ -117,7 +116,7 @@ export default function InscriptionScreen() {
                 color="primary"
                 size="lg"
                 onPress={() => {
-                    router.push("/bases/connexion/connexion");
+                    router.push("/connexion/connexion");
                 }}
             >
                 Déjà un compte ? Se connecter

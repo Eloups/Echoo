@@ -4,7 +4,6 @@ import { ThemeProvider, useTheme } from "@/lib/theme/provider";
 import { useFonts } from "expo-font";
 import * as NavigationBar from "expo-navigation-bar";
 import { useEffect } from "react";
-import useGlobalHook from "@/hook/globalHook";
 
 function ThemedRoot() {
   const { theme } = useTheme();
@@ -27,10 +26,9 @@ function ThemedRoot() {
           contentStyle: { backgroundColor: theme.colors.background },
         }}
       >
-
         <Stack.Screen name="index" />
-        <Stack.Screen name="bases/connexion/connexion" options={{ headerShown: false }} />
-        <Stack.Screen name="bases/connexion/inscription" options={{ headerShown: false }} />
+        <Stack.Screen name="connexion/connexion" options={{ headerShown: false }} />
+        <Stack.Screen name="connexion/inscription" options={{ headerShown: false }} />
         <Stack.Screen name="TestTempo/index" />
         <Stack.Screen name="TestTempo/TestVerificationTempo" />
 
