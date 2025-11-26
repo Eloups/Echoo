@@ -2,13 +2,13 @@
 
 namespace Api\Controller;
 
-use Api\Adapter\MusicDrivingAdapter;
+use Api\Adapter\ArtistDrivingAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
- * Controlleur des fonctions liées aux musiques
+ * Controlleur des fonctions liées aux artistes
  */
 class ArtistController implements ControllerInterface
 {
@@ -25,7 +25,7 @@ class ArtistController implements ControllerInterface
     private array $params = [];
 
     /**
-     * Constructeur du contrôlleur de musiques
+     * Constructeur du contrôlleur des artistes
      * @param string $action
      */
     public function __construct(string $action, array $params = [])
@@ -45,7 +45,7 @@ class ArtistController implements ControllerInterface
         $idArtist = $this->params["id"];
 
         return match ($this->action) {
-            'page' => $adapter->listMusics( $idArtist),
+            'page' => $adapter->ArtistPage( $idArtist),
             default => throw new ResourceNotFoundException(),
         };
     }
