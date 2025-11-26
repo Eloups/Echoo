@@ -31,6 +31,7 @@ export function TextInputGlobal(props: TextInputProps) {
                     style={{
                         flex: 1,
                         color: theme.colors.text,
+                        height: 47
                     }}
                     value={props.text}
                     onChangeText={props.setText}
