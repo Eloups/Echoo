@@ -29,8 +29,6 @@ function ThemedRoot() {
         <Stack.Screen name="index" />
         <Stack.Screen name="connexion/connexion" options={{ headerShown: false }} />
         <Stack.Screen name="connexion/inscription" options={{ headerShown: false }} />
-        <Stack.Screen name="TestTempo/index" />
-        <Stack.Screen name="TestTempo/TestVerificationTempo" />
 
       </Stack>
 

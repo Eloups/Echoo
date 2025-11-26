@@ -64,18 +64,6 @@ export default function Index() {
           Thème sombre
         </Text>
       </Pressable>
-
-      <Pressable
-        onPress={() => router.push("/TestTempo")}
-        style={{
-          marginTop: 20,
-          padding: 10,
-          backgroundColor: "blue",
-          borderRadius: 5,
-        }}
-      >
-        <Text style={{ color: "white" }}>Test Titi</Text>
-      </Pressable>
     </View>
   );
 }
