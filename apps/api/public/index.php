@@ -29,7 +29,7 @@ try {
     // On lance l'action du controlleur
     $response = $controller->run($request);
 } catch (ResourceNotFoundException $e) {
-    $response = new Response(json_encode(['code' => 404, 'message' => 'Route introuvable'], 404));
+    $response = new Response(json_encode(['code' => 404, 'message' => 'Route introuvable']), 404);
 } catch (Exception $e) {
     $response = new Response(json_encode(['code' => 500, 'message' => 'Internal server error : ' . $e->getMessage()]), 500);
 }
