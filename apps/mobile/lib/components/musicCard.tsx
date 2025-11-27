@@ -32,7 +32,7 @@ export default function MusicCard(props: PageProps) {
                             <Image source={props.infos.cover} height={95} width={95} style={styles.imagePlaylist3}></Image>
                         </View>
                         <View style={{ display: "flex", flexDirection: "column" }}>
-                            <AppText size={"lg"}>{props.infos.title.length > 40 ? props.infos.title.slice(0, 40) + "..." : props.infos.title}</AppText>
+                            <AppText size={"lg"}>{props.infos.title.length > 36 ? props.infos.title.slice(0, 34) + "..." : props.infos.title}</AppText>
                             <AppText size={"sm"} color="text2">{props.infos.nbMusics == null ? "0" : props.infos.nbMusics} titres</AppText>
                         </View>
                     </View>
@@ -51,7 +51,7 @@ export default function MusicCard(props: PageProps) {
     )
 }
 
-const IMAGE_SIZE = 95;
+const IMAGE_SIZE = 70;
 
 const styles = StyleSheet.create({
     imageMusic: {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         position: "absolute",
         backgroundColor: "#000",
-        top: -10,
+        top: -8,
         opacity: 0.6,
         transform: [{ scale: 0.88 }],
         zIndex: 2,
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         position: "absolute",
         backgroundColor: "#000",
-        top: -20,
+        top: -16,
         opacity: 0.3,
         transform: [{ scale: 0.75 }],
         zIndex: 1,
