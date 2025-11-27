@@ -45,7 +45,7 @@ class MusicController implements ControllerInterface
         $idArtist = $this->params["id"];
 
         return match ($this->action) {
-            'list' => $adapter->listMusics( $idArtist),
+            'list' => $adapter->listMusics($idArtist),
             default => throw new ResourceNotFoundException(),
         };
     }
@@ -57,5 +57,14 @@ class MusicController implements ControllerInterface
     public function getAction(): string
     {
         return $this->action;
+    }
+
+    /**
+     * Accesseur des paramètres données au contrôleur
+     * @return array
+     */
+    public function getParams(): array
+    {
+        return $this->params;
     }
 }
