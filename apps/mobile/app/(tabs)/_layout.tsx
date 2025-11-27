@@ -49,7 +49,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="library/playlists"
                 options={{
-                    title: 'Librairie',
+                    title: 'Bibliothèque',
                     tabBarIcon: ({ color }) => <LibraryIcon size={26} strokeColor={color} />
                     ,
                 }}
