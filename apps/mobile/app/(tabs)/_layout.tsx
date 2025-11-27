@@ -20,7 +20,7 @@ export default function TabLayout() {
                 fontWeight: 300,
             },
             tabBarStyle: {
-                backgroundColor: theme.colors.background,
+                backgroundColor: "#00000000",
                 marginBottom: 7,
                 borderTopColor: theme.colors.primary
             },
@@ -47,14 +47,12 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="library/playlists"
+                name="library"
                 options={{
                     title: 'Bibliothèque',
-                    tabBarIcon: ({ color }) => <LibraryIcon size={26} strokeColor={color} />
-                    ,
+                    tabBarIcon: ({ color }) => <LibraryIcon size={26} strokeColor={color} />,
                 }}
             />
-
             <Tabs.Screen
                 name="messages"
                 options={{
