@@ -5,6 +5,7 @@ namespace Api\Domain\Service;
 use Api\Adapter\ArtistDrivenAdapter;
 use Api\Domain\Class\Artist;
 use Api\Domain\Ports\ArtistServiceInterface;
+use ArtistPageDTO;
 use DateTime;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,9 +22,9 @@ class ArtistService implements ArtistServiceInterface {
         $driven = new ArtistDrivenAdapter();
 
         $artist = $driven->getArtistPage($idArtist);
-            if (!$artist[0] instanceof Artist) {
+            if (!$artist instanceof Artist) {
                 throw new Exception("Les données ne sont pas du type Artist");
             }
-        return $artist;
+        return [$artist];
     }
 }

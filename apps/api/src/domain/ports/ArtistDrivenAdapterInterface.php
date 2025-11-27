@@ -2,6 +2,8 @@
 
 namespace Api\Domain\Ports;
 
+use ArtistPageDTO;
+
 /**
  * Interface pour le MusicDrivenAdapter
  */

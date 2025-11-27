@@ -7,7 +7,7 @@ use Api\Database\Requests\PgsqlArtistRequests;
 use Api\Domain\Class\Artist;
 use Api\Domain\Ports\ArtistDrivenAdapterInterface;
 use Api\Utils\ConvertUtils;
-use DateTime;
+use ArtistPageDTO;
 
 /**
  * Classe Driven Adapter pour les musiques
@@ -26,7 +26,13 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
         $rows = $request->getArtist($idArtist);
  
         $artist = ConvertUtils::ConvertRowToArtist($rows[0]);
-        return [$artist];
+        $likes = self::getLikesArtist($idArtist);
+
+
+
+        //$artistDTO = new ArtistPageDTO($artist->getId(), $artist->getName(), $artist->getIsVerified(), $artist->getDescription(), $artist->getImagePath(), $likes, )
+
+        return $request->getPopuparMusics($idArtist, 2);
     }
 
     public function getLikesArtist(int $idArtist): int {
@@ -35,6 +41,9 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
         $pdo = $pgslserver->getConnection();
         $request = new PgsqlArtistRequests($pdo);
 
-        //$rows = $request->getArtist($idArtist);
+        $rows = $request->getLikesArtist($idArtist);
+        $like = $rows[0]["likes"];
+
+        return $like;
     }
 }
