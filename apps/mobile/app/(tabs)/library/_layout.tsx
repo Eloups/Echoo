@@ -90,7 +90,7 @@ export default function LibraryLayout() {
             }}
         >
             <MaterialTopTabs.Screen
-                name="playlists"
+                name="aaplaylists"
                 options={{
                     title: 'Playlists',
                 }}

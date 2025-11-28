@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, Pressable } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
 import AppText from "@/lib/components/appText";
 import LastSongPlayedCard from "@/lib/components/home_last_song_played_card";
@@ -8,7 +8,7 @@ import MusicCard from "@/lib/components/musicCard";
 import MonthArtists from "@/lib/components/monthArtists";
 import MonthMusics from "@/lib/components/monthMusics";
 import { useEffect } from "react";
-import { useNavigation } from "expo-router";
+import { useNavigation, router, useSegments } from "expo-router";
 const cover = require("../../assets/tempImg/Covers_Albums/HMHAS.jpg");
 const cover2 = require("../../assets/tempImg/Covers_Albums/RichMan.webp");
 const cover3 = require("../../assets/tempImg/Covers_Albums/Jann.jpg");
@@ -19,12 +19,25 @@ const PPartist3 = require("../../assets/tempImg/Profils_Artistes/aespa.jpg");
 export default function home() {
     const { theme, toggleTheme } = useTheme();
     const navigation = useNavigation();
+    const segments = useSegments();
+    
     useEffect(() => {
         navigation.setOptions({
             title: "Accueil",
             subtitle: "",
         } as any);
     }, [navigation]);
+
+    const handleAlbumPress = (album: BaseInfos) => {
+        const currentPath = '/' + segments.join('/');
+        router.push({
+            pathname: "/(tabs)/detail",
+            params: { 
+                data: JSON.stringify(album),
+                from: currentPath
+            }
+        });
+    };
 
 
     const albumTemp: BaseInfos = {
@@ -102,12 +115,14 @@ export default function home() {
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: theme.colors.background }}>
             <View style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "row", alignSelf: 'stretch', gap: 17, marginTop: 10 }}>
-                <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
-                    <AppText size={"lg"} style={{ marginBottom: 10 }}>Dernier album écouté</AppText>
-                    <Image source={albumTemp.cover} style={{ width: 144, height: 144, borderRadius: 5 }} />
-                    <AppText size={"md"}>{albumTemp.title}</AppText>
-                    <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -6 }] }}>{albumTemp.artist}</AppText>
-                </View>
+                <Pressable onPress={() => handleAlbumPress(albumTemp)}>
+                    <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
+                        <AppText size={"lg"} style={{ marginBottom: 10 }}>Dernier album écouté</AppText>
+                        <Image source={albumTemp.cover} style={{ width: 144, height: 144, borderRadius: 5 }} />
+                        <AppText size={"md"}>{albumTemp.title}</AppText>
+                        <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -6 }] }}>{albumTemp.artist}</AppText>
+                    </View>
+                </Pressable>
                 <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
                     <AppText size={"lg"} style={{ marginBottom: 10 }}>Derniers morceaux écoutés</AppText>
                     <View style={{ display: "flex", gap: 9 }}>

@@ -19,7 +19,11 @@ function ThemedRoot() {
       <Stack screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: theme.colors.background },
-      }} />
+      }}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="bases/connexion" options={{ headerShown: false }} />
+      </Stack>
     </View>
   );
 }

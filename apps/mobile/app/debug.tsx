@@ -1,12 +1,8 @@
 import { Pressable, Text, View } from "react-native";
-import { Stack, useRouter, Redirect } from "expo-router";
+import { useRouter } from "expo-router";
 import { useTheme } from "@/lib/theme/provider";
 
-export default function Index() {
-  return <Redirect href="/(tabs)/home" />;
-}
-
-export function DebugScreen() {
+export default function DebugScreen() {
   const router = useRouter();
   const { theme, setThemeByName } = useTheme();
   
@@ -69,8 +65,6 @@ export function DebugScreen() {
           Thème sombre
         </Text>
       </Pressable>
-    
-    
     </View>
   );
 }

@@ -1,10 +1,11 @@
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, Pressable } from "react-native";
 import { BaseInfos } from "../types/baseInfos";
 import AppText from "./appText";
 import { isSearchBarAvailableForCurrentPlatform, SearchBar } from "react-native-screens";
 import { themes } from "../theme";
 import { useTheme } from "../theme/provider";
 import { cloneElement } from "react";
+import { router, useSegments } from "expo-router";
 
 type PageProps = {
     infos: BaseInfos,
@@ -14,8 +15,25 @@ type PageProps = {
 // Permet d'afficher une musique, un projet ou un artiste en fonction du paramètre infos.type
 export default function MusicCard(props: PageProps) {
     const { theme, toggleTheme } = useTheme();
+    const segments = useSegments();
+
+    const handlePress = () => {
+        if (props.infos.type === "playlist" || props.infos.type === "album" || props.infos.type === "ep" || props.infos.type === "single") {
+            // Construire le chemin actuel
+            const currentPath = '/' + segments.join('/');
+            
+            router.push({
+                pathname: "/(tabs)/detail",
+                params: { 
+                    data: JSON.stringify(props.infos),
+                    from: currentPath
+                }
+            });
+        }
+    };
 
     return (
+        <Pressable onPress={handlePress}>
         <View>
             {props.isSearch == false && props.infos.type != "playlist" ? (
                 <View>
@@ -48,6 +66,7 @@ export default function MusicCard(props: PageProps) {
                     </View>
                 )}
         </View>
+        </Pressable>
     )
 }
 
