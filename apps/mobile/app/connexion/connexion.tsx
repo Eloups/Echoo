@@ -5,9 +5,11 @@ import EchoCompleteLogo from "@/assets/img/EchoCompleteLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
+import useGlobalHook from "@/hook/globalHook";
 
 export default function ConnexionScreen() {
     const router = useRouter();
+    const {login} = useGlobalHook();
 
     const [pseudo, setPseudo] = React.useState<string>("")
     const [mdp, setMdp] = React.useState<string>("")
@@ -19,6 +21,10 @@ export default function ConnexionScreen() {
             if (pseudo == "Admin" && mdp == "Admin") {
                 router.push("/(tabs)/home");
                 return;
+            }
+            else {
+                console.log("ici 1");
+                login(pseudo, mdp);
             }
         }
         else {
