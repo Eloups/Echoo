@@ -4,6 +4,7 @@ namespace Api\Domain\Service;
 
 use Api\Adapter\StreamingDrivenAdapter;
 use Api\Domain\Ports\StreamingServiceInterface;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Service de streaming
@@ -15,10 +16,9 @@ class StreamingService implements StreamingServiceInterface
      * @param string $fileName Nom du fichier
      * @return void
      */
-    public function getMusicFile(string $fileName): void
+    public function getMusicFile(string $fileName): StreamedResponse
     {
         $drivenAdapter = new StreamingDrivenAdapter();
-
-        $drivenAdapter->streamMusicFile($fileName);
+        return $drivenAdapter->streamMusicFile($fileName);
     }
 }

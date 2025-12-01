@@ -44,16 +44,10 @@ class StreamingController implements ControllerInterface
         $adapter = new StreamingDrivingAdapter();
         $fileName = $this->params['fileName'];
 
-        switch ($this->action) {
-            case 'getFile':
-                $adapter->getMusicFile($fileName);
-                $response = new Response();
-                $response->headers->set('Content-Type', 'audio/flac');
-                $response->headers->set('Content-Disposition', 'inline');
-                break;
-            default:
-                throw new ResourceNotFoundException();
-        }
+        return match ($this->action) {
+            'getFile' => $adapter->getMusicFile($fileName),
+            default => throw new ResourceNotFoundException(),
+        };
     }
 
     /**
