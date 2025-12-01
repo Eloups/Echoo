@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_WPPMHJvJcp
+createdAt: 2025-12-01T07:55:41.154469500
+updatedAt: 2025-12-01T07:58:50.025517300
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_enbuuoZuT3
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Get a music file
+sortPriority: -0.0001
+url: ${[ API_HOST ]}/stream/01-fight_fire_with_fire.flac
+urlParameters: []

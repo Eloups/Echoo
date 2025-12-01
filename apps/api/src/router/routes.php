@@ -8,4 +8,6 @@ $routes = new RouteCollection();
 // On crée les routes ici
 $routes->add('music|list', new Route('/artist/{id}/musics', methods: 'GET'));
 
+$routes->add('stream|getFile', new Route('/stream/{fileName}', methods: 'GET'));
+
 return $routes;
