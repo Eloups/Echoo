@@ -44,10 +44,13 @@ class MusicController implements ControllerInterface
         $adapter = new MusicDrivingAdapter();
         $idArtist = $this->params["id"];
 
-        return match ($this->action) {
+        $response = match ($this->action) {
             'list' => $adapter->listMusics($idArtist),
             default => throw new ResourceNotFoundException(),
         };
+
+        $response->headers->set('Content-Type', 'application/json;charset=UTF-8');
+        return $response;
     }
 
     /**

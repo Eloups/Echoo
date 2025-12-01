@@ -7,20 +7,21 @@ use Api\Database\Requests\PgsqlMusicRequests;
 use Api\Domain\Class\Music;
 use Api\Domain\Ports\MusicDrivenAdapterInterface;
 use Api\Utils\ConvertUtils;
-use DateTime;
 
 /**
  * Classe Driven Adapter pour les musiques
  */
-class MusicDrivenAdapter implements MusicDrivenAdapterInterface {
+class MusicDrivenAdapter implements MusicDrivenAdapterInterface
+{
     /**
      * Méthode pour récupérer la liste des musiques
      * @return Music[]
      */
-    public function getMusicList(int $idArtist): array {
+    public function getMusicList(int $idArtist): array
+    {
         // On appelle la connexion à la base de données
         $pgslserver = new PgsqlServer();
-        
+
         $pdo = $pgslserver->getConnection();
         $request = new PgsqlMusicRequests($pdo);
 
