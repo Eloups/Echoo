@@ -17,7 +17,8 @@
             ],
             "Api\\Utils\\": "src/utils",
             "Api\\Database\\": "src/database",
-            "Api\\Database\\Requests\\": "src/database/requests"
+            "Api\\Database\\Requests\\": "src/database/requests",
+            "Api\\Exception\\": "src/errors"
         }
     },
     "authors": [
