@@ -2,7 +2,7 @@
 
 namespace Api\Domain\Ports;
 
-use ArtistPageDTO;
+use Api\Adapter\DTO\ArtistPageDTO;
 
 /**
  * Interface pour le MusicDrivenAdapter
@@ -13,5 +13,5 @@ interface ArtistDrivenAdapterInterface {
      * @param int $idArtist
      * @return void
      */
-    public function getArtistPage(int $idArtist): array;
+    public function getArtistPage(int $idArtist): ArtistPageDTO;
 }

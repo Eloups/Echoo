@@ -3,10 +3,8 @@
 namespace Api\Domain\Service;
 
 use Api\Adapter\ArtistDrivenAdapter;
-use Api\Domain\Class\Artist;
 use Api\Domain\Ports\ArtistServiceInterface;
-use ArtistPageDTO;
-use DateTime;
+use Api\Adapter\DTO\ArtistPageDTO;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,13 +16,13 @@ class ArtistService implements ArtistServiceInterface {
      * Action des données de la page artiste
      * @return Response
      */
-    public function artistPage(int $idArtist): array {
+    public function artistPage(int $idArtist): ArtistPageDTO {
         $driven = new ArtistDrivenAdapter();
 
         $artist = $driven->getArtistPage($idArtist);
-            if (!$artist instanceof Artist) {
-                throw new Exception("Les données ne sont pas du type Artist");
+            if (!$artist instanceof ArtistPageDTO) {
+                throw new Exception("Les données ne sont pas du type ArtistDTO");
             }
-        return [$artist];
+        return $artist;
     }
 }

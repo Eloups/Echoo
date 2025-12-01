@@ -1,5 +1,7 @@
 <?php
 
+namespace Api\Adapter\DTO;
+
 /**
  * Classe pour créer un objet DTO de la page artiste
  */

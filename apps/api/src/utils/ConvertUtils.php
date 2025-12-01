@@ -48,10 +48,10 @@ class ConvertUtils {
             $music = $musics[$musicId];
 
             // Ajout du genre si présent
-            $genreId = $row['genre_id'];
-            $genreName = $row['genre_name'];
+            $genreId = $row['genre_id'] ?? null;
+            $genreName = $row['genre_name'] ?? null;
+
             if ($genreId !== null && $genreName !== null) {
-                // Vérifie qu'on n'ajoute pas de doublon
                 $alreadyHas = false;
                 foreach ($music->getGenres() as $g) {
                     if ($g->getId() === $genreId) {
@@ -65,12 +65,12 @@ class ConvertUtils {
             }
 
             // Ajout de la note si présente
-            $rateId = $row['rate_id'];
-            if ($rateId !== null) {
-                $rateValue = $row['rate_rate'];
-                $rateComment = $row['rate_comment'];
+            $rateId = $row['rate_id'] ?? null;
 
-                // Vérifie qu'on n'ajoute pas de doublon
+            if ($rateId !== null) {
+                $rateValue = $row['rate_rate'] ?? null;
+                $rateComment = $row['rate_comment'] ?? null;
+
                 $alreadyHasRate = false;
                 foreach ($music->getRates() as $r) {
                     if ($r->getId() === $rateId) {
@@ -78,6 +78,7 @@ class ConvertUtils {
                         break;
                     }
                 }
+
                 if (!$alreadyHasRate) {
                     $music->addRate(new Rating(
                         id: $rateId,
