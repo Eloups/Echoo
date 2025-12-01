@@ -17,11 +17,11 @@ class ArtistDrivingAdapter {
      * @param Request $request
      * @return Response
      */
-    public function ArtistPage(int $idArtist): Response {
+    public function ArtistPage(int $idArtist, int $limit): Response {
         
         $service = new ArtistService();
     
-        $artist = $service->artistPage($idArtist);
+        $artist = $service->artistPage($idArtist, $limit);
 
         return new Response(SerializerUtils::get()->serialize(['artist' => $artist], "json"), 200);
     }

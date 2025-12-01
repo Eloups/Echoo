@@ -49,14 +49,9 @@ class PgsqlArtistRequests
         return $result;
     }
 
-    public function getPopularMusics(int $idArtist, int $limit) {
+    public function getIdPopularMusics(int $idArtist, int $limit) {
         $getPopularMusics = "SELECT 
-            m.id AS music_id,
-            m.title AS music_title,
-            m.duration AS music_duration,
-            m.release AS music_release,
-            m.nb_streams AS music_streams,
-            m.file_path AS music_path
+            m.id AS music_id
         FROM artist a
         JOIN artist_project ap
             ON a.id = ap.id_artist
@@ -75,18 +70,12 @@ class PgsqlArtistRequests
         $request->execute([":id_artist" => $idArtist, ":limit" => $limit]);
         $result = $request->fetchAll();
 
-        $popularMusics = ConvertUtils::convertRowToMusic($result);
-        return $popularMusics;
+        return $result;
     }
 
-    public function getLastReleasesArtist(int $idArtist, int $limit) : array {
+    public function getIdLastReleasesArtist(int $idArtist, int $limit) : array {
         $getLastReleases = "SELECT 
-            m.id AS music_id,
-            m.title AS music_title,
-            m.duration AS music_duration,
-            m.release AS music_release,
-            m.nb_streams AS music_streams,
-            m.file_path AS music_path
+            m.id AS music_id
         FROM artist a
         JOIN artist_project ap
             ON a.id = ap.id_artist
@@ -104,7 +93,39 @@ class PgsqlArtistRequests
         $request->execute([":id_artist" => $idArtist, ":limit" => $limit]);
         $result = $request->fetchAll();
 
-        $lastReleases = ConvertUtils::convertRowToMusic($result);
-        return $lastReleases;
+        return $result;
+    }
+
+    public function getMusicsWithRatingAndGenres(int $idMusic) {
+        $getMusicsWithRatingAndGenres = "SELECT
+            m.id AS music_id,
+            m.title AS music_title,
+            m.duration AS music_duration,
+            m.release AS music_release,
+            m.nb_streams AS music_streams,
+            m.file_path AS music_path,
+            
+            g.id AS genre_id,
+            g.name AS genre_name,
+            
+            r.id AS rate_id,
+            r.rate AS rate_rate,
+            r.comment AS rate_comment
+        FROM music m
+        LEFT JOIN music_genre mg
+            ON m.id = mg.id_music
+        LEFT JOIN genre g
+            ON mg.id_genre = g.id
+        LEFT JOIN music_rating r
+            ON m.id = r.id_music
+        WHERE m.id = :id_music;";
+
+        $request = $this->pdo->prepare($getMusicsWithRatingAndGenres);
+        $request->execute([":id_music" => $idMusic]);
+        $result = $request->fetchAll();
+
+        $musics = ConvertUtils::convertRowToMusic($result);
+
+        return $musics;
     }
 }

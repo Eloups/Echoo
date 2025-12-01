@@ -17,7 +17,7 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
      * Méthode pour récupérer les données de la page artiste
      * @return Artist[]
      */
-    public function getArtistPage(int $idArtist): ArtistPageDTO {
+    public function getArtistPage(int $idArtist, int $limit): ArtistPageDTO {
         $pgslserver = new PgsqlServer();
         
         $pdo = $pgslserver->getConnection();
@@ -28,8 +28,18 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
         $artist = ConvertUtils::ConvertRowToArtist($rows[0]);
         $likes = self::getLikesArtist($idArtist);
 
-        $popularMusics = $request->getPopularMusics($idArtist, 2);
-        $lastReleases = $request->getLastReleasesArtist($idArtist, 2);
+        $idPopularMusics = $request->getIdPopularMusics($idArtist, $limit);
+        $idLastReleases = $request->getIdLastReleasesArtist($idArtist, $limit);
+
+        $popularMusics = [];
+        foreach ($idPopularMusics as $id) {
+            array_push($popularMusics, $request->getMusicsWithRatingAndGenres($id["music_id"]));
+        }
+
+        $lastReleases = [];
+        foreach ($idLastReleases as $id) {
+            array_push($lastReleases, $request->getMusicsWithRatingAndGenres($id["music_id"]));
+        }
         
         $artistDTO = new ArtistPageDTO($artist->getId(), $artist->getName(), $artist->getIsVerified(), $artist->getDescription(), $artist->getImagePath(), $likes, $popularMusics, $lastReleases);
 

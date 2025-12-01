@@ -43,9 +43,10 @@ class ArtistController implements ControllerInterface
     {
         $adapter = new ArtistDrivingAdapter();
         $idArtist = $this->params["id"];
+        $limit = intval($request->get('limit'));
 
         return match ($this->action) {
-            'page' => $adapter->ArtistPage( $idArtist),
+            'page' => $adapter->ArtistPage( $idArtist, $limit),
             default => throw new ResourceNotFoundException(),
         };
     }

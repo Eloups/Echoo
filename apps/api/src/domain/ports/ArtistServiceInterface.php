@@ -13,5 +13,5 @@ interface ArtistServiceInterface {
      * @param int $idArtist
      * @return array
      */
-    public function artistPage(int $idArtist): ArtistPageDTO;
+    public function artistPage(int $idArtist, int $limit): ArtistPageDTO;
 }

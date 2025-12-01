@@ -43,7 +43,8 @@
         "symfony/dotenv": "^7.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^12.3"
+        "phpunit/phpunit": "^12.3",
+        "symfony/var-dumper": "^7.4"
     },
     "scripts": {
         "test": [

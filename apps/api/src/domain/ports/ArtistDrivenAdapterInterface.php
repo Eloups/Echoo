@@ -13,5 +13,5 @@ interface ArtistDrivenAdapterInterface {
      * @param int $idArtist
      * @return void
      */
-    public function getArtistPage(int $idArtist): ArtistPageDTO;
+    public function getArtistPage(int $idArtist, int $limit): ArtistPageDTO;
 }
