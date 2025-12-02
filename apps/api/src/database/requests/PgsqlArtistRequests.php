@@ -39,6 +39,11 @@ class PgsqlArtistRequests
         return $result;
     }
 
+    /**
+     * Requête pour récupérer les likes d'un artiste
+     * @param int $idArtist
+     * @return array
+     */
     public function getLikesArtist(int $idArtist) : array {
         $getLikes = "SELECT COUNT(*) AS likes
         FROM library_artist
@@ -49,6 +54,12 @@ class PgsqlArtistRequests
         return $result;
     }
 
+    /**
+     * Requête pour récupérer l'id des musiques les plus populaires d'un artiste
+     * @param int $idArtist
+     * @param int $limit
+     * @return array
+     */
     public function getIdPopularMusics(int $idArtist, int $limit) {
         $getPopularMusics = "SELECT 
             m.id AS music_id
@@ -73,6 +84,12 @@ class PgsqlArtistRequests
         return $result;
     }
 
+    /**
+     * Requête pour récupérer l'id des dernières musiques publiées d'un artiste
+     * @param int $idArtist
+     * @param int $limit
+     * @return array
+     */
     public function getIdLastReleasesArtist(int $idArtist, int $limit) : array {
         $getLastReleases = "SELECT 
             m.id AS music_id
@@ -96,6 +113,11 @@ class PgsqlArtistRequests
         return $result;
     }
 
+    /**
+     * Requête pour récupérer les notes et genres d'une musiques à partir de l'id de la musique
+     * @param int $idMusic
+     * @return \Api\Domain\Class\Music[]
+     */
     public function getMusicsWithRatingAndGenres(int $idMusic) {
         $getMusicsWithRatingAndGenres = "SELECT
             m.id AS music_id,
