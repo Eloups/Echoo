@@ -7,7 +7,6 @@ use Api\Database\Requests\PgsqlArtistRequests;
 use Api\Domain\Class\Artist;
 use Api\Domain\Ports\ArtistDrivenAdapterInterface;
 use Api\Utils\ConvertUtils;
-use Api\Adapter\DTO\ArtistPageDTO;
 
 /**
  * Classe Driven Adapter pour les musiques
@@ -17,7 +16,7 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
      * Méthode pour récupérer les données de la page artiste
      * @return Artist[]
      */
-    public function getArtistPage(int $idArtist, int $limit): ArtistPageDTO {
+    public function getArtist(int $idArtist, int $limit): Artist {
         $pgslserver = new PgsqlServer();
         
         $pdo = $pgslserver->getConnection();
@@ -26,24 +25,8 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
         $rows = $request->getArtist($idArtist);
  
         $artist = ConvertUtils::ConvertRowToArtist($rows[0]);
-        $likes = self::getLikesArtist($idArtist);
 
-        $idPopularMusics = $request->getIdPopularMusics($idArtist, $limit);
-        $idLastReleases = $request->getIdLastReleasesArtist($idArtist, $limit);
-
-        $popularMusics = [];
-        foreach ($idPopularMusics as $id) {
-            array_push($popularMusics, $request->getMusicsWithRatingAndGenres($id["music_id"]));
-        }
-
-        $lastReleases = [];
-        foreach ($idLastReleases as $id) {
-            array_push($lastReleases, $request->getMusicsWithRatingAndGenres($id["music_id"]));
-        }
-        
-        $artistDTO = new ArtistPageDTO($artist->getId(), $artist->getName(), $artist->getIsVerified(), $artist->getDescription(), $artist->getImagePath(), $likes, $popularMusics, $lastReleases);
-
-        return $artistDTO;
+        return $artist;
     }
 
     public function getLikesArtist(int $idArtist): int {
@@ -56,5 +39,37 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
         $like = $rows[0]["likes"];
 
         return $like;
+    }
+
+    public function getPopularMusicsByArtist($idArtist, $limit): array {
+        $pgslserver = new PgsqlServer();
+        
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlArtistRequests($pdo);
+
+        $idPopularMusics = $request->getIdPopularMusics($idArtist, $limit);
+
+        $popularMusics = [];
+        foreach ($idPopularMusics as $id) {
+            array_push($popularMusics, $request->getMusicsWithRatingAndGenres($id["music_id"]));
+        }
+        return $popularMusics;
+    }
+
+        
+
+    public function getLastReleaseByArtist($idArtist, $limit): array {
+        $pgslserver = new PgsqlServer();
+        
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlArtistRequests($pdo);
+
+        $idLastReleases = $request->getIdLastReleasesArtist($idArtist, $limit);
+
+        $lastReleases = [];
+        foreach ($idLastReleases as $id) {
+            array_push($lastReleases, $request->getMusicsWithRatingAndGenres($id["music_id"]));
+        }
+        return $lastReleases;
     }
 }

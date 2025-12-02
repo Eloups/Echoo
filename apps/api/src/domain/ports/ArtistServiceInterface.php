@@ -2,8 +2,6 @@
 
 namespace Api\Domain\Ports;
 
-use Api\Adapter\DTO\ArtistPageDTO;
-
 /**
  * Interface du service de musique
  */
@@ -13,5 +11,5 @@ interface ArtistServiceInterface {
      * @param int $idArtist
      * @return array
      */
-    public function artistPage(int $idArtist, int $limit): ArtistPageDTO;
+    public function artistPage(int $idArtist, int $limit): array;
 }

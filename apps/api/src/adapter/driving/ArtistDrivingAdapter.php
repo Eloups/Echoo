@@ -2,6 +2,7 @@
 
 namespace Api\Adapter;
 
+use Api\Adapter\DTO\ArtistPageDTO;
 use Api\Domain\Service\ArtistService;
 use Api\Utils\SerializerUtils;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,8 +22,10 @@ class ArtistDrivingAdapter {
         
         $service = new ArtistService();
     
-        $artist = $service->artistPage($idArtist, $limit);
+        $data = $service->artistPage($idArtist, $limit);
 
-        return new Response(SerializerUtils::get()->serialize(['artist' => $artist], "json"), 200);
+        $artistPageDTO = new ArtistPageDTO($data[0]->getId(), $data[0]->getName(), $data[0]->getIsVerified(), $data[0]->getDescription(), $data[0]->getImagePath(), $data[1], $data[2], $data[3]);
+
+        return new Response(SerializerUtils::get()->serialize(['artist' => $artistPageDTO], "json"), 200);
     }
 }
