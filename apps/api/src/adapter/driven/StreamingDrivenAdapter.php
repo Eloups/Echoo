@@ -30,7 +30,7 @@ class StreamingDrivenAdapter implements StreamingDrivenAdapterInterface
 
         [, $fileExtention] = explode('.', $fileName);
         if ($fileExtention !== 'flac' && $fileExtention !== 'mp3') {
-            throw new ApiCustomException('Wrong file extention, only flac or mp3 or supported', 422); // TODO custom exception
+            throw new ApiCustomException('Wrong file extention, only flac or mp3 or supported', 422);
         }
 
         $ch = curl_init($fileUrl);
