@@ -42,7 +42,7 @@ class PgsqlMusicRequests
             g.id AS genre_id,
             g.name AS genre_name,
             r.id AS rate_id,
-            r.rate AS rate_rate,
+            r.rating AS rate_rate,
             r.comment AS rate_comment,
             p.id AS project_id,
             p.title AS project_title

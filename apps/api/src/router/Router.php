@@ -70,6 +70,7 @@ class Router
         return match ($useCase) {
             'music' => new MusicController($action, $match),
             'stream' => new StreamingController($action, $match),
+            'files' => new StreamingController($action, $match),
             'artist' => new ArtistController($action, $match),
             default => throw new ResourceNotFoundException(),
         };
