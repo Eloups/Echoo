@@ -69,4 +69,24 @@ class PgsqlMusicRequests
         $result = $request->fetchAll();
         return $result;
     }
+
+    public function addLike(int $id_user, int $id_music) {
+        $addLike = "START TRANSACTION;
+
+        INSERT INTO playlist (name, id_user)
+        SELECT 'liked', :id_user
+        WHERE NOT EXISTS (
+            SELECT 1 FROM playlist 
+            WHERE name = 'liked' AND id_user = :id_user
+        );
+
+        INSERT INTO playlist_music (id_playlist, id_music)
+        SELECT p.id, :id_music
+        FROM playlist p
+        WHERE p.name = 'liked'
+        AND p.id_user = :id_user
+        ON DUPLICATE KEY UPDATE id_music = id_music; -- évite les doublons
+
+        COMMIT;";
+    }
 }

@@ -16,7 +16,7 @@ class MusicDrivingAdapter
 {
     /**
      * Récupération des données de la requête puis lancement du service des musiques avec la bonne fonction
-     * @param Request $request
+     * @param int $idArtist
      * @return Response
      */
     public function listMusics(int $idArtist): Response
@@ -29,7 +29,12 @@ class MusicDrivingAdapter
         return new Response(SerializerUtils::get()->serialize(['musics' => $musics], "json"), 200);
     }
 
-    public function likeMusic(string $requestBody) {
+    /**
+     * Récupération des données de la requête puis lancement du service des musiques avec la bonne fonction
+     * @param string $requestBody
+     * @return Response
+     */
+    public function likeMusic(string $requestBody): Response {
         $body = json_decode($requestBody, true);
 
         // Vérification du JSON
