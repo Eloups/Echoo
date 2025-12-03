@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
-import AppText from "@/lib/components/appText";
+import AppText from "@/lib/components/global/appText";
 import LastSongPlayedCard from "@/lib/components/home_last_song_played_card";
 import { BaseInfos } from "@/lib/types/baseInfos";
 import SectionTitle from "@/lib/components/sectionTitle";
@@ -17,7 +17,7 @@ const PPartist2 = require("../../assets/tempImg/Profils_Artistes/Billie_Eilish.j
 const PPartist3 = require("../../assets/tempImg/Profils_Artistes/aespa.jpg");
 
 export default function home() {
-    const { theme, toggleTheme } = useTheme();
+    const { theme } = useTheme();
     const navigation = useNavigation();
     useEffect(() => {
         navigation.setOptions({

@@ -2,6 +2,7 @@
 
 namespace Api;
 
+use Api\Controller\ArtistController;
 use Api\Controller\ControllerInterface;
 use Api\Controller\MusicController;
 use Api\Controller\StreamingController;
@@ -69,6 +70,7 @@ class Router
         return match ($useCase) {
             'music' => new MusicController($action, $match),
             'stream' => new StreamingController($action, $match),
+            'artist' => new ArtistController($action, $match),
             default => throw new ResourceNotFoundException(),
         };
     }
