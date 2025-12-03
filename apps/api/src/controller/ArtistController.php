@@ -47,6 +47,7 @@ class ArtistController implements ControllerInterface
         if ($limit == null) {
             $limit = 6;
         }
+        
         return match ($this->action) {
             'page' => $adapter->ArtistPage( $idArtist, $limit),
             default => throw new ResourceNotFoundException(),

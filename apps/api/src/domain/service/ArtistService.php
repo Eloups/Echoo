@@ -18,7 +18,7 @@ class ArtistService implements ArtistServiceInterface {
     public function artistPage(int $idArtist, int $limit): array {
         $driven = new ArtistDrivenAdapter();
 
-        $artist = $driven->getArtist($idArtist, $limit);
+        $artist = $driven->getArtist($idArtist);
         $likes = $driven->getLikesArtist($idArtist);
         $popularMusics = $driven->getPopularMusicsByArtist($idArtist, $limit);
         $lastReleases = $driven->getLastReleaseByArtist($idArtist, $limit);

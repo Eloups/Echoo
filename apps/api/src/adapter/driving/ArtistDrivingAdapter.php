@@ -22,9 +22,9 @@ class ArtistDrivingAdapter {
         
         $service = new ArtistService();
     
-        $data = $service->artistPage($idArtist, $limit);
+        [$artist, $likes, $popularMusics, $lastReleases] = $service->artistPage($idArtist, $limit);
 
-        $artistPageDTO = new ArtistPageDTO($data[0]->getId(), $data[0]->getName(), $data[0]->getIsVerified(), $data[0]->getDescription(), $data[0]->getImagePath(), $data[1], $data[2], $data[3]);
+        $artistPageDTO = new ArtistPageDTO($artist->getId(), $artist->getName(), $artist->getIsVerified(), $artist->getDescription(), $artist->getImagePath(), $likes, $popularMusics, $lastReleases);
 
         return new Response(SerializerUtils::get()->serialize(['artist' => $artistPageDTO], "json"), 200);
     }

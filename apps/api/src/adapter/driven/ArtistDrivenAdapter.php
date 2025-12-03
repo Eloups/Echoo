@@ -5,6 +5,7 @@ namespace Api\Adapter;
 use Api\Database\PgsqlServer;
 use Api\Database\Requests\PgsqlArtistRequests;
 use Api\Domain\Class\Artist;
+use Api\Domain\Class\Music;
 use Api\Domain\Ports\ArtistDrivenAdapterInterface;
 use Api\Utils\ConvertUtils;
 
@@ -13,10 +14,10 @@ use Api\Utils\ConvertUtils;
  */
 class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
     /**
-     * Méthode pour récupérer les données de la page artiste
+     * Méthode pour récupérer les données d'un artiste
      * @return Artist[]
      */
-    public function getArtist(int $idArtist, int $limit): Artist {
+    public function getArtist(int $idArtist): Artist {
         $pgslserver = new PgsqlServer();
         
         $pdo = $pgslserver->getConnection();
@@ -29,6 +30,11 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
         return $artist;
     }
 
+    /**
+     * Méthode pour récupérer les likes d'un artiste
+     * @param int $idArtist
+     * @return void
+     */
     public function getLikesArtist(int $idArtist): int {
 
         $pgslserver = new PgsqlServer();
@@ -41,7 +47,13 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
         return $like;
     }
 
-    public function getPopularMusicsByArtist($idArtist, $limit): array {
+    /**
+     * Méthode pour récupérer les musiques les plus populaires d'un artiste
+     * @param int $idArtist
+     * @param int $limit
+     * @return Music[]
+     */
+    public function getPopularMusicsByArtist(int $idArtist, int $limit): array {
         $pgslserver = new PgsqlServer();
         
         $pdo = $pgslserver->getConnection();
@@ -56,9 +68,13 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
         return $popularMusics;
     }
 
-        
-
-    public function getLastReleaseByArtist($idArtist, $limit): array {
+    /**
+     * Méthode pour récupérer les dernières musiques publiées d'un artiste
+     * @param int $idArtist
+     * @param int $limit
+     * @return Music[]
+     */
+    public function getLastReleaseByArtist(int $idArtist, int $limit): array {
         $pgslserver = new PgsqlServer();
         
         $pdo = $pgslserver->getConnection();
