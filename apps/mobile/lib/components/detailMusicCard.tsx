@@ -1,0 +1,213 @@
+import { View, Image, StyleSheet, Pressable, TouchableOpacity, Dimensions } from "react-native";
+import { useState, useRef } from "react";
+import { BaseInfos } from "../types/baseInfos";
+import AppText from "./appText";
+import { useTheme } from "../theme/provider";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
+type DetailMusicCardProps = {
+    infos: BaseInfos;
+    onRemove?: () => void;
+    isAlbum?: boolean;
+}
+
+export default function DetailMusicCard({ infos, onRemove, isAlbum = false }: DetailMusicCardProps) {
+    const { theme } = useTheme();
+    const [menuVisible, setMenuVisible] = useState(false);
+    const [menuPosition, setMenuPosition] = useState<'below' | 'above'>('below');
+    const buttonRef = useRef<View>(null);
+    
+    const MENU_HEIGHT = 220; // Hauteur approximative du menu
+    const NAV_BAR_HEIGHT = 60; // Hauteur de la barre de navigation
+    const screenHeight = Dimensions.get('window').height;
+
+    const handleMenuPress = () => {
+        if (!menuVisible) {
+            buttonRef.current?.measureInWindow((x, y) => {
+                const spaceBelow = screenHeight - y - 40 - NAV_BAR_HEIGHT;
+                if (spaceBelow < MENU_HEIGHT) {
+                    setMenuPosition('above');
+                } else {
+                    setMenuPosition('below');
+                }
+                setMenuVisible(true);
+            });
+        } else {
+            setMenuVisible(false);
+        }
+    };
+
+    return (
+        <View style={styles.container}>
+            <Pressable style={styles.leftSection}>
+                <Image
+                    source={infos.cover}
+                    style={styles.coverImage}
+                />
+                <View style={styles.infoSection}>
+                    <AppText size="md" numberOfLines={1}>{infos.title}</AppText>
+                    <AppText size="sm" color="text2" numberOfLines={1}>
+                        {Array.isArray(infos.artist) ? infos.artist.join(', ') : infos.artist}
+                    </AppText>
+                </View>
+            </Pressable>
+
+            <View style={styles.rightSection} ref={buttonRef}>
+
+
+                {/* Bouton message */}
+                <Pressable style={styles.iconButton}>
+                    <Ionicons name="chatbubble-outline" size={20} color={theme.colors.text} />
+                </Pressable>
+
+                {/* Bouton menu hamburger */}
+                <Pressable
+                    style={styles.menuButton}
+                    onPress={handleMenuPress}
+                >
+                    <MaterialIcons name="more-horiz" size={24} color={theme.colors.text} />
+                </Pressable>
+
+            </View>
+
+            {/* Menu dropdown et overlay en dehors de rightSection */}
+            {menuVisible && (
+                <>
+                    <Pressable
+                        style={styles.menuOverlay}
+                        onPress={() => setMenuVisible(false)}
+                    />
+                    <View style={[
+                        styles.dropdownMenu,
+                        { backgroundColor: theme.colors.background2 },
+                        menuPosition === 'above' ? styles.dropdownMenuAbove : styles.dropdownMenuBelow
+                    ]}>
+                        {!isAlbum && (
+                            <>
+                                <TouchableOpacity
+                                    style={styles.menuItem}
+                                    onPress={() => {
+                                        setMenuVisible(false);
+                                        onRemove?.();
+                                        console.log('Supprimer de la playlist');
+                                    }}
+                                >
+                                    <MaterialIcons name="playlist-remove" size={20} color="#ff4444" />
+                                    <AppText style={{ marginLeft: 12, color: '#ff4444' }}>Supprimer de la playlist</AppText>
+                                </TouchableOpacity>
+                                <View style={{ height: 1, backgroundColor: theme.colors.background, marginVertical: 4 }} />
+                            </>
+                        )}
+                        <TouchableOpacity
+                            style={styles.menuItem}
+                            onPress={() => {
+                                setMenuVisible(false);
+                                console.log('Lire ensuite');
+                            }}
+                        >
+                            <MaterialIcons name="play-arrow" size={20} color={theme.colors.text} />
+                            <AppText style={{ marginLeft: 12 }}>Lire ensuite</AppText>
+                        </TouchableOpacity>
+                        <View style={{ height: 1, backgroundColor: theme.colors.background, marginVertical: 4 }} />
+                        <TouchableOpacity
+                            style={styles.menuItem}
+                            onPress={() => {
+                                setMenuVisible(false);
+                                console.log('Ajouter à la file d\'attente');
+                            }}
+                        >
+                            <MaterialIcons name="queue-music" size={20} color={theme.colors.text} />
+                            <AppText style={{ marginLeft: 12 }}>Ajouter à la file d'attente</AppText>
+                        </TouchableOpacity>
+                        <View style={{ height: 1, backgroundColor: theme.colors.background, marginVertical: 4 }} />
+                        <TouchableOpacity
+                            style={styles.menuItem}
+                            onPress={() => {
+                                setMenuVisible(false);
+                                console.log('Aller à l\'artiste');
+                            }}
+                        >
+                            <MaterialIcons name="person" size={20} color={theme.colors.text} />
+                            <AppText style={{ marginLeft: 12 }}>Aller à l'artiste</AppText>
+                        </TouchableOpacity>
+                    </View>
+                </>
+            )}
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingVertical: 8,
+    },
+    leftSection: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+    },
+    coverImage: {
+        width: 50,
+        height: 50,
+        borderRadius: 4,
+    },
+    infoSection: {
+        flex: 1,
+    },
+    rightSection: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        position: 'relative',
+    },
+    menuButton: {
+        width: 36,
+        height: 36,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    iconButton: {
+        width: 36,
+        height: 36,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    dropdownMenu: {
+        position: 'absolute',
+        right: 5,
+        minWidth: 200,
+        borderRadius: 8,
+        padding: 8,
+        elevation: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        zIndex: 9999,
+    },
+    dropdownMenuBelow: {
+        top: 50,
+    },
+    dropdownMenuAbove: {
+        bottom: 50,
+    },
+    menuItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+    },
+    menuOverlay: {
+        position: 'absolute',
+        top: -1000,
+        left: -1000,
+        right: -1000,
+        bottom: -1000,
+        zIndex: 998,
+    },
+});

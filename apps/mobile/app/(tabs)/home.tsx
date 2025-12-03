@@ -136,7 +136,7 @@ export default function home() {
 
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
                 {releasedRecentlyList.map((music, key) =>
-                    <MusicCard key={key} infos={music}  isSearch={false}></MusicCard>
+                    <MusicCard key={key} infos={music}  isSearch={false} isHome={true}></MusicCard>
                 )}
             </ScrollView>
 

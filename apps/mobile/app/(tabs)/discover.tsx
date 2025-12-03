@@ -117,7 +117,7 @@ export default function Discover() {
 
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
                         {releasedRecentlyList.map((music, key) =>
-                            <MusicCard key={key} infos={music}  isSearch={false}></MusicCard>
+                            <MusicCard key={key} infos={music}  isSearch={false} isHome={true}></MusicCard>
                         )}
                     </ScrollView>
 
@@ -125,7 +125,7 @@ export default function Discover() {
 
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
                         {forYouList.map((music, key) =>
-                            <MusicCard key={key} infos={music}  isSearch={false}></MusicCard>
+                            <MusicCard key={key} infos={music}  isSearch={false} isHome={true}></MusicCard>
                         )}
                     </ScrollView>
 
@@ -133,7 +133,7 @@ export default function Discover() {
 
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
                         {topsList.map((music, key) =>
-                            <MusicCard key={key} infos={music}  isSearch={false}></MusicCard>
+                            <MusicCard key={key} infos={music}  isSearch={false} isHome={true}></MusicCard>
                         )}
                     </ScrollView>
                 </View>
@@ -141,7 +141,7 @@ export default function Discover() {
                 <View>
                     <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
                         {searchList.map((music, key) =>
-                            <MusicCard key={key} infos={music}  isSearch={true}></MusicCard>
+                            <MusicCard key={key} infos={music}  isSearch={true} isHome={true}></MusicCard>
                         )}
                     </ScrollView>
                 </View>}

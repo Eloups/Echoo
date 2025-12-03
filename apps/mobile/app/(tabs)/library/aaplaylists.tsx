@@ -4,6 +4,29 @@ import { BaseInfos } from "@/lib/types/baseInfos";
 import { ScrollView, View } from "react-native";
 
 const coverSpongebob = require("../../../assets/tempImg/Covers_Playlists/Spongebob.jpg");
+const cover = require("../../../assets/tempImg/Covers_Albums/HMHAS.jpg");
+const cover2 = require("../../../assets/tempImg/Covers_Albums/RichMan.webp");
+
+const musicTemp: BaseInfos = {
+    cover: cover,
+    title: "CHIHIRO",
+    artist: "Billie Eilish",
+    color1: "#04131D",
+    color2: "#082840",
+    nbStreams: 46,
+    type: "music"
+}
+
+const musicTemp2: BaseInfos = {
+    cover: cover2,
+    title: "Rich Man",
+    artist: "aespa",
+    color1: "#000000",
+    color2: "#0E0E0E",
+    nbStreams: 24,
+    type: "music"
+
+}
 
 const musicTemp3: BaseInfos = {
     cover: coverSpongebob,
@@ -14,6 +37,7 @@ const musicTemp3: BaseInfos = {
     nbStreams: 11,
     type: "playlist",
     nbMusics: 15,
+    musicList: [musicTemp, musicTemp2, musicTemp, musicTemp2, musicTemp, musicTemp2, musicTemp, musicTemp2],
 }
 
 

@@ -9,7 +9,8 @@ import { router, useSegments } from "expo-router";
 
 type PageProps = {
     infos: BaseInfos,
-    isSearch: boolean
+    isSearch: boolean,
+    isHome?: boolean
 }
 
 // Permet d'afficher une musique, un projet ou un artiste en fonction du paramètre infos.type
@@ -17,14 +18,16 @@ export default function MusicCard(props: PageProps) {
     const { theme, toggleTheme } = useTheme();
     const segments = useSegments();
 
+    props.isHome ?? false;
+
     const handlePress = () => {
         if (props.infos.type === "playlist" || props.infos.type === "album" || props.infos.type === "ep" || props.infos.type === "single") {
             // Construire le chemin actuel
             const currentPath = '/' + segments.join('/');
-            
+
             router.push({
                 pathname: "/(tabs)/detail",
-                params: { 
+                params: {
                     data: JSON.stringify(props.infos),
                     from: currentPath
                 }
@@ -34,38 +37,53 @@ export default function MusicCard(props: PageProps) {
 
     return (
         <Pressable onPress={handlePress}>
-        <View>
-            {props.isSearch == false && props.infos.type != "playlist" ? (
-                <View>
-                    <Image source={props.infos.cover} height={95} width={95} style={props.infos.type == "artist" ? styles.imageArtist : styles.imageMusic}></Image>
-                    <AppText size={"md"} style={{ marginTop: 3 }}>{props.infos.title.length > 15 ? props.infos.title.slice(0, 13) + "..." : props.infos.title}</AppText>
-                    <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -5 }] }}>{props.infos.artist.length > 16 ? props.infos.artist.slice(0, 15) + "..." : props.infos.artist}</AppText>
-                </View>
-            ) :
-                props.isSearch == false && props.infos.type == "playlist" ? (
-                    <View style={{ display: "flex", flexDirection: "row", alignItems: "center", }}>
-                        <View style={styles.containerImgPlaylists}>
-                            <Image source={props.infos.cover} height={95} width={95} style={styles.imagePlaylist1}></Image>
-                            <Image source={props.infos.cover} height={95} width={95} style={styles.imagePlaylist2}></Image>
-                            <Image source={props.infos.cover} height={95} width={95} style={styles.imagePlaylist3}></Image>
-                        </View>
-                        <View style={{ display: "flex", flexDirection: "column" }}>
-                            <AppText size={"lg"}>{props.infos.title.length > 36 ? props.infos.title.slice(0, 34) + "..." : props.infos.title}</AppText>
-                            <AppText size={"sm"} color="text2">{props.infos.nbMusics == null ? "0" : props.infos.nbMusics} titres</AppText>
-                        </View>
+            <View>
+                {props.isSearch == false && (props.infos.type == "music" || props.infos.type == "artist") && props.isHome == true ? (
+                    <View>
+                        <Image source={props.infos.cover} height={95} width={95} style={props.infos.type == "artist" ? styles.imageArtist : styles.imageMusic}></Image>
+                        <AppText size={"md"} style={{ marginTop: 3 }}>{props.infos.title.length > 15 ? props.infos.title.slice(0, 13) + "..." : props.infos.title}</AppText>
+                        <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -5 }] }}>{props.infos.artist.length > 16 ? props.infos.artist.slice(0, 15) + "..." : props.infos.artist}</AppText>
                     </View>
-                ) : (
-                    // Pour la recherche dans la page Découvrir
-                    <View style={styles.searchContainer}>
-                        <Image source={props.infos.cover} height={95} width={95} style={props.infos.type == "artist" ? styles.imageArtistSearch : styles.imageMusicSearch}></Image>
-                        <View>
-                            <AppText size={"md"} style={{ marginTop: 3 }}>{props.infos.title.length > 40 ? props.infos.title.slice(0, 40) + "..." : props.infos.title}</AppText>
+                ) :
+                    props.isSearch == false && props.infos.type == "playlist" ? (
+                        <View style={{ display: "flex", flexDirection: "row", alignItems: "center", }}>
+                            <View style={styles.containerImgPlaylists}>
+                                <Image source={props.infos.cover} height={95} width={95} style={styles.imagePlaylist1}></Image>
+                                <Image source={props.infos.cover} height={95} width={95} style={styles.imagePlaylist2}></Image>
+                                <Image source={props.infos.cover} height={95} width={95} style={styles.imagePlaylist3}></Image>
+                            </View>
+                            <View style={{ display: "flex", flexDirection: "column" }}>
+                                <AppText size={"lg"}>{props.infos.title.length > 36 ? props.infos.title.slice(0, 34) + "..." : props.infos.title}</AppText>
+                                <AppText size={"sm"} color="text2">{props.infos.nbMusics == null ? "0" : props.infos.nbMusics} titres</AppText>
+                            </View>
+                        </View>
+                    ) :
+                        props.isSearch == false && props.infos.type == "album" ? (
+                            <View>
+                                <View style={{ display: "flex", flexDirection: "row", alignItems: "center", }}>
+                                    <View style={styles.containerImgPlaylists}>
+                                        <Image source={props.infos.cover} height={95} width={95} style={styles.imagePlaylist1}></Image>
+                                    </View>
+                                    <View style={{ display: "flex", flexDirection: "column" }}>
+                                        <AppText size={"lg"}>{props.infos.title.length > 36 ? props.infos.title.slice(0, 34) + "..." : props.infos.title}</AppText>
+                                        <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -5 }] }}>{props.infos.artist.length > 16 ? props.infos.artist.slice(0, 15) + "..." : props.infos.artist}</AppText>
+                                    </View>
+                                </View>
+                            </View>
 
-                            {props.infos.type != "artist" ? (<AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -5 }] }}>{props.infos.type == "music" ? ("Morceau") : props.infos.type == "album" ? ("Album") : props.infos.type == "ep" ? ("EP") : ("Single")}  <View style={{ backgroundColor: theme.colors.text2, width: 3, height: 3, borderRadius: 10, transform: "translateY(-1px)" }}></View>  {props.infos.artist.length > 40 ? props.infos.artist.slice(0, 40) + "..." : props.infos.artist}</AppText>) : <></>}
-                        </View>
-                    </View>
-                )}
-        </View>
+                        )
+                            : (
+                                // Pour la recherche dans la page Découvrir
+                                <View style={styles.searchContainer}>
+                                    <Image source={props.infos.cover} height={95} width={95} style={props.infos.type == "artist" ? styles.imageArtistSearch : styles.imageMusicSearch}></Image>
+                                    <View>
+                                        <AppText size={"md"} style={{ marginTop: 3 }}>{props.infos.title.length > 40 ? props.infos.title.slice(0, 40) + "..." : props.infos.title}</AppText>
+
+                                        {props.infos.type != "artist" ? (<AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -5 }] }}>{props.infos.type == "music" ? ("Morceau") : props.infos.type == "album" ? ("Album") : props.infos.type == "ep" ? ("EP") : ("Single")}  <View style={{ backgroundColor: theme.colors.text2, width: 3, height: 3, borderRadius: 10, transform: "translateY(-1px)" }}></View>  {props.infos.artist.length > 40 ? props.infos.artist.slice(0, 40) + "..." : props.infos.artist}</AppText>) : <></>}
+                                    </View>
+                                </View>
+                            )}
+            </View>
         </Pressable>
     )
 }

@@ -30,7 +30,7 @@ const musicTemp2: BaseInfos = {
 
 const musicTemp3: BaseInfos = {
     cover: cover3,
-    title: "Roses",
+    title: "What do you want from me?",
     artist: "Jann",
     color1: "#965F4C",
     color2: "#291A15",

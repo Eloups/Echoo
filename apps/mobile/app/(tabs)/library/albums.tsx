@@ -19,7 +19,7 @@ const albumTemp: BaseInfos = {
 
 const albumTemp2: BaseInfos = {
     cover: cover2,
-    title: "Whiplash",
+    title: "Rich Man",
     artist: "aespa",
     color1: "#000000",
     color2: "#0E0E0E",
