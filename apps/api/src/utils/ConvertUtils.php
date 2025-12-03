@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Api\Utils;
 
@@ -11,7 +11,8 @@ use DateTime;
 /**
  * Classe utilitaire pour les conversions des données en objets
  */
-class ConvertUtils {
+class ConvertUtils
+{
     /**
      * Convertir les données de la base en objets Music
      * @param array $rows
@@ -93,16 +94,17 @@ class ConvertUtils {
         // On enlève l'indexation
         return array_values($musics);
     }
-    
+
     /**
      * Convertir les données de la base en objets Artist
      * @param array $rows
      * @return Artist
      */
-    public static function ConvertRowToArtist(array $rows): Artist {
-        
+    public static function ConvertRowToArtist(array $rows): Artist
+    {
+
         return new Artist(
-            isset($rows['id']) ? (int)$rows['id'] : null,
+            isset($rows['id']) ? (int) $rows['id'] : null,
             $rows['name'],
             isset($rows['isverified']) ? filter_var($rows['isverified'], FILTER_VALIDATE_BOOLEAN) : false,
             $rows['description'],
