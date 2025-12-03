@@ -2,6 +2,7 @@
 
 namespace Api;
 
+use Api\Controller\ArtistController;
 use Api\Controller\ControllerInterface;
 use Api\Controller\MusicController;
 use Exception;
@@ -67,6 +68,7 @@ class Router
         // Renvoie vers la bonne route
         return match ($useCase) {
             'music' => new MusicController($action, $match),
+            'artist' => new ArtistController($action, $match),
             default => throw new ResourceNotFoundException(),
         };
     }

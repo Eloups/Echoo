@@ -15,7 +15,7 @@ interface ControllerInterface
      * Constructeur du controlleur
      * @param string $action
      */
-    public function __construct(string $action);
+    public function __construct(string $action, array $params = []);
 
     /**
      * Lancement de l'action du contrôleur

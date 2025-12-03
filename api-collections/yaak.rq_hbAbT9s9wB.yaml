@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_hbAbT9s9wB
 createdAt: 2025-10-16T07:23:18.216639300
-updatedAt: 2025-10-22T16:03:25.736987600
+updatedAt: 2025-12-02T17:22:42.941626600
 workspaceId: wk_uYbS3VsxD9
 folderId: null
 authentication: {}
@@ -14,7 +14,7 @@ headers: []
 method: GET
 name: ''
 sortPriority: -1760599398215.0
-url: ${[ API_HOST ]}/artist/1/musics
+url: ${[ API_HOST ]}/artist/1/page
 urlParameters:
 - enabled: true
   name: :id
