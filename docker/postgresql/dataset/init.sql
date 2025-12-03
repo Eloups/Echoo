@@ -87,7 +87,8 @@ create table message (
 
 create table music_rating (
     id serial primary key,
-    rate smallint not null,
+    rating smallint not null,
+    created_at timestamp not null,
     comment text,
     id_user integer references "user"(id) not null,
     id_music integer references music(id) not null
@@ -95,7 +96,8 @@ create table music_rating (
 
 create table project_rating (
     id serial primary key,
-    rate smallint not null,
+    rating smallint not null,
+    created_at timestamp not null,
     comment text,
     id_user integer references "user"(id) not null,
     id_project integer references project(id) not null
