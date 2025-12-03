@@ -3,11 +3,11 @@
 namespace Api\Domain\Ports;
 
 /**
- * Interface du service de musique
+ * Interface du service des artistes
  */
 interface ArtistServiceInterface {
     /**
-     * Action du listage des musiques
+     * Action du listage de la page artiste
      * @param int $idArtist
      * @return array
      */

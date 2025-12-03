@@ -1,0 +1,31 @@
+<?php
+
+namespace Api\Adapter;
+
+use Api\Database\PgsqlServer;
+use Api\Database\Requests\PgsqlPlaylistRequests;
+use Api\Domain\Class\Playlist;
+use Api\Domain\Ports\PlaylistDrivenAdapterInterface;
+use Api\Utils\ConvertUtils;
+
+/**
+ * Classe Driven Adapter pour les playlists
+ */
+class PlaylistDrivenAdapter implements PlaylistDrivenAdapterInterface {
+    /**
+     * Méthode pour récupérer les données d'un playlist
+     * @return Playlist
+     */
+    public function getPlaylist(int $idPlaylist): Playlist {
+        $pgslserver = new PgsqlServer();
+        
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlPlaylistRequests($pdo);
+
+        $rows = $request->getPlaylist($idPlaylist);
+
+        $playlist = ConvertUtils::convertRowToPlaylist($rows);
+
+        return $playlist;
+    }
+}
