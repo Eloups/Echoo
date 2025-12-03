@@ -1,11 +1,11 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, KeyboardAvoidingView, Platform } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { useTheme } from "@/lib/theme/provider";
 
 export default function Index() {
   const router = useRouter();
-    const { theme, setThemeByName } = useTheme();
-  
+  const { theme, setThemeByName } = useTheme();
+
   return (
     <View
       style={{
@@ -14,8 +14,8 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Pressable 
-        onPress={() => router.push("/bases/connexion")}
+      <Pressable
+        onPress={() => router.push("/connexion/connexion")}
         style={{
           marginTop: 20,
           padding: 10,
@@ -64,8 +64,6 @@ export default function Index() {
           Thème sombre
         </Text>
       </Pressable>
-    
-    
     </View>
   );
 }

@@ -1,5 +1,5 @@
 import { View } from "react-native"
-import AppText from "./appText"
+import AppText from "./global/appText"
 import { useTheme } from "../theme/provider";
 
 
@@ -8,7 +8,7 @@ type PageProps = {
 }
 
 export default function SectionTitle(props: PageProps){
-    const { theme, toggleTheme } = useTheme();
+    const { theme } = useTheme();
     return (
         <View style={{display: "flex", flexDirection:"row", alignItems: "center", gap: 12, marginHorizontal: 24, marginVertical: 10}}>
             <AppText size={"2xl"}>{props.text}</AppText>

@@ -2,7 +2,7 @@ import React from "react";
 import { Text, TextProps, StyleSheet, TextStyle } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
 
-type Variant = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+type Variant = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 
 type AppTextProps = TextProps & {
     /** Taille du texte (px ou variante prédéfinie) */
@@ -13,6 +13,8 @@ type AppTextProps = TextProps & {
     weight?: "regular" | "bold";
     /** Alignement du texte */
     align?: TextStyle["textAlign"];
+    /** Fonction OnPress */
+    onPress?: () => void;
 };
 
 const VARIANT_SIZES: Record<Variant, number> = {
@@ -22,6 +24,7 @@ const VARIANT_SIZES: Record<Variant, number> = {
     lg: 15,
     xl: 16,
     "2xl": 20,
+    "3xl": 32,
 };
 
 const FONT_FAMILIES: Record<NonNullable<AppTextProps["weight"]>, string> = {
@@ -36,6 +39,7 @@ export default function AppText({
     align,
     style,
     children,
+    onPress,
     ...rest
 }: AppTextProps) {
     const { theme } = useTheme();
@@ -56,7 +60,7 @@ export default function AppText({
     };
 
     return (
-        <Text {...rest} style={[baseStyle, style]}>
+        <Text {...rest} style={[baseStyle, style]} onPress={() => { onPress ? onPress() : undefined}}>
             {children}
         </Text>
     );

@@ -19,10 +19,18 @@ function ThemedRoot() {
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <StatusBar barStyle={theme.name === "dark" ? "light-content" : "dark-content"} />
-      <Stack screenOptions={{
+      <Stack
+        screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: theme.colors.background },
-      }} />
+        }}
+      >
+        <Stack.Screen name="index" />
+        <Stack.Screen name="connexion/connexion" options={{ headerShown: false }} />
+        <Stack.Screen name="connexion/inscription" options={{ headerShown: false }} />
+
+      </Stack>
+
     </View>
   );
 }

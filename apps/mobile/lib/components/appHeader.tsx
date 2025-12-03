@@ -3,7 +3,7 @@ import { View, Pressable, Text, Image, RootTagContext } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { useTheme } from "@/lib/theme/provider";
-import AppText from "./appText";
+import AppText from "./global/appText";
 
 const pp = require("../../assets/tempImg/pp/madmadeline.jpg");
 
@@ -29,7 +29,8 @@ export default function AppHeader({ title, subtitle }: Props) {
             }}
         >
             <Pressable
-                onPress={() => router.push("/bases/connexion")}
+                // TODO: Changer la navigation par la page de profil
+                onPress={() => router.push("/connexion/connexion")}
                 style={{ width: 34, height: 34, borderRadius: 17, overflow: "hidden" }}
             >
                 <Image
@@ -38,12 +39,12 @@ export default function AppHeader({ title, subtitle }: Props) {
                 />
             </Pressable>
 
-            <View style={{ flex: 1, flexDirection: "row"}}>
+            <View style={{ flex: 1, flexDirection: "row" }}>
                 {
                     <AppText size="2xl" color={theme.colors.text}>{title}</AppText>
                 }
                 {subtitle && (
-                    <View style={{width: 6, height: 6, borderRadius: 100, backgroundColor: theme.colors.text, alignSelf: "center", marginHorizontal: 7}}></View>
+                    <View style={{ width: 6, height: 6, borderRadius: 100, backgroundColor: theme.colors.text, alignSelf: "center", marginHorizontal: 7 }}></View>
                 )}
                 {subtitle && (
                     <AppText size="2xl" color={theme.colors.text}>{subtitle}</AppText>

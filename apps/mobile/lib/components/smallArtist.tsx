@@ -1,6 +1,6 @@
 import { View, Image } from "react-native"
 import { BaseInfos } from "../types/baseInfos"
-import AppText from "./appText"
+import AppText from "./global/appText"
 
 type Pageprops = {
     artist: BaseInfos
