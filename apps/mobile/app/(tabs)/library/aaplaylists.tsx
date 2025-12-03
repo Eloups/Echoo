@@ -1,6 +1,6 @@
 import MusicCard from "@/lib/components/musicCard";
 import { useTheme } from "@/lib/theme/provider";
-import { BaseInfos } from "@/lib/types/baseInfos";
+import { BaseInfos } from "@/lib/types/types";
 import { ScrollView, View } from "react-native";
 
 const coverSpongebob = require("../../../assets/tempImg/Covers_Playlists/Spongebob.jpg");

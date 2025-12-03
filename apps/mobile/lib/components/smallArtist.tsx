@@ -1,5 +1,5 @@
 import { View, Image } from "react-native"
-import { BaseInfos } from "../types/baseInfos"
+import { BaseInfos } from "../types/types"
 import AppText from "./appText"
 
 type Pageprops = {

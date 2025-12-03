@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { BaseInfos } from "../types/baseInfos"
+import { BaseInfos } from "../types/types"
 import SmallArtist from "./smallArtist";
 
 type PageProps = {

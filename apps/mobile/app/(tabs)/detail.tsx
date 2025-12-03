@@ -1,7 +1,8 @@
 import { useLocalSearchParams, router } from 'expo-router';
 import PlaylistDetailPage from '@/lib/components/playlistDetailPage';
 import AlbumDetailPage from '@/lib/components/albumDetailPage';
-import { BaseInfos } from '@/lib/types/baseInfos';
+import ArtistDetailPage from '@/lib/components/artistDetailPage';
+import { BaseInfos } from '@/lib/types/types';
 
 export default function Detail() {
     const params = useLocalSearchParams();
@@ -31,6 +32,13 @@ export default function Detail() {
     } else if (data.type === "album" || data.type === "ep" || data.type === "single") {
         return (
             <AlbumDetailPage 
+                data={data} 
+                onBack={handleBack} 
+            />
+        );
+    } else if (data.type === "artist") {
+        return (
+            <ArtistDetailPage 
                 data={data} 
                 onBack={handleBack} 
             />

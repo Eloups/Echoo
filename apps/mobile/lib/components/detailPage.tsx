@@ -2,7 +2,7 @@ import { View, ScrollView, Image, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/appText';
-import { BaseInfos } from '../types/baseInfos';
+import { BaseInfos } from '../types/types';
 import { router } from 'expo-router';
 
 type DetailPageProps = {

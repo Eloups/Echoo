@@ -1,6 +1,6 @@
 import { View, Image, StyleSheet, Pressable, TouchableOpacity, Dimensions } from "react-native";
 import { useState, useRef } from "react";
-import { BaseInfos } from "../types/baseInfos";
+import { BaseInfos } from "../types/types";
 import AppText from "./appText";
 import { useTheme } from "../theme/provider";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -183,12 +183,12 @@ const styles = StyleSheet.create({
         minWidth: 200,
         borderRadius: 8,
         padding: 8,
-        elevation: 10,
+        elevation: 5,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        zIndex: 9999,
+        zIndex: 1000,
     },
     dropdownMenuBelow: {
         top: 50,

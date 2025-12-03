@@ -1,9 +1,10 @@
-import { View, ScrollView, Image, Pressable, SafeAreaView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, ScrollView, Image, Pressable, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/appText';
-import { BaseInfos } from '../types/baseInfos';
+import { BaseInfos } from '../types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import DetailMusicCard from './detailMusicCard';
 

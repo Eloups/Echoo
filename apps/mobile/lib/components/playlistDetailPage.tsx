@@ -1,8 +1,9 @@
-import { View, ScrollView, Image, Pressable, SafeAreaView, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Image, Pressable, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/appText';
-import { BaseInfos } from '../types/baseInfos';
+import { BaseInfos } from '../types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from './musicCard';
 import DetailMusicCard from './detailMusicCard';
@@ -128,7 +129,7 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                     {data.musicList && data.musicList.length > 0 && (
                         <View style={{ marginTop: 30, paddingHorizontal: 20 }}>
                             {data.musicList.map((music, index) => (
-                                <View key={index} style={{ marginBottom: 16 }}>
+                                <View key={index} style={{ marginBottom: 9 }}>
                                     <DetailMusicCard 
                                         infos={music} 
                                         onRemove={() => console.log(`Supprimer ${music.title}`)} 

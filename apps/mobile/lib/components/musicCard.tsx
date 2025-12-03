@@ -1,5 +1,5 @@
 import { View, Image, StyleSheet, Pressable } from "react-native";
-import { BaseInfos } from "../types/baseInfos";
+import { BaseInfos } from "../types/types";
 import AppText from "./appText";
 import { isSearchBarAvailableForCurrentPlatform, SearchBar } from "react-native-screens";
 import { themes } from "../theme";
@@ -21,10 +21,19 @@ export default function MusicCard(props: PageProps) {
     props.isHome ?? false;
 
     const handlePress = () => {
-        if (props.infos.type === "playlist" || props.infos.type === "album" || props.infos.type === "ep" || props.infos.type === "single") {
-            // Construire le chemin actuel
-            const currentPath = '/' + segments.join('/');
-
+        // Construire le chemin actuel
+        const currentPath = '/' + segments.join('/');
+        
+        if (props.infos.type === "artist") {
+            router.push({
+                pathname: "/(tabs)/artist/presentation",
+                params: {
+                    title: props.infos.title,
+                    data: JSON.stringify(props.infos),
+                    from: currentPath
+                }
+            });
+        } else if (props.infos.type === "playlist" || props.infos.type === "album" || props.infos.type === "ep" || props.infos.type === "single") {
             router.push({
                 pathname: "/(tabs)/detail",
                 params: {

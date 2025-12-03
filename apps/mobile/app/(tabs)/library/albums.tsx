@@ -1,6 +1,6 @@
 import MusicCard from "@/lib/components/musicCard";
 import { useTheme } from "@/lib/theme/provider";
-import { BaseInfos } from "@/lib/types/baseInfos";
+import { BaseInfos } from "@/lib/types/types";
 import { ScrollView, View } from "react-native";
 import AppText from "@/lib/components/appText";
 

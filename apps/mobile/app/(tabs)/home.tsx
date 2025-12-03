@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, ScrollView, Pressable } from "react-nati
 import { useTheme } from "@/lib/theme/provider";
 import AppText from "@/lib/components/appText";
 import LastSongPlayedCard from "@/lib/components/home_last_song_played_card";
-import { BaseInfos } from "@/lib/types/baseInfos";
+import { BaseInfos } from "@/lib/types/types";
 import SectionTitle from "@/lib/components/sectionTitle";
 import MusicCard from "@/lib/components/musicCard";
 import MonthArtists from "@/lib/components/monthArtists";
