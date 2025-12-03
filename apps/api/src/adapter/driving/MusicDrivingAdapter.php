@@ -11,16 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Classe pour l'adaptateur des musiques
  */
-class MusicDrivingAdapter {
+class MusicDrivingAdapter
+{
     /**
      * Récupération des données de la requête puis lancement du service des musiques avec la bonne fonction
      * @param Request $request
      * @return Response
      */
-    public function listMusics(int $idArtist): Response {
-        
+    public function listMusics(int $idArtist): Response
+    {
         $service = new MusicService();
-    
+
         $musics = $service->listMusics($idArtist);
 
         return new Response(SerializerUtils::get()->serialize(['musics' => $musics], "json"), 200);

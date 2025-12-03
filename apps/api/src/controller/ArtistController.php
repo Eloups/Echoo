@@ -47,9 +47,9 @@ class ArtistController implements ControllerInterface
         if ($limit == null) {
             $limit = 6;
         }
-        
+
         return match ($this->action) {
-            'page' => $adapter->ArtistPage( $idArtist, $limit),
+            'page' => $adapter->ArtistPage($idArtist, $limit),
             default => throw new ResourceNotFoundException(),
         };
     }
@@ -61,5 +61,14 @@ class ArtistController implements ControllerInterface
     public function getAction(): string
     {
         return $this->action;
+    }
+
+    /**
+     * Accesseur des paramètres données au contrôleur
+     * @return array
+     */
+    public function getParams(): array
+    {
+        return $this->params;
     }
 }

@@ -1,16 +1,16 @@
 <?php
-
 namespace Api\Controller;
 
-use Api\Adapter\MusicDrivingAdapter;
+use Api\Adapter\StreamingDrivingAdapter;
+use Api\Controller\ControllerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
- * Controlleur des fonctions liées aux musiques
+ * Controlleur des fonctions liées au streaming de fichiers
  */
-class MusicController implements ControllerInterface
+class StreamingController implements ControllerInterface
 {
     /**
      * Action à lancer pour le contrôleur
@@ -25,7 +25,7 @@ class MusicController implements ControllerInterface
     private array $params = [];
 
     /**
-     * Constructeur du contrôlleur de musiques
+     * Constructeur du contrôlleur de streaming
      * @param string $action
      */
     public function __construct(string $action, array $params = [])
@@ -41,16 +41,13 @@ class MusicController implements ControllerInterface
      */
     public function run(Request $request): Response
     {
-        $adapter = new MusicDrivingAdapter();
-        $idArtist = $this->params["id"];
+        $adapter = new StreamingDrivingAdapter();
+        $fileName = $this->params['fileName'];
 
-        $response = match ($this->action) {
-            'list' => $adapter->listMusics($idArtist),
+        return match ($this->action) {
+            'getFile' => $adapter->getMusicFile($fileName),
             default => throw new ResourceNotFoundException(),
         };
-
-        $response->headers->set('Content-Type', 'application/json;charset=UTF-8');
-        return $response;
     }
 
     /**
