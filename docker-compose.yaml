@@ -19,6 +19,8 @@ services:
     - ./apps/api/.env.docker:/var/www/api/.env
 
   database:
+    ports:
+      - "5432:5432"
     build:
       context: .
       dockerfile: ./docker/postgresql/Dockerfile
@@ -29,4 +31,4 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: echoo
+      POSTGRES_DB: echoo   

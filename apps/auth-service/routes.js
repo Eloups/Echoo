@@ -3,6 +3,46 @@ import { auth } from "./auth.js"
 
 const router = express.Router()
 
+router.post("/register", async (req, res) => {
+    try {
+        console.log("ici");
+
+        const { email, password } = req.body
+
+        if (!email || !password) {
+            return res.status(400).json({ error: "Email and password are required" })
+        }
+
+        // Création du compte
+        const response = await auth.api.signUpEmail({
+            body: {
+                email,
+                password
+            }
+        })
+
+        // Si l’API retourne une session immédiate
+        if (response.session) {
+            return res.json({
+                message: "User registered successfully",
+                token: response.session.token,
+                user: response.user
+            })
+        }
+
+        // Sinon (par ex. email confirmation required)
+        res.json({
+            message: "User created. Email verification required.",
+            user: response.user
+        })
+
+    } catch (e) {
+        console.error(e)
+        res.status(400).json({ error: e.message })
+    }
+})
+
+
 router.post("/login", async (req, res) => {
     try {
 
