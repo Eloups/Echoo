@@ -44,7 +44,8 @@ class PgsqlArtistRequests
      * @param int $idArtist
      * @return array
      */
-    public function getLikesArtist(int $idArtist) : array {
+    public function getLikesArtist(int $idArtist): array
+    {
         $getLikes = "SELECT COUNT(*) AS likes
         FROM library_artist
         WHERE id_artist = :id_artist;";
@@ -60,7 +61,8 @@ class PgsqlArtistRequests
      * @param int $limit
      * @return array
      */
-    public function getIdPopularMusics(int $idArtist, int $limit) {
+    public function getIdPopularMusics(int $idArtist, int $limit)
+    {
         $getPopularMusics = "SELECT 
             m.id AS music_id
         FROM artist a
@@ -90,7 +92,8 @@ class PgsqlArtistRequests
      * @param int $limit
      * @return array
      */
-    public function getIdLastReleasesArtist(int $idArtist, int $limit) : array {
+    public function getIdLastReleasesArtist(int $idArtist, int $limit): array
+    {
         $getLastReleases = "SELECT 
             m.id AS music_id
         FROM artist a
@@ -118,7 +121,8 @@ class PgsqlArtistRequests
      * @param int $idMusic
      * @return \Api\Domain\Class\Music[]
      */
-    public function getMusicsWithRatingAndGenres(int $idMusic) {
+    public function getMusicsWithRatingAndGenres(int $idMusic)
+    {
         $getMusicsWithRatingAndGenres = "SELECT
             m.id AS music_id,
             m.title AS music_title,
@@ -131,7 +135,7 @@ class PgsqlArtistRequests
             g.name AS genre_name,
             
             r.id AS rate_id,
-            r.rate AS rate_rate,
+            r.rating AS rate_rate,
             r.comment AS rate_comment
         FROM music m
         LEFT JOIN music_genre mg
