@@ -20,9 +20,6 @@ class PlaylistService implements PlaylistServiceInterface {
         $driven = new PlaylistDrivenAdapter();
 
         $playlist = $driven->getPlaylist($idPlaylist);
-        if (!$playlist instanceof Playlist) {
-            throw new Exception("Les données ne sont pas du type Playlist");
-        }
 
         return $playlist;
     }
