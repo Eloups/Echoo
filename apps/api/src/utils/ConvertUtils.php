@@ -5,6 +5,7 @@ namespace Api\Utils;
 use Api\Domain\Class\Artist;
 use Api\Domain\Class\Genre;
 use Api\Domain\Class\Music;
+use Api\Domain\Class\Playlist;
 use Api\Domain\Class\Rating;
 use DateTime;
 
@@ -112,4 +113,63 @@ class ConvertUtils {
             []
         );
     }
+
+    /**
+     * Convertir les données de la base en objets Playlist
+     * @param array $rows
+     * @return Playlist
+     */
+    public static function convertRowToPlaylist(array $rows): ?Playlist
+    {
+        if ($rows === [] || !isset($rows[0]['playlist_id'])) {
+            return null; // aucune playlist trouvée
+        }
+
+        // On récupère les infos de la playlist depuis la première ligne
+        $playlistId = $rows[0]['playlist_id'];
+        $playlistTitle = $rows[0]['playlist_title'];
+        $playlistPublic = (bool) $rows[0]['playlist_public'];
+        $playlistDescription = $rows[0]['playlist_description'] ?? null;
+        $playlistCover = $rows[0]['playlist_cover'] ?? null;
+
+        $musics = [];
+
+        foreach ($rows as $row) {
+
+            // Si la ligne ne contient aucune musique (playlist vide)
+            if ($row['music_id'] === null) {
+                continue;
+            }
+
+            $musicId = $row['music_id'];
+
+            // Création de l'objet Music
+            if (!isset($musics[$musicId])) {
+
+                $release = new DateTime($row['music_release']);
+
+                $musics[$musicId] = new Music(
+                    id: $musicId,
+                    title: $row['music_title'],
+                    duration: $row['music_duration'],
+                    release: $release,
+                    file_path: $row['music_path'],
+                    genres: [],
+                    nbStreams: $row['music_streams'],
+                    rates: []
+                );
+            }
+        }
+
+        // On créé l'objet playlist avec les musiques
+        return new Playlist(
+            id: $playlistId,
+            title: $playlistTitle,
+            isPublic: $playlistPublic,
+            description: $playlistDescription,
+            cover_path: $playlistCover,
+            musics: array_values($musics)
+        );
+    }
+
 }

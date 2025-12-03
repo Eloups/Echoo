@@ -12,4 +12,6 @@ $routes->add('stream|getFile', new Route('/stream/{fileName}', methods: 'GET'));
 
 $routes->add('artist|page', new Route('/artist/{id}/page', methods: 'GET'));
 
+$routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));
+
 return $routes;

@@ -6,7 +6,7 @@ use Api\Domain\Class\Artist;
 use Api\Domain\Class\Music;
 
 /**
- * Interface pour le MusicDrivenAdapter
+ * Interface pour le ArtistDrivenAdapter
  */
 interface ArtistDrivenAdapterInterface {
     /**
