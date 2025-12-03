@@ -17,6 +17,7 @@ app.use(router)
 // })
 
 // Avec le local 
-app.listen(8000, () => {
+// app.listen(8000, () => {
+app.listen(3000, () => {
     console.log("✅ Better Auth service running on http://localhost:8000")
 })
