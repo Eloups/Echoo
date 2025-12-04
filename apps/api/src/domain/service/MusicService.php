@@ -28,4 +28,9 @@ class MusicService implements MusicServiceInterface {
         }
         return $musics;
     }
+
+    public function likeMusic(int $id_user, int $id_music): void {
+        $driven = new MusicDrivenAdapter();
+        $driven->addLike($id_user, $id_music);
+    }
 }

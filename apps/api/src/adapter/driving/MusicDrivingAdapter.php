@@ -55,7 +55,7 @@ class MusicDrivingAdapter
             throw new Exception("Les champs 'id_user' et 'id_music' doivent être des entiers.");
         }
         $service = new MusicService();
-
+        $service->likeMusic($body['id_user'], $body['id_music']);
         return new Response(json_encode(['code' => 200, 'message' => 'Like ajouté avec succès']));
     }
 }

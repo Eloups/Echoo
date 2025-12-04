@@ -71,22 +71,29 @@ class PgsqlMusicRequests
     }
 
     public function addLike(int $id_user, int $id_music) {
-        $addLike = "START TRANSACTION;
+        $getIdPlaylistLiked = "SELECT playlist.id
+        FROM \"user\"
+        INNER JOIN library 
+            ON \"user\".id_library = library.id 
+        INNER JOIN library_playlist 
+            ON library.id = library_playlist.id_library
+        INNER JOIN playlist 
+            ON library_playlist.id_playlist = playlist.id
+        WHERE playlist.title = 'liked'
+        AND \"user\".id = :id_user;";
 
-        INSERT INTO playlist (name, id_user)
-        SELECT 'liked', :id_user
-        WHERE NOT EXISTS (
-            SELECT 1 FROM playlist 
-            WHERE name = 'liked' AND id_user = :id_user
-        );
+        $request = $this->pdo->prepare($getIdPlaylistLiked);
+        $request->execute([":id_user" => $id_user]);
+        $idPlaylistLiked = intval($request->fetchAll());
 
-        INSERT INTO playlist_music (id_playlist, id_music)
-        SELECT p.id, :id_music
-        FROM playlist p
-        WHERE p.name = 'liked'
-        AND p.id_user = :id_user
-        ON DUPLICATE KEY UPDATE id_music = id_music; -- évite les doublons
-
-        COMMIT;";
+        $request = $this->pdo->prepare("
+            INSERT INTO playlist_music (id_playlist, id_music)
+            VALUES (:id_playlist, :id_music)
+        ");
+        
+        $request->execute([
+            ":id_playlist" => $idPlaylistLiked,
+            ":id_music" => $id_music
+        ]);
     }
 }
