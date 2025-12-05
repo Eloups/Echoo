@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 class MusicDrivingAdapter
 {
     /**
-     * Récupération des données de la requête puis lancement du service des musiques avec la bonne fonction
+     * Récupération des données de la requête puis lancement du service des musiques pour lister les musiques d'un artiste
      * @param int $idArtist
      * @return Response
      */
@@ -30,7 +30,7 @@ class MusicDrivingAdapter
     }
 
     /**
-     * Récupération des données de la requête puis lancement du service des musiques avec la bonne fonction
+     * Récupération des données de la requête puis lancement du service des musiques pour ajouter un like à une musique
      * @param string $requestBody
      * @return Response
      */

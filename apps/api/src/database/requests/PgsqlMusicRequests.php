@@ -70,7 +70,13 @@ class PgsqlMusicRequests
         return $result;
     }
 
-    public function addLike(int $id_user, int $id_music) {
+    /**
+     * Requête pour ajouter un like à une musique
+     * @param int $id_user
+     * @param int $id_music
+     * @return void
+     */
+    public function addLike(int $id_user, int $id_music): void {
         $getIdPlaylistLiked = "SELECT playlist.id
         FROM \"user\"
         INNER JOIN library 
