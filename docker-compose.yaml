@@ -19,16 +19,44 @@ services:
     - ./apps/api/.env.docker:/var/www/api/.env
 
   database:
-    ports:
-      - "5432:5432"
     build:
       context: .
       dockerfile: ./docker/postgresql/Dockerfile
     restart: always
     shm_size: 128mb
+    ports:
+      - "5432:5432"
     volumes:
       - ./docker/postgresql/dataset:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
       POSTGRES_DB: echoo   
+  
+  database_auth:
+    build:
+      context: .
+      dockerfile: ./docker/postgresql/Dockerfile
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: echoo_auth
+    ports:
+      - "5433:5432"
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: ./docker/auth-service/Dockerfile
+    container_name: auth-service
+    # volumes:
+    #   - ./apps/auth-service:/app
+    depends_on:
+      - database_auth
+    tty: true
+    environment:
+      DATABASE_URL: postgresql://postgres:root@database_auth:5432/echoo_auth
+    ports:
+      - "3000:3000"
