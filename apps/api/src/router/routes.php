@@ -18,6 +18,7 @@ $routes->add('files|getImage', new Route('/images/{fileName}', methods: 'GET'));
 
 // Artiste
 $routes->add('artist|page', new Route('/artist/{id}/page', methods: 'GET'));
+$routes->add('artist|like', new Route('/artist/like', methods: 'POST'));
 
 // Playlist
 $routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));

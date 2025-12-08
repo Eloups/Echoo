@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ProjectDrivingAdapter
 {
-
     /**
      * Récupération des données de la requête puis lancement du service des projets pour ajouter un like à un projet
      * @param string $requestBody
@@ -24,10 +23,6 @@ class ProjectDrivingAdapter
             return new Response(json_encode(['code' => 422, 'message' => "Le json n'est pas valide"]));
         }
         $body = json_decode($requestBody, true);
-
-        if (!is_array($body)) {
-            throw new Exception("Le body doit être un JSON valide.");
-        }
 
         // Vérification des clés obligatoires
         $requiredKeys = ['id_user', 'id_project'];

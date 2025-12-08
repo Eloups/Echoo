@@ -88,4 +88,21 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
         }
         return $lastReleases;
     }
+
+    /**
+     * Méthode pour ajouter un like à un artiste
+     * @param int $id_user
+     * @param int $id_artist
+     * @return void
+     */
+    public function addLike(int $id_user, int $id_artist): void
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlArtistRequests($pdo);
+
+        // On exécute la requête
+        $request->addLike($id_user, $id_artist);
+    }
 }
