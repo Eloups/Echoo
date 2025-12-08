@@ -249,7 +249,7 @@ insert into project (id, title, release, color1, color2, cover_path, id_type) va
 (10, 'Project 10', '2022-12-12 12:00:00', '#A8FF33', '#FF33A8', '/covers/project_10.jpg', 1);
 
 insert into library (id) values
-(1), (2), (3), (4), (5);
+(1), (2), (3), (4), (5), (6), (7), (8), (9), (10);
 
 insert into playlist (id, title, isPublic, description, cover_path) values
 (1, 'Playlist 1', TRUE, 'Description for playlist 1', '/covers/playlist_1.jpg'),
@@ -261,7 +261,7 @@ insert into playlist (id, title, isPublic, description, cover_path) values
 (7, 'Playlist 7', TRUE, 'Description for playlist 7', '/covers/playlist_7.jpg'),
 (8, 'Playlist 8', FALSE, 'Description for playlist 8', '/covers/playlist_8.jpg'),
 (9, 'Playlist 9', TRUE, 'Description for playlist 9', '/covers/playlist_9.jpg'),
-(10, 'Playlist 10', FALSE, 'Description for playlist 10', '/covers/playlist_10.jpg');
+(10, 'liked', FALSE, 'Description for playlist liked', '/covers/playlist_10.jpg');
 
 insert into role (id, name) values
 (1, 'Admin'),
@@ -275,11 +275,11 @@ insert into "user" (id, username, email, password, image_path, id_library, id_ro
 (3, 'user3', 'user3@example.com', 'hashed_password', '/images/user_3.jpg', 3, 3, 3),
 (4, 'user4', 'user4@example.com', 'hashed_password', '/images/user_4.jpg', 4, 2, NULL),
 (5, 'user5', 'user5@example.com', 'hashed_password', '/images/user_5.jpg', 5, 1, NULL),
-(6, 'user6', 'user6@example.com', 'hashed_password', '/images/user_6.jpg', 1, 2, 6),
-(7, 'user7', 'user7@example.com', 'hashed_password', '/images/user_7.jpg', 2, 3, 7),
-(8, 'user8', 'user8@example.com', 'hashed_password', '/images/user_8.jpg', 3, 2, NULL),
-(9, 'user9', 'user9@example.com', 'hashed_password', '/images/user_9.jpg', 4, 2, 9),
-(10, 'user10', 'user10@example.com', 'hashed_password', '/images/user_10.jpg', 5, 4, NULL);
+(6, 'user6', 'user6@example.com', 'hashed_password', '/images/user_6.jpg', 6, 2, 6),
+(7, 'user7', 'user7@example.com', 'hashed_password', '/images/user_7.jpg', 7, 3, 7),
+(8, 'user8', 'user8@example.com', 'hashed_password', '/images/user_8.jpg', 8, 2, NULL),
+(9, 'user9', 'user9@example.com', 'hashed_password', '/images/user_9.jpg', 9, 2, 9),
+(10, 'user10', 'user10@example.com', 'hashed_password', '/images/user_10.jpg', 10, 4, NULL);
 
 insert into conversation (id, created_at, name, image_path, id_creator) values
 (1, '2023-05-15 12:00:00', 'Conversation 1', '/images/conversation_1.jpg', 1),
