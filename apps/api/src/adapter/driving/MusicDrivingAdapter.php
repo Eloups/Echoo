@@ -36,32 +36,29 @@ class MusicDrivingAdapter
      */
     public function likeMusic(string $requestBody): Response {
         // Vérification du JSON
-        if (json_validate($requestBody) == true) {
-            $body = json_decode($requestBody, true);
-
-            if (!is_array($body)) {
-                throw new Exception("Le body doit être un JSON valide.");
-            }
-
-            // Vérification des clés obligatoires
-            $requiredKeys = ['id_user', 'id_music'];
-            foreach ($requiredKeys as $key) {
-                if (!array_key_exists($key, $body)) {
-                    throw new Exception("Le body doit contenir la clé '$key'.");
-                }
-            }
-
-            // Vérification des types
-            if (!is_int($body['id_user']) || !is_int($body['id_music'])) {
-                throw new Exception("Les champs 'id_user' et 'id_music' doivent être des entiers.");
-            }
-            $service = new MusicService();
-            $service->likeMusic($body['id_user'], $body['id_music']);
-            return new Response(json_encode(['code' => 200, 'message' => 'Like ajouté avec succès']));
-        }
-        else {
+        if (!json_validate($requestBody)) {
             return new Response(json_encode(['code' => 422, 'message' => "Le json n'est pas valide"]));
         }
-        
+        $body = json_decode($requestBody, true);
+
+        if (!is_array($body)) {
+            throw new Exception("Le body doit être un JSON valide.");
+        }
+
+        // Vérification des clés obligatoires
+        $requiredKeys = ['id_user', 'id_music'];
+        foreach ($requiredKeys as $key) {
+            if (!array_key_exists($key, $body)) {
+                throw new Exception("Le body doit contenir la clé '$key'.");
+            }
+        }
+
+        // Vérification des types
+        if (!is_int($body['id_user']) || !is_int($body['id_music'])) {
+            throw new Exception("Les champs 'id_user' et 'id_music' doivent être des entiers.");
+        }
+        $service = new MusicService();
+        $service->likeMusic($body['id_user'], $body['id_music']);
+        return new Response(json_encode(['code' => 200, 'message' => 'Like ajouté avec succès']));
     }
 }
