@@ -4,6 +4,7 @@ namespace Api;
 
 use Api\Controller\ArtistController;
 use Api\Controller\ControllerInterface;
+use Api\Controller\FilesController;
 use Api\Controller\MusicController;
 use Api\Controller\PlaylistController;
 use Api\Controller\ProjectController;
@@ -72,7 +73,7 @@ class Router
         return match ($useCase) {
             'music' => new MusicController($action, $match),
             'stream' => new StreamingController($action, $match),
-            'files' => new StreamingController($action, $match),
+            'files' => new FilesController($action, $match),
             'artist' => new ArtistController($action, $match),
             'playlist' => new PlaylistController($action, $match),
             'project' => new ProjectController($action, $match),
