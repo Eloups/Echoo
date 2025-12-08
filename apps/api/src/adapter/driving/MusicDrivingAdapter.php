@@ -41,10 +41,6 @@ class MusicDrivingAdapter
         }
         $body = json_decode($requestBody, true);
 
-        if (!is_array($body)) {
-            throw new Exception("Le body doit être un JSON valide.");
-        }
-
         // Vérification des clés obligatoires
         $requiredKeys = ['id_user', 'id_music'];
         foreach ($requiredKeys as $key) {
