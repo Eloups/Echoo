@@ -1,0 +1,24 @@
+type: http_request
+model: http_request
+id: rq_R8wgsCpvya
+createdAt: 2025-12-07T16:26:48.719501
+updatedAt: 2025-12-07T16:34:23.168972
+workspaceId: wk_64fWz9ikpq
+folderId: fl_7cNm8Zi4Xi
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "name": "Test",
+      "email": "test@mail.com",
+      "password": "password"
+    }
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Récup JWT
+sortPriority: 1000.0
+url: ${[ AUTH_SERVICE_URL ]}/api/auth/token
+urlParameters: []

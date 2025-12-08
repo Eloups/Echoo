@@ -1,0 +1,33 @@
+# Assurez-vous que le module mod_headers est activé sur le serveur
+<IfModule mod_headers.c>
+
+    # 1. Autoriser l'accès depuis n'importe quelle origine
+    # Ceci est le paramètre le plus permissif (déconseillé en production)
+    Header set Access-Control-Allow-Origin "*"
+
+    # 2. Autoriser toutes les méthodes HTTP (GET, POST, PUT, DELETE, OPTIONS, etc.)
+    Header set Access-Control-Allow-Methods "*"
+
+    # 3. Autoriser l'utilisation de TOUS les headers de requête
+    # L'utilisation de l'astérisque (*) dans ce contexte (mod_headers) 
+    # n'est pas directement supportée par Apache pour Access-Control-Allow-Headers. 
+    # En pratique, vous devez lister les headers couramment utilisés
+    # ou les headers personnalisés spécifiques.
+    
+    # Pour simuler "tous" les headers de requête, on liste les plus courants :
+    Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Custom-Header, Cache-Control"
+
+    # Si vous n'utilisez pas de cookies/credentials, vous pouvez ignorer cette ligne.
+    Header set Access-Control-Allow-Credentials "true"
+
+    # 4. Gérer les requêtes 'Preflight' (OPTIONS)
+    # Les navigateurs envoient une requête OPTIONS pour vérifier les permissions avant la requête réelle.
+    RewriteEngine On
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L,E=Access-Control-Allow-Headers:%{HTTP:Access-Control-Request-Headers},E=Access-Control-Allow-Methods:%{HTTP:Access-Control-Request-Method}]
+    Header unset Access-Control-Allow-Headers
+    Header always set Access-Control-Allow-Headers "%{Access-Control-Allow-Headers}e" env=Access-Control-Allow-Headers
+    Header always set Access-Control-Allow-Methods "%{Access-Control-Allow-Methods}e" env=Access-Control-Allow-Methods
+    Header set Access-Control-Max-Age "86400"
+
+</IfModule>

@@ -1,0 +1,28 @@
+type: http_request
+model: http_request
+id: rq_CEPVNAvwRA
+createdAt: 2025-12-07T16:15:54.821999
+updatedAt: 2025-12-07T16:34:23.165162
+workspaceId: wk_64fWz9ikpq
+folderId: fl_7cNm8Zi4Xi
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "name": "Test",
+      "email": "test@mail.com",
+      "password": "password"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: u9hxf3RvPm
+method: POST
+name: Inscription
+sortPriority: 0.0
+url: ${[ AUTH_SERVICE_URL ]}/api/auth/sign-up/email
+urlParameters: []
