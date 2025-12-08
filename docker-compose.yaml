@@ -34,29 +34,45 @@ services:
       POSTGRES_DB: echoo   
   
   database_auth:
-    build:
-      context: .
-      dockerfile: ./docker/postgresql/Dockerfile
+    image: postgres:18-alpine
+    # build:
+    #   context: .
+    #   dockerfile: ./docker/postgresql/Dockerfile
     restart: always
     shm_size: 128mb
     environment:
+      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: echoo_auth
+    # environment:
+    #   POSTGRES_USER: postgres
+    #   POSTGRES_PASSWORD: root
+    #   POSTGRES_DB: echoo_auth
     ports:
       - "5433:5432"
 
   auth-service:
-    build:
-      context: .
-      dockerfile: ./docker/auth-service/Dockerfile
-    container_name: auth-service
-    # volumes:
-    #   - ./apps/auth-service:/app
-    depends_on:
-      - database_auth
-    tty: true
+    image: php:8.3-apache
+    volumes: 
+     - ./apps/auth-service-JWT/apps/api:/var/www/html
     environment:
-      DATABASE_URL: postgresql://postgres:root@database_auth:5432/echoo_auth
-    ports:
-      - "3000:3000"
+      AUTH_SERVICE_URL: http://host.docker.internal:3333
+    extra_hosts:
+      # Allow accessing localhost from inside a docker container through host.docker.internal
+      - "host.docker.internal:host-gateway"
+    ports: 
+      - 8000:80
+
+    # build:
+    #   context: .
+    #   dockerfile: ./docker/auth-service/Dockerfile
+    # container_name: auth-service
+    # # volumes:
+    # #   - ./apps/auth-service:/app
+    # depends_on:
+    #   - database_auth
+    # tty: true
+    # environment:
+    #   DATABASE_URL: postgresql://postgres:root@database_auth:5432/echoo_auth
+    # ports:
+    #   - "3000:3000"
