@@ -22,7 +22,7 @@ $routes->add('artist|like', new Route('/artist/like', methods: 'POST'));
 
 // Playlist
 $routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));
-$routes->add('playlist|getPlaylistsOfLibrary', new Route('/library/{id}/playlists', methods: 'GET'));
+$routes->add('playlist|getPlaylistsOfLibrary', new Route('/playlist/library/{id}/all', methods: 'GET'));
 
 // Projet
 $routes->add('project|like', new Route('/project/like', methods: 'POST'));
