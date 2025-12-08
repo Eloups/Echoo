@@ -25,4 +25,12 @@ class PlaylistDrivingAdapter {
 
         return new Response(SerializerUtils::get()->serialize(['playlist' => $playlist], "json"), 200);
     }
+
+    public function getPlaylistInLibrary(int $id_library) : Response {
+        $service = new PlaylistService();
+
+        $playlists = $service->getPlaylistsInLibrary($id_library);
+
+        return new Response(SerializerUtils::get()->serialize(['playlist' => $playlists], "json"), 200);
+    }
 }

@@ -23,4 +23,23 @@ class PlaylistService implements PlaylistServiceInterface {
 
         return $playlist;
     }
+
+    /**
+     * Action du listage des playlists d'une library
+     * @param int $id_library
+     * @return array
+     */
+    public function getPlaylistsInLibrary(int $id_library): array
+    {
+        $driven = new PlaylistDrivenAdapter();
+
+        $playlists = $driven->getPlaylistsInLibrary($id_library);
+        foreach($playlists as $playlist) {
+            if (!$playlist instanceof Playlist) {
+                throw new Exception("Les données ne sont pas du type Playlist");
+            }
+        }
+
+        return $playlists;
+    }
 }
