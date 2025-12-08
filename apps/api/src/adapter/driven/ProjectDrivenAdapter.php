@@ -7,7 +7,7 @@ use Api\Database\Requests\PgsqlProjectRequests;
 use Api\Domain\Ports\ProjectDrivenAdapterInterface;
 
 /**
- * Classe Driven Adapter pour les musiques
+ * Classe Driven Adapter pour les projets
  */
 class ProjectDrivenAdapter implements ProjectDrivenAdapterInterface
 {

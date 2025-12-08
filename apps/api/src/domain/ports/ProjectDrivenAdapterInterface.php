@@ -3,7 +3,7 @@
 namespace Api\Domain\Ports;
 
 /**
- * Interface pour le MusicDrivenAdapter
+ * Interface pour le ProjectDrivenAdapter
  */
 interface ProjectDrivenAdapterInterface {
     /**
