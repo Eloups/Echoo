@@ -154,4 +154,30 @@ class PgsqlArtistRequests
 
         return $musics;
     }
+
+    /**
+     * Requête pour ajouter un like à un artiste
+     * @param int $id_user
+     * @param int $id_artist
+     * @return void
+     */
+    public function addLike(int $id_user, int $id_artist): void {
+        $getIdLibrary = "SELECT id_library
+        FROM \"user\"
+        WHERE \"user\".id = :id_user;";
+
+        $request = $this->pdo->prepare($getIdLibrary);
+        $request->execute([":id_user" => $id_user]);
+        $idLibrary = intval($request->fetchAll());
+
+        $request = $this->pdo->prepare("
+            INSERT INTO library_artist (id_library, id_artist)
+            VALUES (:id_library, :id_artist)
+        ");
+        
+        $request->execute([
+            ":id_library" => $idLibrary,
+            ":id_artist" => $id_artist
+        ]);
+    }
 }

@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ProjectDrivingAdapter
 {
-
     /**
      * Récupération des données de la requête puis lancement du service des projets pour ajouter un like à un projet
      * @param string $requestBody
