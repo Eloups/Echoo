@@ -20,4 +20,11 @@ interface ArtistServiceInterface {
      * @return void
      */
     public function likeArtist(int $id_user, int $id_artist): void;
+
+    /**
+     * Action de la récupération des artistes d'une library
+     * @param int $id_library
+     * @return void
+     */
+    public function getArtistsInLibrary(int $id_library): array;
 }

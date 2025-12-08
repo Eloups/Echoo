@@ -105,4 +105,25 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
         // On exécute la requête
         $request->addLike($id_user, $id_artist);
     }
+
+    /**
+     * Méthode pour récupérer les artistes d'une library
+     * @param int $id_library
+     * @return array
+     */
+    public function getArtistsInLibrary(int $id_library): array
+    {
+        $pgslserver = new PgsqlServer();
+        
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlArtistRequests($pdo);
+
+        $rows = $request->getArtistsInLibrary($id_library);
+
+        $artists = [];
+        foreach ($rows as $row) {
+            array_push($artists, ConvertUtils::ConvertRowToArtist($row));
+        }
+        return $artists;
+    }
 }

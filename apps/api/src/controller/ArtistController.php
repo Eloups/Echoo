@@ -50,6 +50,7 @@ class ArtistController implements ControllerInterface
         return match ($this->action) {
             'page' => $adapter->ArtistPage($this->params["id"], $limit),
             'like' => $adapter->likeArtist($request->getContent()),
+            'artistInLibrary' => $adapter->getArtistsInLibrary($this->params["id"]),
             default => throw new ResourceNotFoundException(),
         };
     }

@@ -46,4 +46,11 @@ interface ArtistDrivenAdapterInterface {
      * @return void
      */
     public function addLike(int $id_user, int $id_artist): void;
+
+    /**
+     * Méthode pour récupérer les artistes d'une library
+     * @param int $id_library
+     * @return void
+     */
+    public function getArtistsInLibrary(int $id_library): array;
 }
