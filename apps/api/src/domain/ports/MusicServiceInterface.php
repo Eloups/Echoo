@@ -17,7 +17,7 @@ interface MusicServiceInterface {
      * Action de l'ajout d'un like sur une musique par un utilisateur
      * @param int $id_user
      * @param int $id_music
-     * @return array
+     * @return void
      */
     public function likeMusic(int $id_user, int $id_music): void;
 }

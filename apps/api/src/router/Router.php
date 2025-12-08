@@ -6,6 +6,7 @@ use Api\Controller\ArtistController;
 use Api\Controller\ControllerInterface;
 use Api\Controller\MusicController;
 use Api\Controller\PlaylistController;
+use Api\Controller\ProjectController;
 use Api\Controller\StreamingController;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,6 +75,7 @@ class Router
             'files' => new StreamingController($action, $match),
             'artist' => new ArtistController($action, $match),
             'playlist' => new PlaylistController($action, $match),
+            'project' => new ProjectController($action, $match),
             default => throw new ResourceNotFoundException(),
         };
     }
