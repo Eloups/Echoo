@@ -36,9 +36,7 @@ class FilesDrivenAdapter implements FilesDrivenAdapterInterface
 
         $ch = curl_init($fileUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_NOBODY, false);
 
         $curlResponse = curl_exec($ch);
 

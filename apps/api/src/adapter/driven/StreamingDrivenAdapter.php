@@ -36,9 +36,9 @@ class StreamingDrivenAdapter implements StreamingDrivenAdapterInterface
 
         $ch = curl_init($fileUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_NOBODY, false);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_exec($ch);
 
         $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
@@ -52,24 +52,24 @@ class StreamingDrivenAdapter implements StreamingDrivenAdapterInterface
             throw new ApiCustomException('File not found', 404);
         }
 
-        if ($httpStatus !== 0 || $error) {
+        if ($httpStatus !== 200 || $error) {
             throw new Exception($httpStatus . " - Error: " . $error);
         }
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
         curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_NOBODY, false);
 
         $response = new StreamedResponse(function () use ($ch) {
             curl_exec($ch);
             curl_close($ch);
         });
 
-        if ($fileExtention === 'flac') {
-            $response->headers->set('Content-Type', 'audio/flac');
-        } else {
-            $response->headers->set('Content-Type', 'audio/mp3');
-        }
-        $response->headers->set('Content-Disposition', 'inline; filename="' . $fileName . '"');
+        $response->headers->set('Content-Type', match ($fileExtention) {
+            'flac' => 'audio/flac',
+            'mp3' => 'audio/mp3',
+        });
+
         return $response;
     }
 }
