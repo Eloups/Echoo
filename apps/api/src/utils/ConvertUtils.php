@@ -174,4 +174,32 @@ class ConvertUtils
         );
     }
 
+    /**
+     * Convertir les données de la base en objets Playlist
+     * @param array $rows
+     * @return Playlist
+     */
+    public static function ConvertRowToPlaylists(array $row): ?Playlist {
+        if ($row === [] || !isset($row['playlist_id'])) {
+            return null; // aucune playlist trouvée
+        }
+
+        // On récupère les infos de la playlist depuis la première ligne
+        $playlistId = $row['playlist_id'];
+        $playlistTitle = $row['playlist_title'];
+        $playlistPublic = (bool) $row['playlist_public'];
+        $playlistDescription = $row['playlist_description'] ?? null;
+        $playlistCover = $row['playlist_cover'] ?? null;
+
+        // On créé l'objet playlist sans les musiques
+        return new Playlist(
+            id: $playlistId,
+            title: $playlistTitle,
+            isPublic: $playlistPublic,
+            description: $playlistDescription,
+            cover_path: $playlistCover,
+            musics: []
+        );
+    }
+
 }

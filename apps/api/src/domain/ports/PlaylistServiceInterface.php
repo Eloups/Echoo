@@ -14,4 +14,11 @@ interface PlaylistServiceInterface {
      * @return array
      */
     public function getOnePlaylist(int $idPlaylist): Playlist;
+
+    /**
+     * Action du listage des playlists d'une library
+     * @param int $id_library
+     * @return array
+     */
+    public function getPlaylistsInLibrary(int $id_library): array;
 }

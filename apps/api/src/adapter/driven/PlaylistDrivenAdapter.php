@@ -28,4 +28,25 @@ class PlaylistDrivenAdapter implements PlaylistDrivenAdapterInterface {
 
         return $playlist;
     }
+
+    /**
+     * Méthode pour récupérer les playlists d'une library
+     * @param int $id_library
+     * @return array
+     */
+    public function getPlaylistsInLibrary(int $id_library): array
+    {
+        $pgslserver = new PgsqlServer();
+        
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlPlaylistRequests($pdo);
+
+        $rows = $request->getPlaylistsInLibrary($id_library);
+
+        $playlists = [];
+        foreach($rows as $row) {
+            array_push($playlists, ConvertUtils::ConvertRowToPlaylists($row));
+        }
+        return $playlists;
+    }
 }

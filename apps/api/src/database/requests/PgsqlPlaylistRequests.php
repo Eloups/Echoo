@@ -60,4 +60,23 @@ class PgsqlPlaylistRequests
         $result = $request->fetchAll();
         return $result;
     }
+
+    public function getPlaylistsInLibrary(int $id_library): array {
+        $getPlaylistsInLibrary = "SELECT 
+        p.id AS playlist_id,
+        p.title AS playlist_title,
+        p.isPublic AS playlist_public,
+        p.description AS playlist_description,
+        p.cover_path AS playlist_cover 
+        FROM playlist p
+        INNER JOIN library_playlist 
+            ON p.id = library_playlist.id_playlist 
+        WHERE library_playlist.id_library = :id_library
+        GROUP BY p.id;";
+
+        $request = $this->pdo->prepare($getPlaylistsInLibrary);
+        $request->execute([":id_library" => $id_library]);
+        $result = $request->fetchAll();
+        return $result;
+    }
 }
