@@ -58,4 +58,11 @@ class ArtistDrivingAdapter {
         $service->likeArtist($body['id_user'], $body['id_artist']);
         return new Response(json_encode(['code' => 200, 'message' => 'Like ajouté avec succès']));
     }
+
+    public function getArtistsInLibrary(int $id_library): Response {
+        $service = new ArtistService();
+        $artists = $service->getArtistsInLibrary($id_library);
+
+        return new Response(SerializerUtils::get()->serialize(['artists' => $artists], "json"), 200);
+    }
 }
