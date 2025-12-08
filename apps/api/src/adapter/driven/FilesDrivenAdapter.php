@@ -2,23 +2,23 @@
 
 namespace Api\Adapter;
 
-use Api\Domain\Ports\StreamingDrivenAdapterInterface;
+use Api\Domain\Ports\FilesDrivenAdapterInterface;
 use Api\Exception\ApiCustomException;
 use Api\Utils\EnvironmentUtils;
 use Exception;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Adaptateur piloté du service de streaming
+ * Adaptateur piloté des fichiers
  */
-class StreamingDrivenAdapter implements StreamingDrivenAdapterInterface
+class FilesDrivenAdapter implements FilesDrivenAdapterInterface
 {
     /**
-     * Méthode pour streamer un fichier de musique
+     * Méthode pour récupérer un fichier image
      * @param string $fileName
-     * @return void
+     * @return Response
      */
-    public function streamMusicFile(string $fileName): StreamedResponse
+    public function getImageFile(string $fileName): Response
     {
         $fsHost = EnvironmentUtils::checkEnvironment($_ENV['FS_HOST']);
         $fsPort = EnvironmentUtils::checkEnvironment($_ENV['FS_PORT']);
@@ -27,10 +27,10 @@ class StreamingDrivenAdapter implements StreamingDrivenAdapterInterface
             throw new ApiCustomException('Wrong file name, extention file missing', 422);
         }
 
-        $fileUrl = $fsHost . ':' . $fsPort . '/musics/' . $fileName;
+        $fileUrl = $fsHost . ':' . $fsPort . '/images/' . $fileName;
 
         [, $fileExtention] = explode('.', $fileName);
-        if ($fileExtention !== 'flac' && $fileExtention !== 'mp3') {
+        if ($fileExtention !== 'png' && $fileExtention !== 'jpg' && $fileExtention !== 'jpeg' && $fileExtention !== 'webp' && $fileExtention !== 'gif') {
             throw new ApiCustomException('Wrong file extention, only flac or mp3 are supported', 422);
         }
 
@@ -40,36 +40,26 @@ class StreamingDrivenAdapter implements StreamingDrivenAdapterInterface
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_NOBODY, false);
 
+        $curlResponse = curl_exec($ch);
+
         $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         $error = curl_error($ch);
 
-        error_log("HTTP Status: " . $httpStatus);
-        error_log("Content-Type: " . $contentType);
-        error_log("Error: " . $error);
+        curl_close($ch);
 
         if ($httpStatus === 404) {
             throw new ApiCustomException('File not found', 404);
         }
 
-        if ($httpStatus !== 0 || $error) {
+        if ($httpStatus !== 200 || $error) {
             throw new Exception($httpStatus . " - Error: " . $error);
         }
 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
-        curl_setopt($ch, CURLOPT_HEADER, false);
+        $response = new Response(substr($curlResponse, $headerSize));
+        $response->headers->set('Content-Type', $contentType);
 
-        $response = new StreamedResponse(function () use ($ch) {
-            curl_exec($ch);
-            curl_close($ch);
-        });
-
-        if ($fileExtention === 'flac') {
-            $response->headers->set('Content-Type', 'audio/flac');
-        } else {
-            $response->headers->set('Content-Type', 'audio/mp3');
-        }
-        $response->headers->set('Content-Disposition', 'inline; filename="' . $fileName . '"');
         return $response;
     }
 }
