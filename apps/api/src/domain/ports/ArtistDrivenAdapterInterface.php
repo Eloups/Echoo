@@ -6,7 +6,7 @@ use Api\Domain\Class\Artist;
 use Api\Domain\Class\Music;
 
 /**
- * Interface pour le MusicDrivenAdapter
+ * Interface pour le ArtistDrivenAdapter
  */
 interface ArtistDrivenAdapterInterface {
     /**
@@ -38,4 +38,12 @@ interface ArtistDrivenAdapterInterface {
      * @return Music[]
      */
     public function getLastReleaseByArtist(int $idArtist, int $limit): array;
+
+    /**
+     * Méthode pour ajouter un like à un artiste
+     * @param int $id_user
+     * @param int $id_artist
+     * @return void
+     */
+    public function addLike(int $id_user, int $id_artist): void;
 }

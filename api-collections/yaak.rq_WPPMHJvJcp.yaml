@@ -14,5 +14,5 @@ headers: []
 method: GET
 name: Get a music file
 sortPriority: 1000.0
-url: ${[ API_HOST ]}/stream/01-fight_fire_with_fire.flac
+url: ${[ API_HOST ]}/stream/01-fight_fire_with_firhe.flac
 urlParameters: []

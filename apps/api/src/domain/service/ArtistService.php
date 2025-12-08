@@ -25,4 +25,15 @@ class ArtistService implements ArtistServiceInterface {
 
         return [$artist, $likes, $popularMusics, $lastReleases];
     }
+
+    /**
+     * Action de l'ajout d'un like à un artiste
+     * @param int $id_user
+     * @param int $id_artist
+     * @return void
+     */
+    public function likeArtist(int $id_user, int $id_artist): void {
+        $driven = new ArtistDrivenAdapter();
+        $driven->addLike($id_user, $id_artist);
+    }
 }

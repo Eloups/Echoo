@@ -2,15 +2,16 @@
 
 namespace Api\Controller;
 
-use Api\Adapter\ArtistDrivingAdapter;
+use Api\Adapter\MusicDrivingAdapter;
+use Api\Adapter\ProjectDrivingAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
- * Controlleur des fonctions liées aux artistes
+ * Controlleur des fonctions liées aux musiques
  */
-class ArtistController implements ControllerInterface
+class ProjectController implements ControllerInterface
 {
     /**
      * Action à lancer pour le contrôleur
@@ -25,7 +26,7 @@ class ArtistController implements ControllerInterface
     private array $params = [];
 
     /**
-     * Constructeur du contrôlleur des artistes
+     * Constructeur du contrôlleur des projets
      * @param string $action
      */
     public function __construct(string $action, array $params = [])
@@ -41,17 +42,15 @@ class ArtistController implements ControllerInterface
      */
     public function run(Request $request): Response
     {
-        $adapter = new ArtistDrivingAdapter();
-        $limit = $request->get('limit');
-        if ($limit == null) {
-            $limit = 6;
-        }
+        $adapter = new ProjectDrivingAdapter();
 
-        return match ($this->action) {
-            'page' => $adapter->ArtistPage($this->params["id"], $limit),
-            'like' => $adapter->likeArtist($request->getContent()),
+        $response = match ($this->action) {
+            'like' => $adapter->likeProject($request->getContent()),
             default => throw new ResourceNotFoundException(),
         };
+
+        $response->headers->set('Content-Type', 'application/json;charset=UTF-8');
+        return $response;
     }
 
     /**

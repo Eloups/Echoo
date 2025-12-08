@@ -8,6 +8,7 @@ $routes = new RouteCollection();
 // On crée les routes ici
 // Musiques
 $routes->add('music|list', new Route('/musics/artist/{id}', methods: 'GET'));
+$routes->add('music|like', new Route('/music/like', methods: 'POST'));
 
 // Streaming
 $routes->add('stream|getFile', new Route('/stream/{fileName}', methods: 'GET'));
@@ -17,5 +18,12 @@ $routes->add('files|getImage', new Route('/images/{fileName}', methods: 'GET'));
 
 // Artiste
 $routes->add('artist|page', new Route('/artist/{id}/page', methods: 'GET'));
+$routes->add('artist|like', new Route('/artist/like', methods: 'POST'));
+
+// Playlist
+$routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));
+
+// Projet
+$routes->add('project|like', new Route('/project/like', methods: 'POST'));
 
 return $routes;

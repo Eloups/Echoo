@@ -3,14 +3,15 @@
 namespace Api\Controller;
 
 use Api\Adapter\ArtistDrivingAdapter;
+use Api\Adapter\PlaylistDrivingAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
- * Controlleur des fonctions liées aux artistes
+ * Controlleur des fonctions liées aux playlists
  */
-class ArtistController implements ControllerInterface
+class PlaylistController implements ControllerInterface
 {
     /**
      * Action à lancer pour le contrôleur
@@ -41,15 +42,11 @@ class ArtistController implements ControllerInterface
      */
     public function run(Request $request): Response
     {
-        $adapter = new ArtistDrivingAdapter();
-        $limit = $request->get('limit');
-        if ($limit == null) {
-            $limit = 6;
-        }
+        $adapter = new PlaylistDrivingAdapter();
+        $idPlaylist = $this->params["id"];
 
         return match ($this->action) {
-            'page' => $adapter->ArtistPage($this->params["id"], $limit),
-            'like' => $adapter->likeArtist($request->getContent()),
+            'getOnePlaylist' => $adapter->getOnePlaylist($idPlaylist),
             default => throw new ResourceNotFoundException(),
         };
     }
