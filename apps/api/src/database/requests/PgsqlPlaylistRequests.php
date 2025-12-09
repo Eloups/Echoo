@@ -61,6 +61,11 @@ class PgsqlPlaylistRequests
         return $result;
     }
 
+    /**
+     * Requête pour récupérer les playlists d'une library
+     * @param int $id_library
+     * @return array
+     */
     public function getPlaylistsInLibrary(int $id_library): array {
         $getPlaylistsInLibrary = "SELECT 
         p.id AS playlist_id,
@@ -71,7 +76,7 @@ class PgsqlPlaylistRequests
         FROM playlist p
         INNER JOIN library_playlist 
             ON p.id = library_playlist.id_playlist 
-        WHERE library_playlist.id_library = :id_library
+        WHERE library_playlist.id_library = :id_library and p.title != 'liked'
         GROUP BY p.id;";
 
         $request = $this->pdo->prepare($getPlaylistsInLibrary);
