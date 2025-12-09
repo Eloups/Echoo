@@ -60,4 +60,11 @@ interface ArtistDrivenAdapterInterface {
      * @return array
      */
     public function getArtistAlbums(int $id_artist): array;
+
+    /**
+     * Méthode pour récupérer les singles d'un artiste
+     * @param int $id_artist
+     * @return array
+     */
+    public function getArtistSingles(int $id_artist): array;
 }
