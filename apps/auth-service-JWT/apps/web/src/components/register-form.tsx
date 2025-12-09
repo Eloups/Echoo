@@ -28,6 +28,8 @@ export const RegisterForm: FC<Props> = function () {
       const {data, error} = await authClient.signUp.email(formData);
       toast.dismiss(loading);
       
+
+      console.log("data =", data)
       if (error){
         toast.error(<>
           <span className="text-xs">{error.code}</span><br />
