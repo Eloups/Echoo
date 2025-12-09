@@ -59,6 +59,11 @@ class ArtistDrivingAdapter {
         return new Response(json_encode(['code' => 200, 'message' => 'Like ajouté avec succès']));
     }
 
+    /**
+     * Méthode pour récupérer les artistes d'une library
+     * @param int $id_library
+     * @return Response
+     */
     public function getArtistsInLibrary(int $id_library): Response {
         $service = new ArtistService();
         $artists = $service->getArtistsInLibrary($id_library);

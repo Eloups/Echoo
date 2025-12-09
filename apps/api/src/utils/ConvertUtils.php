@@ -6,6 +6,7 @@ use Api\Domain\Class\Artist;
 use Api\Domain\Class\Genre;
 use Api\Domain\Class\Music;
 use Api\Domain\Class\Playlist;
+use Api\Domain\Class\Project;
 use Api\Domain\Class\Rating;
 use DateTime;
 
@@ -199,6 +200,29 @@ class ConvertUtils
             description: $playlistDescription,
             cover_path: $playlistCover,
             musics: []
+        );
+    }
+
+    /**
+     * Convertir les données de la base en objets Project
+     * @param array $rows
+     * @return Artist
+     */
+    public static function ConvertRowToProject(array $rows): Project
+    {
+
+        $release = new DateTime($rows['release']);
+
+        return new Project(
+            isset($rows['id']) ? (int) $rows['id'] : null,
+            $rows['title'],
+            $release,
+            $rows['cover_path'],
+            $rows['project_type'],
+            [],
+            $rows['color1'],
+            $rows['color2'],
+            []
         );
     }
 

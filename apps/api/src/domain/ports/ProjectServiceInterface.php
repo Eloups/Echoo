@@ -14,4 +14,11 @@ interface ProjectServiceInterface {
      * @return void
      */
     public function likeProject(int $id_user, int $id_project): void;
+
+    /**
+     * Action de la récupération des projets d'une library
+     * @param int $id_library
+     * @return array
+     */
+    public function getProjectsInLibrary(int $id_library): array;
 }

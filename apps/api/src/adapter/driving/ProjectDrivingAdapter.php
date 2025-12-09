@@ -3,6 +3,7 @@
 namespace Api\Adapter;
 
 use Api\Domain\Service\ProjectService;
+use Api\Utils\SerializerUtils;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -39,5 +40,17 @@ class ProjectDrivingAdapter
         $service = new ProjectService();
         $service->likeProject($body['id_user'], $body['id_project']);
         return new Response(json_encode(['code' => 200, 'message' => 'Like ajouté avec succès']));
+    }
+
+    /**
+     * Méthode pour récupérer les projets d'une library
+     * @param int $id_library
+     * @return Response
+     */
+    public function getProjectsInLibrary(int $id_library): Response {
+        $service = new ProjectService();
+        $projects = $service->getProjectsInLibrary($id_library);
+
+        return new Response(SerializerUtils::get()->serialize(['projects' => $projects], "json"), 200);
     }
 }

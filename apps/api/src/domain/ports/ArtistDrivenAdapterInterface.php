@@ -50,7 +50,7 @@ interface ArtistDrivenAdapterInterface {
     /**
      * Méthode pour récupérer les artistes d'une library
      * @param int $id_library
-     * @return void
+     * @return array
      */
     public function getArtistsInLibrary(int $id_library): array;
 }

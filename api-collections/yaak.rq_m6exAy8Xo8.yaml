@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_m6exAy8Xo8
 createdAt: 2025-12-08T13:23:58.864421600
-updatedAt: 2025-12-08T13:38:39.878649100
+updatedAt: 2025-12-09T07:42:19.755135100
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_WSmhPPxA8Y
 authentication: {}
@@ -10,8 +10,8 @@ authenticationType: null
 body:
   text: |-
     {
-      "id_user": 4,
-      "id_project": 9
+      "id_user": 6,
+      "id_project": 7
     }
 bodyType: application/json
 description: ''
