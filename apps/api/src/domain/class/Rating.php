@@ -72,7 +72,7 @@ class Rating
      * Accesseur de l'utilisateur qui met la note
      * @return User
      */
-    public function getUser(): ?User
+    public function getUser(): ?int
     {
         return $this->id_user;
     }

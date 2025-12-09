@@ -242,13 +242,27 @@ class ConvertUtils
         $cover_path = $rows[0]['cover_path'];
         $project_type = $rows[0]['project_type'];
 
+        $rates = [];
         foreach($rows as $row) {
-            if ($rows[0]['music_id'] === null) {
+            if ($row['id_rating'] === null) {
                 continue;
             }
+
+            $idRating = $row['id_rating'];
+
+            // Création de l'objet Music
+            if (!isset($rates[$idRating])) {
+
+                $created_at = new DateTime($row['created_at']);
+
+                $rates[$idRating] = new Rating(
+                    $idRating,
+                     $row['rating'],
+                     $row['comment'], 
+                     $row['id_user']
+                );
+            }
         }
-        
-        //J'en suis là : rajouter les notes de la requete à l'objet project 
 
         return new Project(
             isset($id) ? $id : null,
@@ -259,7 +273,7 @@ class ConvertUtils
             [],
             $color1,
             $color2,
-            []
+            $rates
         );
     }
 
