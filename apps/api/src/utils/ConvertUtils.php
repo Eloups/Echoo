@@ -9,6 +9,7 @@ use Api\Domain\Class\Playlist;
 use Api\Domain\Class\Project;
 use Api\Domain\Class\Rating;
 use DateTime;
+use Symfony\Component\Serializer\Context\Normalizer\FormErrorNormalizerContextBuilder;
 
 /**
  * Classe utilitaire pour les conversions des données en objets
@@ -87,7 +88,7 @@ class ConvertUtils
                         id: $rateId,
                         rate: $rateValue,
                         comment: $rateComment,
-                        user: null
+                        id_user: null
                     ));
                 }
             }
@@ -206,11 +207,10 @@ class ConvertUtils
     /**
      * Convertir les données de la base en objets Project
      * @param array $rows
-     * @return Artist
+     * @return Project
      */
     public static function ConvertRowToProject(array $rows): Project
     {
-
         $release = new DateTime($rows['release']);
 
         return new Project(
@@ -223,6 +223,57 @@ class ConvertUtils
             $rows['color1'],
             $rows['color2'],
             []
+        );
+    }
+
+    /**
+     * Convertir les données de la base en objets Project
+     * @param array $rows
+     * @return Project
+     */
+    public static function ConvertAlbumToProject(array $rows): Project
+    {
+
+        $id = $rows[0]['id'];
+        $title = $rows[0]['title'];
+        $release = new DateTime($rows[0]['release']);
+        $color1 = $rows[0]['color1'];
+        $color2 = $rows[0]['color2'];
+        $cover_path = $rows[0]['cover_path'];
+        $project_type = $rows[0]['project_type'];
+
+        $rates = [];
+        foreach($rows as $row) {
+            if ($row['id_rating'] === null) {
+                continue;
+            }
+
+            $idRating = $row['id_rating'];
+
+            // Création de l'objet Music
+            if (!isset($rates[$idRating])) {
+
+                $created_at = new DateTime($row['created_at']);
+
+                $rates[$idRating] = new Rating(
+                    $idRating,
+                     $row['rating'],
+                     $row['comment'], 
+                     $row['id_user']
+                );
+            }
+        }
+
+        return new Project(
+            isset($id) ? $id : null,
+            $title,
+            $release,
+            $cover_path,
+            $project_type,
+            [],
+            $color1,
+            $color2,
+            $rates
         );
     }
 

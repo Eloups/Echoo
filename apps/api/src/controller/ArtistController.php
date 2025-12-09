@@ -51,6 +51,7 @@ class ArtistController implements ControllerInterface
             'page' => $adapter->ArtistPage($this->params["id"], $limit),
             'like' => $adapter->likeArtist($request->getContent()),
             'artistInLibrary' => $adapter->getArtistsInLibrary($this->params["id"]),
+            'albums' => $adapter->getArtistAlbums($this->params["id"]),
             default => throw new ResourceNotFoundException(),
         };
     }

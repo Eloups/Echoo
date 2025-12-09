@@ -56,4 +56,15 @@ class ArtistService implements ArtistServiceInterface {
 
         return $artists;
     }
+
+    /**
+     * action de récupération des albums d'un artiste
+     * @param int $id_artist
+     * @return array
+     */
+    public function getArtistAlbums(int $id_artist): array {
+        $driven = new ArtistDrivenAdapter();
+        $albums = $driven->getArtistAlbums($id_artist);
+        return $albums;
+    }
 }

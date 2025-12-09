@@ -70,4 +70,10 @@ class ArtistDrivingAdapter {
 
         return new Response(SerializerUtils::get()->serialize(['artists' => $artists], "json"), 200);
     }
+
+    public function getArtistAlbums(int $id_artist): Response {
+        $service = new ArtistService();
+        $albums = $service->getArtistAlbums($id_artist);
+        return new Response(SerializerUtils::get()->serialize(['albums' => $albums], "json"), 200);
+    }
 }
