@@ -87,7 +87,7 @@ class ConvertUtils
                         id: $rateId,
                         rate: $rateValue,
                         comment: $rateComment,
-                        user: null
+                        id_user: null
                     ));
                 }
             }

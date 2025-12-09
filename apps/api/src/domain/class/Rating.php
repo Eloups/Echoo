@@ -25,23 +25,23 @@ class Rating
     private ?string $comment;
     /**
      * Utilisateur qui met la note
-     * @var ?User
+     * @var ?int
      */
-    private ?User $user;
+    private ?int $id_user;
 
     /**
      * Constructeur de la note
      * @param ?int $id
      * @param int $rate
      * @param ?string $comment
-     * @param ?User $user
+     * @param ?int $id_user
      */
-    public function __construct(?int $id, int $rate, ?string $comment, ?User $user)
+    public function __construct(?int $id, int $rate, ?string $comment, ?int $id_user)
     {
         $this->id = $id;
         $this->rate = $rate;
         $this->comment = $comment;
-        $this->user = $user;
+        $this->id_user = $id_user;
     }
 
     /**
@@ -74,6 +74,6 @@ class Rating
      */
     public function getUser(): ?User
     {
-        return $this->user;
+        return $this->id_user;
     }
 }

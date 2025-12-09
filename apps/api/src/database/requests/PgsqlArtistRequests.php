@@ -198,4 +198,33 @@ class PgsqlArtistRequests
         $result = $request->fetchAll();
         return $result;
     }
+
+    /**
+     * Requête pour récupérer les ids des albums d'un artiste (sans single)
+     * @param int $id_artist
+     * @return void
+     */
+    public function getArtistIdAlbums(int $id_artist): array {
+        $getArtistIdAlbums = "SELECT p.id AS project_id
+        FROM project p
+        JOIN artist_project ap ON p.id = ap.id_project
+        JOIN project_type pt ON p.id_type = pt.id
+        WHERE ap.id_artist = :id_artist
+        AND pt.name != 'Single';";
+    }
+
+    /**
+     * Requête pour récupérer les notes d'un projet à partir de son id
+     * @param int $id_album
+     * @return void
+     */
+    public function getRatesAlbums(int $id_album) : array {
+        $getRatesAlbums = "SELECT
+            pr.id_project,
+            pr.rating,
+            pr.comment,
+            pr.created_at
+        FROM project_rating pr
+        WHERE pr.id_project = :id_album;";
+    }
 }
