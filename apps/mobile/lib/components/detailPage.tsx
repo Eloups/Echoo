@@ -1,7 +1,7 @@
 import { View, ScrollView, Image, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/lib/theme/provider';
-import AppText from '@/lib/components/appText';
+import AppText from '@/lib/components/global/appText';
 import { BaseInfos } from '../types/types';
 import { router } from 'expo-router';
 

@@ -2,7 +2,6 @@ import MusicCard from "@/lib/components/musicCard";
 import { useTheme } from "@/lib/theme/provider";
 import { BaseInfos } from "@/lib/types/types";
 import { ScrollView, View } from "react-native";
-import AppText from "@/lib/components/appText";
 
 const ppBillie = require("../../../assets/tempImg/Profils_Artistes/Billie_Eilish.jpg");
 const ppAespa = require("../../../assets/tempImg/Profils_Artistes/aespa.jpg");

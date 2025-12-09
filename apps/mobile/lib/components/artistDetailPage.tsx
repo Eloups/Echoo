@@ -2,7 +2,7 @@ import { View, ScrollView, Image, Pressable, StyleSheet, TouchableOpacity } from
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
-import AppText from '@/lib/components/appText';
+import AppText from '@/lib/components/global/appText';
 import { BaseInfos } from '../types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from './musicCard';

@@ -4,7 +4,7 @@ import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { withLayoutContext, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { View } from 'react-native';
-import AppText from '@/lib/components/appText';
+import AppText from '@/lib/components/global/appText';
 
 const { Navigator } = createMaterialTopTabNavigator();
 

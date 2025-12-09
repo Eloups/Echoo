@@ -1,7 +1,7 @@
 import { View, Image } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
-import AppText from "./appText";
-import { BaseInfos } from "../types/types";
+import AppText from "./global/appText";
+import { BaseInfos } from "../types/baseInfos";
 
 type PageProps = {
     music: BaseInfos

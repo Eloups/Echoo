@@ -1,7 +1,7 @@
 import { View, ScrollView, Image, Pressable } from 'react-native';
 import { useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
-import AppText from '@/lib/components/appText';
+import AppText from '@/lib/components/global/appText';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 

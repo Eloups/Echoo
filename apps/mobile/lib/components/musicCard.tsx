@@ -1,6 +1,6 @@
 import { View, Image, StyleSheet, Pressable } from "react-native";
 import { BaseInfos } from "../types/types";
-import AppText from "./appText";
+import AppText from "./global/appText";
 import { isSearchBarAvailableForCurrentPlatform, SearchBar } from "react-native-screens";
 import { themes } from "../theme";
 import { useTheme } from "../theme/provider";

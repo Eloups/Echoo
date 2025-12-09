@@ -20,7 +20,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.FrontMobileEchoo"
+      "package": "com.anonymous.FrontMobileEchoo",
+      "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "output": "static",

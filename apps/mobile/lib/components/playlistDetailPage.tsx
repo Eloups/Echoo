@@ -2,7 +2,7 @@ import { View, ScrollView, Image, Pressable, StyleSheet, Modal, TouchableOpacity
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
-import AppText from '@/lib/components/appText';
+import AppText from '@/lib/components/global/appText';
 import { BaseInfos } from '../types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from './musicCard';
@@ -88,7 +88,7 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                     />
                 )}
 
-                <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+                <ScrollView contentContainerStyle={{ paddingBottom: 0 }}>
                     {/* En-tête avec image et infos */}
                     <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: 20 }}>
                         <View style={styles.containerImgPlaylists}>

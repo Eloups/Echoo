@@ -2,7 +2,6 @@ import MusicCard from "@/lib/components/musicCard";
 import { useTheme } from "@/lib/theme/provider";
 import { BaseInfos } from "@/lib/types/types";
 import { ScrollView, View } from "react-native";
-import AppText from "@/lib/components/appText";
 
 const cover = require("../../../assets/tempImg/Covers_Albums/HMHAS.jpg");
 const cover2 = require("../../../assets/tempImg/Covers_Albums/RichMan.webp");

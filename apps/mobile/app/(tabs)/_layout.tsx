@@ -20,8 +20,8 @@ export default function TabLayout() {
                 fontWeight: 300,
             },
             tabBarStyle: {
-                backgroundColor: "#00000000",
-                marginBottom: 7,
+                backgroundColor: theme.colors.background,
+                paddingBottom: 7,
                 borderTopColor: theme.colors.primary
             },
             header: (props) => (

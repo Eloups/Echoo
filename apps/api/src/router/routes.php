@@ -6,6 +6,27 @@ use Symfony\Component\Routing\RouteCollection;
 $routes = new RouteCollection();
 
 // On crée les routes ici
-$routes->add('music|list', new Route('/musics', methods: 'GET'));
+// Musiques
+$routes->add('music|list', new Route('/musics/artist/{id}', methods: 'GET'));
+$routes->add('music|like', new Route('/music/like', methods: 'POST'));
+
+// Streaming
+$routes->add('stream|getFile', new Route('/stream/{fileName}', methods: 'GET'));
+
+// Interractions file server
+$routes->add('files|getImage', new Route('/images/{fileName}', methods: 'GET'));
+
+// Artiste
+$routes->add('artist|page', new Route('/artist/{id}/page', methods: 'GET'));
+$routes->add('artist|like', new Route('/artist/like', methods: 'POST'));
+$routes->add('artist|artistInLibrary', new Route('/artist/library/{id}/all', methods: 'GET'));
+
+// Playlist
+$routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));
+$routes->add('playlist|getPlaylistsOfLibrary', new Route('/playlist/library/{id}/all', methods: 'GET'));
+
+// Projet
+$routes->add('project|like', new Route('/project/like', methods: 'POST'));
+$routes->add('project|projectsInLibrary', new Route('/project/library/{id}/all', methods: 'GET'));
 
 return $routes;

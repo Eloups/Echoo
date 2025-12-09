@@ -1,7 +1,7 @@
 import { View, Image, StyleSheet, Pressable, TouchableOpacity, Dimensions } from "react-native";
 import { useState, useRef } from "react";
 import { BaseInfos } from "../types/types";
-import AppText from "./appText";
+import AppText from '@/lib/components/global/appText';
 import { useTheme } from "../theme/provider";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';

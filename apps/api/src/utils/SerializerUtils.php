@@ -4,6 +4,7 @@ namespace Api\Utils;
 
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
@@ -26,7 +27,10 @@ class SerializerUtils {
      */
     private function __construct() {
         $encoders = [new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
+        $normalizers = [
+            new DateTimeNormalizer([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d']),
+            new ObjectNormalizer()
+        ];
         $this->serializer = new Serializer($normalizers, $encoders);;
     }
 

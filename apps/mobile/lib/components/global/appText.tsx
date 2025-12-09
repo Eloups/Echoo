@@ -13,6 +13,8 @@ type AppTextProps = TextProps & {
     weight?: "regular" | "bold";
     /** Alignement du texte */
     align?: TextStyle["textAlign"];
+    /** Fonction OnPress */
+    onPress?: () => void;
 };
 
 const VARIANT_SIZES: Record<Variant, number> = {
@@ -37,6 +39,7 @@ export default function AppText({
     align,
     style,
     children,
+    onPress,
     ...rest
 }: AppTextProps) {
     const { theme } = useTheme();
@@ -57,7 +60,7 @@ export default function AppText({
     };
 
     return (
-        <Text {...rest} style={[baseStyle, style]}>
+        <Text {...rest} style={[baseStyle, style]} onPress={() => { onPress ? onPress() : undefined}}>
             {children}
         </Text>
     );
