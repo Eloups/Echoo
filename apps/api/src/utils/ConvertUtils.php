@@ -248,7 +248,7 @@ class ConvertUtils
             }
         }
         
-        //J'en suis là
+        //J'en suis là : rajouter les notes de la requete à l'objet project 
 
         return new Project(
             isset($id) ? $id : null,
