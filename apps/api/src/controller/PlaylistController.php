@@ -43,10 +43,10 @@ class PlaylistController implements ControllerInterface
     public function run(Request $request): Response
     {
         $adapter = new PlaylistDrivingAdapter();
-        $idPlaylist = $this->params["id"];
 
         return match ($this->action) {
-            'getOnePlaylist' => $adapter->getOnePlaylist($idPlaylist),
+            'getOnePlaylist' => $adapter->getOnePlaylist($this->params["id"]),
+            'getPlaylistsOfLibrary' => $adapter->getPlaylistInLibrary($this->params["id"]),
             default => throw new ResourceNotFoundException(),
         };
     }

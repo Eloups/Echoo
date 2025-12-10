@@ -13,4 +13,11 @@ interface ProjectDrivenAdapterInterface {
      * @return void
      */
     public function addLike(int $id_user, int $id_project): void;
+
+    /**
+     * Méthode pour récupérer les projets d'une library
+     * @param int $id_library
+     * @return array
+     */
+    public function getProjectsInLibrary(int $id_library): array;
 }

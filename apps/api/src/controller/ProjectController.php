@@ -46,6 +46,7 @@ class ProjectController implements ControllerInterface
 
         $response = match ($this->action) {
             'like' => $adapter->likeProject($request->getContent()),
+            'projectsInLibrary' => $adapter->getProjectsInLibrary($this->params["id"]),
             default => throw new ResourceNotFoundException(),
         };
 

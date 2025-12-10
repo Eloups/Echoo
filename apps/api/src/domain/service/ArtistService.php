@@ -3,6 +3,7 @@
 namespace Api\Domain\Service;
 
 use Api\Adapter\ArtistDrivenAdapter;
+use Api\Domain\Class\Artist;
 use Api\Domain\Ports\ArtistServiceInterface;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,5 +36,46 @@ class ArtistService implements ArtistServiceInterface {
     public function likeArtist(int $id_user, int $id_artist): void {
         $driven = new ArtistDrivenAdapter();
         $driven->addLike($id_user, $id_artist);
+    }
+
+    /**
+     * Action de la récupération des artistes de la library
+     * @param int $id_library
+     * @throws Exception
+     * @return never
+     */
+    public function getArtistsInLibrary(int $id_library): array
+    {
+        $driven = new ArtistDrivenAdapter();
+        $artists = $driven->getArtistsInLibrary($id_library);
+        foreach($artists as $artist) {
+            if (!$artist instanceof Artist) {
+                throw new Exception("Les données ne sont pas du type Artist");
+            }
+        }
+
+        return $artists;
+    }
+
+    /**
+     * action de récupération des albums d'un artiste
+     * @param int $id_artist
+     * @return array
+     */
+    public function getArtistAlbums(int $id_artist): array {
+        $driven = new ArtistDrivenAdapter();
+        $albums = $driven->getArtistAlbums($id_artist);
+        return $albums;
+    }
+
+    /**
+     * action de récupération des singles d'un artiste
+     * @param int $id_artist
+     * @return array
+     */
+    public function getArtistSingles(int $id_artist): array {
+        $driven = new ArtistDrivenAdapter();
+        $albums = $driven->getArtistSingles($id_artist);
+        return $albums;
     }
 }

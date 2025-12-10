@@ -58,4 +58,38 @@ class ArtistDrivingAdapter {
         $service->likeArtist($body['id_user'], $body['id_artist']);
         return new Response(json_encode(['code' => 200, 'message' => 'Like ajouté avec succès']));
     }
+
+    /**
+     * Méthode pour récupérer les artistes d'une library
+     * @param int $id_library
+     * @return Response
+     */
+    public function getArtistsInLibrary(int $id_library): Response {
+        $service = new ArtistService();
+        $artists = $service->getArtistsInLibrary($id_library);
+
+        return new Response(SerializerUtils::get()->serialize(['artists' => $artists], "json"), 200);
+    }
+
+    /**
+     * Méthode pour récupérer les albums d'un artiste
+     * @param int $id_artist
+     * @return Response
+     */
+    public function getArtistAlbums(int $id_artist): Response {
+        $service = new ArtistService();
+        $albums = $service->getArtistAlbums($id_artist);
+        return new Response(SerializerUtils::get()->serialize(['albums' => $albums], "json"), 200);
+    }
+
+    /**
+     * Méthode pour récupérer les singles d'un artiste
+     * @param int $id_artist
+     * @return Response
+     */
+    public function getArtistSingles(int $id_artist): Response {
+        $service = new ArtistService();
+        $singles = $service->getArtistSingles($id_artist);
+        return new Response(SerializerUtils::get()->serialize(['singles' => $singles], "json"), 200);
+    }
 }
