@@ -7,6 +7,7 @@ use Api\Database\Requests\PgsqlMusicRequests;
 use Api\Database\Requests\PgsqlUserRequests;
 use Api\Domain\Class\Music;
 use Api\Domain\Ports\UserDrivenAdapterInterface;
+use Api\Utils\ConvertUtils;
 use DateTime;
 
 /**
@@ -39,27 +40,7 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
             }
         }
 
-        $musicRequests = new PgsqlMusicRequests($pdo);
-
-        $musics = [];
-        foreach ($musicsToReturn as $musicToReturn) {
-            $genres = [];
-            $genresData = $musicRequests->getMusicsGenres($musicToReturn['id']);
-            foreach ($genresData as $genreData) {
-                array_push($genres, $genreData['name']);
-            }
-
-            array_push($musics, new Music(
-                $musicToReturn['id'],
-                $musicToReturn['title'],
-                $musicToReturn['duration'],
-                new DateTime($musicToReturn['release']),
-                $musicToReturn['file_path'],
-                $genres,
-                $musicToReturn['nb_streams'],
-                null
-            ));
-        }
+        $musics = ConvertUtils::convertRowToMusics($musicsToReturn, $pdo);
 
         return $musics;
     }
