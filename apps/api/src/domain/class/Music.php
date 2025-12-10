@@ -122,10 +122,12 @@ class Music
         return $this->genres;
     }
 
-    public function addGenre(Genre $genre): void {
+    public function addGenre(Genre $genre): void
+    {
         $this->genres[] = $genre;
     }
-    public function addRate(Rating $rate): void {
+    public function addRate(Rating $rate): void
+    {
         $this->rates[] = $rate;
     }
     /**

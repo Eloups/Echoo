@@ -2,6 +2,7 @@
 
 namespace Api\Utils;
 
+use Api\Database\Requests\PgsqlMusicRequests;
 use Api\Domain\Class\Artist;
 use Api\Domain\Class\Genre;
 use Api\Domain\Class\Music;
@@ -9,6 +10,7 @@ use Api\Domain\Class\Playlist;
 use Api\Domain\Class\Project;
 use Api\Domain\Class\Rating;
 use DateTime;
+use PDO;
 use Symfony\Component\Serializer\Context\Normalizer\FormErrorNormalizerContextBuilder;
 
 /**
@@ -176,6 +178,34 @@ class ConvertUtils
         );
     }
 
+    public static function convertRowToMusics(array $rows, PDO $pdo): array
+    {
+        $musicRequests = new PgsqlMusicRequests($pdo);
+
+        $musics = [];
+        foreach ($rows as $row) {
+            // Récupération des genres de la musique
+            $genres = [];
+            $genresData = $musicRequests->getMusicsGenres($row['id']);
+            foreach ($genresData as $genreData) {
+                array_push($genres, $genreData['name']);
+            }
+
+            // Création de la musique
+            array_push($musics, new Music(
+                $row['id'],
+                $row['title'],
+                $row['duration'],
+                new DateTime($row['release']),
+                $row['file_path'],
+                $genres,
+                $row['nb_streams'],
+                null
+            ));
+        }
+
+        return $musics;
+    }
     /**
      * Convertir les données de la base en objets Playlist
      * @param array $rows
