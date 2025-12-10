@@ -76,7 +76,7 @@ class PgsqlPlaylistRequests
         FROM playlist p
         INNER JOIN library_playlist 
             ON p.id = library_playlist.id_playlist 
-        WHERE library_playlist.id_library = :id_library and p.title != 'liked'
+        WHERE library_playlist.id_library = :id_library
         GROUP BY p.id;";
 
         $request = $this->pdo->prepare($getPlaylistsInLibrary);

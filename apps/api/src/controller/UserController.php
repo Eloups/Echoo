@@ -2,15 +2,15 @@
 
 namespace Api\Controller;
 
-use Api\Adapter\ArtistDrivingAdapter;
+use Api\Adapter\UserDrivingAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
- * Controlleur des fonctions liées aux artistes
+ * Contrôleur des actions sur les utilisateurs
  */
-class ArtistController implements ControllerInterface
+class UserController implements ControllerInterface
 {
     /**
      * Action à lancer pour le contrôleur
@@ -25,7 +25,7 @@ class ArtistController implements ControllerInterface
     private array $params = [];
 
     /**
-     * Constructeur du contrôlleur des artistes
+     * Constructeur du contrôlleur des projets
      * @param string $action
      */
     public function __construct(string $action, array $params = [])
@@ -41,20 +41,16 @@ class ArtistController implements ControllerInterface
      */
     public function run(Request $request): Response
     {
-        $adapter = new ArtistDrivingAdapter();
-        $limit = $request->get('limit');
-        if ($limit == null) {
-            $limit = 6;
-        }
 
-        return match ($this->action) {
-            'page' => $adapter->ArtistPage($this->params["id"], $limit),
-            'like' => $adapter->likeArtist($request->getContent()),
-            'artistInLibrary' => $adapter->getArtistsInLibrary($this->params["id"]),
-            'albums' => $adapter->getArtistAlbums($this->params["id"]),
-            'singles' => $adapter->getArtistSingles($this->params["id"]),
+        $adapter = new UserDrivingAdapter();
+
+        $response = match ($this->action) {
+            'listenedMusics' => $adapter->getUserListenedMusics($this->params['id'], $request->get('limit') ?? 6),
             default => throw new ResourceNotFoundException(),
         };
+
+        $response->headers->set('Content-Type', 'application/json;charset=UTF-8');
+        return $response;
     }
 
     /**

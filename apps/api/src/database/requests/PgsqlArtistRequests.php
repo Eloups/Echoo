@@ -2,9 +2,11 @@
 
 namespace Api\Database\Requests;
 
+use Api\Domain\Class\Project;
 use Api\Utils\ConvertUtils;
 use Api\Utils\RequestUtils;
 use PDO;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
 /**
  * Classe permettant de lancer des requêtes SQL sur les artistes de la base de données
@@ -197,5 +199,75 @@ class PgsqlArtistRequests
         $request->execute([":id_library" => $id_library]);
         $result = $request->fetchAll();
         return $result;
+    }
+
+    /**
+     * Requête pour récupérer les ids des albums d'un artiste (sans single)
+     * @param int $id_artist
+     * @return array
+     */
+    public function getArtistIdAlbums(int $id_artist): array {
+        $getArtistIdAlbums = "SELECT p.id AS project_id
+        FROM project p
+        JOIN artist_project ap ON p.id = ap.id_project
+        JOIN project_type pt ON p.id_type = pt.id
+        WHERE ap.id_artist = :id_artist
+        AND pt.name != 'Single';";
+
+        $request = $this->pdo->prepare($getArtistIdAlbums);
+        $request->execute([":id_artist" => $id_artist]);
+        $result = $request->fetchAll();
+        return $result;
+    }
+
+    /**
+     * Requête pour récupérer les ids des singles d'un artiste
+     * @param int $id_artist
+     * @return array
+     */
+    public function getArtistIdSingles(int $id_artist): array {
+        $getArtistIdSingles = "SELECT p.id AS project_id
+        FROM project p
+        JOIN artist_project ap ON p.id = ap.id_project
+        JOIN project_type pt ON p.id_type = pt.id
+        WHERE ap.id_artist = :id_artist
+        AND pt.name = 'Single';";
+
+        $request = $this->pdo->prepare($getArtistIdSingles);
+        $request->execute([":id_artist" => $id_artist]);
+        $result = $request->fetchAll();
+        return $result;
+    }
+
+    /**
+     * Requête pour récupérer un projet et ses notes à partir de son id
+     * @param int $id_album
+     * @return void
+     */
+    public function getAlbumsWithRates(int $id_album) : Project {
+        $getRatesAlbums = "SELECT
+            p.id,
+            p.title,
+            p.release,
+            p.color1,
+            p.color2,
+            p.cover_path,
+            pr.id AS id_rating,
+            pr.rating,
+            pr.comment,
+            pr.created_at,
+            pr.id_user,
+            pt.name AS project_type
+        FROM project_rating pr
+        INNER JOIN project p ON p.id = pr.id_project
+        INNER JOIN project_type pt ON pt.id = p.id_type
+        WHERE p.id = :id_album;";
+
+        $request = $this->pdo->prepare($getRatesAlbums);
+        $request->execute([":id_album" => $id_album]);
+        $result = $request->fetchAll();
+
+        $album = ConvertUtils::ConvertAlbumToProject($result);
+        return $album;
     }
 }

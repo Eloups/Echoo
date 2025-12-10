@@ -20,6 +20,8 @@ $routes->add('files|getImage', new Route('/images/{fileName}', methods: 'GET'));
 $routes->add('artist|page', new Route('/artist/{id}/page', methods: 'GET'));
 $routes->add('artist|like', new Route('/artist/like', methods: 'POST'));
 $routes->add('artist|artistInLibrary', new Route('/artist/library/{id}/all', methods: 'GET'));
+$routes->add('artist|albums', new Route('/artist/{id}/albums', methods: 'GET'));
+$routes->add('artist|singles', new Route('/artist/{id}/singles', methods: 'GET'));
 
 // Playlist
 $routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));
@@ -28,5 +30,8 @@ $routes->add('playlist|getPlaylistsOfLibrary', new Route('/playlist/library/{id}
 // Projet
 $routes->add('project|like', new Route('/project/like', methods: 'POST'));
 $routes->add('project|projectsInLibrary', new Route('/project/library/{id}/all', methods: 'GET'));
+
+// User
+$routes->add('user|listenedMusics', new Route('/user/{id}/listened/musics'));
 
 return $routes;

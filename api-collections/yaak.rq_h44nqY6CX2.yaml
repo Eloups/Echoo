@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_h44nqY6CX2
+createdAt: 2025-12-09T16:07:04.246519800
+updatedAt: 2025-12-09T16:07:34.093823600
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_zuMHoGGruW
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: get singles from an artist
+sortPriority: -1760599398215.0
+url: ${[ API_HOST ]}/artist/1/singles
+urlParameters: []
