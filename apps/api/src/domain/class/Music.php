@@ -51,6 +51,12 @@ class Music
     private ?array $rates;
 
     /**
+     * Nom de l'artiste de la musique
+     * @var string
+     */
+    private ?string $nameArtist;
+
+    /**
      * Constructeur de la musique
      * @param ?int $id
      * @param string $title
@@ -60,8 +66,9 @@ class Music
      * @param Genre[] $genres
      * @param int $nbStreams
      * @param ?Rating[] $rates
+     * @param string $nameArtist
      */
-    public function __construct(?int $id, string $title, int $duration, DateTime $release, string $file_path, array $genres, int $nbStreams, ?array $rates)
+    public function __construct(?int $id, string $title, int $duration, DateTime $release, string $file_path, array $genres, int $nbStreams, ?array $rates, ?string $nameArtist)
     {
         $this->id = $id;
         $this->title = $title;
@@ -71,6 +78,7 @@ class Music
         $this->genres = $genres;
         $this->nbStreams = $nbStreams;
         $this->rates = $rates;
+        $this->nameArtist = $nameArtist;
     }
 
     /**
@@ -145,5 +153,13 @@ class Music
     public function getRates(): ?array
     {
         return $this->rates;
+    }
+    /**
+     * Accesseur du nom de l'artiste de la musique
+     * @return ?string
+     */
+    public function getNameArtist(): ?string
+    {
+        return $this->nameArtist;
     }
 }
