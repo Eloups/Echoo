@@ -31,4 +31,7 @@ $routes->add('playlist|getPlaylistsOfLibrary', new Route('/playlist/library/{id}
 $routes->add('project|like', new Route('/project/like', methods: 'POST'));
 $routes->add('project|projectsInLibrary', new Route('/project/library/{id}/all', methods: 'GET'));
 
+// User
+$routes->add('user|listenedMusics', new Route('/user/{id}/listened/musics'));
+
 return $routes;

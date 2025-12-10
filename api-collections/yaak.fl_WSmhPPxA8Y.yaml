@@ -2,12 +2,12 @@ type: folder
 model: folder
 id: fl_WSmhPPxA8Y
 createdAt: 2025-12-08T13:23:54.754324900
-updatedAt: 2025-12-08T13:23:54.754325900
+updatedAt: 2025-12-08T18:06:45.663380600
 workspaceId: wk_uYbS3VsxD9
 folderId: null
 authentication: {}
 authenticationType: null
 description: ''
 headers: []
-name: Project
+name: Get last listened musics
 sortPriority: -1765200200000.0

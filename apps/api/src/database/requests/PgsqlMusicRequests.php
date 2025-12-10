@@ -76,7 +76,8 @@ class PgsqlMusicRequests
      * @param int $id_music
      * @return void
      */
-    public function addLike(int $id_user, int $id_music): void {
+    public function addLike(int $id_user, int $id_music): void
+    {
         $getIdPlaylistLiked = "SELECT playlist.id
         FROM \"user\"
         INNER JOIN library 
@@ -96,10 +97,27 @@ class PgsqlMusicRequests
             INSERT INTO playlist_music (id_playlist, id_music)
             VALUES (:id_playlist, :id_music)
         ");
-        
+
         $request->execute([
             ":id_playlist" => $idPlaylistLiked,
             ":id_music" => $id_music
         ]);
+    }
+
+    /**
+     * Requête pour récupérer les genres d'une musique
+     * @param int $musicId
+     * @return array
+     */
+    public function getMusicsGenres(int $musicId): array
+    {
+        $sql = "SELECT g.id, g.name
+        FROM music_genre AS mg
+        JOIN genre AS g ON mg.id_genre = g.id
+        WHERE mg.id_music = :musicId;";
+
+        $request = $this->pdo->prepare($sql);
+        $request->execute([":musicId" => $musicId]);
+        return $request->fetchAll();
     }
 }

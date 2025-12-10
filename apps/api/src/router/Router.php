@@ -9,6 +9,7 @@ use Api\Controller\MusicController;
 use Api\Controller\PlaylistController;
 use Api\Controller\ProjectController;
 use Api\Controller\StreamingController;
+use Api\Controller\UserController;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -77,6 +78,7 @@ class Router
             'artist' => new ArtistController($action, $match),
             'playlist' => new PlaylistController($action, $match),
             'project' => new ProjectController($action, $match),
+            'user' => new UserController($action, $match),
             default => throw new ResourceNotFoundException(),
         };
     }
