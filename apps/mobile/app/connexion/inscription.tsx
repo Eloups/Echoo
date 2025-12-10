@@ -6,10 +6,12 @@ import EchooSmallLogo from "@/assets/img/EchooSmallLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
+import { useGlobalHook } from "@/hook";
 
 
 export default function InscriptionScreen() {
     const router = useRouter();
+    const { register } = useGlobalHook();
 
     const [pseudo, setPseudo] = React.useState("");
     const [email, setEmail] = React.useState("");
@@ -22,7 +24,10 @@ export default function InscriptionScreen() {
         // TODO Mettre la vérification front des champs 
 
         // Tempo redirection
-        router.push("/(tabs)/home");
+        // router.push("/(tabs)/home");
+        console.log("ici")
+        register(pseudo, email, mdp);
+
     }
 
     return (
@@ -43,7 +48,7 @@ export default function InscriptionScreen() {
                     flexDirection: "row",
                 }}
             >
-                <EchooSmallLogo height={40} width={65} style={{marginRight : 14}}/>
+                <EchooSmallLogo height={40} width={65} style={{ marginRight: 14 }} />
                 <AppText size="3xl" weight="bold">
                     Inscription
                 </AppText>

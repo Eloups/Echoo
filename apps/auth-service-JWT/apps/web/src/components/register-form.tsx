@@ -26,6 +26,8 @@ export const RegisterForm: FC<Props> = function () {
     mutationFn: async (formData:FormData) => {
       const loading = toast.loading('Loading...');
       const {data, error} = await authClient.signUp.email(formData);
+      console.log("data = ",data)
+      console.log("error = ",error)
       toast.dismiss(loading);
       
 
