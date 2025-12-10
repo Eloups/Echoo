@@ -7,6 +7,7 @@ import AppText from '@/lib/components/global/appText';
 import { BaseInfos } from '../types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import DetailMusicCard from './detailMusicCard';
+import { apiClient } from '@/lib/api';
 
 type AlbumDetailPageProps = {
     data: BaseInfos;
@@ -92,7 +93,9 @@ export default function AlbumDetailPage({ data, onBack }: AlbumDetailPageProps) 
                 {/* En-tête avec image et infos */}
                 <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: 20 }}>
                     <Image 
-                        source={data.cover} 
+                        source={data.coverPath 
+                            ? { uri: apiClient.getImageUrl(data.coverPath) }
+                            : data.cover}
                         style={{ width: 200, height: 200, borderRadius: 5 }}
                     />
                     <AppText size="2xl" style={{ marginTop: 30, textAlign: 'center', fontWeight: 'bold' }}>

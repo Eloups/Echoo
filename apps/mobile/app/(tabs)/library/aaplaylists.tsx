@@ -3,7 +3,7 @@ import { useTheme } from "@/lib/theme/provider";
 import { BaseInfos } from "@/lib/types/types";
 import { ScrollView, View, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
-import { PlaylistService } from "@/lib/api";
+import { PlaylistService, apiClient } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
 
 const coverSpongebob = require("../../../assets/tempImg/Covers_Playlists/Spongebob.jpg");
@@ -78,7 +78,9 @@ export default function Playlists() {
                 // Convertir les données de l'API au format BaseInfos
                 const formattedPlaylists: BaseInfos[] = playlistsArray.map((playlist: any) => ({
                     id: playlist.id,
-                    cover: coverSpongebob,
+                    cover: playlist.coverPath 
+                        ? { uri: apiClient.getImageUrl(playlist.coverPath) }
+                        : coverSpongebob,
                     title: playlist.title || "Playlist",
                     artist: `${playlist.musics?.length || 0} morceaux`,
                     color1: "#965F4C",
@@ -88,7 +90,9 @@ export default function Playlists() {
                     description: playlist.description || "",
                     nbMusics: playlist.musics?.length || 0,
                     musicList: playlist.musics?.map((music: any) => ({
-                        cover: coverSpongebob,
+                        cover: music.coverPath 
+                            ? { uri: apiClient.getImageUrl(music.coverPath) }
+                            : coverSpongebob,
                         title: music.titre || music.title,
                         artist: music.artisteNom || music.artist || "Artiste inconnu",
                         color1: "#04131D",

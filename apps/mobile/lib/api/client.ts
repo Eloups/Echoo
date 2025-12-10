@@ -115,7 +115,7 @@ class ApiClient {
   
   // Récupérer l'URL complète d'une image
   getImageUrl(fileName: string): string {
-    return `${FILE_SERVER_URL}/images/${fileName}`;
+    return `${API_BASE_URL}/images/${fileName}`;
   }
 
   

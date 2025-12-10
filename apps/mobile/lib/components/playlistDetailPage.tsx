@@ -8,7 +8,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from './musicCard';
 import DetailMusicCard from './detailMusicCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { PlaylistService } from '@/lib/api';
+import { PlaylistService, apiClient } from '@/lib/api';
 
 type PlaylistDetailPageProps = {
     data: BaseInfos;
@@ -38,7 +38,9 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                 // Convertir les musiques au format BaseInfos
                 const formattedMusics: BaseInfos[] = (playlistData.musics || []).map((music: any) => ({
                     id: music.id,
-                    cover: data.cover,
+                    cover: music.coverPath 
+                        ? { uri: apiClient.getImageUrl(music.coverPath) }
+                        : data.cover,
                     title: music.title,
                     artist: music.artist || "Artiste inconnu",
                     color1: "#04131D",
@@ -148,15 +150,21 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                         <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: 20 }}>
                             <View style={styles.containerImgPlaylists}>
                                 <Image
-                                    source={data.cover}
+                                    source={playlistDetails?.coverPath 
+                                        ? { uri: apiClient.getImageUrl(playlistDetails.coverPath) }
+                                        : data.cover}
                                     style={styles.imagePlaylist1}
                                 />
                                 <Image
-                                    source={data.cover}
+                                    source={playlistDetails?.coverPath 
+                                        ? { uri: apiClient.getImageUrl(playlistDetails.coverPath) }
+                                        : data.cover}
                                     style={styles.imagePlaylist2}
                                 />
                                 <Image
-                                    source={data.cover}
+                                    source={playlistDetails?.coverPath 
+                                        ? { uri: apiClient.getImageUrl(playlistDetails.coverPath) }
+                                        : data.cover}
                                     style={styles.imagePlaylist3}
                                 />
                             </View>
