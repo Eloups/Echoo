@@ -189,38 +189,38 @@ insert into genre (id, name) values
 (10, 'Metal');
 
 insert into music (id, title, duration, release, nb_streams, file_path) values
-(1, 'Dance Floor', 312, '2022-05-15 12:00:00', 456123, '/music/1.mp3'),
-(2, 'Indie Vibes', 287, '2021-11-22 12:00:00', 123456, '/music/2.mp3'),
-(3, 'Jazz Night', 356, '2023-02-10 12:00:00', 789012, '/music/3.mp3'),
-(4, 'Summer Vibes', 245, '2020-07-30 12:00:00', 321654, '/music/4.mp3'),
-(5, 'Hip-Hop Beats', 298, '2024-01-18 12:00:00', 987654, '/music/5.mp3'),
-(6, 'Classical Symphony', 420, '2023-08-14 12:00:00', 123456, '/music/6.mp3'),
-(7, 'Electronic Pulse', 330, '2022-09-20 12:00:00', 456789, '/music/7.mp3'),
-(8, 'Country Roads', 250, '2021-03-10 12:00:00', 234567, '/music/8.mp3'),
-(9, 'R&B Groove', 300, '2023-05-05 12:00:00', 567890, '/music/9.mp3'),
-(10, 'Reggae Rhythms', 280, '2022-12-12 12:00:00', 345678, '/music/10.mp3'),
-(11, 'Metal Thunder', 400, '2023-07-22 12:00:00', 678901, '/music/11.mp3'),
-(12, 'Pop Sensation', 220, '2021-06-18 12:00:00', 234567, '/music/12.mp3'),
-(13, 'Chillout Lounge', 310, '2023-01-30 12:00:00', 456789, '/music/13.mp3'),
-(14, 'Dance Floor Remix', 320, '2022-11-15 12:00:00', 567890, '/music/14.mp3'),
-(15, 'Indie Vibes Remix', 290, '2023-09-05 12:00:00', 678901, '/music/15.mp3');
+(1, 'Dance Floor', 312, '2022-05-15 12:00:00', 456123, '1.mp3'),
+(2, 'Indie Vibes', 287, '2021-11-22 12:00:00', 123456, '2.mp3'),
+(3, 'Jazz Night', 356, '2023-02-10 12:00:00', 789012, '3.mp3'),
+(4, 'Summer Vibes', 245, '2020-07-30 12:00:00', 321654, '4.mp3'),
+(5, 'Hip-Hop Beats', 298, '2024-01-18 12:00:00', 987654, '5.mp3'),
+(6, 'Classical Symphony', 420, '2023-08-14 12:00:00', 123456, '6.mp3'),
+(7, 'Electronic Pulse', 330, '2022-09-20 12:00:00', 456789, '7.mp3'),
+(8, 'Country Roads', 250, '2021-03-10 12:00:00', 234567, '8.mp3'),
+(9, 'R&B Groove', 300, '2023-05-05 12:00:00', 567890, '9.mp3'),
+(10, 'Reggae Rhythms', 280, '2022-12-12 12:00:00', 345678, '10.mp3'),
+(11, 'Metal Thunder', 400, '2023-07-22 12:00:00', 678901, '11.mp3'),
+(12, 'Pop Sensation', 220, '2021-06-18 12:00:00', 234567, '12.mp3'),
+(13, 'Chillout Lounge', 310, '2023-01-30 12:00:00', 456789, '13.mp3'),
+(14, 'Dance Floor Remix', 320, '2022-11-15 12:00:00', 567890, '14.mp3'),
+(15, 'Indie Vibes Remix', 290, '2023-09-05 12:00:00', 678901, '15.mp3');
 
 insert into artist (id, name, isVerified, description, image_path) values
-(1, 'Beyoncé', TRUE, 'Description for artist 1', '/images/artist_1.jpg'),
-(2, 'Drake', TRUE, 'Description for artist 2', '/images/artist_2.jpg'),
-(3, 'Taylor Swift', TRUE, 'Description for artist 3', '/images/artist_3.jpg'),
-(4, 'Kendrick Lamar', TRUE, 'Description for artist 4', '/images/artist_4.jpg'),
-(5, 'Billie Eilish', TRUE, 'Description for artist 5', '/images/artist_5.jpg'),
-(6, 'Ed Sheeran', TRUE, 'Description for artist 6', '/images/artist_6.jpg'),
-(7, 'Adele', TRUE, 'Description for artist 7', '/images/artist_7.jpg'),
-(8, 'Lady Gaga', TRUE, 'Description for artist 8', '/images/artist_8.jpg'),
-(9, 'Bruno Mars', TRUE, 'Description for artist 9', '/images/artist_9.jpg'),
-(10, 'Rihanna', TRUE, 'Description for artist 10', '/images/artist_10.jpg'),
-(11, 'Coldplay', TRUE, 'Description for artist 11', '/images/artist_11.jpg'),
-(12, 'The Weeknd', TRUE, 'Description for artist 12', '/images/artist_12.jpg'),
-(13, 'Ariana Grande', TRUE, 'Description for artist 13', '/images/artist_13.jpg'),
-(14, 'Justin Bieber', TRUE, 'Description for artist 14', '/images/artist_14.jpg'),
-(15, 'Post Malone', TRUE, 'Description for artist 15', '/images/artist_15.jpg');
+(1, 'Beyoncé', TRUE, 'Description for artist 1', 'artist_1.jpg'),
+(2, 'Drake', TRUE, 'Description for artist 2', 'artist_2.jpg'),
+(3, 'Taylor Swift', TRUE, 'Description for artist 3', 'artist_3.jpg'),
+(4, 'Kendrick Lamar', TRUE, 'Description for artist 4', 'artist_4.jpg'),
+(5, 'Billie Eilish', TRUE, 'Description for artist 5', 'artist_5.jpg'),
+(6, 'Ed Sheeran', TRUE, 'Description for artist 6', 'artist_6.jpg'),
+(7, 'Adele', TRUE, 'Description for artist 7', 'artist_7.jpg'),
+(8, 'Lady Gaga', TRUE, 'Description for artist 8', 'artist_8.jpg'),
+(9, 'Bruno Mars', TRUE, 'Description for artist 9', 'artist_9.jpg'),
+(10, 'Rihanna', TRUE, 'Description for artist 10', 'artist_10.jpg'),
+(11, 'Coldplay', TRUE, 'Description for artist 11', 'artist_11.jpg'),
+(12, 'The Weeknd', TRUE, 'Description for artist 12', 'artist_12.jpg'),
+(13, 'Ariana Grande', TRUE, 'Description for artist 13', 'artist_13.jpg'),
+(14, 'Justin Bieber', TRUE, 'Description for artist 14', 'artist_14.jpg'),
+(15, 'Post Malone', TRUE, 'Description for artist 15', 'artist_15.jpg');
 
 insert into network (id, name) values
 (1, 'Spotify'),
@@ -237,31 +237,31 @@ insert into project_type (id, name) values
 (4, 'Compilation');
 
 insert into project (id, title, release, color1, color2, cover_path, id_type) values
-(1, 'Project 1', '2022-05-15 12:00:00', '#FF5733', '#33FF57', '/covers/project_1.jpg', 1),
-(2, 'Project 2', '2021-11-22 12:00:00', '#3357FF', '#F033FF', '/covers/project_2.jpg', 2),
-(3, 'Project 3', '2023-02-10 12:00:00', '#57FF33', '#FF33F0', '/covers/project_3.jpg', 3),
-(4, 'Project 4', '2020-07-30 12:00:00', '#33FFF0', '#F0FF33', '/covers/project_4.jpg', 1),
-(5, 'Project 5', '2024-01-18 12:00:00', '#FF33A8', '#A833FF', '/covers/project_5.jpg', 2),
-(6, 'Project 6', '2023-08-14 12:00:00', '#33A8FF', '#A8FF33', '/covers/project_6.jpg', 3),
-(7, 'Project 7', '2022-09-20 12:00:00', '#A833FF', '#33FFA8', '/covers/project_7.jpg', 1),
-(8, 'Project 8', '2021-03-10 12:00:00', '#FFA833', '#33A8FF', '/covers/project_8.jpg', 2),
-(9, 'Project 9', '2023-05-05 12:00:00', '#33FFA8', '#A833FF', '/covers/project_9.jpg', 3),
-(10, 'Project 10', '2022-12-12 12:00:00', '#A8FF33', '#FF33A8', '/covers/project_10.jpg', 1);
+(1, 'Project 1', '2022-05-15 12:00:00', '#FF5733', '#33FF57', 'project_1.jpg', 1),
+(2, 'Project 2', '2021-11-22 12:00:00', '#3357FF', '#F033FF', 'project_2.jpg', 2),
+(3, 'Project 3', '2023-02-10 12:00:00', '#57FF33', '#FF33F0', 'project_3.jpg', 3),
+(4, 'Project 4', '2020-07-30 12:00:00', '#33FFF0', '#F0FF33', 'project_4.jpg', 1),
+(5, 'Project 5', '2024-01-18 12:00:00', '#FF33A8', '#A833FF', 'project_5.jpg', 2),
+(6, 'Project 6', '2023-08-14 12:00:00', '#33A8FF', '#A8FF33', 'project_6.jpg', 3),
+(7, 'Project 7', '2022-09-20 12:00:00', '#A833FF', '#33FFA8', 'project_7.jpg', 1),
+(8, 'Project 8', '2021-03-10 12:00:00', '#FFA833', '#33A8FF', 'project_8.jpg', 2),
+(9, 'Project 9', '2023-05-05 12:00:00', '#33FFA8', '#A833FF', 'project_9.jpg', 3),
+(10, 'Project 10', '2022-12-12 12:00:00', '#A8FF33', '#FF33A8', 'project_10.jpg', 1);
 
 insert into library (id) values
 (1), (2), (3), (4), (5), (6), (7), (8), (9), (10);
 
 insert into playlist (id, title, isPublic, description, cover_path) values
-(1, 'Playlist 1', TRUE, 'Description for playlist 1', '/covers/playlist_1.jpg'),
-(2, 'Playlist 2', FALSE, 'Description for playlist 2', '/covers/playlist_2.jpg'),
-(3, 'Playlist 3', TRUE, 'Description for playlist 3', '/covers/playlist_3.jpg'),
-(4, 'Playlist 4', FALSE, 'Description for playlist 4', '/covers/playlist_4.jpg'),
-(5, 'Playlist 5', TRUE, 'Description for playlist 5', '/covers/playlist_5.jpg'),
-(6, 'Playlist 6', FALSE, 'Description for playlist 6', '/covers/playlist_6.jpg'),
-(7, 'Playlist 7', TRUE, 'Description for playlist 7', '/covers/playlist_7.jpg'),
-(8, 'Playlist 8', FALSE, 'Description for playlist 8', '/covers/playlist_8.jpg'),
-(9, 'Playlist 9', TRUE, 'Description for playlist 9', '/covers/playlist_9.jpg'),
-(10, 'liked', FALSE, 'Description for playlist liked', '/covers/playlist_10.jpg');
+(1, 'Playlist 1', TRUE, 'Description for playlist 1', 'playlist_1.jpg'),
+(2, 'Playlist 2', FALSE, 'Description for playlist 2', 'playlist_2.jpg'),
+(3, 'Playlist 3', TRUE, 'Description for playlist 3', 'playlist_3.jpg'),
+(4, 'Playlist 4', FALSE, 'Description for playlist 4', 'playlist_4.jpg'),
+(5, 'Playlist 5', TRUE, 'Description for playlist 5', 'playlist_5.jpg'),
+(6, 'Playlist 6', FALSE, 'Description for playlist 6', 'playlist_6.jpg'),
+(7, 'Playlist 7', TRUE, 'Description for playlist 7', 'playlist_7.jpg'),
+(8, 'Playlist 8', FALSE, 'Description for playlist 8', 'playlist_8.jpg'),
+(9, 'Playlist 9', TRUE, 'Description for playlist 9', 'playlist_9.jpg'),
+(10, 'liked', FALSE, 'Description for playlist liked', 'playlist_10.jpg');
 
 insert into role (id, name) values
 (1, 'Admin'),
@@ -270,23 +270,23 @@ insert into role (id, name) values
 (4, 'Moderator');
 
 insert into "user" (id, username, email, password, image_path, id_library, id_role, id_artist) values
-(1, 'user1', 'user1@example.com', 'hashed_password', '/images/user_1.jpg', 1, 2, 1),
-(2, 'user2', 'user2@example.com', 'hashed_password', '/images/user_2.jpg', 2, 2, NULL),
-(3, 'user3', 'user3@example.com', 'hashed_password', '/images/user_3.jpg', 3, 3, 3),
-(4, 'user4', 'user4@example.com', 'hashed_password', '/images/user_4.jpg', 4, 2, NULL),
-(5, 'user5', 'user5@example.com', 'hashed_password', '/images/user_5.jpg', 5, 1, NULL),
-(6, 'user6', 'user6@example.com', 'hashed_password', '/images/user_6.jpg', 6, 2, 6),
-(7, 'user7', 'user7@example.com', 'hashed_password', '/images/user_7.jpg', 7, 3, 7),
-(8, 'user8', 'user8@example.com', 'hashed_password', '/images/user_8.jpg', 8, 2, NULL),
-(9, 'user9', 'user9@example.com', 'hashed_password', '/images/user_9.jpg', 9, 2, 9),
-(10, 'user10', 'user10@example.com', 'hashed_password', '/images/user_10.jpg', 10, 4, NULL);
+(1, 'user1', 'user1@example.com', 'hashed_password', 'user_1.jpg', 1, 2, 1),
+(2, 'user2', 'user2@example.com', 'hashed_password', 'user_2.jpg', 2, 2, NULL),
+(3, 'user3', 'user3@example.com', 'hashed_password', 'user_3.jpg', 3, 3, 3),
+(4, 'user4', 'user4@example.com', 'hashed_password', 'user_4.jpg', 4, 2, NULL),
+(5, 'user5', 'user5@example.com', 'hashed_password', 'user_5.jpg', 5, 1, NULL),
+(6, 'user6', 'user6@example.com', 'hashed_password', 'user_6.jpg', 6, 2, 6),
+(7, 'user7', 'user7@example.com', 'hashed_password', 'user_7.jpg', 7, 3, 7),
+(8, 'user8', 'user8@example.com', 'hashed_password', 'user_8.jpg', 8, 2, NULL),
+(9, 'user9', 'user9@example.com', 'hashed_password', 'user_9.jpg', 9, 2, 9),
+(10, 'user10', 'user10@example.com', 'hashed_password', 'user_10.jpg', 10, 4, NULL);
 
 insert into conversation (id, created_at, name, image_path, id_creator) values
-(1, '2023-05-15 12:00:00', 'Conversation 1', '/images/conversation_1.jpg', 1),
-(2, '2023-06-22 12:00:00', 'Conversation 2', '/images/conversation_2.jpg', 2),
-(3, '2023-07-10 12:00:00', 'Conversation 3', '/images/conversation_3.jpg', 3),
-(4, '2023-08-30 12:00:00', 'Conversation 4', '/images/conversation_4.jpg', 4),
-(5, '2023-09-18 12:00:00', 'Conversation 5', '/images/conversation_5.jpg', 5);
+(1, '2023-05-15 12:00:00', 'Conversation 1', 'conversation_1.jpg', 1),
+(2, '2023-06-22 12:00:00', 'Conversation 2', 'conversation_2.jpg', 2),
+(3, '2023-07-10 12:00:00', 'Conversation 3', 'conversation_3.jpg', 3),
+(4, '2023-08-30 12:00:00', 'Conversation 4', 'conversation_4.jpg', 4),
+(5, '2023-09-18 12:00:00', 'Conversation 5', 'conversation_5.jpg', 5);
 
 insert into message (id, send_at, content, id_conversation, id_user, id_music) values
 (1, '2023-05-15 12:05:00', 'Message content 1', 1, 1, 1),

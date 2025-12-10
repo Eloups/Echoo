@@ -26,4 +26,7 @@ $routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GE
 // Projet
 $routes->add('project|like', new Route('/project/like', methods: 'POST'));
 
+// User
+$routes->add('user|listenedMusics', new Route('/user/{id}/listened/musics'));
+
 return $routes;
