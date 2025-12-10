@@ -4,6 +4,8 @@ namespace Api\Adapter;
 
 use Api\Domain\Service\UserService;
 use Api\Utils\SerializerUtils;
+use Api\Utils\VerifyUtils;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -23,5 +25,21 @@ class UserDrivingAdapter
 
         return new Response(SerializerUtils::get()->serialize(['musics' => $musics], "json"));
 
+    }
+
+    /**
+     * Méthode pour ajouter une écoute de musique à un utilisateur
+     * @param string $requestBody
+     * @return Response
+     */
+    public function addUserListenedMusic(string $requestBody): Response
+    {
+        $bodyData = VerifyUtils::verifyJsonRequestBody($requestBody, ['id_user', 'id_music']);
+
+        $service = new UserService();
+
+        $service->addUserListenedMusic($bodyData['id_user'], $bodyData['id_music']);
+
+        return new Response(json_encode(['code' => 201, 'message' => 'Musique ajoutée aux musiques écoutées']), 201);
     }
 }
