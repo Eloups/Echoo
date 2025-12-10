@@ -7,7 +7,9 @@ export type BaseInfos = {
     nbStreams?: number,
     type: string,
     musicList?: BaseInfos[],
-    nbMusics?: number
+    nbMusics?: number,
+    description?: string,
+    id?: number
 }
 
 type APIMusic = {

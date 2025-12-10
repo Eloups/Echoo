@@ -33,7 +33,15 @@ export default function MusicCard(props: PageProps) {
                     from: currentPath
                 }
             });
-        } else if (props.infos.type === "playlist" || props.infos.type === "album" || props.infos.type === "ep" || props.infos.type === "single") {
+        } else if (props.infos.type === "album" || props.infos.type === "ep" || props.infos.type === "single") {
+            router.push({
+                pathname: "/(tabs)/album/musiques",
+                params: {
+                    data: JSON.stringify(props.infos),
+                    from: currentPath
+                }
+            });
+        } else if (props.infos.type === "playlist") {
             router.push({
                 pathname: "/(tabs)/detail",
                 params: {
@@ -63,7 +71,7 @@ export default function MusicCard(props: PageProps) {
                             </View>
                             <View style={{ display: "flex", flexDirection: "column" }}>
                                 <AppText size={"lg"}>{props.infos.title.length > 36 ? props.infos.title.slice(0, 34) + "..." : props.infos.title}</AppText>
-                                <AppText size={"sm"} color="text2">{props.infos.nbMusics == null ? "0" : props.infos.nbMusics} titres</AppText>
+                                <AppText size={"sm"} color="text2">{props.infos.nbMusics ?? "0"} titres</AppText>
                             </View>
                         </View>
                     ) :

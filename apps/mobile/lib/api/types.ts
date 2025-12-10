@@ -40,11 +40,14 @@ export interface Album {
 }
 
 export interface Playlist {
-  id: number;
-  nom: string;
-  description?: string;
-  cover?: string;
-  dateCreation?: string;
-  utilisateurId?: number;
-  musics?: Music[];
+  playlist: {
+    id: number;
+    nom: string;
+    description?: string;
+    cover?: string;
+    dateCreation?: string;
+    utilisateurId?: number;
+    musics?: Music[];
+  }
+
 }

@@ -1,6 +1,6 @@
-import { View, ScrollView, Image, Pressable, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Image, Pressable, StyleSheet, Modal, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
 import { BaseInfos } from '../types/types';
@@ -8,6 +8,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from './musicCard';
 import DetailMusicCard from './detailMusicCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { PlaylistService } from '@/lib/api';
 
 type PlaylistDetailPageProps = {
     data: BaseInfos;
@@ -18,9 +19,57 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
     const { theme } = useTheme();
     const [modalVisible, setModalVisible] = useState(false);
     const [menuVisible, setMenuVisible] = useState(false);
+    const [playlistDetails, setPlaylistDetails] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [musicList, setMusicList] = useState<BaseInfos[]>([]);
+    const [totalDuration, setTotalDuration] = useState(0);
+
+    useEffect(() => {
+        const fetchPlaylistDetails = async () => {
+            if (!data.id) return;
+            
+            try {
+                setLoading(true);
+                const response: any = await PlaylistService.getPlaylistById(data.id);
+                const playlistData = response.playlist || response;
+                
+                setPlaylistDetails(playlistData);
+                
+                // Convertir les musiques au format BaseInfos
+                const formattedMusics: BaseInfos[] = (playlistData.musics || []).map((music: any) => ({
+                    id: music.id,
+                    cover: data.cover,
+                    title: music.title,
+                    artist: music.artist || "Artiste inconnu",
+                    color1: "#04131D",
+                    color2: "#082840",
+                    nbStreams: music.nbStreams || 0,
+                    type: "music" as const
+                }));
+                
+                setMusicList(formattedMusics);
+                
+                // Calculer la durée totale
+                const total = (playlistData.musics || []).reduce((acc: number, music: any) => acc + (music.duration || 0), 0);
+                setTotalDuration(total);
+            } catch (err) {
+                console.error('Erreur lors du chargement de la playlist:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPlaylistDetails();
+    }, [data.id]);
+
+    const formatDuration = (seconds: number): string => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}min${secs.toString().padStart(2, '0')}`;
+    };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['top']}>
             <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
                 <Pressable
                     onPress={onBack}
@@ -88,57 +137,64 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                     />
                 )}
 
-                <ScrollView contentContainerStyle={{ paddingBottom: 0 }}>
-                    {/* En-tête avec image et infos */}
-                    <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: 20 }}>
-                        <View style={styles.containerImgPlaylists}>
-                            <Image
-                                source={data.cover}
-                                style={styles.imagePlaylist1}
-                            />
-                            <Image
-                                source={data.cover}
-                                style={styles.imagePlaylist2}
-                            />
-                            <Image
-                                source={data.cover}
-                                style={styles.imagePlaylist3}
-                            />
-                        </View>
-                        <AppText size="2xl" style={{ marginTop: 30, textAlign: 'center', fontWeight: 'bold' }}>
-                            {data.title}
-                        </AppText>
-                        <AppText size="sm" color="text2" style={{ marginTop: 8, textAlign: 'center' }}>
-                            Description de ma superbe playlist chill avec une superbe cover personnalisée
-                        </AppText>
-                        
-                        {/* Nombre de morceaux et durée */}
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12, gap: 10, width: '100%', justifyContent: 'space-between' }}>
-                            <AppText size="sm" color="text">
-                                {data.nbMusics || 0} Morceaux
-                            </AppText>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                                <AppText size="sm" color="text">45min27</AppText>
-                                <Ionicons name="time-outline" size={14} color={theme.colors.text} />
-                            </View>
-                        </View>
-                        <View style={{width: '100%', height: 1, backgroundColor: theme.colors.text, marginTop: 5}}></View>
+                {loading ? (
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <ActivityIndicator size="large" color={theme.colors.primary} />
+                        <AppText style={{ marginTop: 10 }}>Chargement de la playlist...</AppText>
                     </View>
-
-                    {/* Liste des musiques */}
-                    {data.musicList && data.musicList.length > 0 && (
-                        <View style={{ marginTop: 30, paddingHorizontal: 20 }}>
-                            {data.musicList.map((music, index) => (
-                                <View key={index} style={{ marginBottom: 9 }}>
-                                    <DetailMusicCard 
-                                        infos={music} 
-                                        onRemove={() => console.log(`Supprimer ${music.title}`)} 
-                                    />
+                ) : (
+                    <ScrollView contentContainerStyle={{ paddingBottom: 0 }}>
+                        {/* En-tête avec image et infos */}
+                        <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: 20 }}>
+                            <View style={styles.containerImgPlaylists}>
+                                <Image
+                                    source={data.cover}
+                                    style={styles.imagePlaylist1}
+                                />
+                                <Image
+                                    source={data.cover}
+                                    style={styles.imagePlaylist2}
+                                />
+                                <Image
+                                    source={data.cover}
+                                    style={styles.imagePlaylist3}
+                                />
+                            </View>
+                            <AppText size="2xl" style={{ marginTop: 30, textAlign: 'center', fontWeight: 'bold' }}>
+                                {playlistDetails?.title || data.title}
+                            </AppText>
+                            <AppText size="sm" color="text2" style={{ marginTop: 8, textAlign: 'center' }}>
+                                {playlistDetails?.description || data.description}
+                            </AppText>
+                            
+                            {/* Nombre de morceaux et durée */}
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12, gap: 10, width: '100%', justifyContent: 'space-between' }}>
+                                <AppText size="sm" color="text">
+                                    {musicList.length} Morceaux
+                                </AppText>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                                    <AppText size="sm" color="text">{formatDuration(totalDuration)}</AppText>
+                                    <Ionicons name="time-outline" size={14} color={theme.colors.text} />
                                 </View>
-                            ))}
+                            </View>
+                            <View style={{width: '100%', height: 1, backgroundColor: theme.colors.text, marginTop: 5}}></View>
                         </View>
-                    )}
-                </ScrollView>
+
+                        {/* Liste des musiques */}
+                        {musicList.length > 0 && (
+                            <View style={{ marginTop: 30, paddingHorizontal: 20 }}>
+                                {musicList.map((music, index) => (
+                                    <View key={music.id || index} style={{ marginBottom: 9 }}>
+                                        <DetailMusicCard 
+                                            infos={music} 
+                                            onRemove={() => console.log(`Supprimer ${music.title}`)} 
+                                        />
+                                    </View>
+                                ))}
+                            </View>
+                        )}
+                    </ScrollView>
+                )}
 
                 {/* Bouton flottant en bas à droite */}
                 <Pressable
