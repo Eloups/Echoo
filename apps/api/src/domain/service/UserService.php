@@ -7,8 +7,18 @@ use Api\Domain\Class\Music;
 use Api\Domain\Ports\UserServiceInterface;
 use Exception;
 
+/**
+ * Service des utilisateurs
+ */
 class UserService implements UserServiceInterface
 {
+    /**
+     * Fonction pour récupérer les dernières musiques écoutées par un utilisateur
+     * @param int $userId
+     * @param int $limit
+     * @throws Exception
+     * @return array
+     */
     public function getLastUserListenedMusics(int $userId, int $limit): array
     {
         $adapter = new UserDrivenAdapter();
@@ -22,5 +32,11 @@ class UserService implements UserServiceInterface
         }
 
         return $musics;
+    }
+
+    public function addUserListenedMusic(int $userId, int $musicId): void
+    {
+        $adapter = new UserDrivenAdapter();
+        $adapter->addUserListenedMusic($userId, $musicId);
     }
 }

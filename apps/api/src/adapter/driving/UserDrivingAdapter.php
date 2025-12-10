@@ -4,6 +4,7 @@ namespace Api\Adapter;
 
 use Api\Domain\Service\UserService;
 use Api\Utils\SerializerUtils;
+use Api\Utils\VerifyUtils;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,18 +34,12 @@ class UserDrivingAdapter
      */
     public function addUserListenedMusic(string $requestBody): Response
     {
-        // Vérification du JSON
-        if (!json_validate($requestBody)) {
-            return new Response(json_encode(['code' => 422, 'message' => "Le json n'est pas valide"]));
-        }
-        $body = json_decode($requestBody, true);
+        $bodyData = VerifyUtils::verifyJsonRequestBody($requestBody, ['id_user', 'id_music']);
 
-        // Vérification des clés obligatoires
-        $requiredKeys = ['id_user', 'id_artist']; // TODO en faire une fonction
-        foreach ($requiredKeys as $key) {
-            if (!array_key_exists($key, $body)) {
-                throw new Exception("Le body doit contenir la clé '$key'.");
-            }
-        }
+        $service = new UserService();
+
+        $service->addUserListenedMusic($bodyData['id_user'], $bodyData['id_music']);
+
+        return new Response(json_encode(['code' => 201, 'message' => 'Musique ajoutée aux musiques écoutées']), 201);
     }
 }
