@@ -42,7 +42,7 @@ class PgsqlMusicRequests
             g.id AS genre_id,
             g.name AS genre_name,
             r.id AS rate_id,
-            r.rate AS rate_rate,
+            r.rating AS rate_rate,
             r.comment AS rate_comment,
             p.id AS project_id,
             p.title AS project_title
@@ -68,5 +68,38 @@ class PgsqlMusicRequests
         $request->execute([":id_artist" => $idArtist]);
         $result = $request->fetchAll();
         return $result;
+    }
+
+    /**
+     * Requête pour ajouter un like à une musique
+     * @param int $id_user
+     * @param int $id_music
+     * @return void
+     */
+    public function addLike(int $id_user, int $id_music): void {
+        $getIdPlaylistLiked = "SELECT playlist.id
+        FROM \"user\"
+        INNER JOIN library 
+            ON \"user\".id_library = library.id 
+        INNER JOIN library_playlist 
+            ON library.id = library_playlist.id_library
+        INNER JOIN playlist 
+            ON library_playlist.id_playlist = playlist.id
+        WHERE playlist.title = 'liked'
+        AND \"user\".id = :id_user;";
+
+        $request = $this->pdo->prepare($getIdPlaylistLiked);
+        $request->execute([":id_user" => $id_user]);
+        $idPlaylistLiked = intval($request->fetchAll());
+
+        $request = $this->pdo->prepare("
+            INSERT INTO playlist_music (id_playlist, id_music)
+            VALUES (:id_playlist, :id_music)
+        ");
+        
+        $request->execute([
+            ":id_playlist" => $idPlaylistLiked,
+            ":id_music" => $id_music
+        ]);
     }
 }

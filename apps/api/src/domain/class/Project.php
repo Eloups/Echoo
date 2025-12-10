@@ -31,9 +31,9 @@ class Project
     private string $cover_path;
     /**
      * Type du projet de musique
-     * @var ProjectType
+     * @var string
      */
-    private ProjectType $projectType;
+    private string $projectType;
     /**
      * Liste des musiques du projet
      * @var Music[]
@@ -61,13 +61,13 @@ class Project
      * @param string $title
      * @param DateTime $release
      * @param string $cover_path
-     * @param ProjectType $projectType
+     * @param string $projectType
      * @param Music[] $musics
      * @param string $color1
      * @param string $color2
      * @param Rating[] $rates
      */
-    public function __construct(?int $id, string $title, DateTime $release, string $cover_path, ProjectType $projectType, array $musics, string $color1, string $color2, array $rates)
+    public function __construct(?int $id, string $title, DateTime $release, string $cover_path, string $projectType, array $musics, string $color1, string $color2, array $rates)
     {
         $this->id = $id;
         $this->title = $title;
@@ -116,7 +116,7 @@ class Project
      * Accesseur du type de projet de musique
      * @return ProjectType
      */
-    public function getProjectType(): ProjectType
+    public function getProjectType(): string
     {
         return $this->projectType;
     }

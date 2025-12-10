@@ -15,7 +15,7 @@ interface ControllerInterface
      * Constructeur du controlleur
      * @param string $action
      */
-    public function __construct(string $action);
+    public function __construct(string $action, array $params = []);
 
     /**
      * Lancement de l'action du contrôleur
@@ -27,7 +27,14 @@ interface ControllerInterface
     /**
      * Accesseur de l'action du contrôleur
      * action est un attribut privé du contrôleur
-     * @return void
+     * @return string
      */
     public function getAction(): string;
+
+    /**
+     * Accesseur des paramètres données au contrôleur
+     * params est un attribut privé du contrôleur
+     * @return array
+     */
+    public function getParams(): array;
 }

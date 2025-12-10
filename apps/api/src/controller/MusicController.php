@@ -42,12 +42,15 @@ class MusicController implements ControllerInterface
     public function run(Request $request): Response
     {
         $adapter = new MusicDrivingAdapter();
-        $idArtist = $this->params["id"];
 
-        return match ($this->action) {
-            'list' => $adapter->listMusics( $idArtist),
+        $response = match ($this->action) {
+            'list' => $adapter->listMusics($this->params["id"]),
+            'like' => $adapter->likeMusic($request->getContent()),
             default => throw new ResourceNotFoundException(),
         };
+
+        $response->headers->set('Content-Type', 'application/json;charset=UTF-8');
+        return $response;
     }
 
     /**
@@ -57,5 +60,14 @@ class MusicController implements ControllerInterface
     public function getAction(): string
     {
         return $this->action;
+    }
+
+    /**
+     * Accesseur des paramètres données au contrôleur
+     * @return array
+     */
+    public function getParams(): array
+    {
+        return $this->params;
     }
 }
