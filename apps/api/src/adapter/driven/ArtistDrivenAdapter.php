@@ -147,4 +147,25 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
 
         return $albums;
     }
+
+    /**
+     * Méthode pour récupérer les singles d'un artiste
+     * @param int $id_artist
+     * @return array
+     */
+    public function getArtistSingles(int $id_artist): array
+    {
+        $pgslserver = new PgsqlServer();
+        
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlArtistRequests($pdo);
+
+        $ids = $request->getArtistIdSingles($id_artist);
+        $singles = [];
+        foreach($ids as $id) {
+            array_push($singles, $request->getAlbumsWithRates(intval($id['project_id'])));
+        }
+
+        return $singles;
+    }
 }
