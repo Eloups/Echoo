@@ -46,6 +46,7 @@ class UserController implements ControllerInterface
 
         $response = match ($this->action) {
             'listenedMusics' => $adapter->getUserListenedMusics($this->params['id'], $request->get('limit') ?? 6),
+            'addListenedMusics' => $adapter->addUserListenedMusic($request->getContent()),
             default => throw new ResourceNotFoundException(),
         };
 
