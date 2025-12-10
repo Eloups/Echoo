@@ -163,7 +163,7 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
         $ids = $request->getArtistIdSingles($id_artist);
         $singles = [];
         foreach($ids as $id) {
-            array_push($singles, $request->getAlbumsWithRates(intval($id)));
+            array_push($singles, $request->getAlbumsWithRates(intval($id['project_id'])));
         }
 
         return $singles;

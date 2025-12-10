@@ -6,6 +6,7 @@ use Api\Domain\Class\Project;
 use Api\Utils\ConvertUtils;
 use Api\Utils\RequestUtils;
 use PDO;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
 /**
  * Classe permettant de lancer des requêtes SQL sur les artistes de la base de données
