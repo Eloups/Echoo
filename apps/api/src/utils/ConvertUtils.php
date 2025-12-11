@@ -46,7 +46,8 @@ class ConvertUtils
                     file_path: $row['music_path'],
                     genres: [],
                     nbStreams: $row['music_streams'],
-                    rates: []
+                    rates: [],
+                    nameArtist: $row['artist_name']
                 );
             }
 
@@ -161,7 +162,8 @@ class ConvertUtils
                     file_path: $row['music_path'],
                     genres: [],
                     nbStreams: $row['music_streams'],
-                    rates: []
+                    rates: [],
+                    nameArtist: $row['artist_name']
                 );
             }
         }
@@ -199,6 +201,7 @@ class ConvertUtils
                 $row['file_path'],
                 $genres,
                 $row['nb_streams'],
+                null,
                 null
             ));
         }

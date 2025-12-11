@@ -44,13 +44,27 @@ class PgsqlPlaylistRequests
             m.duration AS music_duration,
             m.release AS music_release,
             m.nb_streams AS music_streams,
-            m.file_path AS music_path
+            m.file_path AS music_path,
+
+            a.name AS artist_name
 
         FROM playlist p
         LEFT JOIN playlist_music pm
             ON p.id = pm.id_playlist
         LEFT JOIN music m
             ON pm.id_music = m.id
+
+        LEFT JOIN project_music prm
+            ON m.id = prm.id_music
+
+        LEFT JOIN project pr
+            ON prm.id_project = pr.id
+
+        LEFT JOIN artist_project ap
+            ON pr.id = ap.id_project
+
+        LEFT JOIN artist a
+            ON ap.id_artist = a.id
 
         WHERE p.id = :id_playlist
 
