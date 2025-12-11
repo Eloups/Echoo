@@ -2,6 +2,8 @@
 
 namespace Api\Domain\Ports;
 
+use Api\Domain\Class\Project;
+
 /**
  * Interface pour le ProjectDrivenAdapter
  */
@@ -20,4 +22,11 @@ interface ProjectDrivenAdapterInterface {
      * @return array
      */
     public function getProjectsInLibrary(int $id_library): array;
+
+    /**
+     * Méthode pour récupérer un projet et ses musiques à partir de son id
+     * @param int $id_project
+     * @return Project
+     */
+    public function getOneProjectWithMusics(int $id_project): Project;
 }

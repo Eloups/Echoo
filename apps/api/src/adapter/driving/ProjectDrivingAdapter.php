@@ -53,4 +53,16 @@ class ProjectDrivingAdapter
 
         return new Response(SerializerUtils::get()->serialize(['projects' => $projects], "json"), 200);
     }
+
+    /**
+     * Méthode pour récupérer un projet avec ses musiques
+     * @param int $id_project
+     * @return Response
+     */
+    public function getOneProject(int $id_project): Response {
+        $service = new ProjectService();
+        $project = $service->getOneProjectWithMusics($id_project);
+
+        return new Response(SerializerUtils::get()->serialize(['project' => $project], "json"), 200);
+    }
 }
