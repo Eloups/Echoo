@@ -211,7 +211,8 @@ class ConvertUtils
      * @param array $rows
      * @return Playlist
      */
-    public static function ConvertRowToPlaylists(array $row): ?Playlist {
+    public static function ConvertRowToPlaylists(array $row, ?int $nbMusics = null): ?Playlist
+    {
         if ($row === [] || !isset($row['playlist_id'])) {
             return null; // aucune playlist trouvée
         }
@@ -230,7 +231,8 @@ class ConvertUtils
             isPublic: $playlistPublic,
             description: $playlistDescription,
             cover_path: $playlistCover,
-            musics: []
+            musics: [],
+            nbMusics: $nbMusics
         );
     }
 
@@ -273,7 +275,7 @@ class ConvertUtils
         $project_type = $rows[0]['project_type'];
 
         $rates = [];
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             if ($row['id_rating'] === null) {
                 continue;
             }
@@ -287,9 +289,9 @@ class ConvertUtils
 
                 $rates[$idRating] = new Rating(
                     $idRating,
-                     $row['rating'],
-                     $row['comment'], 
-                     $row['id_user']
+                    $row['rating'],
+                    $row['comment'],
+                    $row['id_user']
                 );
             }
         }

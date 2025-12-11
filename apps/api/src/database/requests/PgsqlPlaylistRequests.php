@@ -66,7 +66,8 @@ class PgsqlPlaylistRequests
      * @param int $id_library
      * @return array
      */
-    public function getPlaylistsInLibrary(int $id_library): array {
+    public function getPlaylistsInLibrary(int $id_library): array
+    {
         $getPlaylistsInLibrary = "SELECT 
         p.id AS playlist_id,
         p.title AS playlist_title,
@@ -83,5 +84,18 @@ class PgsqlPlaylistRequests
         $request->execute([":id_library" => $id_library]);
         $result = $request->fetchAll();
         return $result;
+    }
+
+    public function getPlaylistMusics(int $id_playlist): int
+    {
+        $sql = "SELECT COUNT(m.id) AS nb_musics
+            FROM playlist_music AS pm
+            JOIN music AS m ON pm.id_music = m.id
+            WHERE pm.id_playlist = :playlistId;";
+
+        $request = $this->pdo->prepare($sql);
+        $request->execute([':playlistId' => $id_playlist]);
+        $result = $request->fetch();
+        return $result['nb_musics'];
     }
 }

@@ -3,7 +3,7 @@ model: environment
 id: ev_E42pT62n72
 workspaceId: wk_uYbS3VsxD9
 createdAt: 2025-10-16T07:23:54.204038
-updatedAt: 2025-10-16T07:24:17.738023700
+updatedAt: 2025-12-11T14:24:56.950075500
 name: local
 public: true
 base: false
@@ -14,4 +14,5 @@ variables:
   name: API_HOST
   value: http://localhost:8000
   id: rjM2frX3H2
-color: null
+color: var(--info)
+sortPriority: 0.0
