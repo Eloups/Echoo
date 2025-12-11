@@ -31,8 +31,7 @@ class PgsqlMusicRequests
      */
     public function getAllMusics(int $idArtist): array
     {
-        $getAllMusics = "
-            SELECT 
+        $getAllMusics = "SELECT 
             m.id AS music_id,
             m.title AS music_title,
             m.duration AS music_duration,
@@ -45,7 +44,8 @@ class PgsqlMusicRequests
             r.rating AS rate_rate,
             r.comment AS rate_comment,
             p.id AS project_id,
-            p.title AS project_title
+            p.title AS project_title,
+            a.name AS artist_name
         FROM artist a
         JOIN artist_project ap
             ON a.id = ap.id_artist

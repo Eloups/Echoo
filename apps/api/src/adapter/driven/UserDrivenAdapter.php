@@ -44,4 +44,20 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
 
         return $musics;
     }
+
+    /**
+     * Fonction pour ajouter une musique écoutée par un utilisateur
+     * @param int $userId
+     * @param int $musicId
+     * @return void
+     */
+    public function addUserListenedMusic(int $userId, int $musicId): void
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $userRequests->addUserListenedMusic($userId, $musicId);
+    }
 }

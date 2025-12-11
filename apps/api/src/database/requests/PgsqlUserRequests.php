@@ -49,4 +49,16 @@ class PgsqlUserRequests
         $result = $request->fetchAll();
         return $result;
     }
+
+    public function addUserListenedMusic(int $userId, int $musicId): void
+    {
+        $sql = "INSERT INTO log_user_music(id_user, id_music, listened_at)
+            VALUES (:userId, :musicId, NOW());";
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":userId" => $userId,
+            ":musicId" => $musicId
+        ]);
+    }
 }
