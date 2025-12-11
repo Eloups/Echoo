@@ -1,27 +1,78 @@
 import { Elysia, Context, t } from "elysia";
-import { auth } from "./auth";
+import { auth, jwtPlugin } from "./auth";
+import { createRemoteJWKSet, jwtVerify } from 'jose';
 import { cors } from '@elysiajs/cors';
 import { prisma } from "./prisma";
 import { env } from "./env";
 
 const betterAuthView = (context: Context) => {
-    const BETTER_AUTH_ACCEPT_METHODS = ["POST", "GET"]
-    // validate request method
-    if(BETTER_AUTH_ACCEPT_METHODS.includes(context.request.method)) {
-        return auth.handler(context.request);
-    } else {
-        context.set.status = 405;
-        return "Error";
-    }
+  const BETTER_AUTH_ACCEPT_METHODS = ["POST", "GET"]
+  // validate request method
+  if (BETTER_AUTH_ACCEPT_METHODS.includes(context.request.method)) {
+    return auth.handler(context.request);
+  } else {
+    context.set.status = 405;
+    return "Error";
+  }
 }
 
 
 const app = new Elysia()
-  .use(cors())
+  .use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'token'],
+    credentials: true,
+  }))
+  .options("/api/auth/verify", ({ set }) => {
+    set.status = 204; // No Content
+    return "";
+  })
+  .post("/api/auth/verify", async ({ body, set }) => {
+    try {
+      console.log("ICI")
+      const { token } = body;
+      console.log("token = ", token)
+      if (!token) {
+        set.status = 400;
+        return { status: "ERROR", message: "Missing token" };
+      }
+
+      const jwksUrl = new URL(`/api/auth/jwks`, `http://localhost:${env.AUTH_SERVICE_PORT}`);
+      const JWKS = createRemoteJWKSet(jwksUrl);
+
+      const { payload } = await jwtVerify(token, JWKS);
+
+      return {
+        status: "SUCCESS",
+        decoded: payload,
+      };
+    } catch (err: any) {
+      set.status = 401;
+
+      if (err.message?.includes("expired")) {
+        return {
+          status: "ERROR",
+          code: "TOKEN_EXPIRED",
+          message: "Token expired",
+        };
+      }
+
+      return {
+        status: "ERROR",
+        code: "INVALID_TOKEN",
+        message: err.message,
+      };
+    }
+  }, {
+    body: t.Object({
+      token: t.String(),
+    })
+  })
   .all('/api/auth/*', betterAuthView)
-  .delete('/users/:id', async ({params}) => {
-    console.log('Deleting user ' + params.id )
-    return await prisma.user.delete({ where: { id: params.id }})
+  .delete('/users/:id', async ({ params }) => {
+    console.log('Deleting user ' + params.id)
+    return await prisma.user.delete({ where: { id: params.id } })
   }, {
     params: t.Object({
       id: t.String(),
