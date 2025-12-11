@@ -26,7 +26,7 @@ class ProjectService implements ProjectServiceInterface {
      * Action de la récupération des projets de la library
      * @param int $id_library
      * @throws Exception
-     * @return never
+     * @return array
      */
     public function getProjectsInLibrary(int $id_library): array
     {
@@ -39,5 +39,18 @@ class ProjectService implements ProjectServiceInterface {
         }
 
         return $projects;
+    }
+
+    /**
+     * Action de la récupération d'un projet et ses musiques avec son id
+     * @param int $id_project
+     * @throws Exception
+     * @return Project
+     */
+    public function getOneProjectWithMusics(int $id_project): Project
+    {
+        $driven = new ProjectDrivenAdapter();
+        $project = $driven->getOneProjectWithMusics($id_project);
+        return $project;
     }
 }

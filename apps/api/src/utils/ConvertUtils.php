@@ -252,7 +252,8 @@ class ConvertUtils
             [],
             $rows['color1'],
             $rows['color2'],
-            []
+            [],
+            null
         );
     }
 
@@ -303,8 +304,70 @@ class ConvertUtils
             [],
             $color1,
             $color2,
-            $rates
+            $rates,
+            null
         );
     }
 
+    public static function ConvertRowsToProjectWithAvgRate(array $rows, float $avgRate): Project
+    {
+        if ($rows === []) {
+            throw new \Exception("No project data provided.");
+        }
+
+        // On prend la première ligne pour construire les infos du projet
+        $first = $rows[0];
+
+        $projectId = $first['project_id'];
+        $projectTitle = $first['project_title'];
+        $projectRelease = new DateTime($first['project_release']);
+        $projectCover = $first['cover_path'];
+        $projectType = $first['project_type'];
+        $color1 = $first['color1'];
+        $color2 = $first['color2'];
+
+        $musics = [];
+
+        foreach ($rows as $row) {
+            $musicId = $row['music_id'];
+
+            // Si la musique est NULL, c’est que le projet n’a aucune musique
+            if ($musicId === null) {
+                continue;
+            }
+
+            // Évite les doublons si jointures multiples
+            if (!isset($musics[$musicId])) {
+                $musicRelease = new DateTime($row['music_release']);
+
+                $musics[$musicId] = new Music(
+                    id: $musicId,
+                    title: $row['music_title'],
+                    duration: $row['duration'],
+                    release: $musicRelease,
+                    file_path: $row['file_path'],
+                    genres: null,
+                    nbStreams: $row['nb_streams'],
+                    rates: null
+                );
+            }
+        }
+
+        // On n'utilise pas les notes individuelles ici → null
+        $rates = null;
+
+        return new Project(
+            id: $projectId,
+            title: $projectTitle,
+            release: $projectRelease,
+            cover_path: $projectCover,
+            projectType: $projectType,
+            musics: array_values($musics), // réindexation propre
+            color1: $color1,
+            color2: $color2,
+            rates: $rates,
+            avgRate: $avgRate
+        );
+
+    }
 }
