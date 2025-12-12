@@ -213,7 +213,7 @@ class ConvertUtils
      * @param array $rows
      * @return Playlist
      */
-    public static function ConvertRowToPlaylists(array $row): ?Playlist
+    public static function ConvertRowToPlaylists(array $row, ?int $nbMusics = null): ?Playlist
     {
         if ($row === [] || !isset($row['playlist_id'])) {
             return null; // aucune playlist trouvée
@@ -233,7 +233,8 @@ class ConvertUtils
             isPublic: $playlistPublic,
             description: $playlistDescription,
             cover_path: $playlistCover,
-            musics: []
+            musics: [],
+            nbMusics: $nbMusics
         );
     }
 

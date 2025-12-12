@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Api\Domain\Class;
 
@@ -6,7 +6,8 @@ namespace Api\Domain\Class;
 /**
  * Classe Playlist
  */
-class Playlist {
+class Playlist
+{
     /**
      * Id de la playlist
      * @var ?int
@@ -37,6 +38,11 @@ class Playlist {
      * @var Music[]
      */
     private array $musics;
+    /**
+     * Nombre de musiques de la playliste
+     * @var ?int
+     */
+    private ?int $nbMusics;
 
     /**
      * Summary of __construct
@@ -47,55 +53,72 @@ class Playlist {
      * @param ?string $cover_path
      * @param Music[] $musics
      */
-    public function __construct(?int $id, string $title, bool $isPublic, ?string $description, ?string $cover_path, array $musics) {
+    public function __construct(?int $id, string $title, bool $isPublic, ?string $description, ?string $cover_path, array $musics, ?int $nbMusics = null)
+    {
         $this->id = $id;
         $this->title = $title;
         $this->isPublic = $isPublic;
         $this->description = $description;
         $this->cover_path = $cover_path;
         $this->musics = $musics;
+        $this->nbMusics = $nbMusics;
     }
 
     /**
      * Accesseur de l'id de la playlist
      * @return int|null
      */
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
     /**
      * Accesseur du titre de la playlist
      * @return string
      */
-    public function getTitle(): string {
+    public function getTitle(): string
+    {
         return $this->title;
     }
     /**
      * Accesseur du booléen si la playlist est publique ou non
      * @return bool
      */
-    public function isPublic(): bool {
+    public function isPublic(): bool
+    {
         return $this->isPublic;
     }
     /**
      * Accesseur de la description de la playlist
      * @return string|null
      */
-    public function getDescription(): string {
+    public function getDescription(): string
+    {
         return $this->description;
     }
     /**
      * Accesseur du chemin de l'image de la cover de la playlist
      * @return string|null
      */
-    public function getCoverPath(): string {
+    public function getCoverPath(): string
+    {
         return $this->cover_path;
     }
     /**
      * Accesseur des musiques de la playlist
      * @return Music[]
      */
-    public function getMusics(): array {
+    public function getMusics(): array
+    {
         return $this->musics;
+    }
+
+    /**
+     * Accesseur du nombre de musiques de la playlist
+     * @return int|null
+     */
+    public function getNbMusics(): ?int
+    {
+        return $this->nbMusics;
     }
 }
