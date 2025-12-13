@@ -26,6 +26,7 @@ $routes->add('artist|singles', new Route('/artist/{id}/singles', methods: 'GET')
 // Playlist
 $routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));
 $routes->add('playlist|getPlaylistsOfLibrary', new Route('/playlist/library/{id}/all', methods: 'GET'));
+$routes->add('playlist|addMusicToPlaylist', new Route('/playlist/add/music', methods: 'POST'));
 
 // Projet
 $routes->add('project|like', new Route('/project/like', methods: 'POST'));
