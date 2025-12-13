@@ -112,4 +112,8 @@ class PgsqlPlaylistRequests
         $result = $request->fetch();
         return $result['nb_musics'];
     }
+
+    public function addPlaylist(string $title, bool $isPublic, string $description, string $cover_path, array $musics): void {
+        //Ici
+    }
 }
