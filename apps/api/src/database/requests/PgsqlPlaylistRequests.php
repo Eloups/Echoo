@@ -112,4 +112,19 @@ class PgsqlPlaylistRequests
         $result = $request->fetch();
         return $result['nb_musics'];
     }
+
+    /**
+     * Requête pour ajouter une musique à une playlist
+     * @param int $id_playlist
+     * @param int $id_music
+     * @return void
+     */
+    public function addMusicInPlaylist(int $id_playlist, int $id_music) {
+        $addMusicInPlaylist = "INSERT INTO 
+            playlist_music (id_playlist, id_music) 
+            VALUES (:id_playlist, :id_music);";
+
+        $request = $this->pdo->prepare($addMusicInPlaylist);
+        $request->execute([':id_playlist' => $id_playlist, ':id_music' => $id_music]);
+    }
 }

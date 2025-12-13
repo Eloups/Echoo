@@ -42,4 +42,16 @@ class PlaylistService implements PlaylistServiceInterface {
 
         return $playlists;
     }
+
+    /**
+     * Action de l'ajout d'une musique à une playlist
+     * @param int $id_playlist
+     * @param int $id_music
+     * @return void
+     */
+    public function addMusicInPlaylist(int $id_playlist, int $id_music): void
+    {
+        $driven = new PlaylistDrivenAdapter();
+        $driven->addMusicInPlaylist($id_playlist, $id_music);
+    }
 }

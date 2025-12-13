@@ -1,0 +1,27 @@
+type: http_request
+model: http_request
+id: rq_sXuCgT6kvM
+createdAt: 2025-12-13T13:17:05.406884100
+updatedAt: 2025-12-13T13:18:40.106903100
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_ZSpH79FmTY
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "id_playlist": 4,
+      "id_music": 3
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: G5Hj5pdSTK
+method: POST
+name: add music to playlist
+sortPriority: -1760599398215.0
+url: ${[ API_HOST ]}/playlist/add/music
+urlParameters: []
