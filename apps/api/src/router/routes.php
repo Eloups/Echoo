@@ -15,6 +15,7 @@ $routes->add('stream|getFile', new Route('/stream/{fileName}', methods: 'GET'));
 
 // Interractions file server
 $routes->add('files|getImage', new Route('/images/{fileName}', methods: 'GET'));
+$routes->add('files|addImage', new Route('/images', methods: 'POST'));
 
 // Artiste
 $routes->add('artist|page', new Route('/artist/{id}/page', methods: 'GET'));
