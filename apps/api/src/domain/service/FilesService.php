@@ -22,4 +22,17 @@ class FilesService implements FilesServiceInterface
 
         return $adapter->getImageFile($fileName);
     }
+
+    /**
+     * Fonction pour ajouter une image au serveur de fichier
+     * @param string $fileContent
+     * @param string $contentType
+     * @return Response
+     */
+    public function addImageFile(string $fileContent, string $contentType): Response
+    {
+        $adapter = new FilesDrivenAdapter();
+
+        return $adapter->addImageFile($fileContent, $contentType);
+    }
 }
