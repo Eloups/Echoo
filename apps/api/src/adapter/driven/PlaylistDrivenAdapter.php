@@ -68,4 +68,20 @@ class PlaylistDrivenAdapter implements PlaylistDrivenAdapterInterface
 
         $request->addMusicInPlaylist($id_playlist, $id_music);
     }
+
+    /**
+     * Méthode pour ajouter une musique à une playlist
+     * @param int $id_playlist
+     * @param int $id_music
+     * @return void
+     */
+    public function deleteMusicInPlaylist(int $id_playlist, int $id_music): void
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlPlaylistRequests($pdo);
+
+        $request->deleteMusicInPlaylist($id_playlist, $id_music);
+    }
 }
