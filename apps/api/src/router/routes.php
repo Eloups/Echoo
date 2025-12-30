@@ -15,6 +15,7 @@ $routes->add('stream|getFile', new Route('/stream/{fileName}', methods: 'GET'));
 
 // Interractions file server
 $routes->add('files|getImage', new Route('/images/{fileName}', methods: 'GET'));
+$routes->add('files|addImage', new Route('/images', methods: 'POST'));
 
 // Artiste
 $routes->add('artist|page', new Route('/artist/{id}/page', methods: 'GET'));
@@ -27,6 +28,7 @@ $routes->add('artist|singles', new Route('/artist/{id}/singles', methods: 'GET')
 $routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));
 $routes->add('playlist|getPlaylistsOfLibrary', new Route('/playlist/library/{id}/all', methods: 'GET'));
 $routes->add('playlist|addPlaylist', new Route('/playlist/add', methods: 'POST'));
+$routes->add('playlist|addMusicToPlaylist', new Route('/playlist/add/music', methods: 'POST'));
 
 // Projet
 $routes->add('project|like', new Route('/project/like', methods: 'POST'));

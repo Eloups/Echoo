@@ -5,6 +5,7 @@ namespace Api\Adapter;
 use Api\Domain\Ports\FilesDrivenAdapterInterface;
 use Api\Exception\ApiCustomException;
 use Api\Utils\EnvironmentUtils;
+use CURLFile;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,7 +32,7 @@ class FilesDrivenAdapter implements FilesDrivenAdapterInterface
 
         [, $fileExtention] = explode('.', $fileName);
         if ($fileExtention !== 'png' && $fileExtention !== 'jpg' && $fileExtention !== 'jpeg' && $fileExtention !== 'webp' && $fileExtention !== 'gif') {
-            throw new ApiCustomException('Wrong file extention, only flac or mp3 are supported', 422);
+            throw new ApiCustomException('Wrong file extention, only png, jpg, jpeg, webp or gif are supported', 422);
         }
 
         $ch = curl_init($fileUrl);
@@ -59,5 +60,44 @@ class FilesDrivenAdapter implements FilesDrivenAdapterInterface
         $response->headers->set('Content-Type', $contentType);
 
         return $response;
+    }
+
+    /**
+     * Fonction pour ajouter une image au serveur de fichier
+     * @param string $fileContent
+     * @param string $contentType
+     * @return void
+     */
+    public function addImageFile(string $fileContent, string $contentType): Response
+    {
+        [, $fileExtention] = explode('/', $contentType);
+        if ($fileExtention !== 'png' && $fileExtention !== 'jpg' && $fileExtention !== 'jpeg' && $fileExtention !== 'webp' && $fileExtention !== 'gif') {
+            throw new ApiCustomException('Wrong file extention, only png, jpg, jpeg, webp or gif are supported', 422);
+        }
+
+        $fsHost = EnvironmentUtils::checkEnvironment($_ENV['FS_HOST']);
+        $fsPort = EnvironmentUtils::checkEnvironment($_ENV['FS_PORT']);
+
+        $fileName = 'Image-' . $fileExtention . '-' . uniqid() . '.' . $fileExtention;
+
+        $base64Content = base64_encode($fileContent);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$fsHost:$fsPort/scripts/uploadImage.php");
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+            'file_content' => $base64Content,
+            'file_name' => $fileName
+        ]));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if ($response !== "Success") {
+            throw new ApiCustomException('File creation failed', 500);
+        }
+
+        return new Response(json_encode(['fileName' => $fileName]));
     }
 }

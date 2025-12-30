@@ -44,6 +44,7 @@ class FilesController implements ControllerInterface
 
         return match ($this->action) {
             'getImage' => $adapter->getImageFile($this->params['fileName']),
+            'addImage' => $adapter->addImageFile($request->getContent(), $request->headers->all()),
             default => throw new ResourceNotFoundException(),
         };
     }

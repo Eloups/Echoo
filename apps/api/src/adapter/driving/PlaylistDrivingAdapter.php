@@ -4,6 +4,7 @@ namespace Api\Adapter;
 
 use Api\Domain\Service\PlaylistService;
 use Api\Utils\SerializerUtils;
+use Api\Utils\VerifyUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -35,5 +36,18 @@ class PlaylistDrivingAdapter
         $playlists = $service->getPlaylistsInLibrary($id_library);
 
         return new Response(SerializerUtils::get()->serialize(['playlists' => $playlists], "json"), 200);
+    }
+
+    /**
+     * Méthode pour ajouter une musique à une playlist
+     * @param string $requestBody
+     * @return Response
+     */
+    public function addMusicInPlaylist(string $requestBody): Response {
+        $body = VerifyUtils::verifyJsonRequestBody($requestBody, ['id_playlist', 'id_music']);
+
+        $service = new PlaylistService();
+        $service->addMusicInPlaylist($body['id_playlist'], $body['id_music']);
+        return new Response(json_encode(['code' => 200, 'message' => 'musique ajoutée à la playlist avec succès']));
     }
 }
