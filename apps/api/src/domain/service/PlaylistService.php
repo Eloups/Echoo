@@ -54,4 +54,10 @@ class PlaylistService implements PlaylistServiceInterface {
         $driven = new PlaylistDrivenAdapter();
         $driven->addMusicInPlaylist($id_playlist, $id_music);
     }
+
+    public function addPlaylist(int $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics)
+    {
+        $driven = new PlaylistDrivenAdapter();
+        $driven->addPlaylist($id_library, $title, $isPublic, $description, $cover_path, $musics);
+    }
 }

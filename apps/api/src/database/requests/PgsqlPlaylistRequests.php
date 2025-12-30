@@ -113,10 +113,6 @@ class PgsqlPlaylistRequests
         return $result['nb_musics'];
     }
 
-    public function addPlaylist(string $title, bool $isPublic, string $description, string $cover_path, array $musics): void {
-        //Ici
-    }
-    
     /**
      * Requête pour ajouter une musique à une playlist
      * @param int $id_playlist
@@ -130,5 +126,40 @@ class PgsqlPlaylistRequests
 
         $request = $this->pdo->prepare($addMusicInPlaylist);
         $request->execute([':id_playlist' => $id_playlist, ':id_music' => $id_music]);
+    }
+
+    /**
+     * Requête pour ajouter une playlist dans une library
+     * @param string $title
+     * @param bool $isPublic
+     * @param string $description
+     * @param string $cover_path
+     * @param array $musics
+     * @param int $id_library
+     * @return void
+     */
+    public function addPlaylist(int $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics): void {
+        $addPlaylist = "INSERT INTO playlist (title, ispublic, description, cover_path)
+            VALUES (:title, :isPublic, :description, :cover_path)
+            RETURNING id;";
+
+        $request = $this->pdo->prepare($addPlaylist);
+        $request->bindValue(':title', $title, PDO::PARAM_STR);
+        $request->bindValue(':isPublic', $isPublic, PDO::PARAM_BOOL);
+        $request->bindValue(':description', $description, PDO::PARAM_STR);
+        $request->bindValue(':cover_path', $cover_path, PDO::PARAM_STR);
+
+        $request->execute();
+        $id_playlist = $request->fetchColumn();
+
+        $linkToPlaylist = "INSERT INTO library_playlist (id_library, id_playlist) 
+        VALUES (:id_library, :id_playlist);";
+        $request = $this->pdo->prepare($linkToPlaylist);
+        $request->execute([':id_library' => $id_library, ':id_playlist' => $id_playlist]);
+
+        foreach ($musics as $music) {
+            $request = $this->pdo->prepare("INSERT INTO playlist_music (id_playlist, id_music) VALUES (:id_playlist, :id_music);");
+            $request->execute([':id_playlist' => $id_playlist, ':id_music' => $music]);
+        }
     }
 }

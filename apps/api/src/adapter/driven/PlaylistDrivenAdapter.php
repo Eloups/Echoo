@@ -68,4 +68,14 @@ class PlaylistDrivenAdapter implements PlaylistDrivenAdapterInterface
 
         $request->addMusicInPlaylist($id_playlist, $id_music);
     }
+
+    public function addPlaylist(int $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics)
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlPlaylistRequests($pdo);
+
+        $request->addPlaylist($id_library, $title, $isPublic, $description, $cover_path, $musics);
+    }
 }

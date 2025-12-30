@@ -50,4 +50,12 @@ class PlaylistDrivingAdapter
         $service->addMusicInPlaylist($body['id_playlist'], $body['id_music']);
         return new Response(json_encode(['code' => 200, 'message' => 'musique ajoutée à la playlist avec succès']));
     }
+
+    public function addPlaylist(string $requestBody): Response {
+        $body = VerifyUtils::verifyJsonRequestBody($requestBody, ['id_library', 'title', 'description', 'cover_path', 'musics']);
+
+        $service = new PlaylistService();
+        $service->addPlaylist($body['id_library'], $body['title'], $body['isPublic'], $body['description'], $body['cover_path'], $body['musics']);
+        return new Response(json_encode(['code' => 200, 'message' => 'musique ajoutée à la playlist avec succès']));
+    }
 }
