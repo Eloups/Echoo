@@ -29,4 +29,16 @@ interface PlaylistDrivenAdapterInterface {
      * @return array
      */
     public function addMusicInPlaylist(int $id_playlist, int $id_music): void;
+
+    /**
+     * Méthode pour créer une library
+     * @param int $id_library
+     * @param string $title
+     * @param bool $isPublic
+     * @param string $description
+     * @param string $cover_path
+     * @param array $musics
+     * @return void
+     */
+    public function addPlaylist(int $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics);
 }

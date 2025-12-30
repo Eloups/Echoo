@@ -1,0 +1,31 @@
+type: http_request
+model: http_request
+id: rq_YtXCFW8qqx
+createdAt: 2025-12-30T09:44:43.621289800
+updatedAt: 2025-12-30T10:18:22.933705400
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_ZSpH79FmTY
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "id_library": 2,
+      "title": "test",
+      "isPublic": false,
+      "description": "une description",
+      "cover_path": "/test/path",
+      "musics": [1, 5, 3]
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: eYipqVpbbk
+method: POST
+name: create a playlist
+sortPriority: 999.9998
+url: ${[ API_HOST ]}/playlist/add
+urlParameters: []
