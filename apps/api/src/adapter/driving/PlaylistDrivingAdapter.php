@@ -50,4 +50,10 @@ class PlaylistDrivingAdapter
         $service->addMusicInPlaylist($body['id_playlist'], $body['id_music']);
         return new Response(json_encode(['code' => 200, 'message' => 'musique ajoutée à la playlist avec succès']));
     }
+
+    public function deletePlaylist(int $id_playlist): Response {
+        $service = new PlaylistService();
+        $service->deletePlaylist($id_playlist);
+        return new Response(json_encode(['code' => 200, 'message' => 'playlist supprimée avec succès']));
+    }
 }

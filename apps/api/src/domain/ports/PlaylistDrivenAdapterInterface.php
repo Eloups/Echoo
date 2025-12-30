@@ -29,4 +29,11 @@ interface PlaylistDrivenAdapterInterface {
      * @return array
      */
     public function addMusicInPlaylist(int $id_playlist, int $id_music): void;
+
+    /**
+     * Méthode pour supprimer une playlist
+     * @param int $id_playlist
+     * @return void
+     */
+    public function deletePlaylist(int $id_playlist): void;
 }

@@ -127,4 +127,33 @@ class PgsqlPlaylistRequests
         $request = $this->pdo->prepare($addMusicInPlaylist);
         $request->execute([':id_playlist' => $id_playlist, ':id_music' => $id_music]);
     }
+
+    /**
+     * Requête pour supprimer une playlist
+     * @param int $id_playlist
+     * @return void
+     */
+    public function deletePlaylist(int $id_playlist): void
+    {
+        $sqlDeletePlaylistMusic = "DELETE FROM playlist_music
+            WHERE id_playlist = :id_playlist;";
+
+        $request = $this->pdo->prepare($sqlDeletePlaylistMusic);
+        $request->bindValue(':id_playlist', $id_playlist, PDO::PARAM_INT);
+        $request->execute();
+
+        $sqlDeleteLibraryPlaylist = "DELETE FROM library_playlist
+            WHERE id_playlist = :id_playlist;";
+
+        $request = $this->pdo->prepare($sqlDeleteLibraryPlaylist);
+        $request->bindValue(':id_playlist', $id_playlist, PDO::PARAM_INT);
+        $request->execute();
+
+        $sqlDeletePlaylist = "DELETE FROM playlist
+            WHERE id = :id_playlist;";
+
+        $request = $this->pdo->prepare($sqlDeletePlaylist);
+        $request->bindValue(':id_playlist', $id_playlist, PDO::PARAM_INT);
+        $request->execute();
+    }
 }
