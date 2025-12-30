@@ -61,6 +61,6 @@ class PlaylistDrivingAdapter
 
         $service = new PlaylistService();
         $service->addPlaylist($body['id_library'], $body['title'], $body['isPublic'], $body['description'], $body['cover_path'], $body['musics']);
-        return new Response(json_encode(['code' => 200, 'message' => 'musique ajoutée à la playlist avec succès']));
+        return new Response(json_encode(['code' => 200, 'message' => 'playlist créée avec succès']));
     }
 }
