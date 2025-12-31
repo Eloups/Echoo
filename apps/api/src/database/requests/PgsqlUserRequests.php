@@ -61,4 +61,47 @@ class PgsqlUserRequests
             ":musicId" => $musicId
         ]);
     }
+
+    /**
+     * Fonction qui récupère les ID des artistes likés par un utilisateur
+     * @param int $userId
+     * @return array
+     */
+    public function getUserLikedArtistsIds(int $userId): array
+    {
+        $sql = 'SELECT la.id_artist from "user" u
+            JOIN "library" l ON u.id_library = l.id
+            JOIN library_artist la ON l.id = la.id_library
+            WHERE u.id = :userId;';
+
+        $request = $this->pdo->prepare($sql);
+        $request->execute([':userId' => $userId]);
+        return $request->fetchAll();
+    }
+
+    public function getUserLikedArtistlastReleases(array $artistIds, int $limit): array
+    {
+        $placeholders = [];
+        foreach ($artistIds as $i => $id) {
+            $placeholders[] = ":id$i";
+        }
+        $placeholdersString = implode(', ', $placeholders);
+
+        $sql = 'SELECT p.id, p.title, p.release, p.color1, p.color2, p.cover_path, pt.name project_type FROM "artist" a
+            JOIN "artist_project" ap ON a.id = ap.id_artist
+            JOIN "project" p ON ap.id_project = p.id
+            JOIN "project_type" pt ON p.id_type = pt.id
+            WHERE a.id IN (' . $placeholdersString . ')
+            ORDER BY p.release DESC
+            LIMIT :limit;';
+
+        $params = [':limit' => $limit];
+        foreach ($artistIds as $i => $id) {
+            $params[":id$i"] = $id;
+        }
+
+        $request = $this->pdo->prepare($sql);
+        $request->execute($params);
+        return $request->fetchAll();
+    }
 }

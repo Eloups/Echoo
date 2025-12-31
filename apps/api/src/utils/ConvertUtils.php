@@ -352,7 +352,8 @@ class ConvertUtils
                     file_path: $row['file_path'],
                     genres: null,
                     nbStreams: $row['nb_streams'],
-                    rates: null
+                    rates: null,
+                    nameArtist: null
                 );
             }
         }
@@ -372,6 +373,46 @@ class ConvertUtils
             rates: $rates,
             avgRate: $avgRate
         );
+    }
 
+    /**
+     * Convert rows into Artist Ids
+     * @param array $rows
+     * @return array
+     */
+    public static function convertRowsToArtistsIds(array $rows): array
+    {
+        $ids = [];
+        foreach ($rows as $row) {
+            array_push($ids, $row['id_artist']);
+        }
+
+        return $ids;
+    }
+
+    /**
+     * Convert rows into projects
+     * @param array $rows
+     * @return Project[]
+     */
+    public static function convertRowsToProjects(array $rows): array
+    {
+        $projects = [];
+        foreach ($rows as $row) {
+            $projects[] = new Project(
+                $row['id'],
+                $row['title'],
+                new DateTime($row['release']),
+                $row['cover_path'],
+                $row['project_type'],
+                [],
+                $row['color1'],
+                $row['color2'],
+                null,
+                null
+            );
+        }
+
+        return $projects;
     }
 }

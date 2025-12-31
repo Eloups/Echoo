@@ -42,4 +42,18 @@ class UserDrivingAdapter
 
         return new Response(json_encode(['code' => 201, 'message' => 'Musique ajoutée aux musiques écoutées']), 201);
     }
+
+    /**
+     * Méthode pour récupérer les dernères sorties des artistes suivis par un utilisateur
+     * @param int $userId
+     * @param int $limit
+     * @return Response
+     */
+    public function getUserArtistsLastsReleases(int $userId, int $limit): Response
+    {
+        $service = new UserService();
+        $projects = $service->getUserArtistsLastsReleases($userId, $limit);
+
+        return new Response(SerializerUtils::get()->serialize(['projects' => $projects], "json"));
+    }
 }
