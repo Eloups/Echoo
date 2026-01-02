@@ -415,4 +415,49 @@ class ConvertUtils
 
         return $projects;
     }
+
+    public static function convertRowsToMusicsIds(array $rows): array
+    {
+        $musicsIds = [];
+        foreach ($rows as $row) {
+            $musicsIds[] = $row['id_music'];
+        }
+
+        return $musicsIds;
+    }
+
+    public static function convertRowsToMusics(PDO $pdo, array $rows): array
+    {
+        $musicRequests = new PgsqlMusicRequests($pdo);
+
+        $musics = [];
+        foreach ($rows as $row) {
+            $musicGenresRows = $musicRequests->getMusicsGenres($row['id']);
+            $musicGenres = self::convertRowsToMusicGenres($musicGenresRows);
+
+            $musics[] = new Music(
+                $row['id'],
+                $row['title'],
+                $row['duration'],
+                new DateTime($row['release']),
+                $row['file_path'],
+                $musicGenres,
+                $row['nb_streams'],
+                null,
+                $row['artist_name']
+            );
+        }
+
+        return $musics;
+    }
+
+    public static function convertRowsToMusicGenres(array $rows): array
+    {
+        $musicGenres = [];
+        foreach ($rows as $row) {
+            $musicGenres[] = $row['name'];
+        }
+
+        return $musicGenres;
+    }
 }

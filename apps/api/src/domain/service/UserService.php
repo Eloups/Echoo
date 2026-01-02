@@ -6,6 +6,7 @@ use Api\Adapter\UserDrivenAdapter;
 use Api\Domain\Class\Music;
 use Api\Domain\Class\Project;
 use Api\Domain\Ports\UserServiceInterface;
+use DateTime;
 use Exception;
 
 /**
@@ -65,5 +66,26 @@ class UserService implements UserServiceInterface
         }
 
         return $projects;
+    }
+
+    /**
+     * Méthode pour récupérer les musiques les plus écoutées par un utilisateur un mois
+     * @param int $userId
+     * @param int $limit
+     * @param DateTime $date
+     * @return array
+     */
+    public function getUserMostListenedMusicsOfMonth(int $userId, int $limit, DateTime $date): array
+    {
+        $adapter = new UserDrivenAdapter();
+        $musics = $adapter->getUserMostListenedMusicsOfMonth($userId, $limit, $date);
+
+        foreach ($musics as $music) {
+            if (!$music instanceof Music) {
+                throw new Exception('The returned datas in service are not musics');
+            }
+        }
+
+        return $musics;
     }
 }

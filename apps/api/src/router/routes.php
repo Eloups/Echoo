@@ -39,5 +39,6 @@ $routes->add('project|getProjectById', new Route('/project/{id}', methods: 'GET'
 $routes->add('user|listenedMusics', new Route('/user/{id}/listened/musics', methods: 'GET'));
 $routes->add('user|addListenedMusics', new Route('/user/listened/musics/add', methods: 'POST'));
 $routes->add('user|artistsLastsReleases', new Route('/user/{id}/follows/artists/releases', methods: 'GET'));
+$routes->add('user|mostListenedMusicsOfTheMonth', new Route('/user/{id}/lastListened/musics', methods: 'GET'));
 
 return $routes;

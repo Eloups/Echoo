@@ -2,6 +2,8 @@
 
 namespace Api\Database\Requests;
 
+use DateInterval;
+use DateTime;
 use PDO;
 
 /**
@@ -97,6 +99,67 @@ class PgsqlUserRequests
 
         $params = [':limit' => $limit];
         foreach ($artistIds as $i => $id) {
+            $params[":id$i"] = $id;
+        }
+
+        $request = $this->pdo->prepare($sql);
+        $request->execute($params);
+        return $request->fetchAll();
+    }
+
+    /**
+     * Fonction pour récupérer les IDs des musiques les plus écoutées par un utilisateur un mois
+     * @param int $userId
+     * @param int $limit
+     * @param DateTime $date
+     * @return void
+     */
+    public function getUserMostListenedMusicsOfMonth(int $userId, int $limit, DateTime $date): array
+    {
+        $afterDate = $date->format('Y-m-01');
+        $beforeDate = $date->add(new DateInterval('P1M'))->format('Y-m-01');
+
+        $sql = 'SELECT lum.id_user, lum.id_music, COUNT(lum.id_music) nb_listen FROM log_user_music lum
+            WHERE lum.listened_at >= :afterDate AND lum.listened_at < :beforeDate
+            GROUP BY lum.id_music, lum.id_user
+            HAVING lum.id_user = :userId
+            ORDER BY nb_listen DESC
+            LIMIT :limit;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":afterDate" => $afterDate,
+            ":beforeDate" => $beforeDate,
+            ":userId" => $userId,
+            ":limit" => $limit
+        ]);
+
+        return $request->fetchAll();
+    }
+
+    /**
+     * Fonction pour récupérer plusieurs musiques avec leurs IDs
+     * @param array $ids
+     * @return array
+     */
+    public function getMusicsFromIds(array $musicsIds): array
+    {
+        $placeholders = [];
+        foreach ($musicsIds as $i => $id) {
+            $placeholders[] = ":id$i";
+        }
+        $placeholdersString = implode(', ', $placeholders);
+
+        $sql = 'SELECT m.id, m.title, m.duration, m."release", m.nb_streams, m.file_path, a."name" artist_name FROM music m
+            JOIN project_music pm ON m.id = pm.id_music
+            JOIN project p ON pm.id_project = p.id
+            JOIN artist_project ap ON p.id = ap.id_project 
+            JOIN artist a ON ap.id_artist = a.id
+            WHERE m.id IN (' . $placeholdersString . ');';
+
+        $params = [];
+        foreach ($musicsIds as $i => $id) {
             $params[":id$i"] = $id;
         }
 
