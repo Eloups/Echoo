@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_7urEjxErxy
 createdAt: 2025-12-30T10:35:39.331700400
-updatedAt: 2025-12-30T10:35:52.177955800
+updatedAt: 2026-01-02T10:27:04.517617900
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_ZSpH79FmTY
 authentication: {}
@@ -12,7 +12,7 @@ bodyType: null
 description: ''
 headers: []
 method: DELETE
-name: ''
+name: delete playlist
 sortPriority: -1767090939325.0
-url: ${[ API_HOST ]}/playlist/11
+url: ${[ API_HOST ]}/playlist/12
 urlParameters: []
