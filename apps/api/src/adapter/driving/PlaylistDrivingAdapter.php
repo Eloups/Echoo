@@ -51,6 +51,19 @@ class PlaylistDrivingAdapter
         return new Response(json_encode(['code' => 200, 'message' => 'musique ajoutée à la playlist avec succès']));
     }
 
+    /** 
+     * Méthode pour créer une nouvelle playlist
+     * @param string $requestBody
+     * @return Response
+     */
+    public function addPlaylist(string $requestBody): Response {
+        $body = VerifyUtils::verifyJsonRequestBody($requestBody, ['id_library', 'title', 'description', 'cover_path', 'musics']);
+
+        $service = new PlaylistService();
+        $service->addPlaylist($body['id_library'], $body['title'], $body['isPublic'], $body['description'], $body['cover_path'], $body['musics']);
+        return new Response(json_encode(['code' => 200, 'message' => 'playlist créée avec succès']));
+    }
+
     /**
      * Méthode pour ajouter une musique à une playlist
      * @param string $requestBody
