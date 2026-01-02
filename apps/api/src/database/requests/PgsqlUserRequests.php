@@ -4,6 +4,7 @@ namespace Api\Database\Requests;
 
 use DateInterval;
 use DateTime;
+use Exception;
 use PDO;
 
 /**
@@ -54,14 +55,35 @@ class PgsqlUserRequests
 
     public function addUserListenedMusic(int $userId, int $musicId): void
     {
-        $sql = "INSERT INTO log_user_music(id_user, id_music, listened_at)
-            VALUES (:userId, :musicId, NOW());";
-        $request = $this->pdo->prepare($sql);
+        if (!$this->pdo->beginTransaction()) {
+            throw new Exception("Error: can't start DB transaction");
+        }
 
-        $request->execute([
-            ":userId" => $userId,
-            ":musicId" => $musicId
-        ]);
+        try {
+            $sql = "INSERT INTO log_user_music(id_user, id_music, listened_at)
+                VALUES (:userId, :musicId, NOW());";
+            $request = $this->pdo->prepare($sql);
+
+            $request->execute([
+                ":userId" => $userId,
+                ":musicId" => $musicId
+            ]);
+
+            $sql = "UPDATE music
+                SET nb_streams = nb_streams + 1
+                WHERE id = :musicId;";
+
+            $request = $this->pdo->prepare($sql);
+
+            $request->execute([
+                ":musicId" => $musicId
+            ]);
+
+            $this->pdo->commit();
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            throw $e;
+        }
     }
 
     /**

@@ -416,6 +416,11 @@ class ConvertUtils
         return $projects;
     }
 
+    /**
+     * Convert row to a music IDs array
+     * @param array $rows
+     * @return array
+     */
     public static function convertRowsToMusicsIds(array $rows): array
     {
         $musicsIds = [];
@@ -426,6 +431,12 @@ class ConvertUtils
         return $musicsIds;
     }
 
+    /**
+     * Convert rows to musics
+     * @param PDO $pdo
+     * @param array $rows
+     * @return Music[]
+     */
     public static function convertRowsToMusics(PDO $pdo, array $rows): array
     {
         $musicRequests = new PgsqlMusicRequests($pdo);
@@ -451,6 +462,11 @@ class ConvertUtils
         return $musics;
     }
 
+    /**
+     * Convert rows to music genres
+     * @param array $rows
+     * @return array
+     */
     public static function convertRowsToMusicGenres(array $rows): array
     {
         $musicGenres = [];
