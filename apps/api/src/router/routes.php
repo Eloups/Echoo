@@ -27,6 +27,7 @@ $routes->add('artist|singles', new Route('/artist/{id}/singles', methods: 'GET')
 // Playlist
 $routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));
 $routes->add('playlist|getPlaylistsOfLibrary', new Route('/playlist/library/{id}/all', methods: 'GET'));
+$routes->add('playlist|addPlaylist', new Route('/playlist/add', methods: 'POST'));
 $routes->add('playlist|addMusicToPlaylist', new Route('/playlist/add/music', methods: 'POST'));
 $routes->add('playlist|deletePlaylist', new Route('/playlist/{id}', methods: 'DELETE'));
 $routes->add('playlist|deleteMusicToPlaylist', new Route('/playlist/delete/music', methods: 'DELETE'));
@@ -39,5 +40,6 @@ $routes->add('project|getProjectById', new Route('/project/{id}', methods: 'GET'
 // User
 $routes->add('user|listenedMusics', new Route('/user/{id}/listened/musics', methods: 'GET'));
 $routes->add('user|addListenedMusics', new Route('/user/listened/musics/add', methods: 'POST'));
+$routes->add('user|artistsLastsReleases', new Route('/user/{id}/follows/artists/releases', methods: 'GET'));
 
 return $routes;
