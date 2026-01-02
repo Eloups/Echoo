@@ -30,6 +30,13 @@ interface PlaylistServiceInterface {
      */
     public function addMusicInPlaylist(int $id_playlist, int $id_music): void;
 
+    /**
+     * Action de la suppression d'une playlist
+     * @param int $id_playlist
+     * @return void
+     */
+    public function deletePlaylist(int $id_playlist): void;
+
     /** Action de la création d'une playlist
      * @param int $id_library
      * @param string $title

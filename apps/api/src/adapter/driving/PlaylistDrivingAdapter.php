@@ -76,4 +76,15 @@ class PlaylistDrivingAdapter
         $service->deleteMusicInPlaylist($body['id_playlist'], $body['id_music']);
         return new Response(json_encode(['code' => 200, 'message' => 'musique supprimée de la playlist avec succès']));
     }
+
+    /**
+     * Méthode pour supprimer une playlist
+     * @param int $id_playlist
+     * @return Response
+     */
+    public function deletePlaylist(int $id_playlist): Response {
+        $service = new PlaylistService();
+        $service->deletePlaylist($id_playlist);
+        return new Response(json_encode(['code' => 200, 'message' => 'playlist supprimée avec succès']));
+    }
 }

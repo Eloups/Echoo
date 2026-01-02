@@ -29,7 +29,9 @@ $routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GE
 $routes->add('playlist|getPlaylistsOfLibrary', new Route('/playlist/library/{id}/all', methods: 'GET'));
 $routes->add('playlist|addPlaylist', new Route('/playlist/add', methods: 'POST'));
 $routes->add('playlist|addMusicToPlaylist', new Route('/playlist/add/music', methods: 'POST'));
+$routes->add('playlist|deletePlaylist', new Route('/playlist/{id}', methods: 'DELETE'));
 $routes->add('playlist|deleteMusicToPlaylist', new Route('/playlist/delete/music', methods: 'DELETE'));
+
 // Projet
 $routes->add('project|like', new Route('/project/like', methods: 'POST'));
 $routes->add('project|projectsInLibrary', new Route('/project/library/{id}/all', methods: 'GET'));

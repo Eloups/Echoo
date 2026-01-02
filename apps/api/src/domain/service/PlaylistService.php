@@ -71,6 +71,17 @@ class PlaylistService implements PlaylistServiceInterface {
     }
 
     /**
+     * Action de la suppression d'une playlist
+     * @param int $id_playlist
+     * @return void
+     */
+    public function deletePlaylist(int $id_playlist): void
+    {
+        $driven = new PlaylistDrivenAdapter();
+        $driven->deletePlaylist($id_playlist);
+    }
+
+    /**
      * Action de la suppression d'une musique d'une playlist
      * @param int $id_playlist
      * @param int $id_music
