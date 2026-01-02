@@ -119,4 +119,23 @@ class PlaylistDrivenAdapter implements PlaylistDrivenAdapterInterface
 
         $request->deletePlaylist($id_playlist);
     }
+
+    /**
+     * Méthode pour modifier une playlist
+     * @param int $id_playlist
+     * @param string $title
+     * @param bool $isPublic
+     * @param string $description
+     * @param string $cover_path
+     * @return void
+     */
+    public function updatePlaylist(int $id_playlist, string $title, bool $isPublic, string $description, string $cover_path)
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlPlaylistRequests($pdo);
+
+        $request->updatePlaylist($id_playlist, $title, $isPublic, $description, $cover_path);
+    }
 }

@@ -55,4 +55,15 @@ interface PlaylistServiceInterface {
      * @return array
      */
     public function deleteMusicInPlaylist(int $id_playlist, int $id_music): void;
+
+    /**
+     * Action de modification d'une playlist
+     * @param int $id_playlist
+     * @param string $title
+     * @param bool $isPublic
+     * @param string $description
+     * @param string $cover_path
+     * @return void
+     */
+    public function updatePlaylist(int $id_playlist, string $title, bool $isPublic, string $description, string $cover_path);
 }

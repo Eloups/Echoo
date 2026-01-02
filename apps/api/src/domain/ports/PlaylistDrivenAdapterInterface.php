@@ -55,4 +55,15 @@ interface PlaylistDrivenAdapterInterface {
      * @return void
      */
     public function deletePlaylist(int $id_playlist): void;
+
+    /**
+     * Méthode pour modifier une playlist
+     * @param int $id_playlist
+     * @param string $title
+     * @param bool $isPublic
+     * @param string $description
+     * @param string $cover_path
+     * @return void
+     */
+    public function updatePlaylist(int $id_playlist, string $title, bool $isPublic, string $description, string $cover_path);
 }
