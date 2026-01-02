@@ -4,6 +4,7 @@ namespace Api\Domain\Service;
 
 use Api\Adapter\UserDrivenAdapter;
 use Api\Domain\Class\Music;
+use Api\Domain\Class\Project;
 use Api\Domain\Ports\UserServiceInterface;
 use Exception;
 
@@ -34,9 +35,35 @@ class UserService implements UserServiceInterface
         return $musics;
     }
 
+    /**
+     * Fonction pour ajouter une musique écoutée par un utilisateur
+     * @param int $userId
+     * @param int $musicId
+     * @return void
+     */
     public function addUserListenedMusic(int $userId, int $musicId): void
     {
         $adapter = new UserDrivenAdapter();
         $adapter->addUserListenedMusic($userId, $musicId);
+    }
+
+    /**
+     * Fonction pour récupérer les dernères sorties des artistes suivis par un utilisateur
+     * @param int $userId
+     * @param int $limit
+     * @return void
+     */
+    public function getUserArtistsLastsReleases(int $userId, int $limit): array
+    {
+        $adapter = new UserDrivenAdapter();
+        $projects = $adapter->getUserArtistsLastsReleases($userId, $limit);
+
+        foreach ($projects as $project) {
+            if (!$project instanceof Project) {
+                throw new Exception('The returned datas in service are not projects');
+            }
+        }
+
+        return $projects;
     }
 }

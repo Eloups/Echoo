@@ -60,4 +60,26 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
 
         $userRequests->addUserListenedMusic($userId, $musicId);
     }
+
+    /**
+     * Fonction pour récupérer les dernères sorties des artistes suivis par un utilisateur
+     * @param int $userId
+     * @param int $limit
+     * @return void
+     */
+    public function getUserArtistsLastsReleases(int $userId, int $limit): array
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $artistsRows = $userRequests->getUserLikedArtistsIds($userId);
+        $artists = ConvertUtils::convertRowsToArtistsIds($artistsRows);
+
+        $projectsRows = $userRequests->getUserLikedArtistlastReleases($artists, $limit);
+        $projects = ConvertUtils::convertRowsToProjects($projectsRows);
+
+        return $projects;
+    }
 }

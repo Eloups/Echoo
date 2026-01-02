@@ -2,13 +2,13 @@ type: http_request
 model: http_request
 id: rq_MJvY6oAoo2
 createdAt: 2025-12-11T14:50:20.478711600
-updatedAt: 2025-12-29T15:52:26.302920300
+updatedAt: 2025-12-31T09:59:15.051496600
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_UVtcB9RLfX
 authentication: {}
 authenticationType: null
 body:
-  filePath: C:\Users\eloud\Downloads\giphy.gif
+  filePath: C:\Users\eloud\OneDrive\Images\Captures d’écran\Capture d'écran 2025-10-22 182137.png
 bodyType: binary
 description: ''
 headers:
@@ -18,8 +18,8 @@ headers:
   id: NugFsr47cr
 - enabled: true
   name: Content-Type
-  value: image/gif
-  id: WPZpPFCN3V
+  value: image/png
+  id: zZ2yqW6wgh
 method: POST
 name: Add an Image
 sortPriority: 999.9999

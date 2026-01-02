@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_KBaPuweF3C
 createdAt: 2025-12-03T09:27:23.789367200
-updatedAt: 2025-12-29T15:52:42.023119900
+updatedAt: 2025-12-31T09:59:27.230385400
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_UVtcB9RLfX
 authentication: {}
@@ -14,5 +14,5 @@ headers: []
 method: GET
 name: Get an Image
 sortPriority: 999.9999
-url: ${[ API_HOST ]}/images/Image-gif-6952a3c141b9c.gif
+url: ${[ API_HOST ]}/images/Image-png-6954f3f6232db.png
 urlParameters: []
