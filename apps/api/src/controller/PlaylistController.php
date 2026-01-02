@@ -49,6 +49,7 @@ class PlaylistController implements ControllerInterface
             'getPlaylistsOfLibrary' => $adapter->getPlaylistInLibrary($this->params["id"]),
             'addMusicToPlaylist' => $adapter->addMusicInPlaylist($request->getContent()),
             'addPlaylist' => $adapter->addPlaylist($request->getContent()),
+            'deleteMusicToPlaylist' => $adapter->deleteMusicInPlaylist($request->getContent()),
             default => throw new ResourceNotFoundException(),
         };
     }
