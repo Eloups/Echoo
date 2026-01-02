@@ -1,8 +1,8 @@
 type: http_request
 model: http_request
-id: rq_s9vceP5DPg
-createdAt: 2025-12-31T10:03:59.851063500
-updatedAt: 2026-01-02T11:18:26.789222700
+id: rq_yzMAwzRi2d
+createdAt: 2026-01-02T08:03:17.468994500
+updatedAt: 2026-01-02T11:18:49.983845600
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_XGNPk28yhy
 authentication: {}
@@ -12,9 +12,9 @@ bodyType: null
 description: ''
 headers: []
 method: GET
-name: Get last follow artists releases
-sortPriority: -1760599398214.999
-url: ${[ API_HOST ]}/user/1/follows/artists/releases
+name: Get last listened musics this month
+sortPriority: -1760599398214.998
+url: ${[ API_HOST ]}/user/1/lastListened/musics
 urlParameters:
 - enabled: true
   name: limit

@@ -5,6 +5,7 @@ namespace Api\Adapter;
 use Api\Domain\Service\UserService;
 use Api\Utils\SerializerUtils;
 use Api\Utils\VerifyUtils;
+use DateTime;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -55,5 +56,21 @@ class UserDrivingAdapter
         $projects = $service->getUserArtistsLastsReleases($userId, $limit);
 
         return new Response(SerializerUtils::get()->serialize(['projects' => $projects], "json"));
+    }
+
+    /**
+     * Méthode pour récupérer les musiques les plus écoutées par un utilisateur ce mois
+     * @param int $userId
+     * @param int $limit
+     * @return Response
+     */
+    public function getUserMostListenedMusicsOfTheMonth(int $userId, int $limit): Response
+    {
+        $service = new UserService();
+        $today = new DateTime();
+
+        $musics = $service->getUserMostListenedMusicsOfMonth($userId, $limit, $today);
+
+        return new Response(SerializerUtils::get()->serialize(['musics' => $musics], "json"));
     }
 }

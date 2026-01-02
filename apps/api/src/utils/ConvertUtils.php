@@ -415,4 +415,65 @@ class ConvertUtils
 
         return $projects;
     }
+
+    /**
+     * Convert row to a music IDs array
+     * @param array $rows
+     * @return array
+     */
+    public static function convertRowsToMusicsIds(array $rows): array
+    {
+        $musicsIds = [];
+        foreach ($rows as $row) {
+            $musicsIds[] = $row['id_music'];
+        }
+
+        return $musicsIds;
+    }
+
+    /**
+     * Convert rows to musics
+     * @param PDO $pdo
+     * @param array $rows
+     * @return Music[]
+     */
+    public static function convertRowsToMusics(PDO $pdo, array $rows): array
+    {
+        $musicRequests = new PgsqlMusicRequests($pdo);
+
+        $musics = [];
+        foreach ($rows as $row) {
+            $musicGenresRows = $musicRequests->getMusicsGenres($row['id']);
+            $musicGenres = self::convertRowsToMusicGenres($musicGenresRows);
+
+            $musics[] = new Music(
+                $row['id'],
+                $row['title'],
+                $row['duration'],
+                new DateTime($row['release']),
+                $row['file_path'],
+                $musicGenres,
+                $row['nb_streams'],
+                null,
+                $row['artist_name']
+            );
+        }
+
+        return $musics;
+    }
+
+    /**
+     * Convert rows to music genres
+     * @param array $rows
+     * @return array
+     */
+    public static function convertRowsToMusicGenres(array $rows): array
+    {
+        $musicGenres = [];
+        foreach ($rows as $row) {
+            $musicGenres[] = $row['name'];
+        }
+
+        return $musicGenres;
+    }
 }

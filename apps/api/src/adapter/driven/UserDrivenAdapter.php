@@ -82,4 +82,28 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
 
         return $projects;
     }
+
+    /**
+     * Méthode pour récupérer les musiques les plus écoutées par un utilisateur un mois
+     * @param int $userId
+     * @param int $limit
+     * @param DateTime $date
+     * @return array
+     */
+    public function getUserMostListenedMusicsOfMonth(int $userId, int $limit, DateTime $date): array
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $musicsIdsRows = $userRequests->getUserMostListenedMusicsOfMonth($userId, $limit, $date);
+        $musicsIds = ConvertUtils::convertRowsToMusicsIds($musicsIdsRows);
+
+        $musicsRows = $userRequests->getMusicsFromIds($musicsIds);
+        $musics = ConvertUtils::convertRowsToMusics($pdo, $musicsRows);
+
+        return $musics;
+    }
+
 }
