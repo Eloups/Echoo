@@ -206,4 +206,27 @@ class PgsqlPlaylistRequests
         $request->bindValue(':id_playlist', $id_playlist, PDO::PARAM_INT);
         $request->execute();
     }
+
+    /**
+     * Requête pour modifier une playlist
+     * @param int $id_playlist
+     * @param string $title
+     * @param bool $isPublic
+     * @param string $description
+     * @param string $cover_path
+     * @return void
+     */
+    public function updatePlaylist(int $id_playlist, string $title, bool $isPublic, string $description, string $cover_path) {
+        $uplatePlaylist = "UPDATE playlist 
+        SET title = :title, isPublic = :isPublic, description = :description, cover_path = :cover_path
+        WHERE id = :id_playlist;";
+
+        $request = $this->pdo->prepare($uplatePlaylist);
+        $request->bindValue(':id_playlist', $id_playlist, PDO::PARAM_INT);
+        $request->bindValue(':title', $title, PDO::PARAM_STR);
+        $request->bindValue(':isPublic', $isPublic, PDO::PARAM_BOOL);
+        $request->bindValue(':description', $description, PDO::PARAM_STR);
+        $request->bindValue(':cover_path', $cover_path, PDO::PARAM_STR);
+        $request->execute();
+    }
 }

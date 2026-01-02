@@ -87,4 +87,18 @@ class PlaylistDrivingAdapter
         $service->deletePlaylist($id_playlist);
         return new Response(json_encode(['code' => 200, 'message' => 'playlist supprimée avec succès']));
     }
+
+    /**
+     * Méthode pour modifier une playlist
+     * @param int $id_playlist
+     * @param string $requestBody
+     * @return Response
+     */
+    public function updatePlaylist(int $id_playlist, string $requestBody) {
+        $body = VerifyUtils::verifyJsonRequestBody($requestBody, ['title', 'isPublic', 'description', 'cover_path']);
+
+        $service = new PlaylistService();
+        $service->updatePlaylist($id_playlist, $body['title'], $body['isPublic'], $body['description'], $body['cover_path']);
+        return new Response(json_encode(['code' => 200, 'message' => 'playlist modifiée avec succès']));
+    }
 }
