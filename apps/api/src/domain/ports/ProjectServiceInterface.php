@@ -2,6 +2,8 @@
 
 namespace Api\Domain\Ports;
 
+use Api\Domain\Class\Project;
+
 /**
  * Interface du service de musique
  */
@@ -21,4 +23,11 @@ interface ProjectServiceInterface {
      * @return array
      */
     public function getProjectsInLibrary(int $id_library): array;
+
+    /**
+     * Action de la récupération d'un projet avec ses musiques
+     * @param int $id_project
+     * @return Project
+     */
+    public function getOneProjectWithMusics(int $id_project): Project;
 }
