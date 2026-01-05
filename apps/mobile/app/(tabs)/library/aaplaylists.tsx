@@ -21,8 +21,8 @@ export default function Playlists() {
                 
                 console.log('Playlists récupérées:', response);
                 
-                // La réponse contient un objet avec une clé "playlist" qui est un tableau
-                const playlistsArray = response.playlist || [];
+                // La réponse contient un objet avec une clé "playlists" qui est un tableau
+                const playlistsArray = response.playlists || [];
                 
                 // Convertir les données de l'API au format BaseInfos
                 const formattedPlaylists: BaseInfos[] = playlistsArray.map((playlist: any) => ({
