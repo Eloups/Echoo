@@ -476,4 +476,27 @@ class ConvertUtils
 
         return $musicGenres;
     }
+
+    /**
+     * Convert rows to artists
+     * @param array $rows
+     * @return array
+     */
+    public static function convertRowsToArtists(array $rows): array
+    {
+        $artists = [];
+        foreach ($rows as $row) {
+            $artists[] = new Artist(
+                $row['id'],
+                $row['name'],
+                $row['isverified'],
+                $row['description'],
+                $row['image_path'],
+                [],
+                [],
+                []
+            );
+        }
+        return $artists;
+    }
 }
