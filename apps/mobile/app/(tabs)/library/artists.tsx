@@ -6,29 +6,6 @@ import { useEffect, useState } from "react";
 import { ArtistService, apiClient } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
 
-const ppBillie = require("../../../assets/tempImg/Profils_Artistes/Billie_Eilish.jpg");
-const ppAespa = require("../../../assets/tempImg/Profils_Artistes/aespa.jpg");
-
-const artistTemp: BaseInfos = {
-    cover: ppBillie,
-    title: "Billie Eilish",
-    artist: "",
-    color1: "#04131D",
-    color2: "#082840",
-    nbStreams: 46,
-    type: "artist"
-}
-
-const artistTemp2: BaseInfos = {
-    cover: ppAespa,
-    title: "aespa",
-    artist: "",
-    color1: "#000000",
-    color2: "#0E0E0E",
-    nbStreams: 24,
-    type: "artist"
-}
-
 export default function Artists() {
     const { theme } = useTheme();
     const [artists, setArtists] = useState<BaseInfos[]>([]);
@@ -52,7 +29,7 @@ export default function Artists() {
                     id: artist.id,
                     cover: artist.imagePath 
                         ? { uri: apiClient.getImageUrl(artist.imagePath) }
-                        : ppBillie,
+                        : require("../../../assets/images/react-logo.png"),
                     title: artist.name,
                     artist: artist.isVerified ? "Vérifié" : "",
                     color1: "#04131D",

@@ -6,57 +6,6 @@ import { useEffect, useState } from "react";
 import { PlaylistService, apiClient } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
 
-const coverSpongebob = require("../../../assets/tempImg/Covers_Playlists/Spongebob.jpg");
-const coverMonkey = require("../../../assets/tempImg/Covers_Playlists/monkey.gif");
-const cover = require("../../../assets/tempImg/Covers_Albums/HMHAS.jpg");
-const cover2 = require("../../../assets/tempImg/Covers_Albums/RichMan.webp");
-
-const musicTemp: BaseInfos = {
-    cover: cover,
-    title: "CHIHIRO",
-    artist: "Billie Eilish",
-    color1: "#04131D",
-    color2: "#082840",
-    nbStreams: 46,
-    type: "music"
-}
-
-const musicTemp2: BaseInfos = {
-    cover: cover2,
-    title: "Rich Man",
-    artist: "aespa",
-    color1: "#000000",
-    color2: "#0E0E0E",
-    nbStreams: 24,
-    type: "music"
-
-}
-
-const musicTemp3: BaseInfos = {
-    cover: coverSpongebob,
-    title: "Super Playlist",
-    artist: "Jann",
-    color1: "#965F4C",
-    color2: "#291A15",
-    nbStreams: 11,
-    type: "playlist",
-    nbMusics: 15,
-    musicList: [musicTemp, musicTemp2, musicTemp, musicTemp2, musicTemp, musicTemp2, musicTemp, musicTemp2],
-}
-
-const playlistMonke: BaseInfos = {
-    cover: coverMonkey,
-    title: "Monke",
-    artist: "Jann",
-    color1: "#965F4C",
-    color2: "#291A15",
-    nbStreams: 11,
-    type: "playlist",
-    nbMusics: 15,
-    musicList: [musicTemp, musicTemp2, musicTemp, musicTemp2, musicTemp, musicTemp2, musicTemp, musicTemp2],
-}
-
-
 export default function Playlists() {
     const { theme } = useTheme();
     const [playlists, setPlaylists] = useState<BaseInfos[]>([]);
@@ -80,7 +29,7 @@ export default function Playlists() {
                     id: playlist.id,
                     cover: playlist.coverPath 
                         ? { uri: apiClient.getImageUrl(playlist.coverPath) }
-                        : coverSpongebob,
+                        : require("../../../assets/images/react-logo.png"),
                     title: playlist.title || "Playlist",
                     artist: `${playlist.musics?.length || 0} morceaux`,
                     color1: "#965F4C",
@@ -92,7 +41,7 @@ export default function Playlists() {
                     musicList: playlist.musics?.map((music: any) => ({
                         cover: music.coverPath 
                             ? { uri: apiClient.getImageUrl(music.coverPath) }
-                            : coverSpongebob,
+                            : require("../../../assets/images/react-logo.png"),
                         title: music.titre || music.title,
                         artist: music.artisteNom || music.artist || "Artiste inconnu",
                         color1: "#04131D",

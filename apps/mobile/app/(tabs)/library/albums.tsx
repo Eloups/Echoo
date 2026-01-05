@@ -6,32 +6,9 @@ import { useEffect, useState } from "react";
 import { apiClient } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
 
-const cover = require("../../../assets/tempImg/Covers_Albums/HMHAS.jpg");
-const cover2 = require("../../../assets/tempImg/Covers_Albums/RichMan.webp");
-
-const albumTemp: BaseInfos = {
-    cover: cover,
-    title: "HIT ME HARD AND SOFT",
-    artist: "Billie Eilish",
-    color1: "#04131D",
-    color2: "#082840",
-    nbStreams: 46,
-    type: "album"
-}
-
-const albumTemp2: BaseInfos = {
-    cover: cover2,
-    title: "Rich Man",
-    artist: "aespa",
-    color1: "#000000",
-    color2: "#0E0E0E",
-    nbStreams: 24,
-    type: "album"
-}
-
 export default function Albums() {
     const { theme } = useTheme();
-    const [albums, setAlbums] = useState<BaseInfos[]>([albumTemp, albumTemp2]);
+    const [albums, setAlbums] = useState<BaseInfos[]>([]);
     const [loading, setLoading] = useState(false);
 
     // Note: Remplacer par l'appel API approprié quand disponible

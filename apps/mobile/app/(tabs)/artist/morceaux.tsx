@@ -5,8 +5,6 @@ import AppText from '@/lib/components/global/appText';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 
-const cover = require("../../../assets/tempImg/Covers_Albums/HMHAS.jpg");
-
 
 export default function MorceauxPage() {
     const { theme } = useTheme();
@@ -24,7 +22,7 @@ export default function MorceauxPage() {
 
     const data = {
         title: params.title as string || "Artiste",
-        cover: cover,
+        cover: require("../../../assets/images/react-logo.png"),
         nbStreams: 1234567,
     };
 

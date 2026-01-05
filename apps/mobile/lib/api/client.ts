@@ -3,8 +3,6 @@ import axios, { AxiosError, AxiosInstance } from 'axios';
 // Configuration de l'URL de base de l'API depuis les variables d'environnement
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
 
-// Configuration de l'URL du serveur de fichiers depuis les variables d'environnement
-export const FILE_SERVER_URL = process.env.EXPO_PUBLIC_FILE_SERVER_URL;
 
 
 // Client API centralisé avec Axios

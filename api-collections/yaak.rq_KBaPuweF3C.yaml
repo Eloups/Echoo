@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_KBaPuweF3C
 createdAt: 2025-12-03T09:27:23.789367200
-updatedAt: 2025-12-10T14:40:45.790401400
+updatedAt: 2025-12-10T14:45:08.650130
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_UVtcB9RLfX
 authentication: {}
@@ -14,5 +14,5 @@ headers: []
 method: GET
 name: Get an Image
 sortPriority: 999.9999
-url: ${[ API_HOST ]}/images/covers/playlist_5.jpg
+url: ${[ API_HOST ]}/images/playlist_5.jpg
 urlParameters: []

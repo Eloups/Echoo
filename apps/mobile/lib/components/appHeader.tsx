@@ -5,7 +5,7 @@ import { router } from "expo-router";
 import { useTheme } from "@/lib/theme/provider";
 import AppText from "./global/appText";
 
-const pp = require("../../assets/tempImg/pp/madmadeline.jpg");
+const pp = require("../../assets/img/pp.jpg");
 
 type Props = {
     title?: string;

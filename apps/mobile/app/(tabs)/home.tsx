@@ -9,12 +9,8 @@ import MonthArtists from "@/lib/components/monthArtists";
 import MonthMusics from "@/lib/components/monthMusics";
 import { useEffect } from "react";
 import { useNavigation, router, useSegments } from "expo-router";
-const cover = require("../../assets/tempImg/Covers_Albums/HMHAS.jpg");
-const cover2 = require("../../assets/tempImg/Covers_Albums/RichMan.webp");
-const cover3 = require("../../assets/tempImg/Covers_Albums/Jann.jpg");
-const PPartist1 = require("../../assets/tempImg/Profils_Artistes/Madison_beer.jpg");
-const PPartist2 = require("../../assets/tempImg/Profils_Artistes/Billie_Eilish.jpg");
-const PPartist3 = require("../../assets/tempImg/Profils_Artistes/aespa.jpg");
+
+const placeholderImage = require("../../assets/images/react-logo.png");
 
 export default function home() {
     const { theme } = useTheme();
@@ -41,7 +37,7 @@ export default function home() {
 
 
     const albumTemp: BaseInfos = {
-        cover: cover,
+        cover: placeholderImage,
         title: "HIT ME HARD AND SOFT",
         artist: "Billie Eilish",
         color1: "",
@@ -50,7 +46,7 @@ export default function home() {
     }
 
     const musicTemp: BaseInfos = {
-        cover: cover,
+        cover: placeholderImage,
         title: "CHIHIRO",
         artist: "Billie Eilish",
         color1: "#04131D",
@@ -60,7 +56,7 @@ export default function home() {
     }
 
     const musicTemp2: BaseInfos = {
-        cover: cover2,
+        cover: placeholderImage,
         title: "Rich Man",
         artist: "aespa",
         color1: "#000000",
@@ -70,7 +66,7 @@ export default function home() {
     }
 
     const musicTemp3: BaseInfos = {
-        cover: cover3,
+        cover: placeholderImage,
         title: "What do you want from me ?",
         artist: "Jann",
         color1: "#965F4C",
@@ -80,7 +76,7 @@ export default function home() {
     }
 
     const artist1: BaseInfos = {
-        cover: PPartist1,
+        cover: placeholderImage,
         title: "Madison Beer",
         artist: "",
         color1: "",
@@ -89,7 +85,7 @@ export default function home() {
     }
 
     const artist2: BaseInfos = {
-        cover: PPartist2,
+        cover: placeholderImage,
         title: "Billie Eilish",
         artist: "",
         color1: "",
@@ -98,7 +94,7 @@ export default function home() {
     }
 
     const artist3: BaseInfos = {
-        cover: PPartist3,
+        cover: placeholderImage,
         title: "aespa",
         artist: "",
         color1: "",

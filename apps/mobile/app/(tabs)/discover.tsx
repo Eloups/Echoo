@@ -8,18 +8,14 @@ import { Background } from "@react-navigation/elements";
 import { themes } from "@/lib/theme";
 import Feather from '@expo/vector-icons/Feather';
 
-// TODO : A supprimer après avoir intégrer l'appel à la BDD
-const cover = require("../../assets/tempImg/Covers_Albums/HMHAS.jpg");
-const cover2 = require("../../assets/tempImg/Covers_Albums/RichMan.webp");
-const cover3 = require("../../assets/tempImg/Covers_Albums/Jann.jpg");
-const PPartist1 = require("../../assets/tempImg/Profils_Artistes/Madison_beer.jpg");
+const placeholderImage = require("../../assets/images/react-logo.png");
 
 export default function Discover() {
     // Appel à la gestion de thème pour les couleurs
     const { theme, toggleTheme } = useTheme();
 
     const musicTemp: BaseInfos = {
-        cover: cover,
+        cover: placeholderImage,
         title: "CHIHIRO",
         artist: "Billie Eilish",
         color1: "#04131D",
@@ -29,7 +25,7 @@ export default function Discover() {
     }
 
     const musicTemp2: BaseInfos = {
-        cover: cover2,
+        cover: placeholderImage,
         title: "Rich Man",
         artist: "aespa",
         color1: "#000000",
@@ -40,7 +36,7 @@ export default function Discover() {
     }
 
     const musicTemp3: BaseInfos = {
-        cover: cover3,
+        cover: placeholderImage,
         title: "What do you want from me ?",
         artist: "Jann",
         color1: "#965F4C",
@@ -50,7 +46,7 @@ export default function Discover() {
     }
 
     const artist1: BaseInfos = {
-        cover: PPartist1,
+        cover: placeholderImage,
         title: "Madison Beer",
         artist: "",
         color1: "",
@@ -59,20 +55,20 @@ export default function Discover() {
     }
     
     
-    const album1: BaseInfos = {
-        cover: cover3,
-        title: "I store my fear and my pain in the nape of my neck",
-        artist: "Jann",
-        color1: "",
-        color2: "",
-        type: "album"
-    }
+    // const album1: BaseInfos = {
+    //     cover: cover3,
+    //     title: "I store my fear and my pain in the nape of my neck",
+    //     artist: "Jann",
+    //     color1: "",
+    //     color2: "",
+    //     type: "album"
+    // }
 
     // TODO : récupérer les infos de la BDD pour remplir ces listes
     const releasedRecentlyList: BaseInfos[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
     const forYouList: BaseInfos[] = [artist1, musicTemp2, musicTemp3, artist1, musicTemp2, musicTemp3];
     const topsList: BaseInfos[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
-    const searchList: BaseInfos[] = [artist1, musicTemp2, album1];
+    const searchList: BaseInfos[] = [artist1, musicTemp2];
 
     // Variable qui gère le champ de recherche
     const [searchField, setSearchField] = React.useState("");

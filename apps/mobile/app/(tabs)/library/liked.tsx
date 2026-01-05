@@ -3,12 +3,10 @@ import { useTheme } from "@/lib/theme/provider";
 import { BaseInfos } from "@/lib/types/types";
 import { ScrollView, View } from "react-native";
 
-const cover = require("../../../assets/tempImg/Covers_Albums/HMHAS.jpg");
-const cover2 = require("../../../assets/tempImg/Covers_Albums/RichMan.webp");
-const cover3 = require("../../../assets/tempImg/Covers_Albums/Jann.jpg");
+const placeholderImage = require("../../../assets/images/react-logo.png");
 
 const musicTemp: BaseInfos = {
-    cover: cover,
+    cover: placeholderImage,
     title: "CHIHIRO",
     artist: "Billie Eilish",
     color1: "#04131D",
@@ -18,7 +16,7 @@ const musicTemp: BaseInfos = {
 }
 
 const musicTemp2: BaseInfos = {
-    cover: cover2,
+    cover: placeholderImage,
     title: "Rich Man",
     artist: "aespa",
     color1: "#000000",
@@ -28,7 +26,7 @@ const musicTemp2: BaseInfos = {
 }
 
 const musicTemp3: BaseInfos = {
-    cover: cover3,
+    cover: placeholderImage,
     title: "What do you want from me?",
     artist: "Jann",
     color1: "#965F4C",
