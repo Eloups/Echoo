@@ -5,13 +5,14 @@ import { LoginResponse } from './Model';
 // ici il faut mettre l'adresse IP locale du pc 
 // allé dans le terminal et tapez ipconfig (windows) 
 // et prendre l'adresse IPv4
-const AUTH_URL = "http://192.168.1.144:3333"
+const AUTH_URL = "http://192.168.1.57:3333"
 
 
 export const login = async (email: string, password: string): Promise<string> => {
-    console.log("login in request");    
-    
-    const res = await fetch(`${AUTH_URL}/login`, {
+        console.log("login in request");
+
+        //     const res = await fetch(`${AUTH_URL}/login`, {
+        const res = await fetch(`${AUTH_URL}/api/auth/sign-in/email`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })
