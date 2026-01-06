@@ -53,6 +53,7 @@ class ArtistController implements ControllerInterface
             'artistInLibrary' => $adapter->getArtistsInLibrary($this->params["id"]),
             'albums' => $adapter->getArtistAlbums($this->params["id"]),
             'singles' => $adapter->getArtistSingles($this->params["id"]),
+            'mostMistenedMonth' => $adapter->getMostListenedArtistsOfTheMonth($limit),
             default => throw new ResourceNotFoundException(),
         };
     }

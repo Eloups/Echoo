@@ -1,0 +1,26 @@
+type: http_request
+model: http_request
+id: rq_4rRfsw8uEN
+createdAt: 2026-01-05T09:20:47.291917400
+updatedAt: 2026-01-05T09:23:44.053281700
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_zuMHoGGruW
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: get most listened artists
+sortPriority: -1760599398215.0
+url: ${[ API_HOST ]}/artist/listened/month
+urlParameters:
+- enabled: true
+  name: limit
+  value: '6'
+  id: f6mp7xVKVa
+- enabled: true
+  name: ''
+  value: ''
+  id: k6P6tYz0mq
