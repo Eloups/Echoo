@@ -4,6 +4,7 @@ namespace Api\Domain\Service;
 
 use Api\Adapter\MusicDrivenAdapter;
 use Api\Domain\Class\Music;
+use Api\Domain\Class\Rating;
 use Api\Domain\Ports\MusicServiceInterface;
 use DateTime;
 use Exception;
@@ -12,12 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Classe de service des musiques
  */
-class MusicService implements MusicServiceInterface {
+class MusicService implements MusicServiceInterface
+{
     /**
      * Action du listage des musiques
      * @return Response
      */
-    public function listMusics(int $idArtist): array {
+    public function listMusics(int $idArtist): array
+    {
         $driven = new MusicDrivenAdapter();
 
         $musics = $driven->getMusicList($idArtist);
@@ -35,8 +38,29 @@ class MusicService implements MusicServiceInterface {
      * @param int $id_music
      * @return void
      */
-    public function likeMusic(int $id_user, int $id_music): void {
+    public function likeMusic(int $id_user, int $id_music): void
+    {
         $driven = new MusicDrivenAdapter();
         $driven->addLike($id_user, $id_music);
+    }
+
+    /**
+     * Récupération des notes d'une musique
+     * @param int $musicId
+     * @param int $limit
+     * @return array
+     */
+    public function getMusicsRatings(int $musicId, int $limit): array
+    {
+        $driven = new MusicDrivenAdapter();
+        $ratings = $driven->getMusicsRatings($musicId, $limit);
+
+        foreach ($ratings as $rate) {
+            if (!$rate instanceof Rating) {
+                throw new Exception("Les données ne sont pas du type Rating");
+            }
+        }
+
+        return $ratings;
     }
 }

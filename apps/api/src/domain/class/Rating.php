@@ -2,6 +2,8 @@
 
 namespace Api\Domain\Class;
 
+use DateTime;
+
 
 /**
  * Classe des notes des musiques
@@ -18,6 +20,11 @@ class Rating
      * @var int
      */
     private int $rate;
+    /**
+     * Date de création du commentaire
+     * @var ?DateTime
+     */
+    private ?DateTime $created_at;
     /**
      * Commentaire de la note
      * @var ?string
@@ -36,10 +43,11 @@ class Rating
      * @param ?string $comment
      * @param ?int $id_user
      */
-    public function __construct(?int $id, int $rate, ?string $comment, ?int $id_user)
+    public function __construct(?int $id, int $rate, ?DateTime $created_at, ?string $comment, ?int $id_user)
     {
         $this->id = $id;
         $this->rate = $rate;
+        $this->created_at = $created_at;
         $this->comment = $comment;
         $this->id_user = $id_user;
     }
@@ -59,6 +67,14 @@ class Rating
     public function getRate(): int
     {
         return $this->rate;
+    }
+    /**
+     * Accesseur de la date de création
+     * @return int
+     */
+    public function getCreatedAt(): ?DateTime
+    {
+        return $this->created_at;
     }
     /**
      * Accesseur du commentaire de la note

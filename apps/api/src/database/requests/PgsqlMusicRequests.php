@@ -120,4 +120,22 @@ class PgsqlMusicRequests
         $request->execute([":musicId" => $musicId]);
         return $request->fetchAll();
     }
+
+    /**
+     * Récupération des notes d'une musique
+     * @param int $musicId
+     * @param int $limit
+     * @return array
+     */
+    public function getMusicsRatings(int $musicId, int $limit): array
+    {
+        $sql = 'SELECT mr.id, mr.rating, mr.created_at, mr.comment, mr.id_user, mr.id_music FROM music_rating mr
+            WHERE mr.id_music = :musicId
+            LIMIT :limit;';
+
+        $request = $this->pdo->prepare($sql);
+        $request->execute([":musicId" => $musicId, ":limit" => $limit]);
+
+        return $request->fetchAll();
+    }
 }
