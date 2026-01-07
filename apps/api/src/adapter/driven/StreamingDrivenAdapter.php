@@ -60,6 +60,15 @@ class StreamingDrivenAdapter implements StreamingDrivenAdapterInterface
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_NOBODY, false);
 
+        // Récupérer la taille du fichier pour le header Content-Length
+        $headCh = curl_init($fileUrl);
+        curl_setopt($headCh, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($headCh, CURLOPT_HEADER, true);
+        curl_setopt($headCh, CURLOPT_NOBODY, true);
+        curl_exec($headCh);
+        $contentLength = curl_getinfo($headCh, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+        curl_close($headCh);
+
         $response = new StreamedResponse(function () use ($ch) {
             curl_exec($ch);
             curl_close($ch);
@@ -67,8 +76,15 @@ class StreamingDrivenAdapter implements StreamingDrivenAdapterInterface
 
         $response->headers->set('Content-Type', match ($fileExtention) {
             'flac' => 'audio/flac',
-            'mp3' => 'audio/mp3',
+            'mp3' => 'audio/mpeg',
         });
+        
+        // Headers pour le streaming progressif
+        if ($contentLength > 0) {
+            $response->headers->set('Content-Length', (string)$contentLength);
+        }
+        $response->headers->set('Accept-Ranges', 'bytes');
+        $response->headers->set('Cache-Control', 'public, max-age=3600');
 
         return $response;
     }

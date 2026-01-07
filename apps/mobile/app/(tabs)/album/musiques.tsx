@@ -91,6 +91,8 @@ export default function MusiquesPage() {
                             <DetailMusicCard 
                                 infos={music}
                                 isAlbum={true}
+                                queue={data.musicList || []}
+                                index={index}
                             />
                         </View>
                     ))}

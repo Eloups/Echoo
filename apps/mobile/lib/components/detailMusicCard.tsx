@@ -5,15 +5,19 @@ import AppText from '@/lib/components/global/appText';
 import { useTheme } from "../theme/provider";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import usePlayerStore from "@/hook/usePlayerStore";
 
 type DetailMusicCardProps = {
     infos: BaseInfos;
     onRemove?: () => void;
     isAlbum?: boolean;
+    queue?: BaseInfos[];
+    index?: number;
 }
 
-export default function DetailMusicCard({ infos, onRemove, isAlbum = false }: DetailMusicCardProps) {
+export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queue = [], index = 0 }: DetailMusicCardProps) {
     const { theme } = useTheme();
+    const { playTrack } = usePlayerStore();
     const [menuVisible, setMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState<'below' | 'above'>('below');
     const buttonRef = useRef<View>(null);
@@ -38,9 +42,15 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false }: De
         }
     };
 
+    const handlePlayMusic = () => {
+        // Si une queue est fournie, on l'utilise, sinon on joue juste cette musique
+        const fileName = infos.audioFile || 'default.mp3';
+        playTrack(infos, fileName, queue.length > 0 ? queue : [infos], index);
+    };
+
     return (
         <View style={styles.container}>
-            <Pressable style={styles.leftSection}>
+            <Pressable style={styles.leftSection} onPress={handlePlayMusic}>
                 <Image
                     source={infos.cover}
                     style={styles.coverImage}
