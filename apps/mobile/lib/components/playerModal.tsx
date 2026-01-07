@@ -63,7 +63,7 @@ export default function PlayerModal() {
     <Modal
       visible={isPlayerModalVisible}
       animationType="slide"
-      presentationStyle="fullScreen"
+      presentationStyle="pageSheet"
       onRequestClose={hidePlayerModal}
     >
       <LinearGradient
