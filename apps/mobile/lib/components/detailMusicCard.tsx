@@ -56,8 +56,8 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
                     style={styles.coverImage}
                 />
                 <View style={styles.infoSection}>
-                    <AppText size="md" numberOfLines={1}>{infos.title}</AppText>
-                    <AppText size="sm" color="text2" numberOfLines={1}>
+                    <AppText size="md" numberOfLines={1} pointerEvents="none">{infos.title}</AppText>
+                    <AppText size="sm" color="text2" numberOfLines={1} pointerEvents="none">
                         {Array.isArray(infos.artist) ? infos.artist.join(', ') : infos.artist}
                     </AppText>
                 </View>
@@ -104,7 +104,7 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
                                     }}
                                 >
                                     <MaterialIcons name="playlist-remove" size={20} color="#ff4444" />
-                                    <AppText style={{ marginLeft: 12, color: '#ff4444' }}>Supprimer de la playlist</AppText>
+                                    <AppText style={{ marginLeft: 12, color: '#ff4444' }} pointerEvents="none">Supprimer de la playlist</AppText>
                                 </TouchableOpacity>
                                 <View style={{ height: 1, backgroundColor: theme.colors.background, marginVertical: 4 }} />
                             </>
@@ -117,7 +117,7 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
                             }}
                         >
                             <MaterialIcons name="play-arrow" size={20} color={theme.colors.text} />
-                            <AppText style={{ marginLeft: 12 }}>Lire ensuite</AppText>
+                            <AppText style={{ marginLeft: 12 }} pointerEvents="none">Lire ensuite</AppText>
                         </TouchableOpacity>
                         <View style={{ height: 1, backgroundColor: theme.colors.background, marginVertical: 4 }} />
                         <TouchableOpacity
@@ -128,7 +128,7 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
                             }}
                         >
                             <MaterialIcons name="queue-music" size={20} color={theme.colors.text} />
-                            <AppText style={{ marginLeft: 12 }}>Ajouter à la file d'attente</AppText>
+                            <AppText style={{ marginLeft: 12 }} pointerEvents="none">Ajouter à la file d'attente</AppText>
                         </TouchableOpacity>
                         <View style={{ height: 1, backgroundColor: theme.colors.background, marginVertical: 4 }} />
                         <TouchableOpacity
@@ -139,7 +139,7 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
                             }}
                         >
                             <MaterialIcons name="person" size={20} color={theme.colors.text} />
-                            <AppText style={{ marginLeft: 12 }}>Aller à l'artiste</AppText>
+                            <AppText style={{ marginLeft: 12 }} pointerEvents="none">Aller à l'artiste</AppText>
                         </TouchableOpacity>
                     </View>
                 </>

@@ -60,7 +60,7 @@ export default function AppText({
     };
 
     return (
-        <Text {...rest} style={[baseStyle, style]} onPress={() => { onPress ? onPress() : undefined}}>
+        <Text {...rest} style={[baseStyle, style]} onPress={() => { onPress ? onPress() : undefined}} pointerEvents="none">
             {children}
         </Text>
     );

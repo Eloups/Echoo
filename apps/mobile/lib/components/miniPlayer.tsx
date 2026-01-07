@@ -64,11 +64,13 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 1000,
+    alignItems: 'center',
   },
   container: {
     height: 60,
-    borderTopWidth: 1,
     borderTopColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 8,
+    width: '97%',
   },
   content: {
     flexDirection: 'row',
