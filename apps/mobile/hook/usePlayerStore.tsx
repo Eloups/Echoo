@@ -29,6 +29,9 @@ interface PlayerState {
   showPlayerModal: () => void;
   hidePlayerModal: () => void;
   togglePlayerModal: () => void;
+  removeFromQueue: (index: number) => void;
+  reorderQueue: (newQueue: BaseInfos[]) => void;
+  addToQueue: (track: BaseInfos) => void;
 }
 
 /**
@@ -209,6 +212,38 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
   // Toggle la visibilité de la modale
   togglePlayerModal: () => {
     set((state) => ({ isPlayerModalVisible: !state.isPlayerModalVisible }));
+  },
+
+  // Supprimer une musique de la queue
+  removeFromQueue: (index: number) => {
+    const { queue, currentIndex } = get();
+    const newQueue = queue.filter((_, i) => i !== index);
+    
+    // Ajuster currentIndex si nécessaire
+    let newCurrentIndex = currentIndex;
+    if (index < currentIndex) {
+      newCurrentIndex = currentIndex - 1;
+    } else if (index === currentIndex && newQueue.length > 0) {
+      // Si on supprime la musique en cours, on ne change pas l'index
+      // mais il faudra passer à la suivante quand elle se termine
+      newCurrentIndex = Math.min(currentIndex, newQueue.length - 1);
+    }
+    
+    set({ queue: newQueue, currentIndex: newCurrentIndex });
+  },
+
+  // Réorganiser la queue
+  reorderQueue: (newQueue: BaseInfos[]) => {
+    const { currentTrack } = get();
+    // Trouver le nouvel index de la musique en cours
+    const newCurrentIndex = newQueue.findIndex(track => track.id === currentTrack?.id);
+    set({ queue: newQueue, currentIndex: newCurrentIndex >= 0 ? newCurrentIndex : 0 });
+  },
+
+  // Ajouter une musique à la fin de la queue
+  addToQueue: (track: BaseInfos) => {
+    const { queue } = get();
+    set({ queue: [...queue, track] });
   },
 }));
 

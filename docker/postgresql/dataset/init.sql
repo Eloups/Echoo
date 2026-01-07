@@ -197,8 +197,8 @@ insert into music (id, title, duration, release, nb_streams, file_path) values
 (6, 'Classical Symphony', 420, '2023-08-14 12:00:00', 123456, '6.mp3'),
 (7, 'Electronic Pulse', 330, '2022-09-20 12:00:00', 456789, '7.mp3'),
 (8, 'Country Roads', 250, '2021-03-10 12:00:00', 234567, '8.mp3'),
-(9, 'R&B Groove', 300, '2023-05-05 12:00:00', 567890, '9.mp3'),
-(10, 'Reggae Rhythms', 280, '2022-12-12 12:00:00', 345678, '10.mp3'),
+(9, 'BIRDS OF A FEATHER', 210, '2023-05-05 12:00:00', 567890, 'BOAF.mp3'),
+(10, 'Falling Forever', 280, '2022-12-12 12:00:00', 345678, 'FallingForever.mp3'),
 (11, 'Metal Thunder', 400, '2023-07-22 12:00:00', 678901, '11.mp3'),
 (12, 'Pop Sensation', 220, '2021-06-18 12:00:00', 234567, '12.mp3'),
 (13, 'Chillout Lounge', 310, '2023-01-30 12:00:00', 456789, '13.mp3'),
@@ -214,7 +214,7 @@ insert into artist (id, name, isVerified, description, image_path) values
 (6, 'Ed Sheeran', TRUE, 'Description for artist 6', 'artist_6.jpg'),
 (7, 'Adele', TRUE, 'Description for artist 7', 'artist_7.jpg'),
 (8, 'Lady Gaga', TRUE, 'Description for artist 8', 'artist_8.jpg'),
-(9, 'Bruno Mars', TRUE, 'Description for artist 9', 'artist_9.jpg'),
+(9, 'Dua Lipa', TRUE, 'Description for artist 9', 'artist_9.jpg'),
 (10, 'Rihanna', TRUE, 'Description for artist 10', 'artist_10.jpg'),
 (11, 'Coldplay', TRUE, 'Description for artist 11', 'artist_11.jpg'),
 (12, 'The Weeknd', TRUE, 'Description for artist 12', 'artist_12.jpg'),
@@ -239,9 +239,9 @@ insert into project_type (id, name) values
 insert into project (id, title, release, color1, color2, cover_path, id_type) values
 (1, 'Project 1', '2022-05-15 12:00:00', '#FF5733', '#33FF57', 'project_1.jpg', 1),
 (2, 'Project 2', '2021-11-22 12:00:00', '#3357FF', '#F033FF', 'project_2.jpg', 2),
-(3, 'Project 3', '2023-02-10 12:00:00', '#57FF33', '#FF33F0', 'project_3.jpg', 3),
+(3, 'Project 3', '2023-02-10 12:00:00', '#57FF33', '#FF33F0', 'HMHAS.jpg', 3),
 (4, 'Project 4', '2020-07-30 12:00:00', '#33FFF0', '#F0FF33', 'project_4.jpg', 1),
-(5, 'Project 5', '2024-01-18 12:00:00', '#FF33A8', '#A833FF', 'project_5.jpg', 2),
+(5, 'Project 5', '2024-01-18 12:00:00', '#FF33A8', '#A833FF', 'RadicalOptimism.jpg', 2),
 (6, 'Project 6', '2023-08-14 12:00:00', '#33A8FF', '#A8FF33', 'project_6.jpg', 3),
 (7, 'Project 7', '2022-09-20 12:00:00', '#A833FF', '#33FFA8', 'project_7.jpg', 1),
 (8, 'Project 8', '2021-03-10 12:00:00', '#FFA833', '#33A8FF', 'project_8.jpg', 2),
@@ -388,8 +388,8 @@ insert into friendship (user1, user2) values
 (1, 2), (1, 3), (1, 5), (2, 4), (2, 6), (3, 4), (3, 7), (4, 8), (5, 9), (6, 10);
 
 insert into featuring (id_artist, id_music) values
-(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10),
-(11, 11), (12, 12), (13, 13), (14, 14), (15, 15), (1, 6), (2, 7), (3, 8), (4, 9), (5, 10),
+(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (5, 9), (9, 10),
+(11, 11), (12, 12), (13, 13), (14, 14), (15, 15), (1, 6), (2, 7), (3, 8), (4, 9),
 (6, 11), (7, 12), (8, 13), (9, 14), (10, 15), (11, 1), (12, 2), (13, 3), (14, 4), (15, 5);
 
 insert into artist_network (id_artist, id_network, link) values
@@ -430,7 +430,7 @@ insert into artist_network (id_artist, id_network, link) values
 (15, 3, 'https://example.com/artist_15_network_3');
 
 insert into project_music (id_project, id_music) values
-(1, 1), (1, 2), (2, 3), (2, 4), (3, 5), (3, 6), (4, 7), (4, 8), (5, 9), (5, 10),
+(1, 1), (1, 2), (2, 3), (2, 4), (3, 5), (3, 6), (4, 7), (4, 8), (3, 9), (5, 10),
 (6, 11), (6, 12), (7, 13), (7, 14), (8, 15), (8, 1), (9, 2), (9, 3), (10, 4), (10, 5);
 
 insert into artist_project (id_artist, id_project) values

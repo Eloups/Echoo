@@ -6,6 +6,7 @@ import { Ionicons, MaterialIcons, FontAwesome5, Entypo } from '@expo/vector-icon
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState } from 'react';
 import Slider from '@react-native-community/slider';
+import QueueModal from './queueModal';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -29,6 +30,7 @@ export default function PlayerModal() {
 
   const [localProgress, setLocalProgress] = useState(progress);
   const [isSeeking, setIsSeeking] = useState(false);
+  const [queueVisible, setQueueVisible] = useState(false);
 
   // Synchroniser le slider avec la progression réelle
   useEffect(() => {
@@ -180,7 +182,7 @@ export default function PlayerModal() {
               <Ionicons name="create-outline" size={24} color={theme.colors.text} />
             </Pressable> */}
 
-            <Pressable style={styles.bottomButton}>
+            <Pressable style={styles.bottomButton} onPress={() => setQueueVisible(true)}>
               <Entypo name="menu" size={24} color={theme.colors.text} />
             </Pressable>
           </View>
@@ -188,6 +190,9 @@ export default function PlayerModal() {
           
         </ScrollView>
       </LinearGradient>
+
+      {/* Modale de la liste d'attente */}
+      <QueueModal visible={queueVisible} onClose={() => setQueueVisible(false)} />
     </Modal>
   );
 }

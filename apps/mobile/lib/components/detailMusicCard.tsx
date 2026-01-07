@@ -17,7 +17,7 @@ type DetailMusicCardProps = {
 
 export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queue = [], index = 0 }: DetailMusicCardProps) {
     const { theme } = useTheme();
-    const { playTrack } = usePlayerStore();
+    const { playTrack, addToQueue } = usePlayerStore();
     const [menuVisible, setMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState<'below' | 'above'>('below');
     const buttonRef = useRef<View>(null);
@@ -124,7 +124,7 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
                             style={styles.menuItem}
                             onPress={() => {
                                 setMenuVisible(false);
-                                console.log('Ajouter à la file d\'attente');
+                                addToQueue(infos);
                             }}
                         >
                             <MaterialIcons name="queue-music" size={20} color={theme.colors.text} />

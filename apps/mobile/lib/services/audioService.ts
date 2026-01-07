@@ -68,7 +68,7 @@ class AudioService {
       // Attendre que le fichier soit chargé (iOS ne fournit pas toujours la durée immédiatement)
       await new Promise<void>((resolve, reject) => {
         let attempts = 0;
-        const maxAttempts = 50; // 5 secondes maximum
+        const maxAttempts = 100; // 10 secondes maximum
         
         const checkBuffer = async () => {
           attempts++;
