@@ -63,4 +63,17 @@ class MusicService implements MusicServiceInterface
 
         return $ratings;
     }
+
+    /**
+     * Action de la récupération du cover file d'un projet à partir de l'id d'une musique
+     * @param int $id_music
+     * @return string
+     */
+    public function getCoverFileProject(int $id_music): string
+    {
+        $driven = new MusicDrivenAdapter();
+        $cover_path = $driven->getCoverFileProject($id_music);
+
+        return $cover_path;
+    }
 }

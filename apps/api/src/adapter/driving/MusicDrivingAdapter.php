@@ -72,4 +72,18 @@ class MusicDrivingAdapter
 
         return new Response(SerializerUtils::get()->serialize(['ratings' => $ratings], "json"));
     }
+
+    /**
+     * Récupération du cover file d'un projet à partir de l'id musique
+     * @param int $musicId
+     * @param int $limit
+     * @return Response
+     */
+    public function getCoverFileProject(int $id_music): Response
+    {
+        $service = new MusicService();
+        $cover_path = $service->getCoverFileProject($id_music);
+
+        return new Response(SerializerUtils::get()->serialize(['cover_path' => $cover_path], "json"));
+    }
 }
