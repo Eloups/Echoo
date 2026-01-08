@@ -68,4 +68,21 @@ class MusicDrivenAdapter implements MusicDrivenAdapterInterface
 
         return $ratings;
     }
+
+    /**
+     * Méthode pour récupérer le cover file d'un projet à partir de l'id musique
+     * @param int $id_music
+     * @return string
+     */
+    public function getCoverFileProject(int $id_music): string
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlMusicRequests($pdo);
+
+        $cover_path = $request->getCoverFileProject($id_music);
+
+        return $cover_path[0]["cover_path"];
+    }
 }

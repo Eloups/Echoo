@@ -20,4 +20,11 @@ interface MusicDrivenAdapterInterface {
      * @return void
      */
     public function addLike(int $id_user, int $id_music): void;
+
+    /**
+     * Méthode pour récupérer le cover file d'un projet à partir de l'id d'une musique
+     * @param int $id_music
+     * @return string
+     */
+    public function getCoverFileProject(int $id_music): string;
 }
