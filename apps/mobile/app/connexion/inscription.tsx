@@ -6,12 +6,12 @@ import EchooSmallLogo from "@/assets/img/EchooSmallLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
-import useGlobalHook from "@/hook/globalHook";
+import useAuthHook from '@/hook/authHook';
 
 
 export default function InscriptionScreen() {
     const router = useRouter();
-    const { register, isLoading, authError } = useGlobalHook();
+    const { register, isLoading, authError } = useAuthHook();
 
     const [pseudo, setPseudo] = React.useState("");
     const [email, setEmail] = React.useState("");
@@ -21,13 +21,8 @@ export default function InscriptionScreen() {
 
 
     function verifCreation() {
-        // TODO Mettre la vérification front des champs 
-
-        // Tempo redirection
-        // router.push("/(tabs)/home");
-        console.log("ici")
+        // ICIIII TODO Mettre la vérification front des champs 
         register(pseudo, email, mdp);
-
     }
 
     return (
