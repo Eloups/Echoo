@@ -30,7 +30,6 @@ const app = new Elysia()
   })
   .post("/api/auth/verify", async ({ body, set }) => {
     try {
-      console.log("ICI")
       const { token } = body;
       console.log("token = ", token)
       if (!token) {

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { authClient } from '@/lib/auth/auth-client'
-import type { VerifyAuthResponse } from '@/lib/types/auth'
+import type { JWTPayload, VerifyAuthResponse } from '@/lib/types/auth'
 import { User } from '@/lib/types/auth'
 import { router } from 'expo-router'
 import useGlobalHook from './globalHook'
@@ -17,7 +17,8 @@ interface AuthHook {
   setAuthLoading: (loading: boolean) => void;
   setAuthError: (error: string | null) => void;
   checkToken: () => void;
-  tokenIsExpired: () => boolean;
+  tokenIsExpired: () => boolean;  // lib/auth/service.ts
+  verifyToken: (token: string) => Promise<JWTPayload | undefined>;
 }
 
 export const useAuthHook = create<AuthHook>((set, get) => ({
@@ -56,21 +57,12 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
         const tokenValue = JWT.data.token;
 
         try {
-          const res = await fetch(`${API_BASE_AUTH}/api/auth/verify`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token: tokenValue })
-          });
+          const { verifyToken } = get();
 
-          const json: VerifyAuthResponse = await res.json();
-
-          if (res.ok && json.status === 'SUCCESS' && json.decoded) {
-            useGlobalHook.setState({ user: User.fromJWTPayload(json.decoded) })
-          } else {
-            set({ authError: json.message ?? 'Token verification failed' });
-            set({ isLoading: false });
-            return;
-          }
+          const decodedToken = await verifyToken(tokenValue);
+          if (decodedToken) {
+            useGlobalHook.setState({ user: User.fromJWTPayload(decodedToken) })
+          } 
         } catch (e: any) {
           set({ authError: e.message ?? String(e) });
           set({ isLoading: false });
@@ -120,21 +112,12 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
         const tokenValue = JWT.data.token;
 
         try {
-          const res = await fetch(`${API_BASE_AUTH}/api/auth/verify`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token: tokenValue })
-          });
+          const { verifyToken } = get();
 
-          const json: VerifyAuthResponse = await res.json();
-
-          if (res.ok && json.status === 'SUCCESS' && json.decoded) {
-            useGlobalHook.setState({ user: User.fromJWTPayload(json.decoded) });
-          } else {
-            set({ authError: json.message ?? 'Token verification failed' });
-            set({ isLoading: false });
-            return;
-          }
+          const decodedToken = await verifyToken(tokenValue);
+          if (decodedToken) {
+            useGlobalHook.setState({ user: User.fromJWTPayload(decodedToken) })
+          } 
         } catch (e: any) {
           set({ authError: e.message ?? String(e) });
           set({ isLoading: false });
@@ -154,7 +137,7 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
         router.push('/(tabs)/home');
       }
     }
-    
+
     // Tout est bon, rediriger vers l'écran principal
     set({ isLoading: false });
   },
@@ -179,6 +162,14 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     }
     return true;
   },
+
+  verifyToken: async (token: string) => {
+    const res = await fetch(`${API_BASE_AUTH}/api/auth/verify`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token }) });
+    const json = await res.json() as VerifyAuthResponse;
+    if (!res.ok || json.status !== 'SUCCESS') throw new Error(json.message ?? 'verify failed');
+    return json.decoded;
+  }
+
 }))
 
 export default useAuthHook;

@@ -22,10 +22,7 @@ interface GlobalHook {
 const useGlobalHook = create<GlobalHook>((set, get) => ({
     user: null,
 
-
-
-
+    
 }))
 
 export default useGlobalHook
-
