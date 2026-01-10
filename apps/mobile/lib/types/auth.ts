@@ -21,21 +21,26 @@ export interface VerifyAuthResponse {
     code?: string;
 }
 
+
+
+
 export class User {
     id: string;
     email: string;
     name: string;
     image: string | null;
+    expirationTime?: number;
 
-    constructor(id: string, email: string, name: string, image: string | null = null) {
+    constructor(id: string, email: string, name: string, image: string | null = null, expirationTime?: number) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.image = image;
+        this.expirationTime = expirationTime;
     }
 
     static fromJWTPayload(payload: JWTPayload): User {
-        return new User(payload.id, payload.email, payload.name, payload.image);
+        return new User(payload.id, payload.email, payload.name, payload.image, payload.exp);
     }
 }
 

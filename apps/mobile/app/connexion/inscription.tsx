@@ -6,12 +6,12 @@ import EchooSmallLogo from "@/assets/img/EchooSmallLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
-import { useGlobalHook } from "@/hook";
+import useGlobalHook from "@/hook/globalHook";
 
 
 export default function InscriptionScreen() {
     const router = useRouter();
-    const { register } = useGlobalHook();
+    const { register, isLoading, authError } = useGlobalHook();
 
     const [pseudo, setPseudo] = React.useState("");
     const [email, setEmail] = React.useState("");
@@ -113,8 +113,15 @@ export default function InscriptionScreen() {
                     onClick={() => {
                         verifCreation();
                     }}
+                    isLoading={isLoading}
                 />
             </View>
+
+            {authError ? (
+                // ICIIIIII a changer la couleur du texte d'erreur
+                // <AppText color="danger" size="md">{authError}</AppText>
+                <AppText color="primary" size="md">{authError}</AppText>
+            ) : null}
 
             <AppText
                 color="primary"
