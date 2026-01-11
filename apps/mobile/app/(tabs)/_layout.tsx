@@ -47,19 +47,39 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="library/playlists"
+                name="library"
                 options={{
-                    title: 'Librairie',
-                    tabBarIcon: ({ color }) => <LibraryIcon size={26} strokeColor={color} />
-                    ,
+                    title: 'Bibliothèque',
+                    tabBarIcon: ({ color }) => <LibraryIcon size={26} strokeColor={color} />,
                 }}
             />
-
             <Tabs.Screen
                 name="messages"
                 options={{
                     title: 'Messages',
                     tabBarIcon: ({ color }) => <AntDesign name="message" size={24} color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="detail"
+                options={{
+                    href: null,
+                    title: 'Détails',
+                    headerShown: false,
+                }}
+            />
+            <Tabs.Screen
+                name="artist"
+                options={{
+                    href: null,
+                    title: 'Artiste',
+                }}
+            />
+            <Tabs.Screen
+                name="album"
+                options={{
+                    href: null,
+                    title: 'Album',
                 }}
             />
         </Tabs>

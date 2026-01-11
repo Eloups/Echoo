@@ -23,8 +23,8 @@ const VARIANT_SIZES: Record<Variant, number> = {
     md: 13,
     lg: 15,
     xl: 16,
-    "2xl": 20,
-    "3xl": 32,
+    "2xl": 20, 
+    "3xl": 32, 
 };
 
 const FONT_FAMILIES: Record<NonNullable<AppTextProps["weight"]>, string> = {
