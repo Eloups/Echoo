@@ -58,10 +58,21 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
       // Initialiser le mode audio si nécessaire
       await audioService.initialize();
       
-      // Charger et jouer la musique
-      await audioService.loadAndPlay(fileName, (status) => {
-        get().updatePlaybackStatus(status);
-      });
+      // Préparer les métadonnées pour le lecteur système
+      const metadata = {
+        title: track.title,
+        artist: Array.isArray(track.artist) ? track.artist.join(', ') : track.artist,
+        imageUri: typeof track.cover === 'object' && 'uri' in track.cover ? track.cover.uri : undefined,
+      };
+      
+      // Charger et jouer la musique avec métadonnées
+      await audioService.loadAndPlay(
+        fileName, 
+        (status) => {
+          get().updatePlaybackStatus(status);
+        },
+        metadata
+      );
       
       set({
         currentTrack: track,
