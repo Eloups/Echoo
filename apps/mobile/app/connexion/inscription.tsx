@@ -21,7 +21,8 @@ export default function InscriptionScreen() {
 
 
     function verifCreation() {
-        // ICIIII TODO Mettre la vérification front des champs 
+        // ICIIII TODO Mettre la vérification front des champs
+
         register(pseudo, email, mdp);
     }
 
@@ -113,9 +114,7 @@ export default function InscriptionScreen() {
             </View>
 
             {authError ? (
-                // ICIIIIII a changer la couleur du texte d'erreur
-                // <AppText color="danger" size="md">{authError}</AppText>
-                <AppText color="primary" size="md">{authError}</AppText>
+                <AppText color="error" size="md">{authError}</AppText>
             ) : null}
 
             <AppText

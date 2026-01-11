@@ -31,7 +31,6 @@ const app = new Elysia()
   .post("/api/auth/verify", async ({ body, set }) => {
     try {
       const { token } = body;
-      console.log("token = ", token)
       if (!token) {
         set.status = 400;
         return { status: "ERROR", message: "Missing token" };

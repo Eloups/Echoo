@@ -17,9 +17,8 @@ export default function ConnexionScreen() {
     function handleConect() {
         if (email.trim() !== ""  && mdp.trim() !== "") {
             // pass pour le dev Tempo 
-            if (email == "Admin" && mdp == "Admin") {
-                router.push("/(tabs)/home");
-                return;
+            if (email == "A" && mdp == "A") {
+                login("test@gmail.com", "Test1234_");
             }
             else {
                 login(email, mdp);
@@ -73,9 +72,7 @@ export default function ConnexionScreen() {
                     </View>
 
                     {authError ? (
-                        // ICIIIIII a changer la couleur du texte d'erreur
-                        // <AppText color="danger" size="md">{authError}</AppText>
-                        <AppText color="primary" size="md">{authError}</AppText>
+                        <AppText color="error" size="md">{authError}</AppText>
                     ) : null}
                     <View style={{ width: "100%", alignItems: "center", marginTop: 33 }}>
                         <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/inscription") }}>Pas de compte ? S'inscrire</AppText>

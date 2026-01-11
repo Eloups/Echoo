@@ -62,7 +62,7 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
           const decodedToken = await verifyToken(tokenValue);
           if (decodedToken) {
             useGlobalHook.setState({ user: User.fromJWTPayload(decodedToken) })
-          } 
+          }
         } catch (e: any) {
           set({ authError: e.message ?? String(e) });
           set({ isLoading: false });
@@ -117,7 +117,7 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
           const decodedToken = await verifyToken(tokenValue);
           if (decodedToken) {
             useGlobalHook.setState({ user: User.fromJWTPayload(decodedToken) })
-          } 
+          }
         } catch (e: any) {
           set({ authError: e.message ?? String(e) });
           set({ isLoading: false });
