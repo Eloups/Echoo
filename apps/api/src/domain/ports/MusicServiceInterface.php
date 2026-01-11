@@ -20,4 +20,11 @@ interface MusicServiceInterface {
      * @return void
      */
     public function likeMusic(int $id_user, int $id_music): void;
+
+    /**
+     * Action de la récupération du cover file d'un projet à partir de l'id d'une musique
+     * @param int $id_music
+     * @return string
+     */
+    public function getCoverFileProject(int $id_music): string;
 }

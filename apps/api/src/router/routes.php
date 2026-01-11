@@ -9,6 +9,8 @@ $routes = new RouteCollection();
 // Musiques
 $routes->add('music|list', new Route('/musics/artist/{id}', methods: 'GET'));
 $routes->add('music|like', new Route('/music/like', methods: 'POST'));
+$routes->add('music|ratings', new Route('/musics/{id}/ratings', methods: 'GET'));
+$routes->add('music|coverPathProject', new Route('/music/{id}/coverPath', methods: 'GET'));
 
 // Streaming
 $routes->add('stream|getFile', new Route('/stream/{fileName}', methods: 'GET'));
@@ -23,6 +25,7 @@ $routes->add('artist|like', new Route('/artist/like', methods: 'POST'));
 $routes->add('artist|artistInLibrary', new Route('/artist/library/{id}/all', methods: 'GET'));
 $routes->add('artist|albums', new Route('/artist/{id}/albums', methods: 'GET'));
 $routes->add('artist|singles', new Route('/artist/{id}/singles', methods: 'GET'));
+$routes->add('artist|mostMistenedMonth', new Route('/artist/listened/month', methods: 'GET'));
 
 // Playlist
 $routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));

@@ -5,18 +5,21 @@ namespace Api\Domain\Service;
 use Api\Adapter\ArtistDrivenAdapter;
 use Api\Domain\Class\Artist;
 use Api\Domain\Ports\ArtistServiceInterface;
+use DateTime;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Classe de service des artistes
  */
-class ArtistService implements ArtistServiceInterface {
+class ArtistService implements ArtistServiceInterface
+{
     /**
      * Action des données de la page artiste
      * @return Response
      */
-    public function artistPage(int $idArtist, int $limit): array {
+    public function artistPage(int $idArtist, int $limit): array
+    {
         $driven = new ArtistDrivenAdapter();
 
         $artist = $driven->getArtist($idArtist);
@@ -33,7 +36,8 @@ class ArtistService implements ArtistServiceInterface {
      * @param int $id_artist
      * @return void
      */
-    public function likeArtist(int $id_user, int $id_artist): void {
+    public function likeArtist(int $id_user, int $id_artist): void
+    {
         $driven = new ArtistDrivenAdapter();
         $driven->addLike($id_user, $id_artist);
     }
@@ -48,7 +52,7 @@ class ArtistService implements ArtistServiceInterface {
     {
         $driven = new ArtistDrivenAdapter();
         $artists = $driven->getArtistsInLibrary($id_library);
-        foreach($artists as $artist) {
+        foreach ($artists as $artist) {
             if (!$artist instanceof Artist) {
                 throw new Exception("Les données ne sont pas du type Artist");
             }
@@ -62,7 +66,8 @@ class ArtistService implements ArtistServiceInterface {
      * @param int $id_artist
      * @return array
      */
-    public function getArtistAlbums(int $id_artist): array {
+    public function getArtistAlbums(int $id_artist): array
+    {
         $driven = new ArtistDrivenAdapter();
         $albums = $driven->getArtistAlbums($id_artist);
         return $albums;
@@ -73,9 +78,30 @@ class ArtistService implements ArtistServiceInterface {
      * @param int $id_artist
      * @return array
      */
-    public function getArtistSingles(int $id_artist): array {
+    public function getArtistSingles(int $id_artist): array
+    {
         $driven = new ArtistDrivenAdapter();
         $albums = $driven->getArtistSingles($id_artist);
         return $albums;
+    }
+
+    /**
+     * Action de récupération des artistes les plus écoutées du mois
+     * @param DateTime $date
+     * @param int $limit
+     * @return array
+     */
+    public function getMostListenedArtistsOfMonth(DateTime $date, int $limit): array
+    {
+        $driven = new ArtistDrivenAdapter();
+        $artists = $driven->getMostListenedArtistsOfMonth($date, $limit);
+
+        foreach ($artists as $artist) {
+            if (!$artist instanceof Artist) {
+                throw new Exception('The returned datas in service are not artists');
+            }
+        }
+
+        return $artists;
     }
 }

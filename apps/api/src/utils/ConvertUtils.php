@@ -89,6 +89,7 @@ class ConvertUtils
                     $music->addRate(new Rating(
                         id: $rateId,
                         rate: $rateValue,
+                        created_at: null,
                         comment: $rateComment,
                         id_user: null
                     ));
@@ -288,11 +289,10 @@ class ConvertUtils
             // Création de l'objet Music
             if (!isset($rates[$idRating])) {
 
-                $created_at = new DateTime($row['created_at']);
-
                 $rates[$idRating] = new Rating(
                     $idRating,
                     $row['rating'],
+                    new DateTime($row['created_at']),
                     $row['comment'],
                     $row['id_user']
                 );
@@ -475,5 +475,44 @@ class ConvertUtils
         }
 
         return $musicGenres;
+    }
+
+    /**
+     * Convert rows to artists
+     * @param array $rows
+     * @return array
+     */
+    public static function convertRowsToArtists(array $rows): array
+    {
+        $artists = [];
+        foreach ($rows as $row) {
+            $artists[] = new Artist(
+                $row['id'],
+                $row['name'],
+                $row['isverified'],
+                $row['description'],
+                $row['image_path'],
+                [],
+                [],
+                []
+            );
+        }
+        return $artists;
+    }
+
+    public static function convertRowsToMusicRatings(array $rows): array
+    {
+        $ratings = [];
+        foreach ($rows as $row) {
+            $ratings[] = new Rating(
+                $row['id'],
+                $row['rating'],
+                new DateTime($row['created_at']),
+                $row['comment'],
+                $row['id_user']
+            );
+        }
+
+        return $ratings;
     }
 }

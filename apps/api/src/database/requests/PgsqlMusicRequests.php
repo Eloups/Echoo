@@ -120,4 +120,39 @@ class PgsqlMusicRequests
         $request->execute([":musicId" => $musicId]);
         return $request->fetchAll();
     }
+
+    /**
+     * Récupération des notes d'une musique
+     * @param int $musicId
+     * @param int $limit
+     * @return array
+     */
+    public function getMusicsRatings(int $musicId, int $limit): array
+    {
+        $sql = 'SELECT mr.id, mr.rating, mr.created_at, mr.comment, mr.id_user, mr.id_music FROM music_rating mr
+            WHERE mr.id_music = :musicId
+            LIMIT :limit;';
+
+        $request = $this->pdo->prepare($sql);
+        $request->execute([":musicId" => $musicId, ":limit" => $limit]);
+
+        return $request->fetchAll();
+    }
+
+    /**
+     * Requête pour récupérer le cover_path d'un projet à partir de l'id d'une musique
+     * @param int $id_music
+     * @return array
+     */
+    public function getCoverFileProject(int $id_music): array {
+        $getCoverFileProject = "SELECT p.cover_path
+        FROM project p
+        JOIN project_music pm ON pm.id_project = p.id
+        WHERE pm.id_music = :id_music LIMIT 1;";
+
+        $request = $this->pdo->prepare(query: $getCoverFileProject);
+        $request->execute([":id_music" => $id_music]);
+
+        return $request->fetchAll();
+    }
 }
