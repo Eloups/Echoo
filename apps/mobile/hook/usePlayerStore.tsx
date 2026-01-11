@@ -33,6 +33,7 @@ interface PlayerState {
   removeFromQueue: (index: number) => void;
   reorderQueue: (newQueue: BaseInfos[]) => void;
   addToQueue: (track: BaseInfos) => void;
+  playNext: (track: BaseInfos) => void;
 }
 
 /**
@@ -187,6 +188,11 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
     set({ duration });
   },
 
+  // Mettre à jour l'état de chargement
+  setIsLoading: (isLoading: boolean) => {
+    set({ isLoading });
+  },
+
   // Mise à jour du statut de lecture depuis expo-av
   updatePlaybackStatus: (status: AVPlaybackStatus) => {
     if (status.isLoaded) {
@@ -255,7 +261,17 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
   // Ajouter une musique à la fin de la queue
   addToQueue: (track: BaseInfos) => {
     const { queue } = get();
-    set({ queue: [...queue, track] });
+    const newQueue = [...queue, track];
+    set({ queue: newQueue });
+  },
+
+  // Ajouter une musique juste après la musique en cours
+  playNext: (track: BaseInfos) => {
+    const { queue, currentIndex } = get();
+    const newQueue = [...queue];
+    // Insérer après l'index actuel
+    newQueue.splice(currentIndex + 1, 0, track);
+    set({ queue: newQueue });
   },
 }));
 

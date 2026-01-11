@@ -79,7 +79,6 @@ export default function PlayerModal() {
       Object.assign(seekTimeoutRef, { current: timeout });
     } catch (error) {
       // Gérer l'erreur silencieusement si le seek échoue
-      console.log('Erreur lors du seek (ignorée):', error);
       setIsSeeking(false);
     }
   };

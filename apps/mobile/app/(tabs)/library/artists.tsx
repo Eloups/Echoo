@@ -19,7 +19,6 @@ export default function Artists() {
                 const userId = 3; // ID utilisateur
                 const response: any = await ArtistService.getAllArtistsByUserID(userId);
                 
-                console.log('Artistes récupérés:', response);
                 
                 // La réponse contient un objet avec une clé "artists" qui est un tableau
                 const artistsArray = response.artists || [];
