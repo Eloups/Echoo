@@ -25,6 +25,7 @@ interface PlayerState {
   seekTo: (time: number) => Promise<void>;
   setProgress: (time: number) => void;
   setDuration: (duration: number) => void;
+  setIsLoading: (isLoading: boolean) => void;
   updatePlaybackStatus: (status: AVPlaybackStatus) => void;
   showPlayerModal: () => void;
   hidePlayerModal: () => void;

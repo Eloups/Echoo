@@ -139,13 +139,25 @@ class AudioService {
   async seekTo(positionMillis: number): Promise<void> {
     if (this.sound) {
       try {
+        // Vérifier que le son est chargé avant de seek
+        const status = await this.sound.getStatusAsync();
+        if (!status.isLoaded) {
+          throw new Error('Le son n\'est pas chargé');
+        }
+        
+        // Effectuer le seek
         await this.sound.setPositionAsync(positionMillis);
+        
+        // Attendre un peu que la nouvelle position se charge
+        await new Promise(resolve => setTimeout(resolve, 100));
       } catch (error: any) {
         // Ignorer l'erreur "Seeking interrupted" qui se produit lors de seek rapides multiples
-        if (!error.message?.includes('Seeking interrupted')) {
-          console.error('Erreur lors du seek:', error);
-          throw error;
+        if (error.message?.includes('Seeking interrupted')) {
+          return;
         }
+        
+        console.error('Erreur lors du seek:', error);
+        throw error;
       }
     }
   }

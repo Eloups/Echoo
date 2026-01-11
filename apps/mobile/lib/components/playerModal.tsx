@@ -1,4 +1,4 @@
-import { Modal, View, Image, Pressable, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { Modal, View, Image, Pressable, StyleSheet, Dimensions, ScrollView, ActivityIndicator } from 'react-native';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
 import usePlayerStore from '@/hook/usePlayerStore';
@@ -26,11 +26,13 @@ export default function PlayerModal() {
     seekTo,
     isPlayerModalVisible,
     hidePlayerModal,
+    isLoading,
   } = usePlayerStore();
 
   const [localProgress, setLocalProgress] = useState(progress);
   const [isSeeking, setIsSeeking] = useState(false);
   const [queueVisible, setQueueVisible] = useState(false);
+  const seekTimeoutRef = useState<NodeJS.Timeout | null>(null)[0];
 
   // Synchroniser le slider avec la progression réelle
   useEffect(() => {
@@ -51,12 +53,35 @@ export default function PlayerModal() {
 
   const handleSliderChange = (value: number) => {
     setLocalProgress(value);
-    setIsSeeking(true);
+    if (!isSeeking) {
+      setIsSeeking(true);
+    }
   };
 
-  const handleSliderComplete = (value: number) => {
-    seekTo(value);
-    setIsSeeking(false);
+  const handleSliderComplete = async (value: number) => {
+    try {
+      // Empêcher la synchronisation pendant un court moment
+      setLocalProgress(value);
+      
+      // Effectuer le seek
+      await seekTo(value);
+      
+      // Attendre un peu avant de réactiver la synchronisation
+      if (seekTimeoutRef) {
+        clearTimeout(seekTimeoutRef);
+      }
+      
+      const timeout = setTimeout(() => {
+        setIsSeeking(false);
+      }, 300);
+      
+      // Stocker le timeout pour le cleanup
+      Object.assign(seekTimeoutRef, { current: timeout });
+    } catch (error) {
+      // Gérer l'erreur silencieusement si le seek échoue
+      console.log('Erreur lors du seek (ignorée):', error);
+      setIsSeeking(false);
+    }
   };
 
   return (
@@ -88,6 +113,15 @@ export default function PlayerModal() {
               source={currentTrack.cover}
               style={styles.cover}
             />
+            {/* Indicateur de chargement pendant le seek */}
+            {isLoading && (
+              <View style={styles.loadingOverlay}>
+                <ActivityIndicator size="large" color={theme.colors.primary} />
+                <AppText size="sm" color="text2" style={{ marginTop: 10 }}>
+                  Chargement...
+                </AppText>
+              </View>
+            )}
             {/* Titre de l'album sur l'image */}
             <View style={styles.albumTitleOverlay}>
             </View>
@@ -227,6 +261,17 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.75,
     height: SCREEN_WIDTH * 0.75,
     borderRadius: 12,
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   albumTitleOverlay: {
     position: 'absolute',
