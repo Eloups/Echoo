@@ -8,23 +8,26 @@ use Api\Domain\Class\Artist;
 use Api\Domain\Class\Music;
 use Api\Domain\Ports\ArtistDrivenAdapterInterface;
 use Api\Utils\ConvertUtils;
+use DateTime;
 
 /**
  * Classe Driven Adapter pour les musiques
  */
-class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
+class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface
+{
     /**
      * Méthode pour récupérer les données d'un artiste
      * @return Artist[]
      */
-    public function getArtist(int $idArtist): Artist {
+    public function getArtist(int $idArtist): Artist
+    {
         $pgslserver = new PgsqlServer();
-        
+
         $pdo = $pgslserver->getConnection();
         $request = new PgsqlArtistRequests($pdo);
 
         $rows = $request->getArtist($idArtist);
- 
+
         $artist = ConvertUtils::ConvertRowToArtist($rows[0]);
 
         return $artist;
@@ -35,7 +38,8 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
      * @param int $idArtist
      * @return void
      */
-    public function getLikesArtist(int $idArtist): int {
+    public function getLikesArtist(int $idArtist): int
+    {
 
         $pgslserver = new PgsqlServer();
         $pdo = $pgslserver->getConnection();
@@ -53,9 +57,10 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
      * @param int $limit
      * @return Music[]
      */
-    public function getPopularMusicsByArtist(int $idArtist, int $limit): array {
+    public function getPopularMusicsByArtist(int $idArtist, int $limit): array
+    {
         $pgslserver = new PgsqlServer();
-        
+
         $pdo = $pgslserver->getConnection();
         $request = new PgsqlArtistRequests($pdo);
 
@@ -74,9 +79,10 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
      * @param int $limit
      * @return Music[]
      */
-    public function getLastReleaseByArtist(int $idArtist, int $limit): array {
+    public function getLastReleaseByArtist(int $idArtist, int $limit): array
+    {
         $pgslserver = new PgsqlServer();
-        
+
         $pdo = $pgslserver->getConnection();
         $request = new PgsqlArtistRequests($pdo);
 
@@ -114,7 +120,7 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
     public function getArtistsInLibrary(int $id_library): array
     {
         $pgslserver = new PgsqlServer();
-        
+
         $pdo = $pgslserver->getConnection();
         $request = new PgsqlArtistRequests($pdo);
 
@@ -135,13 +141,13 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
     public function getArtistAlbums(int $id_artist): array
     {
         $pgslserver = new PgsqlServer();
-        
+
         $pdo = $pgslserver->getConnection();
         $request = new PgsqlArtistRequests($pdo);
 
         $ids = $request->getArtistIdAlbums($id_artist);
         $albums = [];
-        foreach($ids as $id) {
+        foreach ($ids as $id) {
             array_push($albums, $request->getAlbumsWithRates(intval($id)));
         }
 
@@ -156,16 +162,35 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface {
     public function getArtistSingles(int $id_artist): array
     {
         $pgslserver = new PgsqlServer();
-        
+
         $pdo = $pgslserver->getConnection();
         $request = new PgsqlArtistRequests($pdo);
 
         $ids = $request->getArtistIdSingles($id_artist);
         $singles = [];
-        foreach($ids as $id) {
+        foreach ($ids as $id) {
             array_push($singles, $request->getAlbumsWithRates(intval($id['project_id'])));
         }
 
         return $singles;
+    }
+
+    /**
+     * Méthode pour récupérer les artistes les plus écoutées du mois
+     * @param DateTime $date
+     * @param int $limit
+     * @return array
+     */
+    public function getMostListenedArtistsOfMonth(DateTime $date, int $limit): array
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlArtistRequests($pdo);
+
+        $artistsRows = $request->getMostListenedArtistsOfMonth($date, $limit);
+        $artists = ConvertUtils::convertRowsToArtists($artistsRows);
+
+        return $artists;
     }
 }

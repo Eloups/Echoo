@@ -2,6 +2,7 @@
 
 namespace Api\Utils;
 
+use Api\Database\Requests\PgsqlMusicRequests;
 use Api\Domain\Class\Artist;
 use Api\Domain\Class\Genre;
 use Api\Domain\Class\Music;
@@ -9,7 +10,7 @@ use Api\Domain\Class\Playlist;
 use Api\Domain\Class\Project;
 use Api\Domain\Class\Rating;
 use DateTime;
-use Symfony\Component\Serializer\Context\Normalizer\FormErrorNormalizerContextBuilder;
+use PDO;
 
 /**
  * Classe utilitaire pour les conversions des données en objets
@@ -45,7 +46,8 @@ class ConvertUtils
                     file_path: $row['music_path'],
                     genres: [],
                     nbStreams: $row['music_streams'],
-                    rates: []
+                    rates: [],
+                    nameArtist: $row['artist_name']
                 );
             }
 
@@ -87,6 +89,7 @@ class ConvertUtils
                     $music->addRate(new Rating(
                         id: $rateId,
                         rate: $rateValue,
+                        created_at: null,
                         comment: $rateComment,
                         id_user: null
                     ));
@@ -160,7 +163,8 @@ class ConvertUtils
                     file_path: $row['music_path'],
                     genres: [],
                     nbStreams: $row['music_streams'],
-                    rates: []
+                    rates: [],
+                    nameArtist: $row['artist_name']
                 );
             }
         }
@@ -176,12 +180,42 @@ class ConvertUtils
         );
     }
 
+    public static function convertRowToMusics(array $rows, PDO $pdo): array
+    {
+        $musicRequests = new PgsqlMusicRequests($pdo);
+
+        $musics = [];
+        foreach ($rows as $row) {
+            // Récupération des genres de la musique
+            $genres = [];
+            $genresData = $musicRequests->getMusicsGenres($row['id']);
+            foreach ($genresData as $genreData) {
+                array_push($genres, $genreData['name']);
+            }
+
+            // Création de la musique
+            array_push($musics, new Music(
+                $row['id'],
+                $row['title'],
+                $row['duration'],
+                new DateTime($row['release']),
+                $row['file_path'],
+                $genres,
+                $row['nb_streams'],
+                null,
+                null
+            ));
+        }
+
+        return $musics;
+    }
     /**
      * Convertir les données de la base en objets Playlist
      * @param array $rows
      * @return Playlist
      */
-    public static function ConvertRowToPlaylists(array $row): ?Playlist {
+    public static function ConvertRowToPlaylists(array $row, ?int $nbMusics = null): ?Playlist
+    {
         if ($row === [] || !isset($row['playlist_id'])) {
             return null; // aucune playlist trouvée
         }
@@ -200,7 +234,8 @@ class ConvertUtils
             isPublic: $playlistPublic,
             description: $playlistDescription,
             cover_path: $playlistCover,
-            musics: []
+            musics: [],
+            nbMusics: $nbMusics
         );
     }
 
@@ -222,7 +257,8 @@ class ConvertUtils
             [],
             $rows['color1'],
             $rows['color2'],
-            []
+            [],
+            null
         );
     }
 
@@ -243,7 +279,7 @@ class ConvertUtils
         $project_type = $rows[0]['project_type'];
 
         $rates = [];
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             if ($row['id_rating'] === null) {
                 continue;
             }
@@ -253,13 +289,12 @@ class ConvertUtils
             // Création de l'objet Music
             if (!isset($rates[$idRating])) {
 
-                $created_at = new DateTime($row['created_at']);
-
                 $rates[$idRating] = new Rating(
                     $idRating,
-                     $row['rating'],
-                     $row['comment'], 
-                     $row['id_user']
+                    $row['rating'],
+                    new DateTime($row['created_at']),
+                    $row['comment'],
+                    $row['id_user']
                 );
             }
         }
@@ -273,8 +308,211 @@ class ConvertUtils
             [],
             $color1,
             $color2,
-            $rates
+            $rates,
+            null
         );
     }
 
+    public static function ConvertRowsToProjectWithAvgRate(array $rows, float $avgRate): Project
+    {
+        if ($rows === []) {
+            throw new \Exception("No project data provided.");
+        }
+
+        // On prend la première ligne pour construire les infos du projet
+        $first = $rows[0];
+
+        $projectId = $first['project_id'];
+        $projectTitle = $first['project_title'];
+        $projectRelease = new DateTime($first['project_release']);
+        $projectCover = $first['cover_path'];
+        $projectType = $first['project_type'];
+        $color1 = $first['color1'];
+        $color2 = $first['color2'];
+
+        $musics = [];
+
+        foreach ($rows as $row) {
+            $musicId = $row['music_id'];
+
+            // Si la musique est NULL, c’est que le projet n’a aucune musique
+            if ($musicId === null) {
+                continue;
+            }
+
+            // Évite les doublons si jointures multiples
+            if (!isset($musics[$musicId])) {
+                $musicRelease = new DateTime($row['music_release']);
+
+                $musics[$musicId] = new Music(
+                    id: $musicId,
+                    title: $row['music_title'],
+                    duration: $row['duration'],
+                    release: $musicRelease,
+                    file_path: $row['file_path'],
+                    genres: null,
+                    nbStreams: $row['nb_streams'],
+                    rates: null,
+                    nameArtist: null
+                );
+            }
+        }
+
+        // On n'utilise pas les notes individuelles ici → null
+        $rates = null;
+
+        return new Project(
+            id: $projectId,
+            title: $projectTitle,
+            release: $projectRelease,
+            cover_path: $projectCover,
+            projectType: $projectType,
+            musics: array_values($musics), // réindexation propre
+            color1: $color1,
+            color2: $color2,
+            rates: $rates,
+            avgRate: $avgRate
+        );
+    }
+
+    /**
+     * Convert rows into Artist Ids
+     * @param array $rows
+     * @return array
+     */
+    public static function convertRowsToArtistsIds(array $rows): array
+    {
+        $ids = [];
+        foreach ($rows as $row) {
+            array_push($ids, $row['id_artist']);
+        }
+
+        return $ids;
+    }
+
+    /**
+     * Convert rows into projects
+     * @param array $rows
+     * @return Project[]
+     */
+    public static function convertRowsToProjects(array $rows): array
+    {
+        $projects = [];
+        foreach ($rows as $row) {
+            $projects[] = new Project(
+                $row['id'],
+                $row['title'],
+                new DateTime($row['release']),
+                $row['cover_path'],
+                $row['project_type'],
+                [],
+                $row['color1'],
+                $row['color2'],
+                null,
+                null
+            );
+        }
+
+        return $projects;
+    }
+
+    /**
+     * Convert row to a music IDs array
+     * @param array $rows
+     * @return array
+     */
+    public static function convertRowsToMusicsIds(array $rows): array
+    {
+        $musicsIds = [];
+        foreach ($rows as $row) {
+            $musicsIds[] = $row['id_music'];
+        }
+
+        return $musicsIds;
+    }
+
+    /**
+     * Convert rows to musics
+     * @param PDO $pdo
+     * @param array $rows
+     * @return Music[]
+     */
+    public static function convertRowsToMusics(PDO $pdo, array $rows): array
+    {
+        $musicRequests = new PgsqlMusicRequests($pdo);
+
+        $musics = [];
+        foreach ($rows as $row) {
+            $musicGenresRows = $musicRequests->getMusicsGenres($row['id']);
+            $musicGenres = self::convertRowsToMusicGenres($musicGenresRows);
+
+            $musics[] = new Music(
+                $row['id'],
+                $row['title'],
+                $row['duration'],
+                new DateTime($row['release']),
+                $row['file_path'],
+                $musicGenres,
+                $row['nb_streams'],
+                null,
+                $row['artist_name']
+            );
+        }
+
+        return $musics;
+    }
+
+    /**
+     * Convert rows to music genres
+     * @param array $rows
+     * @return array
+     */
+    public static function convertRowsToMusicGenres(array $rows): array
+    {
+        $musicGenres = [];
+        foreach ($rows as $row) {
+            $musicGenres[] = $row['name'];
+        }
+
+        return $musicGenres;
+    }
+
+    /**
+     * Convert rows to artists
+     * @param array $rows
+     * @return array
+     */
+    public static function convertRowsToArtists(array $rows): array
+    {
+        $artists = [];
+        foreach ($rows as $row) {
+            $artists[] = new Artist(
+                $row['id'],
+                $row['name'],
+                $row['isverified'],
+                $row['description'],
+                $row['image_path'],
+                [],
+                [],
+                []
+            );
+        }
+        return $artists;
+    }
+
+    public static function convertRowsToMusicRatings(array $rows): array
+    {
+        $ratings = [];
+        foreach ($rows as $row) {
+            $ratings[] = new Rating(
+                $row['id'],
+                $row['rating'],
+                new DateTime($row['created_at']),
+                $row['comment'],
+                $row['id_user']
+            );
+        }
+
+        return $ratings;
+    }
 }

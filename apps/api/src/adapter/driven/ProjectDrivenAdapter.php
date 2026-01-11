@@ -4,6 +4,7 @@ namespace Api\Adapter;
 
 use Api\Database\PgsqlServer;
 use Api\Database\Requests\PgsqlProjectRequests;
+use Api\Domain\Class\Project;
 use Api\Domain\Ports\ProjectDrivenAdapterInterface;
 use Api\Utils\ConvertUtils;
 
@@ -48,5 +49,24 @@ class ProjectDrivenAdapter implements ProjectDrivenAdapterInterface
             array_push($projects, ConvertUtils::ConvertRowToProject($row));
         }
         return $projects;
+    }
+
+    /**
+     * Méthode pour récupérer un projet avec ses musiques
+     * @param int $id_project
+     * @return Project
+     */
+    public function getOneProjectWithMusics(int $id_project): Project
+    {
+        $pgslserver = new PgsqlServer();
+        
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlProjectRequests($pdo);
+
+        $rows = $request->getOneProject($id_project);
+        $avgRate = $request->getAvgRatesOfProject($id_project);
+
+        $project = ConvertUtils::ConvertRowsToProjectWithAvgRate($rows, floatval($avgRate['average_rating'] ?? -1));
+        return $project;
     }
 }

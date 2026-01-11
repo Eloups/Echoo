@@ -36,9 +36,9 @@ class Music
     private string $file_path;
     /**
      * Liste des genres de la musique
-     * @var Genre[]
+     * @var ?Genre[]
      */
-    private array $genres;
+    private ?array $genres;
     /**
      * Nombre de streams total de la musique
      * @var int
@@ -46,9 +46,15 @@ class Music
     private int $nbStreams;
     /**
      * Liste des notes de la musique
-     * @var Rating[]
+     * @var ?Rating[]
      */
-    private array $rates = [];
+    private ?array $rates;
+
+    /**
+     * Nom de l'artiste de la musique
+     * @var string
+     */
+    private ?string $nameArtist;
 
     /**
      * Constructeur de la musique
@@ -57,11 +63,12 @@ class Music
      * @param int $duration
      * @param DateTime $release
      * @param string $file_path
-     * @param Genre[] $genres
+     * @param ?Genre[] $genres
      * @param int $nbStreams
-     * @param Rating[] $rates
+     * @param ?Rating[] $rates
+     * @param string $nameArtist
      */
-    public function __construct(?int $id, string $title, int $duration, DateTime $release, string $file_path, array $genres, int $nbStreams, array $rates)
+    public function __construct(?int $id, string $title, int $duration, DateTime $release, string $file_path, ?array $genres, int $nbStreams, ?array $rates, ?string $nameArtist)
     {
         $this->id = $id;
         $this->title = $title;
@@ -71,6 +78,7 @@ class Music
         $this->genres = $genres;
         $this->nbStreams = $nbStreams;
         $this->rates = $rates;
+        $this->nameArtist = $nameArtist;
     }
 
     /**
@@ -115,17 +123,19 @@ class Music
     }
     /**
      * Accesseur de la liste des genres de la musique
-     * @return Genre
+     * @return ?Genre[]
      */
-    public function getGenres(): array
+    public function getGenres(): ?array
     {
         return $this->genres;
     }
 
-    public function addGenre(Genre $genre): void {
+    public function addGenre(Genre $genre): void
+    {
         $this->genres[] = $genre;
     }
-    public function addRate(Rating $rate): void {
+    public function addRate(Rating $rate): void
+    {
         $this->rates[] = $rate;
     }
     /**
@@ -138,10 +148,18 @@ class Music
     }
     /**
      * Accesseur des notes de la musique
-     * @return Rating[]
+     * @return ?Rating[]
      */
-    public function getRates(): array
+    public function getRates(): ?array
     {
         return $this->rates;
+    }
+    /**
+     * Accesseur du nom de l'artiste de la musique
+     * @return ?string
+     */
+    public function getNameArtist(): ?string
+    {
+        return $this->nameArtist;
     }
 }

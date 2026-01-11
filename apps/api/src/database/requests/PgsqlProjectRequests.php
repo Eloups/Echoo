@@ -77,4 +77,53 @@ class PgsqlProjectRequests
         $result = $request->fetchAll();
         return $result;
     }
+
+    /**
+     * Requête pour récupérer la moyenne des notes d'un projet
+     * @param int $id_project
+     * @return array
+     */
+    public function getAvgRatesOfProject(int $id_project): array {
+        $getAvgRatesOfProject = "SELECT AVG(rating) AS average_rating
+        FROM project_rating
+        WHERE id_project = :id_project;";
+
+        $request = $this->pdo->prepare($getAvgRatesOfProject);
+        $request->execute([":id_project" => $id_project]);
+        $result = $request->fetch();
+        return $result;
+    }
+
+    public function getOneProject(int $id_project): array {
+        $getOneProject = "SELECT
+            p.id AS project_id,
+            p.title AS project_title,
+            p.release AS project_release,
+            p.color1,
+            p.color2,
+            p.cover_path,
+
+            m.id AS music_id,
+            m.title AS music_title,
+            m.duration,
+            m.release AS music_release,
+            m.nb_streams,
+            m.file_path,
+            pt.name AS project_type
+
+        FROM project p
+        LEFT JOIN project_music pm 
+            ON p.id = pm.id_project
+        LEFT JOIN music m 
+            ON pm.id_music = m.id
+        LEFT JOIN project_type pt 
+            ON p.id_type = pt.id
+
+        WHERE p.id = :id_project;";
+
+        $request = $this->pdo->prepare($getOneProject);
+        $request->execute([":id_project" => $id_project]);
+        $result = $request->fetchAll();
+        return $result;
+    }
 }

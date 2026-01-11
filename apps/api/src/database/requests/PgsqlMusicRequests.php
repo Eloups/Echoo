@@ -31,8 +31,7 @@ class PgsqlMusicRequests
      */
     public function getAllMusics(int $idArtist): array
     {
-        $getAllMusics = "
-            SELECT 
+        $getAllMusics = "SELECT 
             m.id AS music_id,
             m.title AS music_title,
             m.duration AS music_duration,
@@ -45,7 +44,8 @@ class PgsqlMusicRequests
             r.rating AS rate_rate,
             r.comment AS rate_comment,
             p.id AS project_id,
-            p.title AS project_title
+            p.title AS project_title,
+            a.name AS artist_name
         FROM artist a
         JOIN artist_project ap
             ON a.id = ap.id_artist
@@ -76,7 +76,8 @@ class PgsqlMusicRequests
      * @param int $id_music
      * @return void
      */
-    public function addLike(int $id_user, int $id_music): void {
+    public function addLike(int $id_user, int $id_music): void
+    {
         $getIdPlaylistLiked = "SELECT playlist.id
         FROM \"user\"
         INNER JOIN library 
@@ -96,10 +97,62 @@ class PgsqlMusicRequests
             INSERT INTO playlist_music (id_playlist, id_music)
             VALUES (:id_playlist, :id_music)
         ");
-        
+
         $request->execute([
             ":id_playlist" => $idPlaylistLiked,
             ":id_music" => $id_music
         ]);
+    }
+
+    /**
+     * Requête pour récupérer les genres d'une musique
+     * @param int $musicId
+     * @return array
+     */
+    public function getMusicsGenres(int $musicId): array
+    {
+        $sql = "SELECT g.id, g.name
+        FROM music_genre AS mg
+        JOIN genre AS g ON mg.id_genre = g.id
+        WHERE mg.id_music = :musicId;";
+
+        $request = $this->pdo->prepare($sql);
+        $request->execute([":musicId" => $musicId]);
+        return $request->fetchAll();
+    }
+
+    /**
+     * Récupération des notes d'une musique
+     * @param int $musicId
+     * @param int $limit
+     * @return array
+     */
+    public function getMusicsRatings(int $musicId, int $limit): array
+    {
+        $sql = 'SELECT mr.id, mr.rating, mr.created_at, mr.comment, mr.id_user, mr.id_music FROM music_rating mr
+            WHERE mr.id_music = :musicId
+            LIMIT :limit;';
+
+        $request = $this->pdo->prepare($sql);
+        $request->execute([":musicId" => $musicId, ":limit" => $limit]);
+
+        return $request->fetchAll();
+    }
+
+    /**
+     * Requête pour récupérer le cover_path d'un projet à partir de l'id d'une musique
+     * @param int $id_music
+     * @return array
+     */
+    public function getCoverFileProject(int $id_music): array {
+        $getCoverFileProject = "SELECT p.cover_path
+        FROM project p
+        JOIN project_music pm ON pm.id_project = p.id
+        WHERE pm.id_music = :id_music LIMIT 1;";
+
+        $request = $this->pdo->prepare(query: $getCoverFileProject);
+        $request->execute([":id_music" => $id_music]);
+
+        return $request->fetchAll();
     }
 }

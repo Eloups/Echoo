@@ -15,4 +15,12 @@ interface FilesServiceInterface
      * @return void
      */
     public function getImageFile(string $fileName): Response;
+
+    /**
+     * Action d'ajouter une image au serveur de fichier
+     * @param string $fileContent
+     * @param string $contentType
+     * @return void
+     */
+    public function addImageFile(string $fileContent, string $contentType): Response;
 }

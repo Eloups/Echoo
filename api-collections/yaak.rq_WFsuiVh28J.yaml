@@ -1,0 +1,29 @@
+type: http_request
+model: http_request
+id: rq_WFsuiVh28J
+createdAt: 2026-01-02T10:50:10.591031100
+updatedAt: 2026-01-02T10:51:20.009324400
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_ZSpH79FmTY
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "title": "test",
+      "isPublic": true,
+      "description": "description update",
+      "cover_path": "cover_path update"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: 0qXJqkKYEZ
+method: PATCH
+name: ''
+sortPriority: -1767090939325.0
+url: ${[ API_HOST ]}/playlist/3
+urlParameters: []
