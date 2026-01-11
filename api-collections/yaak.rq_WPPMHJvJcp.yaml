@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_WPPMHJvJcp
 createdAt: 2025-12-01T07:55:41.154469500
-updatedAt: 2025-12-08T15:36:05.045402700
+updatedAt: 2025-12-10T14:20:34.813178600
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_enbuuoZuT3
 authentication: {}
@@ -14,5 +14,5 @@ headers: []
 method: GET
 name: Get a music file
 sortPriority: 1000.0
-url: ${[ API_HOST ]}/stream/01-fight_fire_with_fire.flac
+url: ${[ API_HOST ]}/stream/BOAF.mp3
 urlParameters: []

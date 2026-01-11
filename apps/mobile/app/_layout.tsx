@@ -34,16 +34,16 @@ function ThemedRoot() {
       <StatusBar barStyle={theme.name === "dark" ? "light-content" : "dark-content"} />
       <Stack
         screenOptions={{
+
           headerShown: false,
           contentStyle: { backgroundColor: theme.colors.background },
         }}
       >
-        <Stack.Screen name="index" />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="connexion/connexion" options={{ headerShown: false }} />
         <Stack.Screen name="connexion/inscription" options={{ headerShown: false }} />
-
       </Stack>
-
     </View>
   );
 }

@@ -1,14 +1,11 @@
-import { Pressable, Text, View, KeyboardAvoidingView, Platform } from "react-native";
-import { Stack, useRouter, Redirect } from "expo-router";
+import { Pressable, Text, View } from "react-native";
+import { useRouter } from "expo-router";
 import { useTheme } from "@/lib/theme/provider";
 
-export default function Index() {
-  return <Redirect href="/(tabs)/home" />;
-}
-
-export function DebugScreen() {
+export default function DebugScreen() {
   const router = useRouter();
   const { theme, setThemeByName } = useTheme();
+  
   return (
     <View
       style={{
@@ -18,8 +15,8 @@ export function DebugScreen() {
         backgroundColor: theme.colors.background,
       }}
     >
-      <Pressable
-        onPress={() => router.push("/connexion/connexion")}
+      <Pressable 
+        onPress={() => router.push("/bases/connexion")}
         style={{
           marginTop: 20,
           padding: 10,
@@ -30,7 +27,7 @@ export function DebugScreen() {
         <Text style={{ color: "white" }}>Début application</Text>
       </Pressable>
 
-      <Pressable
+      <Pressable 
         onPress={() => router.push("/(tabs)/home")}
         style={{
           marginTop: 20,

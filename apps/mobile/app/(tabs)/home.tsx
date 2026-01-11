@@ -1,24 +1,22 @@
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, Pressable } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
 import AppText from "@/lib/components/global/appText";
 import LastSongPlayedCard from "@/lib/components/home_last_song_played_card";
-import { BaseInfos } from "@/lib/types/baseInfos";
+import { BaseInfos } from "@/lib/types/types";
 import SectionTitle from "@/lib/components/sectionTitle";
 import MusicCard from "@/lib/components/musicCard";
 import MonthArtists from "@/lib/components/monthArtists";
 import MonthMusics from "@/lib/components/monthMusics";
 import { useEffect } from "react";
-import { useNavigation } from "expo-router";
-const cover = require("../../assets/tempImg/Covers_Albums/HMHAS.jpg");
-const cover2 = require("../../assets/tempImg/Covers_Albums/RichMan.webp");
-const cover3 = require("../../assets/tempImg/Covers_Albums/Jann.jpg");
-const PPartist1 = require("../../assets/tempImg/Profils_Artistes/Madison_beer.jpg");
-const PPartist2 = require("../../assets/tempImg/Profils_Artistes/Billie_Eilish.jpg");
-const PPartist3 = require("../../assets/tempImg/Profils_Artistes/aespa.jpg");
+import { useNavigation, router, useSegments } from "expo-router";
+
+const placeholderImage = require("../../assets/images/react-logo.png");
 
 export default function home() {
     const { theme } = useTheme();
     const navigation = useNavigation();
+    const segments = useSegments();
+    
     useEffect(() => {
         navigation.setOptions({
             title: "Accueil",
@@ -26,9 +24,20 @@ export default function home() {
         } as any);
     }, [navigation]);
 
+    const handleAlbumPress = (album: BaseInfos) => {
+        const currentPath = '/' + segments.join('/');
+        router.push({
+            pathname: "/(tabs)/detail",
+            params: { 
+                data: JSON.stringify(album),
+                from: currentPath
+            }
+        });
+    };
+
 
     const albumTemp: BaseInfos = {
-        cover: cover,
+        cover: placeholderImage,
         title: "HIT ME HARD AND SOFT",
         artist: "Billie Eilish",
         color1: "",
@@ -37,7 +46,7 @@ export default function home() {
     }
 
     const musicTemp: BaseInfos = {
-        cover: cover,
+        cover: placeholderImage,
         title: "CHIHIRO",
         artist: "Billie Eilish",
         color1: "#04131D",
@@ -47,7 +56,7 @@ export default function home() {
     }
 
     const musicTemp2: BaseInfos = {
-        cover: cover2,
+        cover: placeholderImage,
         title: "Rich Man",
         artist: "aespa",
         color1: "#000000",
@@ -57,7 +66,7 @@ export default function home() {
     }
 
     const musicTemp3: BaseInfos = {
-        cover: cover3,
+        cover: placeholderImage,
         title: "What do you want from me ?",
         artist: "Jann",
         color1: "#965F4C",
@@ -67,7 +76,7 @@ export default function home() {
     }
 
     const artist1: BaseInfos = {
-        cover: PPartist1,
+        cover: placeholderImage,
         title: "Madison Beer",
         artist: "",
         color1: "",
@@ -76,7 +85,7 @@ export default function home() {
     }
 
     const artist2: BaseInfos = {
-        cover: PPartist2,
+        cover: placeholderImage,
         title: "Billie Eilish",
         artist: "",
         color1: "",
@@ -85,7 +94,7 @@ export default function home() {
     }
 
     const artist3: BaseInfos = {
-        cover: PPartist3,
+        cover: placeholderImage,
         title: "aespa",
         artist: "",
         color1: "",
@@ -102,12 +111,14 @@ export default function home() {
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: theme.colors.background }}>
             <View style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "row", alignSelf: 'stretch', gap: 17, marginTop: 10 }}>
-                <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
-                    <AppText size={"lg"} style={{ marginBottom: 10 }}>Dernier album écouté</AppText>
-                    <Image source={albumTemp.cover} style={{ width: 144, height: 144, borderRadius: 5 }} />
-                    <AppText size={"md"}>{albumTemp.title}</AppText>
-                    <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -6 }] }}>{albumTemp.artist}</AppText>
-                </View>
+                <Pressable onPress={() => handleAlbumPress(albumTemp)}>
+                    <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
+                        <AppText size={"lg"} style={{ marginBottom: 10 }}>Dernier album écouté</AppText>
+                        <Image source={albumTemp.cover} style={{ width: 144, height: 144, borderRadius: 5 }} />
+                        <AppText size={"md"}>{albumTemp.title}</AppText>
+                        <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -6 }] }}>{albumTemp.artist}</AppText>
+                    </View>
+                </Pressable>
                 <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
                     <AppText size={"lg"} style={{ marginBottom: 10 }}>Derniers morceaux écoutés</AppText>
                     <View style={{ display: "flex", gap: 9 }}>
@@ -121,7 +132,7 @@ export default function home() {
 
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
                 {releasedRecentlyList.map((music, key) =>
-                    <MusicCard key={key} infos={music}  isSearch={false}></MusicCard>
+                    <MusicCard key={key} infos={music}  isSearch={false} isHome={true}></MusicCard>
                 )}
             </ScrollView>
 
