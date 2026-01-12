@@ -45,7 +45,7 @@ class StreamingController implements ControllerInterface
         $fileName = $this->params['fileName'];
 
         return match ($this->action) {
-            'getFile' => $adapter->getMusicFile($fileName),
+            'getFile' => $adapter->getMusicFile($fileName, $request->headers->get('Range')),
             default => throw new ResourceNotFoundException(),
         };
     }
