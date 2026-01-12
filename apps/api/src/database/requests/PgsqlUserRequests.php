@@ -2,6 +2,8 @@
 
 namespace Api\Database\Requests;
 
+use Api\Domain\Class\User;
+use Api\Exception\ApiCustomException;
 use DateInterval;
 use DateTime;
 use Exception;
@@ -188,5 +190,62 @@ class PgsqlUserRequests
         $request = $this->pdo->prepare($sql);
         $request->execute($params);
         return $request->fetchAll();
+    }
+
+    /**
+     * Function to create a new User and his Library
+     * @param User $user
+     * @return void
+     */
+    public function createUser(User $user): void
+    {
+        $sql = 'SELECT id FROM "user" u
+            WHERE u.id = :id;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":id" => $user->getLibrary()->getId()
+        ]);
+
+        $result = $request->fetchAll();
+
+        if (!empty($result)) {
+            throw new ApiCustomException("User already exists", 409);
+        }
+
+        $this->pdo->beginTransaction();
+
+        try {
+            // We create the Library
+            $sql = 'INSERT INTO "library" (id) VALUES (:id);';
+
+            $request = $this->pdo->prepare($sql);
+
+            $request->execute([
+                ":id" => $user->getLibrary()->getId()
+            ]);
+
+            // We create the User
+            $sql = 'INSERT INTO "user" (id, username, email, password, image_path, id_library, id_role) VALUES
+                (:id, :username, :email, :password, :imagePath, :idLibrary, :idRole);';
+
+            $request = $this->pdo->prepare($sql);
+
+            $request->execute([
+                ":id" => $user->getId(),
+                ":username" => $user->getUsername(),
+                ":email" => $user->getEmail(),
+                ":password" => $user->getPassword(),
+                ":imagePath" => $user->getImagePath(),
+                ":idLibrary" => $user->getLibrary()->getId(),
+                ":idRole" => $user->getUserRole()->getId()
+            ]);
+
+            $this->pdo->commit();
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            throw $e;
+        }
     }
 }

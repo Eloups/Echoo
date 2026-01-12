@@ -1,3 +1,4 @@
+-- Creation script
 create table genre (
     id serial primary key,
     name varchar(50) not null
@@ -176,6 +177,13 @@ create table music_genre (
     primary key (id_music, id_genre)
 );
 
+insert into role (id, name) values
+(1, 'User'),
+(2, 'Artist'),
+(3, 'Moderator'),
+(4, 'Admin');
+
+-- Test data
 insert into genre (id, name) values
 (1, 'Pop'),
 (2, 'Rock'),
@@ -272,12 +280,6 @@ insert into playlist (id, title, isPublic, description, cover_path) values
 (8, 'Playlist 8', FALSE, 'Description for playlist 8', 'playlist_8.jpg'),
 (9, 'Playlist 9', TRUE, 'Description for playlist 9', 'playlist_9.jpg'),
 (10, 'liked', FALSE, 'Description for playlist liked', 'playlist_10.jpg');
-
-insert into role (id, name) values
-(1, 'Admin'),
-(2, 'User'),
-(3, 'Artist'),
-(4, 'Moderator');
 
 insert into "user" (id, username, email, password, image_path, id_library, id_role, id_artist) values
 (1, 'user1', 'user1@example.com', 'hashed_password', 'user_1.jpg', 1, 2, 1),

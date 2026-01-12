@@ -2,6 +2,9 @@
 
 namespace Api\Adapter;
 
+use Api\Domain\Class\Library;
+use Api\Domain\Class\User;
+use Api\Domain\Class\UserRole;
 use Api\Domain\Service\UserService;
 use Api\Utils\SerializerUtils;
 use Api\Utils\VerifyUtils;
@@ -72,5 +75,32 @@ class UserDrivingAdapter
         $musics = $service->getUserMostListenedMusicsOfMonth($userId, $limit, $today);
 
         return new Response(SerializerUtils::get()->serialize(['musics' => $musics], "json"));
+    }
+
+    /**
+     * Méthode pour créer un utilisateur
+     * @param string $requestContent
+     * @return Response
+     */
+    public function createUser(string $requestContent): Response
+    {
+        $requestData = VerifyUtils::verifyJsonRequestBody($requestContent, ['id', 'username', 'email', 'password', 'image_path', 'id_role']);
+
+        $service = new UserService();
+        $service->createUser(new User(
+            $requestData['id'],
+            $requestData['username'],
+            $requestData['email'],
+            $requestData['password'],
+            $requestData['image_path'],
+            new Library($requestData['id'], [], [], []),
+            new UserRole(1, 'User'),
+            [],
+            [],
+            [],
+            null
+        ));
+
+        return new Response(json_encode(['code' => 201, 'message' => 'User created']), 201);
     }
 }

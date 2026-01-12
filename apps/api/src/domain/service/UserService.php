@@ -5,6 +5,7 @@ namespace Api\Domain\Service;
 use Api\Adapter\UserDrivenAdapter;
 use Api\Domain\Class\Music;
 use Api\Domain\Class\Project;
+use Api\Domain\Class\User;
 use Api\Domain\Ports\UserServiceInterface;
 use DateTime;
 use Exception;
@@ -87,5 +88,16 @@ class UserService implements UserServiceInterface
         }
 
         return $musics;
+    }
+
+    /**
+     * Méthode pour créer un utilisateur
+     * @param User $user
+     * @return void
+     */
+    public function createUser(User $user): void
+    {
+        $adapter = new UserDrivenAdapter();
+        $adapter->createUser($user);
     }
 }

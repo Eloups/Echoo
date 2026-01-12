@@ -6,6 +6,7 @@ use Api\Database\PgsqlServer;
 use Api\Database\Requests\PgsqlMusicRequests;
 use Api\Database\Requests\PgsqlUserRequests;
 use Api\Domain\Class\Music;
+use Api\Domain\Class\User;
 use Api\Domain\Ports\UserDrivenAdapterInterface;
 use Api\Utils\ConvertUtils;
 use DateTime;
@@ -106,4 +107,18 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
         return $musics;
     }
 
+    /**
+     * Fonction pour créer un utilisateur
+     * @param User $user
+     * @return void
+     */
+    public function createUser(User $user): void
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $userRequests->createUser($user);
+    }
 }
