@@ -2,10 +2,13 @@
 
 namespace Api\Domain\Ports;
 
+use DateTime;
+
 /**
  * Interface du service des artistes
  */
-interface ArtistServiceInterface {
+interface ArtistServiceInterface
+{
     /**
      * Action du listage de la page artiste
      * @param int $idArtist
@@ -41,4 +44,11 @@ interface ArtistServiceInterface {
      * @return array
      */
     public function getArtistSingles(int $id_artist): array;
+    /**
+     * Action de récupération des artistes les plus écoutées du mois
+     * @param DateTime $date
+     * @param int $limit
+     * @return array
+     */
+    public function getMostListenedArtistsOfMonth(DateTime $date, int $limit): array;
 }
