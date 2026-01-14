@@ -45,4 +45,9 @@ interface UserServiceInterface
      * @return void
      */
     public function createUser(User $user): void;
+    /**
+     * Méthode pour récupérer tous les utilisateurs
+     * @return User[]
+     */
+    public function getAllUsers(): array;
 }

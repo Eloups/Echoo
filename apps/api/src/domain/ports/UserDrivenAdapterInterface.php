@@ -45,4 +45,9 @@ interface UserDrivenAdapterInterface
      * @return void
      */
     public function createUser(User $user): void;
+    /**
+     * Fonction qui récupère tous les utilisateurs
+     * @return User[]
+     */
+    public function getAllUsers(): array;
 }

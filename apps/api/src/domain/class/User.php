@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Api\Domain\Class;
 
@@ -6,7 +6,8 @@ namespace Api\Domain\Class;
 /**
  * Classe utilisateur
  */
-class User {
+class User
+{
     /**
      * Id de l'utilisateur
      * @var ?int
@@ -49,19 +50,19 @@ class User {
     private ?Artist $artist;
     /**
      * Amis de l'utilisateur
-     * @var User[]
+     * @var ?User[]
      */
-    private array $friends = [];
+    private ?array $friends = [];
     /**
      * Liste des conversations de l'utilisateur
-     * @var Conversation[]
+     * @var ?Conversation[]
      */
-    private array $conversations = [];
+    private ?array $conversations = [];
     /**
      * Liste de toutes les notes de l'utilisateur
-     * @var Rating[]
+     * @var ?Rating[]
      */
-    private array $rates = [];
+    private ?array $rates = [];
 
     /**
      * Constructeur de l'utilisateur
@@ -72,12 +73,13 @@ class User {
      * @param string $imagePath
      * @param Library $library
      * @param UserRole $userRole
-     * @param User[] $friends
-     * @param Conversation[] $conversations
-     * @param Rating[] $rates
+     * @param ?User[] $friends
+     * @param ?Conversation[] $conversations
+     * @param ?Rating[] $rates
      * @param ?Artist $artist
      */
-    public function __construct(?int $id, string $username, string $email, string $password, string $imagePath, Library $library, UserRole $userRole, array $friends, array $conversations, array $rates, ?Artist $artist) {
+    public function __construct(?int $id, string $username, string $email, string $password, string $imagePath, Library $library, UserRole $userRole, ?array $friends, ?array $conversations, ?array $rates, ?Artist $artist)
+    {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
@@ -95,78 +97,89 @@ class User {
      * Accesseur de l'id de l'utilisateur
      * @return int|null
      */
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
     /**
      * Accesseur du nom de l'utilisateur
      * @return string
      */
-    public function getUsername(): string {
+    public function getUsername(): string
+    {
         return $this->username;
     }
     /**
      * Accesseur de l'email de l'utilisateur
      * @return string
      */
-    public function getEmail(): string {
+    public function getEmail(): string
+    {
         return $this->email;
     }
     /**
      * Accesseur du mot de passe de l'utilisateur
      * @return string
      */
-    public function getPassword(): string {
+    public function getPassword(): string
+    {
         return $this->password;
     }
     /**
      * Accesseur du chemin de l'image de la photo de profil de l'utilisateur
      * @return string
      */
-    public function getImagePath(): string {
+    public function getImagePath(): string
+    {
         return $this->imagePath;
     }
     /**
      * Accesseur de la bibliothèque de l'utilisateur
      * @return Library
      */
-    public function getLibrary(): Library {
+    public function getLibrary(): Library
+    {
         return $this->library;
     }
     /**
      * Accesseur du rôle de l'utilisateur
      * @return UserRole
      */
-    public function getUserRole(): UserRole {
+    public function getUserRole(): UserRole
+    {
         return $this->userRole;
     }
     /**
      * Accesseur de la page artiste de l'utilisateur
      * @return Artist|null
      */
-    public function getArtist(): Artist {
+    public function getArtist(): ?Artist
+    {
         return $this->artist;
     }
 
     /**
      * Accesseur de la liste d'amis de l'utilisateur
-     * @return User[]
+     * @return ?User[]
      */
-    public function getFriends(): array {
+    public function getFriends(): ?array
+    {
         return $this->friends;
     }
     /**
      * Accesseur des conversations de l'utilisateur
-     * @return Conversation[]
+     * @return ?Conversation[]
      */
-    public function getConversations(): array {
+    public function getConversations(): ?array
+    {
         return $this->conversations;
     }
     /**
      * Accesseur de la liste de toutes les notes de l'utilisateur
-     * @return Rating[]
+     * @return ?Rating[]
      */
-    public function getRates(): array {
+    public function getRates(): ?array
+    {
         return $this->rates;
     }
 }

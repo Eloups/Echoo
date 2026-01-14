@@ -100,4 +100,21 @@ class UserService implements UserServiceInterface
         $adapter = new UserDrivenAdapter();
         $adapter->createUser($user);
     }
+    /**
+     * Méthode pour récupérer tous les utilisateurs
+     * @return User[]
+     */
+    public function getAllUsers(): array
+    {
+        $adapter = new UserDrivenAdapter();
+
+        $users = $adapter->getAllUsers();
+        foreach ($users as $user) {
+            if (!$user instanceof User) {
+                throw new Exception('The returned datas in service are not users');
+            }
+        }
+
+        return $users;
+    }
 }

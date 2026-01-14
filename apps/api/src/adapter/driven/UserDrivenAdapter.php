@@ -121,4 +121,20 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
 
         $userRequests->createUser($user);
     }
+    /**
+     * Fonction qui récupère tous les utilisateurs
+     * @return User[]
+     */
+    public function getAllUsers(): array
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $userRows = $userRequests->getAllUsers();
+        $users = ConvertUtils::convertRowsToUsers($userRows);
+
+        return $users;
+    }
 }

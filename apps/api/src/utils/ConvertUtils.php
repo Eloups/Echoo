@@ -5,10 +5,13 @@ namespace Api\Utils;
 use Api\Database\Requests\PgsqlMusicRequests;
 use Api\Domain\Class\Artist;
 use Api\Domain\Class\Genre;
+use Api\Domain\Class\Library;
 use Api\Domain\Class\Music;
 use Api\Domain\Class\Playlist;
 use Api\Domain\Class\Project;
 use Api\Domain\Class\Rating;
+use Api\Domain\Class\User;
+use Api\Domain\Class\UserRole;
 use DateTime;
 use PDO;
 
@@ -514,5 +517,46 @@ class ConvertUtils
         }
 
         return $ratings;
+    }
+
+    /**
+     * Convert rows to users
+     * @param array $rows
+     * @return User[]
+     */
+    public static function convertRowsToUsers(array $rows): array
+    {
+        $users = [];
+        foreach ($rows as $row) {
+            $artist = null;
+            if ($row['id_artist']) {
+                $artist = new Artist(
+                    $row['id_artist'],
+                    $row['artist_name'],
+                    $row['isverified'],
+                    $row['description'],
+                    $row['artist_image_path'],
+                    null,
+                    null,
+                    null
+                );
+            }
+
+            $users[] = new User(
+                $row['id'],
+                $row['username'],
+                $row['email'],
+                $row['password'],
+                $row['image_path'],
+                new Library($row['id_library'], [], [], []),
+                new UserRole($row['id_role'], $row['role']),
+                null,
+                null,
+                null,
+                $artist
+            );
+        }
+
+        return $users;
     }
 }

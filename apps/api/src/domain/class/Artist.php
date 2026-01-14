@@ -5,7 +5,8 @@ namespace Api\Domain\Class;
 /**
  * Classe de l'artiste
  */
-class Artist {
+class Artist
+{
     /**
      * Id de l'artiste
      * @var ?int
@@ -33,19 +34,19 @@ class Artist {
     private string $image_path;
     /**
      * Réseau social de l'artiste
-     * @var Network[]
+     * @var ?Network[]
      */
-    private array $network = [];
+    private ?array $network = [];
     /**
      * Liste des projets créés
-     * @var Project[]
+     * @var ?Project[]
      */
-    private array $projects = [];
+    private ?array $projects = [];
     /**
      * Liste des featuring de l'artiste
-     * @var Music[]
+     * @var ?Music[]
      */
-    private array $featuredMusic = [];
+    private ?array $featuredMusic = [];
 
     /**
      * Constructeur de l'artiste
@@ -54,11 +55,12 @@ class Artist {
      * @param bool $isVerified
      * @param string $description
      * @param string $image_path
-     * @param Network[] $network
-     * @param Project[] $projects
-     * @param Music[] $featuredMusic
+     * @param ?Network[] $network
+     * @param ?Project[] $projects
+     * @param ?Music[] $featuredMusic
      */
-    public function __construct(?int $id, string $name, bool $isVerified, string $description, string $image_path, array $network, array $projects, array $featuredMusic) {
+    public function __construct(?int $id, string $name, bool $isVerified, string $description, string $image_path, ?array $network, ?array $projects, ?array $featuredMusic)
+    {
         $this->id = $id;
         $this->name = $name;
         $this->isVerified = $isVerified;
@@ -73,35 +75,40 @@ class Artist {
      * Accesseur de l'id de l'artiste
      * @return int|null
      */
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
     /**
      * Accesseur du nom de l'artiste
      * @return string
      */
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->name;
     }
     /**
      * Accesseur de la vérification de l'artiste
      * @return bool
      */
-    public function getIsVerified(): bool {
+    public function getIsVerified(): bool
+    {
         return $this->isVerified;
     }
     /**
      * Accesseur de la description de l'artiste
      * @return string
      */
-    public function getDescription(): string {
+    public function getDescription(): string
+    {
         return $this->description;
     }
     /**
      * Accesseur du chemin du l'image de photo de profil de l'artiste
      * @return string
      */
-    public function getImagePath(): string {
+    public function getImagePath(): string
+    {
         return $this->image_path;
     }
 
@@ -109,21 +116,24 @@ class Artist {
      * Accesseur des réseaux sociaux de l'artiste
      * @return Network[]|null
      */
-    public function getNetwork(): ?array {
+    public function getNetwork(): ?array
+    {
         return $this->network;
     }
     /**
      * Accesseur des musiques créées par l'artiste
-     * @return Music[]
+     * @return ?Music[]
      */
-    public function getProjects(): array {
+    public function getProjects(): ?array
+    {
         return $this->projects;
     }
     /**
      * Accesseur des musiques en feat de l'artiste
-     * @return Music[]
+     * @return ?Music[]
      */
-    public function getFeaturedMusic(): array {
+    public function getFeaturedMusic(): ?array
+    {
         return $this->featuredMusic;
     }
 }

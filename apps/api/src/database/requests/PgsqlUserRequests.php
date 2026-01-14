@@ -248,4 +248,20 @@ class PgsqlUserRequests
             throw $e;
         }
     }
+
+    /**
+     * Fonction qui récupère tous les utilisateurs
+     * @return array
+     */
+    public function getAllUsers(): array
+    {
+        $sql = 'SELECT u.id, u.username, u.email, u."password", u.image_path, u.id_library, r.id id_role, r."name" role, a.id id_artist, a.name artist_name, a.isverified, a.description, a.image_path artist_image_path FROM "user" u
+            JOIN "role" r ON u.id_role = r.id
+            LEFT JOIN artist a ON u.id_artist = a.id
+            ORDER BY u.id ASC;';
+
+        $request = $this->pdo->query($sql);
+
+        return $request->fetchAll();
+    }
 }

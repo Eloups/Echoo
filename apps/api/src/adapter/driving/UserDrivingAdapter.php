@@ -103,4 +103,17 @@ class UserDrivingAdapter
 
         return new Response(json_encode(['code' => 201, 'message' => 'User created']), 201);
     }
+
+    /**
+     * Function to gat all users
+     * @return Response
+     */
+    public function getAllUsers(): Response
+    {
+        $service = new UserService();
+
+        $users = $service->getAllUsers();
+
+        return new Response(SerializerUtils::get()->serialize(['users' => $users], "json"));
+    }
 }
