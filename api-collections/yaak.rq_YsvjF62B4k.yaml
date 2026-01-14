@@ -1,8 +1,8 @@
 type: http_request
 model: http_request
-id: rq_a5wcyRT7kr
-createdAt: 2026-01-12T11:29:18.524482200
-updatedAt: 2026-01-14T14:32:28.913551300
+id: rq_YsvjF62B4k
+createdAt: 2026-01-14T14:31:47.112269500
+updatedAt: 2026-01-14T14:59:14.261897100
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_XGNPk28yhy
 authentication: {}
@@ -10,13 +10,10 @@ authenticationType: null
 body:
   text: |-
     {
-      "id": 52,
       "username": "test",
       "email": "test@test.com",
-      "password": "passwordTest",
       "image_path": "imgTest.png",
-      "id_role": 1,
-      "id_artist": null
+      "id_role": 1
     }
 bodyType: application/json
 description: ''
@@ -25,8 +22,8 @@ headers:
   name: Content-Type
   value: application/json
   id: 3KCIR43Djh
-method: POST
-name: Create User
-sortPriority: 1000.0
-url: ${[ API_HOST ]}/users
+method: PUT
+name: Update User
+sortPriority: 1000.001
+url: ${[ API_HOST ]}/users/1
 urlParameters: []

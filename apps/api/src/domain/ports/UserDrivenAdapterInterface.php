@@ -56,4 +56,10 @@ interface UserDrivenAdapterInterface
      * @return User
      */
     public function getOneUser(int $userId): User;
+    /**
+     * Update an user
+     * @param User $user
+     * @return void
+     */
+    public function updateUser(User $user): void;
 }

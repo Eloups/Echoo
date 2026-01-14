@@ -46,8 +46,9 @@ $routes->add('user|listenedMusics', new Route('/user/{id}/listened/musics', meth
 $routes->add('user|addListenedMusics', new Route('/user/listened/musics/add', methods: 'POST'));
 $routes->add('user|artistsLastsReleases', new Route('/user/{id}/follows/artists/releases', methods: 'GET'));
 $routes->add('user|mostListenedMusicsOfTheMonth', new Route('/user/{id}/lastListened/musics', methods: 'GET'));
-$routes->add('user|create', new Route('/user', methods: 'POST'));
+$routes->add('user|create', new Route('/users', methods: 'POST'));
 $routes->add('user|getAll', new Route('/users', methods: 'GET'));
 $routes->add('user|getOne', new Route('/users/{id}', methods: 'GET'));
+$routes->add('user|update', new Route('/users/{id}', methods: 'PUT'));
 
 return $routes;

@@ -160,4 +160,18 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
 
         return $user;
     }
+    /**
+     * Update an user
+     * @param User $user
+     * @return void
+     */
+    public function updateUser(User $user): void
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $userRequests->updateUser($user);
+    }
 }

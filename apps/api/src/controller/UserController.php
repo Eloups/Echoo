@@ -52,6 +52,7 @@ class UserController implements ControllerInterface
             'create' => $adapter->createUser($request->getContent()),
             'getAll' => $adapter->getAllUsers(),
             'getOne' => $adapter->getOneUser($this->params['id']),
+            'update' => $adapter->updateUser($this->params['id'], $request->getContent()),
             default => throw new ResourceNotFoundException(),
         };
 

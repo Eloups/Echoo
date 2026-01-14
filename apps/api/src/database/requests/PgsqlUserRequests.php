@@ -331,4 +331,28 @@ class PgsqlUserRequests
 
         return $request->fetchAll();
     }
+    /**
+     * Update an user
+     * @param User $user
+     * @return void
+     */
+    public function updateUser(User $user): void
+    {
+        $sql = 'UPDATE "user" SET
+            username = :username,
+            email = :email,
+            image_path = :imagePath,
+            id_role = :idRole
+            WHERE id = :userId;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":username" => $user->getUsername(),
+            ":email" => $user->getEmail(),
+            ":imagePath" => $user->getImagePath(),
+            ":idRole" => $user->getUserRole()->getId(),
+            ":userId" => $user->getId()
+        ]);
+    }
 }

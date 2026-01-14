@@ -130,4 +130,32 @@ class UserDrivingAdapter
 
         return new Response(SerializerUtils::get()->serialize(['user' => $user], "json"));
     }
+
+    /**
+     * Méthode de mise à jour d'un utilisateur
+     * @param int $userId
+     * @param string $requestContent
+     * @return Response
+     */
+    public function updateUser(int $userId, string $requestContent): Response
+    {
+        $requestData = VerifyUtils::verifyJsonRequestBody($requestContent, ['username', 'email', 'image_path', 'id_role']);
+
+        $service = new UserService();
+        $service->updateUser(new User(
+            $userId,
+            $requestData['username'],
+            $requestData['email'],
+            '',
+            $requestData['image_path'],
+            new Library($userId, [], [], []),
+            new UserRole($requestData['id_role'], ''),
+            null,
+            null,
+            null,
+            null
+        ));
+
+        return new Response(json_encode(['code' => 200, 'message' => 'User updated']));
+    }
 }
