@@ -116,4 +116,18 @@ class UserDrivingAdapter
 
         return new Response(SerializerUtils::get()->serialize(['users' => $users], "json"));
     }
+
+    /**
+     * Function to get one user
+     * @param int $userId
+     * @return Response
+     */
+    public function getOneUser(int $userId): Response
+    {
+        $service = new UserService();
+
+        $user = $service->getOneUser($userId);
+
+        return new Response(SerializerUtils::get()->serialize(['user' => $user], "json"));
+    }
 }

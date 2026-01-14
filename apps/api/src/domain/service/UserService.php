@@ -117,4 +117,17 @@ class UserService implements UserServiceInterface
 
         return $users;
     }
+    /**
+     * Function to get one user
+     * @param int $userId
+     * @return User
+     */
+    public function getOneUser(int $userId): User
+    {
+        $adapter = new UserDrivenAdapter();
+
+        $user = $adapter->getOneUser($userId);
+
+        return $user;
+    }
 }

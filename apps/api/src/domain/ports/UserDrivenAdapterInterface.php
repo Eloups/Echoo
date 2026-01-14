@@ -50,4 +50,10 @@ interface UserDrivenAdapterInterface
      * @return User[]
      */
     public function getAllUsers(): array;
+    /**
+     * Function to get one user
+     * @param int $userId
+     * @return User
+     */
+    public function getOneUser(int $userId): User;
 }

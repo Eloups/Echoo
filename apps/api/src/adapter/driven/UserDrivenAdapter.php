@@ -137,4 +137,27 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
 
         return $users;
     }
+    /**
+     * Function to get one user
+     * @param int $userId
+     * @return User
+     */
+    public function getOneUser(int $userId): User
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $userFriendsRows = $userRequests->getUserFriends($userId);
+        $userFriends = ConvertUtils::convertRowsToUserFriends($userFriendsRows, $userId);
+
+        $userConversationsRows = $userRequests->getUserConversations($userId);
+        $userConversations = ConvertUtils::convertRowsToConversations($userConversationsRows);
+
+        $userRow = $userRequests->getOneUser($userId);
+        $user = ConvertUtils::convertRowToUser($userRow, $userFriends, $userConversations);
+
+        return $user;
+    }
 }

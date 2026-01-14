@@ -4,6 +4,7 @@ namespace Api\Utils;
 
 use Api\Database\Requests\PgsqlMusicRequests;
 use Api\Domain\Class\Artist;
+use Api\Domain\Class\Conversation;
 use Api\Domain\Class\Genre;
 use Api\Domain\Class\Library;
 use Api\Domain\Class\Music;
@@ -558,5 +559,108 @@ class ConvertUtils
         }
 
         return $users;
+    }
+
+    /**
+     * Convert a row to User
+     * @param array $row
+     * @param User[] $userFriends
+     * @param Conversation[] $userConversations
+     * @return User
+     */
+    public static function convertRowToUser(array $row, array $userFriends, array $userConversations): User
+    {
+        $artist = null;
+        if ($row['id_artist']) {
+            $artist = new Artist(
+                $row['id_artist'],
+                $row['artist_name'],
+                $row['isverified'],
+                $row['description'],
+                $row['artist_image_path'],
+                null,
+                null,
+                null
+            );
+        }
+
+        return new User(
+            $row['id'],
+            $row['username'],
+            $row['email'],
+            $row['password'],
+            $row['image_path'],
+            new Library($row['id_library'], [], [], []),
+            new UserRole($row['id_role'], $row['role']),
+            $userFriends,
+            $userConversations,
+            null,
+            $artist
+        );
+    }
+    /**
+     * Convert rows to user friends
+     * @param array $rows
+     * @param int $initialUserId
+     * @return User[]
+     */
+    public static function convertRowsToUserFriends(array $rows, int $initialUserId): array
+    {
+        $friends = [];
+        foreach ($rows as $row) {
+            if ($row['u2_id'] === $initialUserId) {
+                $friends[] = new User(
+                    $row['u1_id'],
+                    $row['u1_username'],
+                    $row['u1_email'],
+                    $row['u1_password'],
+                    $row['u1_image_path'],
+                    new Library($row['u1_id_library'], [], [], []),
+                    new UserRole($row['u1_id_role'], $row['u1_role']),
+                    null,
+                    null,
+                    null,
+                    null
+                );
+            } else {
+                $friends[] = new User(
+                    $row['u2_id'],
+                    $row['u2_username'],
+                    $row['u2_email'],
+                    $row['u2_password'],
+                    $row['u2_image_path'],
+                    new Library($row['u2_id_library'], [], [], []),
+                    new UserRole($row['u2_id_role'], $row['u2_role']),
+                    null,
+                    null,
+                    null,
+                    null
+                );
+            }
+        }
+
+        return $friends;
+    }
+    /**
+     * Conevrt rows to conversations
+     * @param array $rows
+     * @return array
+     */
+    public static function convertRowsToConversations(array $rows): array
+    {
+        $conversations = [];
+        foreach ($rows as $row) {
+            $conversations[] = new Conversation(
+                $row['id'],
+                $row['name'],
+                new DateTime($row['created_at']),
+                $row['image_path'],
+                null,
+                null,
+                null
+            );
+        }
+
+        return $conversations;
     }
 }

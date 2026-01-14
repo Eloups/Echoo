@@ -48,5 +48,6 @@ $routes->add('user|artistsLastsReleases', new Route('/user/{id}/follows/artists/
 $routes->add('user|mostListenedMusicsOfTheMonth', new Route('/user/{id}/lastListened/musics', methods: 'GET'));
 $routes->add('user|create', new Route('/user', methods: 'POST'));
 $routes->add('user|getAll', new Route('/users', methods: 'GET'));
+$routes->add('user|getOne', new Route('/users/{id}', methods: 'GET'));
 
 return $routes;
