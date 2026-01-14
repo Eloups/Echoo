@@ -5,7 +5,8 @@ namespace Api\Domain\Ports;
 /**
  * Interface du service de musique
  */
-interface MusicServiceInterface {
+interface MusicServiceInterface
+{
     /**
      * Action du listage des musiques
      * @param int $idArtist
@@ -20,6 +21,14 @@ interface MusicServiceInterface {
      * @return void
      */
     public function likeMusic(int $id_user, int $id_music): void;
+
+    /**
+     * Récupération des notes d'une musique
+     * @param int $musicId
+     * @param int $limit
+     * @return array
+     */
+    public function getMusicsRatings(int $musicId, int $limit): array;
 
     /**
      * Action de la récupération du cover file d'un projet à partir de l'id d'une musique

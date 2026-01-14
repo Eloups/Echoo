@@ -49,6 +49,11 @@ class UserController implements ControllerInterface
             'addListenedMusics' => $adapter->addUserListenedMusic($request->getContent()),
             'artistsLastsReleases' => $adapter->getUserArtistsLastsReleases($this->params['id'], $request->get('limit') ?? 6),
             'mostListenedMusicsOfTheMonth' => $adapter->getUserMostListenedMusicsOfTheMonth($this->params['id'], $request->get('limit') ?? 6),
+            'create' => $adapter->createUser($request->getContent()),
+            'getAll' => $adapter->getAllUsers(),
+            'getOne' => $adapter->getOneUser($this->params['id']),
+            'update' => $adapter->updateUser($this->params['id'], $request->getContent()),
+            'delete' => $adapter->deleteUser($this->params['id']),
             default => throw new ResourceNotFoundException(),
         };
 

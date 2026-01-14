@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_tadQzySbms
+createdAt: 2026-01-14T13:15:58.218803400
+updatedAt: 2026-01-14T14:58:12.581164400
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_XGNPk28yhy
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Get one user
+sortPriority: 1000.001
+url: ${[ API_HOST ]}/users/1
+urlParameters: []

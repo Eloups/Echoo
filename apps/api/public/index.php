@@ -5,6 +5,7 @@ use Api\Router;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 // On lance l'autoload de composer
@@ -31,6 +32,9 @@ try {
     $response = $controller->run($request);
 } catch (ResourceNotFoundException $e) {
     $response = new Response(json_encode(['code' => 404, 'message' => 'Route introuvable']), 404);
+    $response->headers->set('Content-Type', 'application/json;charset=UTF-8');
+} catch (MethodNotAllowedException $e) {
+    $response = new Response(json_encode(['code' => 405, 'message' => 'Méthode interdite']), 405);
     $response->headers->set('Content-Type', 'application/json;charset=UTF-8');
 } catch (ApiCustomException $e) {
     $response = $e->intoResponse();
