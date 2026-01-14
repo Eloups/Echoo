@@ -355,4 +355,31 @@ class PgsqlUserRequests
             ":userId" => $user->getId()
         ]);
     }
+
+    public function deleteUser(int $userId): void
+    {
+        $sql = 'SELECT u.id FROM "user" u
+            WHERE u.id = :userId;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":userId" => $userId
+        ]);
+
+        $user = $request->fetch();
+
+        if (!$user) {
+            throw new ApiCustomException("user nor found", 404);
+        }
+
+        $sql = 'DELETE FROM "user" 
+            WHERE id = :userId;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":userId" => $userId
+        ]);
+    }
 }

@@ -38,7 +38,7 @@ create table project (
     color1 varchar(7) not null,
     color2 varchar(7) not null,
     cover_path varchar(255),
-    id_type smallint references project_type(id) not null
+    id_type smallint references project_type(id) on delete cascade not null
 );
 
 create table library (
@@ -64,9 +64,9 @@ create table "user" (
     email varchar(100) not null,
     password varchar(60) not null,
     image_path varchar(255),
-    id_library integer references library(id) not null,
-    id_role smallint references role(id) not null,
-    id_artist integer references artist(id)
+    id_library integer references library(id) on delete cascade not null,
+    id_role smallint references role(id) on delete cascade not null,
+    id_artist integer references artist(id) on delete cascade
 );
 
 create table conversation (
@@ -74,16 +74,16 @@ create table conversation (
     created_at timestamp not null,
     name varchar(50),
     image_path varchar(255),
-    id_creator int references "user"(id) not null
+    id_creator int references "user"(id) on delete cascade not null
 );
 
 create table message (
     id serial primary key,
     send_at timestamp not null,
     content text,
-    id_conversation integer references conversation(id) not null,
-    id_user integer references "user"(id) not null,
-    id_music integer references music(id)
+    id_conversation integer references conversation(id) on delete cascade not null,
+    id_user integer references "user"(id) on delete cascade not null,
+    id_music integer references music(id) on delete cascade
 );
 
 create table music_rating (
@@ -91,8 +91,8 @@ create table music_rating (
     rating smallint not null,
     created_at timestamp not null,
     comment text,
-    id_user integer references "user"(id) not null,
-    id_music integer references music(id) not null
+    id_user integer references "user"(id) on delete cascade not null,
+    id_music integer references music(id) on delete cascade not null
 );
 
 create table project_rating (
@@ -100,80 +100,80 @@ create table project_rating (
     rating smallint not null,
     created_at timestamp not null,
     comment text,
-    id_user integer references "user"(id) not null,
-    id_project integer references project(id) not null
+    id_user integer references "user"(id) on delete cascade not null,
+    id_project integer references project(id) on delete cascade not null
 );
 
 create table friendship (
-    user1 integer references "user"(id) not null,
-    user2 integer references "user"(id) not null,
+    user1 integer references "user"(id) on delete cascade not null,
+    user2 integer references "user"(id) on delete cascade not null,
     primary key (user1, user2)
 );
 
 create table featuring (
-    id_artist integer references artist(id) not null,
-    id_music integer references music(id) not null,
+    id_artist integer references artist(id) on delete cascade not null,
+    id_music integer references music(id) on delete cascade not null,
     primary key (id_artist, id_music)
 );
 
 create table artist_network (
-    id_artist integer references artist(id) not null,
-    id_network smallint references network(id) not null,
+    id_artist integer references artist(id) on delete cascade not null,
+    id_network smallint references network(id) on delete cascade not null,
     link varchar(255) not null,
     primary key (id_artist, id_network)
 );
 
 create table project_music (
-    id_project integer references project(id) not null,
-    id_music integer references music(id) not null,
+    id_project integer references project(id) on delete cascade not null,
+    id_music integer references music(id) on delete cascade not null,
     primary key (id_project, id_music)
 );
 
 create table artist_project (
-    id_artist integer references artist(id) not null,
-    id_project integer references project(id) not null,
+    id_artist integer references artist(id) on delete cascade not null,
+    id_project integer references project(id) on delete cascade not null,
     primary key(id_artist, id_project)
 );
 
 create table library_artist (
-    id_library integer references library(id) not null,
-    id_artist integer references artist(id) not null,
+    id_library integer references library(id) on delete cascade not null,
+    id_artist integer references artist(id) on delete cascade not null,
     primary key(id_library, id_artist)
 );
 
 create table library_project (
-    id_library integer references library(id) not null,
-    id_project integer references project(id) not null,
+    id_library integer references library(id) on delete cascade not null,
+    id_project integer references project(id) on delete cascade not null,
     primary key(id_library, id_project)
 );
 
 create table library_playlist (
-    id_library integer references library(id) not null,
-    id_playlist integer references playlist(id) not null,
+    id_library integer references library(id) on delete cascade not null,
+    id_playlist integer references playlist(id) on delete cascade not null,
     primary key(id_library, id_playlist)
 );
 
 create table playlist_music (
-    id_playlist integer references playlist(id) not null,
-    id_music integer references music(id) not null,
+    id_playlist integer references playlist(id) on delete cascade not null,
+    id_music integer references music(id) on delete cascade not null,
     primary key(id_playlist, id_music)
 );
 
 create table user_conversation (
-    id_user integer references "user"(id) not null,
-    id_conversation integer references conversation(id) not null,
+    id_user integer references "user"(id) on delete cascade not null,
+    id_conversation integer references conversation(id) on delete cascade not null,
     primary key(id_user, id_conversation)
 );
 
 create table log_user_music (
-    id_user integer references "user"(id) not null,
-    id_music integer references music(id) not null,
+    id_user integer references "user"(id) on delete cascade not null,
+    id_music integer references music(id) on delete cascade not null,
     listened_at timestamp not null
 );
 
 create table music_genre (
-    id_music integer references music(id) not null,
-    id_genre integer references genre(id) not null,
+    id_music integer references music(id) on delete cascade not null,
+    id_genre integer references genre(id) on delete cascade not null,
     primary key (id_music, id_genre)
 );
 

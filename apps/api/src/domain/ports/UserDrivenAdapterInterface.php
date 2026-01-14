@@ -62,4 +62,10 @@ interface UserDrivenAdapterInterface
      * @return void
      */
     public function updateUser(User $user): void;
+    /**
+     * Delete an user
+     * @param int $userId
+     * @return void
+     */
+    public function deleteUser(int $userId): void;
 }

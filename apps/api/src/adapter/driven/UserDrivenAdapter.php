@@ -174,4 +174,18 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
 
         $userRequests->updateUser($user);
     }
+    /**
+     * Delete an user
+     * @param int $userId
+     * @return void
+     */
+    public function deleteUser(int $userId): void
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $userRequests->deleteUser($userId);
+    }
 }

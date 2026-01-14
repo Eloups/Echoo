@@ -50,5 +50,6 @@ $routes->add('user|create', new Route('/users', methods: 'POST'));
 $routes->add('user|getAll', new Route('/users', methods: 'GET'));
 $routes->add('user|getOne', new Route('/users/{id}', methods: 'GET'));
 $routes->add('user|update', new Route('/users/{id}', methods: 'PUT'));
+$routes->add('user|delete', new Route('/users/{id}', methods: 'DELETE'));
 
 return $routes;

@@ -140,4 +140,14 @@ class UserService implements UserServiceInterface
         $adapter = new UserDrivenAdapter();
         $adapter->updateUser($user);
     }
+    /**
+     * Delete an user
+     * @param int $userId
+     * @return void
+     */
+    public function deleteUser(int $userId): void
+    {
+        $adapter = new UserDrivenAdapter();
+        $adapter->deleteUser($userId);
+    }
 }

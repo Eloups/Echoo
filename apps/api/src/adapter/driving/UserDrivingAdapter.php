@@ -158,4 +158,16 @@ class UserDrivingAdapter
 
         return new Response(json_encode(['code' => 200, 'message' => 'User updated']));
     }
+    /**
+     * Delete an user
+     * @param int $userId
+     * @return Response
+     */
+    public function deleteUser(int $userId): Response
+    {
+        $service = new UserService();
+        $service->deleteUser($userId);
+
+        return new Response(json_encode(['code' => 200, 'message' => 'User deleted']));
+    }
 }
