@@ -6,7 +6,7 @@ import { User } from '@/lib/types/auth'
 import { router } from 'expo-router'
 
 const API_BASE = 'https://api.example.com'
-const API_BASE_AUTH = 'http://192.168.1.57:3333'
+const API_BASE_AUTH = 'http://192.168.1.86:3333'
 
 /**
  * Hook global pour l'état de l'application

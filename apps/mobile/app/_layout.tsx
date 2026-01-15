@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { StatusBar, View, Platform } from "react-native";
 import { ThemeProvider, useTheme } from "@/lib/theme/provider";
 import { useFonts } from "expo-font";
@@ -7,8 +7,12 @@ import { useEffect } from "react";
 // import useGlobalHook from '@/hook/globalHook';
 import useAuthHook from "@/hook/authHook";
 
+
 function ThemedRoot() {
+
   const { theme } = useTheme();
+  const router = useRouter();
+
   if (Platform.OS == "android") {
     useEffect(() => {
       NavigationBar.setBackgroundColorAsync(theme.colors.background);
@@ -23,12 +27,15 @@ function ThemedRoot() {
   useEffect(() => {
     (async () => {
       try {
-        await useAuthHook.getState().checkToken();
+        const expired = await useAuthHook.getState().checkToken();
+        if (expired) {
+        router.push('/connexion/connexion');
+      }
       } catch (e) {
         console.error('checkToken error', e);
       }
     })();
-  }, []);
+  }, [router]);
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>

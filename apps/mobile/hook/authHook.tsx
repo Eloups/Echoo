@@ -6,7 +6,7 @@ import { router } from 'expo-router'
 import useGlobalHook from './globalHook'
 
 
-const API_BASE_AUTH = 'http://192.168.1.57:3333'
+const API_BASE_AUTH = 'http://192.168.1.86:3333'
 
 interface AuthHook {
   login: (email: string, password: string) => Promise<void>;
@@ -16,7 +16,7 @@ interface AuthHook {
   authError: string | null;
   setAuthLoading: (loading: boolean) => void;
   setAuthError: (error: string | null) => void;
-  checkToken: () => void;
+  checkToken: () => Promise<boolean>;
   tokenIsExpired: () => boolean;  // lib/auth/service.ts
   verifyToken: (token: string) => Promise<JWTPayload | undefined>;
 }
@@ -90,11 +90,13 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
   register: async (name: string, email: string, password: string) => {
     set({ isLoading: true, authError: null });
 
+    console.log("111");
     const { data, error } = await authClient.signUp.email({
       name,
       email,
       password,
     });
+    console.log("222");
 
     if (error) {
       // ICIIIIIII a voir pour mettre un message d'erreur a la main pour l'avoir en français 
@@ -147,9 +149,9 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     // ICIIIIIIIIIIII Mettre le reload du token quand j'aurais le temps
     if (tokenIsExpired()) {
       console.log("TOKEN EXPIRED - REDIRECT TO LOGIN");
-      router.push('/connexion/connexion');
+      return true;
     }
-    return;
+    return false;
   },
 
   tokenIsExpired: () => {
