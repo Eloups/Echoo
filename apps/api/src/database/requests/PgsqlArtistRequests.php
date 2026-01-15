@@ -302,4 +302,69 @@ class PgsqlArtistRequests
 
         return $request->fetchAll();
     }
+
+    /**
+     * search artists
+     * @param string $search
+     * @param int $limit
+     * @return array
+     */
+    public function searchArtists(string $search, int $limit): array
+    {
+        $sql = 'SELECT a.id, a."name", a.isverified, a.description, a.image_path FROM artist a 
+            WHERE LOWER(a."name") LIKE :search
+            LIMIT :limit;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":search" => '%' . $search . '%',
+            ":limit" => $limit
+        ]);
+
+        return $request->fetchAll();
+    }
+    /**
+     * Search projects
+     * @param string $search
+     * @param int $limit
+     * @return array
+     */
+    public function searchProjects(string $search, int $limit): array
+    {
+        $sql = 'SELECT p.id, p.title, p."release", p.color1, p.color2, p.cover_path, pt."name" project_type FROM project p
+            JOIN project_type pt ON p.id_type = pt.id
+            WHERE LOWER(p.title) LIKE :search
+            LIMIT :limit;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":search" => '%' . $search . '%',
+            ":limit" => $limit
+        ]);
+
+        return $request->fetchAll();
+    }
+    /**
+     * search musics
+     * @param string $search
+     * @param int $limit
+     * @return array
+     */
+    public function searchMusics(string $search, int $limit): array
+    {
+        $sql = 'SELECT m.id, m.title, m.duration, m."release", m.nb_streams, m.file_path FROM music m 
+            WHERE LOWER(m.title) LIKE :search
+            LIMIT :limit;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":search" => '%' . $search . '%',
+            ":limit" => $limit
+        ]);
+
+        return $request->fetchAll();
+    }
 }

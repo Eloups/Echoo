@@ -2,6 +2,8 @@
 
 namespace Api\Database\Requests;
 
+use Api\Domain\Class\User;
+use Api\Exception\ApiCustomException;
 use DateInterval;
 use DateTime;
 use Exception;
@@ -188,5 +190,196 @@ class PgsqlUserRequests
         $request = $this->pdo->prepare($sql);
         $request->execute($params);
         return $request->fetchAll();
+    }
+
+    /**
+     * Function to create a new User and his Library
+     * @param User $user
+     * @return void
+     */
+    public function createUser(User $user): void
+    {
+        $sql = 'SELECT id FROM "user" u
+            WHERE u.id = :id;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":id" => $user->getLibrary()->getId()
+        ]);
+
+        $result = $request->fetchAll();
+
+        if (!empty($result)) {
+            throw new ApiCustomException("User already exists", 409);
+        }
+
+        $this->pdo->beginTransaction();
+
+        try {
+            // We create the Library
+            $sql = 'INSERT INTO "library" (id) VALUES (:id);';
+
+            $request = $this->pdo->prepare($sql);
+
+            $request->execute([
+                ":id" => $user->getLibrary()->getId()
+            ]);
+
+            // We create the User
+            $sql = 'INSERT INTO "user" (id, username, email, password, image_path, id_library, id_role) VALUES
+                (:id, :username, :email, :password, :imagePath, :idLibrary, :idRole);';
+
+            $request = $this->pdo->prepare($sql);
+
+            $request->execute([
+                ":id" => $user->getId(),
+                ":username" => $user->getUsername(),
+                ":email" => $user->getEmail(),
+                ":password" => $user->getPassword(),
+                ":imagePath" => $user->getImagePath(),
+                ":idLibrary" => $user->getLibrary()->getId(),
+                ":idRole" => $user->getUserRole()->getId()
+            ]);
+
+            $this->pdo->commit();
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            throw $e;
+        }
+    }
+
+    /**
+     * Fonction qui récupère tous les utilisateurs
+     * @return array
+     */
+    public function getAllUsers(): array
+    {
+        $sql = 'SELECT u.id, u.username, u.email, u."password", u.image_path, u.id_library, r.id id_role, r."name" role, a.id id_artist, a.name artist_name, a.isverified, a.description, a.image_path artist_image_path FROM "user" u
+            JOIN "role" r ON u.id_role = r.id
+            LEFT JOIN artist a ON u.id_artist = a.id
+            ORDER BY u.id ASC;';
+
+        $request = $this->pdo->query($sql);
+
+        return $request->fetchAll();
+    }
+    /**
+     * function to get one user
+     * @param int $userId
+     * @return array
+     */
+    public function getOneUser(int $userId): array
+    {
+        $sql = 'SELECT u.id, u.username, u.email, u."password", u.image_path, u.id_library, r.id id_role, r."name" role, a.id id_artist, a.name artist_name, a.isverified, a.description, a.image_path artist_image_path FROM "user" u
+            JOIN "role" r ON u.id_role = r.id
+            LEFT JOIN artist a ON u.id_artist = a.id
+            WHERE u.id = :userId;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":userId" => $userId
+        ]);
+
+        $user = $request->fetch();
+
+        if (!$user) {
+            throw new ApiCustomException("user nor found", 404);
+        }
+
+        return $user;
+    }
+    /**
+     * Get user friends
+     * @param int $userId
+     * @return array
+     */
+    public function getUserFriends(int $userId): array
+    {
+        $sql = 'SELECT f.user1, f.user2, u1.id u1_id, u1.username u1_username, u1.email u1_email, u1."password" u1_password, u1.image_path u1_image_path, u1.id_library u1_id_library, r1.id u1_id_role, r1."name" u1_role, u2.id u2_id, u2.username u2_username, u2.email u2_email, u2."password" u2_password, u2.image_path u2_image_path, u2.id_library u2_id_library, r2.id u2_id_role, r2."name" u2_role FROM friendship f 
+            JOIN "user" u1 ON f.user1 = u1.id
+            JOIN "role" r1 ON u1.id_role = r1.id
+            JOIN "user" u2 ON f.user2 = u2.id
+            JOIN "role" r2 ON u2.id_role = r2.id
+            WHERE f.user1 = :userId OR f.user2 = :userId;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":userId" => $userId
+        ]);
+
+        return $request->fetchAll();
+    }
+    /**
+     * Get user conversations
+     * @param int $userId
+     * @return array
+     */
+    public function getUserConversations(int $userId): array
+    {
+        $sql = 'SELECT c.id, c.created_at, c."name", c.image_path FROM user_conversation uc 
+            JOIN conversation c ON uc.id_conversation = c.id 
+            WHERE uc.id_user = :userId;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":userId" => $userId
+        ]);
+
+        return $request->fetchAll();
+    }
+    /**
+     * Update an user
+     * @param User $user
+     * @return void
+     */
+    public function updateUser(User $user): void
+    {
+        $sql = 'UPDATE "user" SET
+            username = :username,
+            email = :email,
+            image_path = :imagePath,
+            id_role = :idRole
+            WHERE id = :userId;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":username" => $user->getUsername(),
+            ":email" => $user->getEmail(),
+            ":imagePath" => $user->getImagePath(),
+            ":idRole" => $user->getUserRole()->getId(),
+            ":userId" => $user->getId()
+        ]);
+    }
+
+    public function deleteUser(int $userId): void
+    {
+        $sql = 'SELECT u.id FROM "user" u
+            WHERE u.id = :userId;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":userId" => $userId
+        ]);
+
+        $user = $request->fetch();
+
+        if (!$user) {
+            throw new ApiCustomException("user nor found", 404);
+        }
+
+        $sql = 'DELETE FROM "user" 
+            WHERE id = :userId;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":userId" => $userId
+        ]);
     }
 }

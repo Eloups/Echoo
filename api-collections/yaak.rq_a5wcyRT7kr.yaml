@@ -1,0 +1,32 @@
+type: http_request
+model: http_request
+id: rq_a5wcyRT7kr
+createdAt: 2026-01-12T11:29:18.524482200
+updatedAt: 2026-01-14T14:32:28.913551300
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_XGNPk28yhy
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "id": 52,
+      "username": "test",
+      "email": "test@test.com",
+      "password": "passwordTest",
+      "image_path": "imgTest.png",
+      "id_role": 1,
+      "id_artist": null
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: 3KCIR43Djh
+method: POST
+name: Create User
+sortPriority: 1000.0
+url: ${[ API_HOST ]}/users
+urlParameters: []

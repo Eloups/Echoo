@@ -2,6 +2,9 @@
 
 namespace Api\Adapter;
 
+use Api\Domain\Class\Library;
+use Api\Domain\Class\User;
+use Api\Domain\Class\UserRole;
 use Api\Domain\Service\UserService;
 use Api\Utils\SerializerUtils;
 use Api\Utils\VerifyUtils;
@@ -72,5 +75,99 @@ class UserDrivingAdapter
         $musics = $service->getUserMostListenedMusicsOfMonth($userId, $limit, $today);
 
         return new Response(SerializerUtils::get()->serialize(['musics' => $musics], "json"));
+    }
+
+    /**
+     * Méthode pour créer un utilisateur
+     * @param string $requestContent
+     * @return Response
+     */
+    public function createUser(string $requestContent): Response
+    {
+        $requestData = VerifyUtils::verifyJsonRequestBody($requestContent, ['id', 'username', 'email', 'password', 'image_path', 'id_role']);
+
+        $service = new UserService();
+        $service->createUser(new User(
+            $requestData['id'],
+            $requestData['username'],
+            $requestData['email'],
+            $requestData['password'],
+            $requestData['image_path'],
+            new Library($requestData['id'], [], [], []),
+            new UserRole(1, 'User'),
+            [],
+            [],
+            [],
+            null
+        ));
+
+        return new Response(json_encode(['code' => 201, 'message' => 'User created']), 201);
+    }
+
+    /**
+     * Function to gat all users
+     * @return Response
+     */
+    public function getAllUsers(): Response
+    {
+        $service = new UserService();
+
+        $users = $service->getAllUsers();
+
+        return new Response(SerializerUtils::get()->serialize(['users' => $users], "json"));
+    }
+
+    /**
+     * Function to get one user
+     * @param int $userId
+     * @return Response
+     */
+    public function getOneUser(int $userId): Response
+    {
+        $service = new UserService();
+
+        $user = $service->getOneUser($userId);
+
+        return new Response(SerializerUtils::get()->serialize(['user' => $user], "json"));
+    }
+
+    /**
+     * Méthode de mise à jour d'un utilisateur
+     * @param int $userId
+     * @param string $requestContent
+     * @return Response
+     */
+    public function updateUser(int $userId, string $requestContent): Response
+    {
+        $requestData = VerifyUtils::verifyJsonRequestBody($requestContent, ['username', 'email', 'image_path', 'id_role']);
+
+        $service = new UserService();
+        $service->updateUser(new User(
+            $userId,
+            $requestData['username'],
+            $requestData['email'],
+            '',
+            $requestData['image_path'],
+            new Library($userId, [], [], []),
+            new UserRole($requestData['id_role'], ''),
+            null,
+            null,
+            null,
+            null
+        ));
+
+        return new Response(json_encode(['code' => 200, 'message' => 'User updated']));
+    }
+    /**
+     * Delete an user
+     * @param int $userId
+     * @return Response
+     */
+    public function deleteUser(int $userId): Response
+    {
+        $service = new UserService();
+        $service->deleteUser($userId);
+
+        return new Response(json_encode(['code' => 200, 'message' => 'User deleted']));
     }
 }

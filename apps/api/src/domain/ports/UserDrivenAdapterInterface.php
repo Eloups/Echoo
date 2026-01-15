@@ -2,6 +2,9 @@
 
 namespace Api\Domain\Ports;
 
+use Api\Domain\Class\User;
+use DateTime;
+
 /**
  * Interface de l'adaptateur piloté des utilisateurs
  */
@@ -14,4 +17,55 @@ interface UserDrivenAdapterInterface
      * @return array
      */
     public function getUserLastListenedMusics(int $userId, int $limit): array;
+    /**
+     * Fonction pour ajouter une musique écoutée par un utilisateur
+     * @param int $userId
+     * @param int $musicId
+     * @return void
+     */
+    public function addUserListenedMusic(int $userId, int $musicId): void;
+    /**
+     * Fonction pour récupérer les dernères sorties des artistes suivis par un utilisateur
+     * @param int $userId
+     * @param int $limit
+     * @return void
+     */
+    public function getUserArtistsLastsReleases(int $userId, int $limit): array;
+    /**
+     * Méthode pour récupérer les musiques les plus écoutées par un utilisateur un mois
+     * @param int $userId
+     * @param int $limit
+     * @param DateTime $date
+     * @return array
+     */
+    public function getUserMostListenedMusicsOfMonth(int $userId, int $limit, DateTime $date): array;
+    /**
+     * Fonction pour créer un utilisateur
+     * @param User $user
+     * @return void
+     */
+    public function createUser(User $user): void;
+    /**
+     * Fonction qui récupère tous les utilisateurs
+     * @return User[]
+     */
+    public function getAllUsers(): array;
+    /**
+     * Function to get one user
+     * @param int $userId
+     * @return User
+     */
+    public function getOneUser(int $userId): User;
+    /**
+     * Update an user
+     * @param User $user
+     * @return void
+     */
+    public function updateUser(User $user): void;
+    /**
+     * Delete an user
+     * @param int $userId
+     * @return void
+     */
+    public function deleteUser(int $userId): void;
 }

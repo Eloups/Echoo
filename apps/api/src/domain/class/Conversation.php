@@ -7,7 +7,8 @@ use DateTime;
 /**
  * Classe pour les conversations de groupes
  */
-class Conversation {
+class Conversation
+{
     /**
      * Id de la conversation de groupe
      * @var ?int
@@ -30,30 +31,31 @@ class Conversation {
     private ?string $imagePath;
     /**
      * Liste des messages
-     * @var Message[]
+     * @var ?Message[]
      */
-    private array $messages = [];
+    private ?array $messages = [];
     /**
      * Utilisateur créateur de la conversation
-     * @var User
+     * @var ?User
      */
-    private User $creator;
+    private ?User $creator;
     /**
      * Utilisateurs qui participent à la conversation
-     * @var array
+     * @var ?User[]
      */
-    private array $participants = [];
+    private ?array $participants = [];
     /**
      * Constructeur d'une conversation
      * @param ?int $id
      * @param ?string $name
      * @param DateTime $createdAt
      * @param string $imagePath
-     * @param Message[] $messages
-     * @param User $creator
-     * @param User[] $participants
+     * @param ?Message[] $messages
+     * @param ?User $creator
+     * @param ?User[] $participants
      */
-    public function __construct(?int $id, ?string $name, DateTime $createdAt, ?string $imagePath, array $messages, User $creator, array $participants) {
+    public function __construct(?int $id, ?string $name, DateTime $createdAt, ?string $imagePath, ?array $messages, ?User $creator, ?array $participants)
+    {
         $this->id = $id;
         $this->name = $name;
         $this->createdAt = $createdAt;
@@ -67,49 +69,56 @@ class Conversation {
      * Accesseur de l'id de la conversation de groupe
      * @return int|null
      */
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
     /**
      * Accesseur du nom de la conversation
      * @return string|null
      */
-    public function getName(): ?string {
+    public function getName(): ?string
+    {
         return $this->name;
     }
     /**
      * Accesseur de la date de création de la conversation
      * @return DateTime
      */
-    public function getCreatedAt(): DateTime {
+    public function getCreatedAt(): DateTime
+    {
         return $this->createdAt;
     }
     /**
      * Accesseur de l'image de profil de la conversation
      * @return string
      */
-    public function getImagePath(): ?string {
+    public function getImagePath(): ?string
+    {
         return $this->imagePath;
     }
     /**
      * Accesseur des messages de la conversation
-     * @return Message[]
+     * @return ?Message[]
      */
-    public function getMessages(): array {
+    public function getMessages(): ?array
+    {
         return $this->messages;
     }
     /**
      * Accesseur du créateur de la conversation
-     * @return User
+     * @return ?User
      */
-    public function getCreator(): User {
+    public function getCreator(): ?User
+    {
         return $this->creator;
     }
     /**
      * Accesseur des utilisateurs qui participent à la conversation
-     * @return User[]
+     * @return ?User[]
      */
-    public function getParticipants(): array {
+    public function getParticipants(): ?array
+    {
         return $this->participants;
     }
 }
