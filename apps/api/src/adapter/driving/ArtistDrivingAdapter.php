@@ -4,6 +4,7 @@ namespace Api\Adapter;
 
 use Api\Adapter\DTO\ArtistPageDTO;
 use Api\Domain\Service\ArtistService;
+use Api\Exception\ApiCustomException;
 use Api\Utils\SerializerUtils;
 use DateTime;
 use Exception;
@@ -113,5 +114,24 @@ class ArtistDrivingAdapter
         $artists = $service->getMostListenedArtistsOfMonth($today, $limit);
 
         return new Response(SerializerUtils::get()->serialize(['artists' => $artists], "json"));
+    }
+    /**
+     * search artists, projects and musics
+     * @param string $search
+     * @param int $limit
+     * @throws ApiCustomException
+     * @return Response
+     */
+    public function searchArtists(string $search, int $limit): Response
+    {
+        if (strlen($search) < 3) {
+            throw new ApiCustomException('Search is too short, minimum 3 character required', 400);
+        }
+
+        $service = new ArtistService();
+
+        [$artists, $projects, $musics] = $service->searchArtists(strtolower($search), $limit);
+
+        return new Response(SerializerUtils::get()->serialize(['artists' => $artists, 'projects' => $projects, 'musics' => $musics], "json"));
     }
 }

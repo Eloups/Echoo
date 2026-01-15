@@ -76,4 +76,11 @@ interface ArtistDrivenAdapterInterface
      * @return array
      */
     public function getMostListenedArtistsOfMonth(DateTime $date, int $limit): array;
+    /**
+     * search artists, projects and musics
+     * @param string $search
+     * @param int $limit
+     * @return array
+     */
+    public function searchArtists(string $search, int $limit): array;
 }
