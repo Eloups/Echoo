@@ -4,6 +4,8 @@ namespace Api\Domain\Service;
 
 use Api\Adapter\ArtistDrivenAdapter;
 use Api\Domain\Class\Artist;
+use Api\Domain\Class\Music;
+use Api\Domain\Class\Project;
 use Api\Domain\Ports\ArtistServiceInterface;
 use DateTime;
 use Exception;
@@ -103,5 +105,35 @@ class ArtistService implements ArtistServiceInterface
         }
 
         return $artists;
+    }
+    /**
+     * search artists, projects and musics
+     * @param string $search
+     * @param int $limit
+     * @return array
+     */
+    public function searchArtists(string $search, int $limit): array
+    {
+        $driven = new ArtistDrivenAdapter();
+
+        [$artists, $projects, $musics] = $driven->searchArtists($search, $limit);
+
+        foreach ($artists as $artist) {
+            if (!$artist instanceof Artist) {
+                throw new Exception('The returned datas in service are not artists');
+            }
+        }
+        foreach ($projects as $project) {
+            if (!$project instanceof Project) {
+                throw new Exception('The returned datas in service are not projects');
+            }
+        }
+        foreach ($musics as $music) {
+            if (!$music instanceof Music) {
+                throw new Exception('The returned datas in service are not musics');
+            }
+        }
+
+        return [$artists, $projects, $musics];
     }
 }
