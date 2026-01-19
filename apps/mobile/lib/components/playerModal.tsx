@@ -173,10 +173,6 @@ export default function PlayerModal() {
 
           {/* Contrôles de lecture */}
           <View style={styles.controlsContainer}>
-            <Pressable style={styles.controlButton}>
-              <MaterialIcons name="repeat" size={26} color={theme.colors.text2} />
-            </Pressable>
-
             <Pressable onPress={previousTrack} style={styles.controlButton}>
               <Ionicons name="play-skip-back" size={36} color={theme.colors.text} />
             </Pressable>
@@ -198,10 +194,6 @@ export default function PlayerModal() {
 
             <Pressable onPress={nextTrack} style={styles.controlButton}>
               <Ionicons name="play-skip-forward" size={36} color={theme.colors.text} />
-            </Pressable>
-
-            <Pressable style={styles.controlButton}>
-              <MaterialIcons name="shuffle" size={26} color={theme.colors.text2} />
             </Pressable>
           </View>
 
