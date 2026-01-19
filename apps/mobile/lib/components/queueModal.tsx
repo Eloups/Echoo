@@ -16,7 +16,6 @@ type QueueModalProps = {
 export default function QueueModal({ visible, onClose }: QueueModalProps) {
   const { theme } = useTheme();
   const { queue, currentIndex, removeFromQueue, playTrack, reorderQueue } = usePlayerStore();
-  const [editMode, setEditMode] = useState(false);
 
   const handlePlayTrack = (track: BaseInfos, index: number) => {
     // Si c'est déjà la musique en cours, ne rien faire
@@ -57,8 +56,8 @@ export default function QueueModal({ visible, onClose }: QueueModalProps) {
             { backgroundColor: isCurrentTrack ? theme.colors.primary + '20' : 'transparent' },
             isActive && styles.trackItemActive
           ]}
-          onPress={() => !editMode && handlePlayTrack(item, index)}
-          onLongPress={editMode ? drag : undefined}
+          onPress={() => handlePlayTrack(item, index)}
+          onLongPress={drag}
           disabled={isActive}
         >
           <View style={styles.trackLeft}>
@@ -81,18 +80,14 @@ export default function QueueModal({ visible, onClose }: QueueModalProps) {
           </View>
 
           <View style={styles.trackRight}>
-            {editMode ? (
-              <View style={styles.editActions}>
-                <Pressable onPress={() => handleRemove(index)} style={styles.removeButton}>
-                  <MaterialIcons name="remove-circle-outline" size={24} color={theme.colors.error || '#ff4444'} />
-                </Pressable>
-                <Pressable onLongPress={drag} style={styles.dragButton}>
-                  <MaterialIcons name="drag-handle" size={24} color={theme.colors.text} />
-                </Pressable>
-              </View>
-            ) : (
-              <MaterialIcons name="drag-handle" size={24} color={theme.colors.text2} />
-            )}
+            <View style={styles.editActions}>
+              <Pressable onPress={() => handleRemove(index)} style={styles.removeButton}>
+                <MaterialIcons name="remove-circle-outline" size={24} color={theme.colors.error || '#ff4444'} />
+              </Pressable>
+              <Pressable onLongPress={drag} style={styles.dragButton}>
+                <MaterialIcons name="drag-handle" size={24} color={theme.colors.text} />
+              </Pressable>
+            </View>
           </View>
         </Pressable>
       </ScaleDecorator>
@@ -116,11 +111,7 @@ export default function QueueModal({ visible, onClose }: QueueModalProps) {
             <AppText size="lg" style={styles.title}>
               Liste d'attente
             </AppText>
-            <Pressable onPress={() => setEditMode(!editMode)} style={styles.editButton}>
-              <AppText size="md" color={editMode ? 'primary' : 'text'}>
-                {editMode ? 'OK' : 'Modifier'}
-              </AppText>
-            </Pressable>
+            <View style={styles.editButton} />
           </View>
 
           {/* Queue info */}
@@ -128,11 +119,6 @@ export default function QueueModal({ visible, onClose }: QueueModalProps) {
             <AppText size="sm" color="text2">
               {queue.length} {queue.length > 1 ? 'morceaux' : 'morceau'}
             </AppText>
-            {editMode && (
-              <AppText size="xs" color="text2" style={{ marginTop: 5 }}>
-                Maintenez l'icône menu pour déplacer
-              </AppText>
-            )}
           </View>
 
           {/* Track list */}
@@ -141,7 +127,7 @@ export default function QueueModal({ visible, onClose }: QueueModalProps) {
             renderItem={renderItem}
             keyExtractor={(item, index) => `${item.id}-${index}`}
             onDragEnd={handleDragEnd}
-            activationDistance={editMode ? 10 : 999999}
+            activationDistance={10}
             containerStyle={styles.listContent}
             showsVerticalScrollIndicator={false}
           />
