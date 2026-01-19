@@ -80,7 +80,7 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
         currentFileName: fileName,
         isPlaying: true,
         progress: 0,
-        duration: track.duration || 0, // Utiliser la durée du backend si disponible
+        duration: track.duration || 0,
         queue: queue.length > 0 ? queue : [track],
         currentIndex: startIndex,
         isPlayerModalVisible: false,

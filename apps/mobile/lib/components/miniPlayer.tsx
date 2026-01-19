@@ -13,45 +13,58 @@ export default function MiniPlayer() {
   const { currentTrack, isPlaying, togglePlayPause, showPlayerModal } = usePlayerStore();
   const insets = useSafeAreaInsets();
 
-  if (!currentTrack) return null;
-
   const handleOpenPlayer = () => {
-    showPlayerModal();
+    if (currentTrack) {
+      showPlayerModal();
+    }
   };
 
   const handleTogglePlay = (e: any) => {
     e.stopPropagation();
-    togglePlayPause();
+    if (currentTrack) {
+      togglePlayPause();
+    }
   };
 
   return (
     <Pressable onPress={handleOpenPlayer} style={[styles.wrapper, { bottom: 60 + insets.bottom }]}>
       <View style={[styles.container, { backgroundColor: theme.colors.background2 }]}>
         <View style={styles.content}>
-          {/* Image de la musique */}
-          <Image 
-            source={currentTrack.cover} 
-            style={styles.cover}
-          />
+          {currentTrack ? (
+            <>
+              {/* Image de la musique */}
+              <Image 
+                source={currentTrack.cover} 
+                style={styles.cover}
+              />
 
-          {/* Informations de la musique */}
-          <View style={styles.info}>
-            <AppText size="md" numberOfLines={1} style={styles.title}>
-              {currentTrack.title}
-            </AppText>
-            <AppText size="sm" color="text2" numberOfLines={1}>
-              {currentTrack.artist}
-            </AppText>
-          </View>
+              {/* Informations de la musique */}
+              <View style={styles.info}>
+                <AppText size="md" numberOfLines={1} style={styles.title}>
+                  {currentTrack.title}
+                </AppText>
+                <AppText size="sm" color="text2" numberOfLines={1}>
+                  {Array.isArray(currentTrack.artist) ? currentTrack.artist.join(', ') : currentTrack.artist}
+                </AppText>
+              </View>
 
-          {/* Bouton Play/Pause */}
-          <Pressable onPress={handleTogglePlay} style={styles.playButton}>
-            <Ionicons 
-              name={isPlaying ? 'pause' : 'play'} 
-              size={28} 
-              color={theme.colors.text}
-            />
-          </Pressable>
+              {/* Bouton Play/Pause */}
+              <Pressable onPress={handleTogglePlay} style={styles.playButton}>
+                <Ionicons 
+                  name={isPlaying ? 'pause' : 'play'} 
+                  size={28} 
+                  color={theme.colors.text}
+                />
+              </Pressable>
+            </>
+          ) : (
+            <View style={styles.noMusicContainer}>
+              <Ionicons name="musical-notes-outline" size={24} color={theme.colors.text2} />
+              <AppText size="sm" color="text2" style={{ marginLeft: 12 }}>
+                Aucune musique en cours de lecture
+              </AppText>
+            </View>
+          )}
         </View>
       </View>
     </Pressable>
@@ -94,5 +107,11 @@ const styles = StyleSheet.create({
   },
   playButton: {
     padding: 8,
+  },
+  noMusicContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

@@ -208,12 +208,12 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                     </ScrollView>
                 )}
 
-                {/* Bouton flottant en bas à droite */}
+                {/* Bouton pour ajouter des musiques à la playlist */}
                 <Pressable
                     onPress={() => setModalVisible(true)}
                     style={{
                         position: 'absolute',
-                        bottom: 27,
+                        bottom: 90,
                         right: 20,
                         width: 60,
                         height: 60,

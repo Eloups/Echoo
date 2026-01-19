@@ -52,7 +52,7 @@ export default function LibraryLayout() {
                         marginBottom: 10,
                         height: 36,
                         position: 'absolute',
-                        bottom: 0,
+                        bottom: 75,
                         left: 0,
                         right: 0,
                     },

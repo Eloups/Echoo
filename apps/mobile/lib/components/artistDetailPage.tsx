@@ -206,7 +206,7 @@ export default function ArtistDetailPage({ data, onBack }: ArtistDetailPageProps
                         <Pressable
                             style={[
                                 styles.tabItem,
-                                selectedTab === 'presentation' && [styles.tabItemActive, { backgroundColor: theme.colors.primary }]
+                                selectedTab === 'presentation' && [{ backgroundColor: theme.colors.primary }]
                             ]}
                             onPress={() => setSelectedTab('presentation')}
                         >
@@ -217,7 +217,7 @@ export default function ArtistDetailPage({ data, onBack }: ArtistDetailPageProps
                         <Pressable
                             style={[
                                 styles.tabItem,
-                                selectedTab === 'projets' && [styles.tabItemActive, { backgroundColor: theme.colors.primary }]
+                                selectedTab === 'projets' && [{ backgroundColor: theme.colors.primary }]
                             ]}
                             onPress={() => setSelectedTab('projets')}
                         >
@@ -228,7 +228,7 @@ export default function ArtistDetailPage({ data, onBack }: ArtistDetailPageProps
                         <Pressable
                             style={[
                                 styles.tabItem,
-                                selectedTab === 'singles' && [styles.tabItemActive, { backgroundColor: theme.colors.primary }]
+                                selectedTab === 'singles' && [{ backgroundColor: theme.colors.primary }]
                             ]}
                             onPress={() => setSelectedTab('singles')}
                         >
@@ -239,7 +239,7 @@ export default function ArtistDetailPage({ data, onBack }: ArtistDetailPageProps
                         <Pressable
                             style={[
                                 styles.tabItem,
-                                selectedTab === 'morceaux' && [styles.tabItemActive, { backgroundColor: theme.colors.primary }]
+                                selectedTab === 'morceaux' && [{ backgroundColor: theme.colors.primary }]
                             ]}
                             onPress={() => setSelectedTab('morceaux')}
                         >
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
     },
     tabBarContainer: {
         position: 'absolute',
-        bottom: 60,
+        bottom: 90,
         left: 15,
         right: 15,
         zIndex: 10,
@@ -292,8 +292,5 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         alignItems: 'center',
         borderRadius: 25,
-    },
-    tabItemActive: {
-        // backgroundColor is set dynamically
-    },
+    }
 });
