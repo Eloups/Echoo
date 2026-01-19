@@ -14,11 +14,12 @@ class StreamingDrivingAdapter
     /**
      * Fonction pour récupérer un fichier de musique en streaming
      * @param string $fileName
+     * @param ?string $range Partie du fichier que l'on veut streamer
      * @return Response
      */
-    public function getMusicFile(string $fileName): StreamedResponse
+    public function getMusicFile(string $fileName, ?string $range): StreamedResponse
     {
         $service = new StreamingService();
-        return $service->getMusicFile($fileName);
+        return $service->getMusicFile($fileName, $range);
     }
 }

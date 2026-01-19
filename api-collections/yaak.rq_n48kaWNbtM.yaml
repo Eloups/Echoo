@@ -1,10 +1,10 @@
 type: http_request
 model: http_request
-id: rq_h44nqY6CX2
-createdAt: 2025-12-09T16:07:04.246519800
-updatedAt: 2026-01-05T09:20:56.078439
+id: rq_n48kaWNbtM
+createdAt: 2026-01-08T17:35:14.560016800
+updatedAt: 2026-01-08T17:35:37.095628200
 workspaceId: wk_uYbS3VsxD9
-folderId: fl_zuMHoGGruW
+folderId: fl_k7AiE9NFCL
 authentication: {}
 authenticationType: null
 body: {}
@@ -12,7 +12,7 @@ bodyType: null
 description: ''
 headers: []
 method: GET
-name: get singles from an artist
+name: get cover file project with id music
 sortPriority: -1760599398215.0
-url: ${[ API_HOST ]}/artist/1/singles
+url: ${[ API_HOST ]}/music/2/coverPath
 urlParameters: []

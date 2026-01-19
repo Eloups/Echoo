@@ -34,7 +34,8 @@ class MusicDrivingAdapter
      * @param string $requestBody
      * @return Response
      */
-    public function likeMusic(string $requestBody): Response {
+    public function likeMusic(string $requestBody): Response
+    {
         // Vérification du JSON
         if (!json_validate($requestBody)) {
             return new Response(json_encode(['code' => 422, 'message' => "Le json n'est pas valide"]));
@@ -56,5 +57,33 @@ class MusicDrivingAdapter
         $service = new MusicService();
         $service->likeMusic($body['id_user'], $body['id_music']);
         return new Response(json_encode(['code' => 200, 'message' => 'Like ajouté avec succès']));
+    }
+
+    /**
+     * Récupération des notes d'une musique
+     * @param int $musicId
+     * @param int $limit
+     * @return Response
+     */
+    public function getMusicsRatings(int $musicId, int $limit): Response
+    {
+        $service = new MusicService();
+        $ratings = $service->getMusicsRatings($musicId, $limit);
+
+        return new Response(SerializerUtils::get()->serialize(['ratings' => $ratings], "json"));
+    }
+
+    /**
+     * Récupération du cover file d'un projet à partir de l'id musique
+     * @param int $musicId
+     * @param int $limit
+     * @return Response
+     */
+    public function getCoverFileProject(int $id_music): Response
+    {
+        $service = new MusicService();
+        $cover_path = $service->getCoverFileProject($id_music);
+
+        return new Response(SerializerUtils::get()->serialize(['cover_path' => $cover_path], "json"));
     }
 }

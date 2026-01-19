@@ -5,6 +5,8 @@ namespace Api\Database\Requests;
 use Api\Domain\Class\Project;
 use Api\Utils\ConvertUtils;
 use Api\Utils\RequestUtils;
+use DateInterval;
+use DateTime;
 use PDO;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
@@ -163,7 +165,8 @@ class PgsqlArtistRequests
      * @param int $id_artist
      * @return void
      */
-    public function addLike(int $id_user, int $id_artist): void {
+    public function addLike(int $id_user, int $id_artist): void
+    {
         $getIdLibrary = "SELECT id_library
         FROM \"user\"
         WHERE \"user\".id = :id_user;";
@@ -176,7 +179,7 @@ class PgsqlArtistRequests
             INSERT INTO library_artist (id_library, id_artist)
             VALUES (:id_library, :id_artist)
         ");
-        
+
         $request->execute([
             ":id_library" => $idLibrary,
             ":id_artist" => $id_artist
@@ -188,7 +191,8 @@ class PgsqlArtistRequests
      * @param int $id_library
      * @return array
      */
-    public function getArtistsInLibrary(int $id_library): array {
+    public function getArtistsInLibrary(int $id_library): array
+    {
         $getArtistsInLibrary = "SELECT a.* FROM artist a
         INNER JOIN library_artist 
             ON a.id = library_artist.id_artist 
@@ -206,7 +210,8 @@ class PgsqlArtistRequests
      * @param int $id_artist
      * @return array
      */
-    public function getArtistIdAlbums(int $id_artist): array {
+    public function getArtistIdAlbums(int $id_artist): array
+    {
         $getArtistIdAlbums = "SELECT p.id AS project_id
         FROM project p
         JOIN artist_project ap ON p.id = ap.id_project
@@ -225,7 +230,8 @@ class PgsqlArtistRequests
      * @param int $id_artist
      * @return array
      */
-    public function getArtistIdSingles(int $id_artist): array {
+    public function getArtistIdSingles(int $id_artist): array
+    {
         $getArtistIdSingles = "SELECT p.id AS project_id
         FROM project p
         JOIN artist_project ap ON p.id = ap.id_project
@@ -244,7 +250,8 @@ class PgsqlArtistRequests
      * @param int $id_album
      * @return void
      */
-    public function getAlbumsWithRates(int $id_album) : Project {
+    public function getAlbumsWithRates(int $id_album): Project
+    {
         $getRatesAlbums = "SELECT
             p.id,
             p.title,
@@ -269,5 +276,30 @@ class PgsqlArtistRequests
 
         $album = ConvertUtils::ConvertAlbumToProject($result);
         return $album;
+    }
+
+    public function getMostListenedArtistsOfMonth(DateTime $date, int $limit): array
+    {
+        $afterDate = $date->format('Y-m-01');
+        $beforeDate = $date->add(new DateInterval('P1M'))->format('Y-m-01');
+
+        $sql = 'SELECT a.id, a."name", a.isverified, a.description, a.image_path, COUNT(lum.id_music) nb_listen FROM artist a 
+            JOIN featuring f ON a.id = f.id_artist 
+            JOIN music m ON f.id_music = m.id
+            JOIN log_user_music lum ON m.id = lum.id_music
+            WHERE lum.listened_at >= :afterDate AND lum.listened_at < :beforeDate
+            GROUP BY a.id, a."name"
+            ORDER BY nb_listen DESC
+            LIMIT :limit;';
+
+        $request = $this->pdo->prepare($sql);
+
+        $request->execute([
+            ":afterDate" => $afterDate,
+            ":beforeDate" => $beforeDate,
+            ":limit" => $limit
+        ]);
+
+        return $request->fetchAll();
     }
 }
