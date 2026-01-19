@@ -75,12 +75,14 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
         metadata
       );
       
+      const trackDuration = track.duration || 0;
+      
       set({
         currentTrack: track,
         currentFileName: fileName,
         isPlaying: true,
         progress: 0,
-        duration: track.duration || 0,
+        duration: trackDuration,
         queue: queue.length > 0 ? queue : [track],
         currentIndex: startIndex,
         isPlayerModalVisible: false,
@@ -128,11 +130,13 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
           get().updatePlaybackStatus(status);
         });
         
+        
         set({
           currentTrack: nextTrack,
           currentFileName: fileName,
           currentIndex: nextIndex,
           progress: 0,
+          duration: nextTrack.duration || 0,
           isPlaying: true,
         });
       } catch (error) {
@@ -164,6 +168,7 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
           currentFileName: fileName,
           currentIndex: prevIndex,
           progress: 0,
+          duration: prevTrack.duration || 0,
           isPlaying: true,
         });
       } catch (error) {
