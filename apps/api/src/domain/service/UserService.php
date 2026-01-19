@@ -5,6 +5,7 @@ namespace Api\Domain\Service;
 use Api\Adapter\UserDrivenAdapter;
 use Api\Domain\Class\Music;
 use Api\Domain\Class\Project;
+use Api\Domain\Class\User;
 use Api\Domain\Ports\UserServiceInterface;
 use DateTime;
 use Exception;
@@ -87,5 +88,66 @@ class UserService implements UserServiceInterface
         }
 
         return $musics;
+    }
+
+    /**
+     * Méthode pour créer un utilisateur
+     * @param User $user
+     * @return void
+     */
+    public function createUser(User $user): void
+    {
+        $adapter = new UserDrivenAdapter();
+        $adapter->createUser($user);
+    }
+    /**
+     * Méthode pour récupérer tous les utilisateurs
+     * @return User[]
+     */
+    public function getAllUsers(): array
+    {
+        $adapter = new UserDrivenAdapter();
+
+        $users = $adapter->getAllUsers();
+        foreach ($users as $user) {
+            if (!$user instanceof User) {
+                throw new Exception('The returned datas in service are not users');
+            }
+        }
+
+        return $users;
+    }
+    /**
+     * Function to get one user
+     * @param int $userId
+     * @return User
+     */
+    public function getOneUser(int $userId): User
+    {
+        $adapter = new UserDrivenAdapter();
+
+        $user = $adapter->getOneUser($userId);
+
+        return $user;
+    }
+    /**
+     * Update an user
+     * @param User $user
+     * @return void
+     */
+    public function updateUser(User $user): void
+    {
+        $adapter = new UserDrivenAdapter();
+        $adapter->updateUser($user);
+    }
+    /**
+     * Delete an user
+     * @param int $userId
+     * @return void
+     */
+    public function deleteUser(int $userId): void
+    {
+        $adapter = new UserDrivenAdapter();
+        $adapter->deleteUser($userId);
     }
 }

@@ -26,6 +26,7 @@ $routes->add('artist|artistInLibrary', new Route('/artist/library/{id}/all', met
 $routes->add('artist|albums', new Route('/artist/{id}/albums', methods: 'GET'));
 $routes->add('artist|singles', new Route('/artist/{id}/singles', methods: 'GET'));
 $routes->add('artist|mostMistenedMonth', new Route('/artist/listened/month', methods: 'GET'));
+$routes->add('artist|search', new Route('/artist/search/{search}', methods: 'GET'));
 
 // Playlist
 $routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));
@@ -46,5 +47,10 @@ $routes->add('user|listenedMusics', new Route('/user/{id}/listened/musics', meth
 $routes->add('user|addListenedMusics', new Route('/user/listened/musics/add', methods: 'POST'));
 $routes->add('user|artistsLastsReleases', new Route('/user/{id}/follows/artists/releases', methods: 'GET'));
 $routes->add('user|mostListenedMusicsOfTheMonth', new Route('/user/{id}/lastListened/musics', methods: 'GET'));
+$routes->add('user|create', new Route('/users', methods: 'POST'));
+$routes->add('user|getAll', new Route('/users', methods: 'GET'));
+$routes->add('user|getOne', new Route('/users/{id}', methods: 'GET'));
+$routes->add('user|update', new Route('/users/{id}', methods: 'PUT'));
+$routes->add('user|delete', new Route('/users/{id}', methods: 'DELETE'));
 
 return $routes;

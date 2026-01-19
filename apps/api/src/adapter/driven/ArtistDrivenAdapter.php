@@ -193,4 +193,29 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface
 
         return $artists;
     }
+
+    /**
+     * search artists, projects and musics
+     * @param string $search
+     * @param int $limit
+     * @return array
+     */
+    public function searchArtists(string $search, int $limit): array
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $requests = new PgsqlArtistRequests($pdo);
+
+        $artistsRows = $requests->searchArtists($search, $limit);
+        $artists = ConvertUtils::convertRowsToArtists($artistsRows);
+
+        $projectsRows = $requests->searchProjects($search, $limit);
+        $projects = ConvertUtils::convertRowsToProjects($projectsRows);
+
+        $musicsRows = $requests->searchMusics($search, $limit);
+        $musics = ConvertUtils::convertRowToMusics($musicsRows, $pdo);
+
+        return [$artists, $projects, $musics];
+    }
 }

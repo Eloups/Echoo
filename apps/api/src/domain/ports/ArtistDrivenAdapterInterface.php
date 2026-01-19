@@ -1,14 +1,16 @@
-<?php 
+<?php
 
 namespace Api\Domain\Ports;
 
 use Api\Domain\Class\Artist;
 use Api\Domain\Class\Music;
+use DateTime;
 
 /**
  * Interface pour le ArtistDrivenAdapter
  */
-interface ArtistDrivenAdapterInterface {
+interface ArtistDrivenAdapterInterface
+{
     /**
      * Méthode pour récupérer les données d'un artiste
      * @param int $idArtist
@@ -67,4 +69,18 @@ interface ArtistDrivenAdapterInterface {
      * @return array
      */
     public function getArtistSingles(int $id_artist): array;
+    /**
+     * Méthode pour récupérer les artistes les plus écoutées du mois
+     * @param DateTime $date
+     * @param int $limit
+     * @return array
+     */
+    public function getMostListenedArtistsOfMonth(DateTime $date, int $limit): array;
+    /**
+     * search artists, projects and musics
+     * @param string $search
+     * @param int $limit
+     * @return array
+     */
+    public function searchArtists(string $search, int $limit): array;
 }

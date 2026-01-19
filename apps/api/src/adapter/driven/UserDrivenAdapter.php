@@ -6,6 +6,7 @@ use Api\Database\PgsqlServer;
 use Api\Database\Requests\PgsqlMusicRequests;
 use Api\Database\Requests\PgsqlUserRequests;
 use Api\Domain\Class\Music;
+use Api\Domain\Class\User;
 use Api\Domain\Ports\UserDrivenAdapterInterface;
 use Api\Utils\ConvertUtils;
 use DateTime;
@@ -106,4 +107,85 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
         return $musics;
     }
 
+    /**
+     * Fonction pour créer un utilisateur
+     * @param User $user
+     * @return void
+     */
+    public function createUser(User $user): void
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $userRequests->createUser($user);
+    }
+    /**
+     * Fonction qui récupère tous les utilisateurs
+     * @return User[]
+     */
+    public function getAllUsers(): array
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $userRows = $userRequests->getAllUsers();
+        $users = ConvertUtils::convertRowsToUsers($userRows);
+
+        return $users;
+    }
+    /**
+     * Function to get one user
+     * @param int $userId
+     * @return User
+     */
+    public function getOneUser(int $userId): User
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $userFriendsRows = $userRequests->getUserFriends($userId);
+        $userFriends = ConvertUtils::convertRowsToUserFriends($userFriendsRows, $userId);
+
+        $userConversationsRows = $userRequests->getUserConversations($userId);
+        $userConversations = ConvertUtils::convertRowsToConversations($userConversationsRows);
+
+        $userRow = $userRequests->getOneUser($userId);
+        $user = ConvertUtils::convertRowToUser($userRow, $userFriends, $userConversations);
+
+        return $user;
+    }
+    /**
+     * Update an user
+     * @param User $user
+     * @return void
+     */
+    public function updateUser(User $user): void
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $userRequests->updateUser($user);
+    }
+    /**
+     * Delete an user
+     * @param int $userId
+     * @return void
+     */
+    public function deleteUser(int $userId): void
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $userRequests->deleteUser($userId);
+    }
 }
