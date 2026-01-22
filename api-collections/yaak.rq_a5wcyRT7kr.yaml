@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_a5wcyRT7kr
 createdAt: 2026-01-12T11:29:18.524482200
-updatedAt: 2026-01-14T14:32:28.913551300
+updatedAt: 2026-01-22T20:24:52.371491900
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_XGNPk28yhy
 authentication: {}
@@ -10,11 +10,10 @@ authenticationType: null
 body:
   text: |-
     {
-      "id": 52,
+      "id": "52TESTIDs",
       "username": "test",
-      "email": "test@test.com",
-      "password": "passwordTest",
-      "image_path": "imgTest.png",
+      "email": "tesst@test.com",
+      "image_path": null,
       "id_role": 1,
       "id_artist": null
     }

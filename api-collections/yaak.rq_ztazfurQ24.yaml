@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_ztazfurQ24
 createdAt: 2025-12-10T13:49:34.140973600
-updatedAt: 2025-12-10T13:52:12.130662100
+updatedAt: 2026-01-22T20:22:52.948635200
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_XGNPk28yhy
 authentication: {}
@@ -10,7 +10,7 @@ authenticationType: null
 body:
   text: |-
     {
-      "id_user": 1,
+      "id_user": "1",
       "id_music": 1
     }
 bodyType: application/json

@@ -547,7 +547,7 @@ class ConvertUtils
                 $row['id'],
                 $row['username'],
                 $row['email'],
-                $row['password'],
+                null,
                 $row['image_path'],
                 new Library($row['id_library'], [], [], []),
                 new UserRole($row['id_role'], $row['role']),
@@ -588,7 +588,7 @@ class ConvertUtils
             $row['id'],
             $row['username'],
             $row['email'],
-            $row['password'],
+            null,
             $row['image_path'],
             new Library($row['id_library'], [], [], []),
             new UserRole($row['id_role'], $row['role']),
@@ -601,10 +601,10 @@ class ConvertUtils
     /**
      * Convert rows to user friends
      * @param array $rows
-     * @param int $initialUserId
+     * @param string $initialUserId
      * @return User[]
      */
-    public static function convertRowsToUserFriends(array $rows, int $initialUserId): array
+    public static function convertRowsToUserFriends(array $rows, string $initialUserId): array
     {
         $friends = [];
         foreach ($rows as $row) {
@@ -613,7 +613,7 @@ class ConvertUtils
                     $row['u1_id'],
                     $row['u1_username'],
                     $row['u1_email'],
-                    $row['u1_password'],
+                    null,
                     $row['u1_image_path'],
                     new Library($row['u1_id_library'], [], [], []),
                     new UserRole($row['u1_id_role'], $row['u1_role']),
@@ -627,7 +627,7 @@ class ConvertUtils
                     $row['u2_id'],
                     $row['u2_username'],
                     $row['u2_email'],
-                    $row['u2_password'],
+                    null,
                     $row['u2_image_path'],
                     new Library($row['u2_id_library'], [], [], []),
                     new UserRole($row['u2_id_role'], $row['u2_role']),
