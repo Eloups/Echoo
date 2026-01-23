@@ -49,5 +49,14 @@ export interface Playlist {
     utilisateurId?: number;
     musics?: Music[];
   }
+}
 
+export interface CreateUserRequest {
+  id: string;
+  username: string;
+  email: string;
+  // password: string; // toujours ""
+  image_path: string; // Par default ""
+  id_role: number; //Default 1
+  // id_artist: number | null;
 }

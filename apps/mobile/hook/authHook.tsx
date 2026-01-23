@@ -4,6 +4,8 @@ import type { JWTPayload, VerifyAuthResponse } from '@/lib/types/auth'
 import { User } from '@/lib/types/auth'
 import { router } from 'expo-router'
 import useGlobalHook from './globalHook'
+import { UserService } from '../lib/api/user.service';
+import { CreateUserRequest } from '../lib/api/types';
 
 
 const API_BASE_AUTH = 'http://192.168.1.86:3333'
@@ -36,10 +38,13 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
   login: async (email: string, password: string) => {
     set({ isLoading: true, authError: null });
 
+    console.log("111");
+
     const { data, error } = await authClient.signIn.email({
       email,
       password,
     })
+    console.log("222");
 
     if (error) {
       // ICIIIIIII a voir pour mettre un message d'erreur a la main pour l'avoir en français 
@@ -73,6 +78,9 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
           // ICIIIII 
           // Prendre les infos supplémentaire de l'utilisateur dans l'API backend 
           // (role etc..)
+
+
+
         } catch (e: any) {
           set({ authError: e.message ?? String(e) });
           set({ isLoading: false });
@@ -90,13 +98,11 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
   register: async (name: string, email: string, password: string) => {
     set({ isLoading: true, authError: null });
 
-    console.log("111");
     const { data, error } = await authClient.signUp.email({
       name,
       email,
       password,
     });
-    console.log("222");
 
     if (error) {
       // ICIIIIIII a voir pour mettre un message d'erreur a la main pour l'avoir en français 
@@ -127,9 +133,19 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
         }
 
         try {
-          // ICIIIII 
-          // Crée l'utilisateur dans le back & prendre les infos supplémentaire de l'utilisateur dans l'API backend 
-          // (role etc..)
+          // ICIII TESTE
+          let request: CreateUserRequest = {
+            id: data.user.id,
+            username: name,
+            email: email,
+            image_path: "",
+            id_role: 1,
+          }
+          console.log("ICIIII request");
+          let val = await UserService.createUser(request);
+          console.log("val ici = ", val);
+
+
         } catch (e: any) {
           set({ authError: e.message ?? String(e) });
           set({ isLoading: false });

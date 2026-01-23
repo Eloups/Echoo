@@ -1,4 +1,5 @@
-import axios, { AxiosError, AxiosInstance } from 'axios';
+import axios from 'axios';
+import type { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // Configuration de l'URL de base de l'API depuis les variables d'environnement
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
@@ -22,14 +23,13 @@ class ApiClient {
 
     // Intercepteur de requêtes (pour ajouter des tokens, logs, etc.)
     this.client.interceptors.request.use(
-      (config) => {
-        
+      (config: AxiosRequestConfig) => {
         if (__DEV__) {
           console.log(`API Request: ${config.method?.toUpperCase()} ${config.url}`);
         }
         return config;
       },
-      (error) => {
+      (error: any) => {
         console.error('Request Error:', error);
         return Promise.reject(error);
       }
@@ -37,7 +37,7 @@ class ApiClient {
 
     // Intercepteur de réponses (pour gérer les erreurs globalement)
     this.client.interceptors.response.use(
-      (response) => {
+      (response: AxiosResponse) => {
         if (__DEV__) {
           console.log(`API Response: ${response.config.url}`, response.status);
         }

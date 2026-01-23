@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_JiTnSspEwk
 createdAt: 2026-01-12T15:38:11.976804400
-updatedAt: 2026-01-12T15:38:21.955706800
+updatedAt: 2026-01-22T11:37:27.443348400
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_XGNPk28yhy
 authentication: {}
@@ -13,6 +13,6 @@ description: ''
 headers: []
 method: GET
 name: Get all users
-sortPriority: 1000.0
+sortPriority: 4000.0
 url: ${[ API_HOST ]}/users
 urlParameters: []

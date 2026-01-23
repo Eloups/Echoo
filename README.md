@@ -19,7 +19,25 @@ composer install
 Commande pour lancer l'application mobile avec Expo go
 
 ```bash
+cd .\apps\mobile\
+npm install
 npm run start
+```
+
+
+## Lancer l'Auth service
+Commande pour lancer l'Auth Service
+
+```bash
+bunx prisma generate
+bunx prisma migrate dev
+bunx prisma db push 
+bun run dev
+```
+
+Pour voir les donnée de la bdd : 
+```bash
+bunx prisma studio
 ```
 
 ## Lancement de conteneurs docker

@@ -84,7 +84,7 @@ services:
       # Allow accessing localhost from inside a docker container through host.docker.internal
       - "host.docker.internal:host-gateway"
     ports: 
-      - 8000:80
+      - 8888:80
     networks: 
       - net1
       
