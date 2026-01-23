@@ -10,9 +10,9 @@ class User
 {
     /**
      * Id de l'utilisateur
-     * @var ?int
+     * @var ?string
      */
-    private ?int $id;
+    private ?string $id;
     /**
      * Nom de l'utilisateur
      * @var string
@@ -27,12 +27,12 @@ class User
      * Mot de passe de l'utilisateur
      * @var string
      */
-    private string $password;
+    private ?string $password;
     /**
      * Chemin du fichier de la photo de profil
      * @var string
      */
-    private string $imagePath;
+    private ?string $imagePath;
     /**
      * Bibliothèque de l'utilisateur
      * @var Library
@@ -66,11 +66,11 @@ class User
 
     /**
      * Constructeur de l'utilisateur
-     * @param ?int $id
+     * @param ?string $id
      * @param string $username
      * @param string $email
-     * @param string $password
-     * @param string $imagePath
+     * @param ?string $password
+     * @param ?string $imagePath
      * @param Library $library
      * @param UserRole $userRole
      * @param ?User[] $friends
@@ -78,7 +78,7 @@ class User
      * @param ?Rating[] $rates
      * @param ?Artist $artist
      */
-    public function __construct(?int $id, string $username, string $email, string $password, string $imagePath, Library $library, UserRole $userRole, ?array $friends, ?array $conversations, ?array $rates, ?Artist $artist)
+    public function __construct(?string $id, string $username, string $email, ?string $password, ?string $imagePath, Library $library, UserRole $userRole, ?array $friends, ?array $conversations, ?array $rates, ?Artist $artist)
     {
         $this->id = $id;
         $this->username = $username;
@@ -97,7 +97,7 @@ class User
      * Accesseur de l'id de l'utilisateur
      * @return int|null
      */
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -121,7 +121,7 @@ class User
      * Accesseur du mot de passe de l'utilisateur
      * @return string
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -129,7 +129,7 @@ class User
      * Accesseur du chemin de l'image de la photo de profil de l'utilisateur
      * @return string
      */
-    public function getImagePath(): string
+    public function getImagePath(): ?string
     {
         return $this->imagePath;
     }

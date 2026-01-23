@@ -5,12 +5,13 @@ namespace Api\Domain\Class;
 /**
  * Classe des bibliothèques des utilisateurs
  */
-class Library {
+class Library
+{
     /**
      * Id de la bibliothèque
-     * @var ?int
+     * @var ?string
      */
-    private ?int $id;
+    private ?string $id;
     /**
      * Tableau des autheurs de la bibliothèque
      * @var Artist[]
@@ -29,12 +30,13 @@ class Library {
 
     /**
      * Constructeur de la bibliothèque
-     * @param ?int $id
+     * @param ?string $id
      * @param array $artists
      * @param array $playlists
      * @param array $projects
      */
-    public function __construct(?int $id, array $artists, array $playlists, array $projects) {
+    public function __construct(?string $id, array $artists, array $playlists, array $projects)
+    {
         $this->id = $id;
         $this->artists = $artists;
         $this->playlists = $playlists;
@@ -43,30 +45,34 @@ class Library {
 
     /**
      * Accesseur de l'id de la bibliothèque
-     * @return int|null
+     * @return string|null
      */
-    public function getId(): ?int {
+    public function getId(): ?string
+    {
         return $this->id;
     }
     /**
      * Accesseur du tableau d'artistes de la bibliothèque
      * @return Artist[]
      */
-    public function getAuthors(): array {
+    public function getAuthors(): array
+    {
         return $this->artists;
     }
     /**
      * Accesseur du tableau de playlists de la bibliothèque
      * @return Playlist[]
      */
-    public function getPlaylists(): array {
+    public function getPlaylists(): array
+    {
         return $this->playlists;
     }
     /**
      * Accesseur du tableau des projets de la bibliothèque
      * @return Project[]
      */
-    public function getProjects(): array {
+    public function getProjects(): array
+    {
         return $this->projects;
     }
 }

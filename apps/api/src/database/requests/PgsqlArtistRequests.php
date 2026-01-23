@@ -3,6 +3,7 @@
 namespace Api\Database\Requests;
 
 use Api\Domain\Class\Project;
+use Api\Exception\ApiCustomException;
 use Api\Utils\ConvertUtils;
 use Api\Utils\RequestUtils;
 use DateInterval;
@@ -173,7 +174,7 @@ class PgsqlArtistRequests
 
         $request = $this->pdo->prepare($getIdLibrary);
         $request->execute([":id_user" => $id_user]);
-        $idLibrary = intval($request->fetchAll());
+        $idLibrary = $request->fetch()['id_library'];
 
         $request = $this->pdo->prepare("
             INSERT INTO library_artist (id_library, id_artist)

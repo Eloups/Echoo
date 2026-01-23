@@ -119,7 +119,8 @@ class PgsqlPlaylistRequests
      * @param int $id_music
      * @return void
      */
-    public function addMusicInPlaylist(int $id_playlist, int $id_music) {
+    public function addMusicInPlaylist(int $id_playlist, int $id_music)
+    {
         $addMusicInPlaylist = "INSERT INTO 
             playlist_music (id_playlist, id_music) 
             VALUES (:id_playlist, :id_music);";
@@ -128,7 +129,7 @@ class PgsqlPlaylistRequests
         $request->execute([':id_playlist' => $id_playlist, ':id_music' => $id_music]);
     }
 
-    
+
     /** Requête pour ajouter une playlist dans une library
      * @param string $title
      * @param bool $isPublic
@@ -138,7 +139,8 @@ class PgsqlPlaylistRequests
      * @param int $id_library
      * @return void
      */
-    public function addPlaylist(int $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics): void {
+    public function addPlaylist(int $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics): void
+    {
         $addPlaylist = "INSERT INTO playlist (title, ispublic, description, cover_path)
             VALUES (:title, :isPublic, :description, :cover_path)
             RETURNING id;";
@@ -169,7 +171,8 @@ class PgsqlPlaylistRequests
      * @param int $id_music
      * @return void
      */
-    public function deleteMusicInPlaylist(int $id_playlist, int $id_music) {
+    public function deleteMusicInPlaylist(int $id_playlist, int $id_music)
+    {
         $deleteMusicInPlaylist = "DELETE FROM 
             playlist_music WHERE id_playlist = :id_playlist 
             AND id_music = :id_music;";
@@ -216,7 +219,8 @@ class PgsqlPlaylistRequests
      * @param string $cover_path
      * @return void
      */
-    public function updatePlaylist(int $id_playlist, string $title, bool $isPublic, string $description, string $cover_path) {
+    public function updatePlaylist(int $id_playlist, string $title, bool $isPublic, string $description, string $cover_path)
+    {
         $uplatePlaylist = "UPDATE playlist 
         SET title = :title, isPublic = :isPublic, description = :description, cover_path = :cover_path
         WHERE id = :id_playlist;";
