@@ -139,10 +139,10 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
     }
     /**
      * Function to get one user
-     * @param int $userId
+     * @param string $userId
      * @return User
      */
-    public function getOneUser(int $userId): User
+    public function getOneUser(string $userId): User
     {
         $pgslserver = new PgsqlServer();
 
@@ -176,10 +176,10 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
     }
     /**
      * Delete an user
-     * @param int $userId
+     * @param string $userId
      * @return void
      */
-    public function deleteUser(int $userId): void
+    public function deleteUser(string $userId): void
     {
         $pgslserver = new PgsqlServer();
 

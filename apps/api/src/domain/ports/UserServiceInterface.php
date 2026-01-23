@@ -52,10 +52,10 @@ interface UserServiceInterface
     public function getAllUsers(): array;
     /**
      * Function to get one user
-     * @param int $userId
+     * @param string $userId
      * @return User
      */
-    public function getOneUser(int $userId): User;
+    public function getOneUser(string $userId): User;
     /**
      * Update an user
      * @param User $user
@@ -64,8 +64,8 @@ interface UserServiceInterface
     public function updateUser(User $user): void;
     /**
      * Delete an user
-     * @param int $userId
+     * @param string $userId
      * @return void
      */
-    public function deleteUser(int $userId): void;
+    public function deleteUser(string $userId): void;
 }

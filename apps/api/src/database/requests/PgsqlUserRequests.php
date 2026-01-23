@@ -31,11 +31,11 @@ class PgsqlUserRequests
 
     /**
      * Requête pour récupérer les dernières musiques écoutées par un utilisateur
-     * @param int $idUser
+     * @param string $idUser
      * @param int $limit
      * @return array
      */
-    public function getLastListenedMusics(int $userId): array
+    public function getLastListenedMusics(string $userId): array
     {
         $requestContent = "SELECT
             m.id,
@@ -55,7 +55,7 @@ class PgsqlUserRequests
         return $result;
     }
 
-    public function addUserListenedMusic(int $userId, int $musicId): void
+    public function addUserListenedMusic(string $userId, int $musicId): void
     {
         if (!$this->pdo->beginTransaction()) {
             throw new Exception("Error: can't start DB transaction");
@@ -90,10 +90,10 @@ class PgsqlUserRequests
 
     /**
      * Fonction qui récupère les ID des artistes likés par un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @return array
      */
-    public function getUserLikedArtistsIds(int $userId): array
+    public function getUserLikedArtistsIds(string $userId): array
     {
         $sql = 'SELECT la.id_artist from "user" u
             JOIN "library" l ON u.id_library = l.id
@@ -133,12 +133,12 @@ class PgsqlUserRequests
 
     /**
      * Fonction pour récupérer les IDs des musiques les plus écoutées par un utilisateur un mois
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
      * @param DateTime $date
      * @return void
      */
-    public function getUserMostListenedMusicsOfMonth(int $userId, int $limit, DateTime $date): array
+    public function getUserMostListenedMusicsOfMonth(string $userId, int $limit, DateTime $date): array
     {
         $afterDate = $date->format('Y-m-01');
         $beforeDate = $date->add(new DateInterval('P1M'))->format('Y-m-01');
@@ -227,8 +227,8 @@ class PgsqlUserRequests
             ]);
 
             // We create the User
-            $sql = 'INSERT INTO "user" (id, username, email, password, image_path, id_library, id_role) VALUES
-                (:id, :username, :email, :password, :imagePath, :idLibrary, :idRole);';
+            $sql = 'INSERT INTO "user" (id, username, email, image_path, id_library, id_role) VALUES
+                (:id, :username, :email, :imagePath, :idLibrary, :idRole);';
 
             $request = $this->pdo->prepare($sql);
 
@@ -236,7 +236,6 @@ class PgsqlUserRequests
                 ":id" => $user->getId(),
                 ":username" => $user->getUsername(),
                 ":email" => $user->getEmail(),
-                ":password" => $user->getPassword(),
                 ":imagePath" => $user->getImagePath(),
                 ":idLibrary" => $user->getLibrary()->getId(),
                 ":idRole" => $user->getUserRole()->getId()
@@ -255,7 +254,7 @@ class PgsqlUserRequests
      */
     public function getAllUsers(): array
     {
-        $sql = 'SELECT u.id, u.username, u.email, u."password", u.image_path, u.id_library, r.id id_role, r."name" role, a.id id_artist, a.name artist_name, a.isverified, a.description, a.image_path artist_image_path FROM "user" u
+        $sql = 'SELECT u.id, u.username, u.email, u.image_path, u.id_library, r.id id_role, r."name" role, a.id id_artist, a.name artist_name, a.isverified, a.description, a.image_path artist_image_path FROM "user" u
             JOIN "role" r ON u.id_role = r.id
             LEFT JOIN artist a ON u.id_artist = a.id
             ORDER BY u.id ASC;';
@@ -266,12 +265,12 @@ class PgsqlUserRequests
     }
     /**
      * function to get one user
-     * @param int $userId
+     * @param string $userId
      * @return array
      */
-    public function getOneUser(int $userId): array
+    public function getOneUser(string $userId): array
     {
-        $sql = 'SELECT u.id, u.username, u.email, u."password", u.image_path, u.id_library, r.id id_role, r."name" role, a.id id_artist, a.name artist_name, a.isverified, a.description, a.image_path artist_image_path FROM "user" u
+        $sql = 'SELECT u.id, u.username, u.email, u.image_path, u.id_library, r.id id_role, r."name" role, a.id id_artist, a.name artist_name, a.isverified, a.description, a.image_path artist_image_path FROM "user" u
             JOIN "role" r ON u.id_role = r.id
             LEFT JOIN artist a ON u.id_artist = a.id
             WHERE u.id = :userId;';
@@ -292,12 +291,12 @@ class PgsqlUserRequests
     }
     /**
      * Get user friends
-     * @param int $userId
+     * @param string $userId
      * @return array
      */
-    public function getUserFriends(int $userId): array
+    public function getUserFriends(string $userId): array
     {
-        $sql = 'SELECT f.user1, f.user2, u1.id u1_id, u1.username u1_username, u1.email u1_email, u1."password" u1_password, u1.image_path u1_image_path, u1.id_library u1_id_library, r1.id u1_id_role, r1."name" u1_role, u2.id u2_id, u2.username u2_username, u2.email u2_email, u2."password" u2_password, u2.image_path u2_image_path, u2.id_library u2_id_library, r2.id u2_id_role, r2."name" u2_role FROM friendship f 
+        $sql = 'SELECT f.user1, f.user2, u1.id u1_id, u1.username u1_username, u1.email u1_email, u1.image_path u1_image_path, u1.id_library u1_id_library, r1.id u1_id_role, r1."name" u1_role, u2.id u2_id, u2.username u2_username, u2.email u2_email, u2.image_path u2_image_path, u2.id_library u2_id_library, r2.id u2_id_role, r2."name" u2_role FROM friendship f 
             JOIN "user" u1 ON f.user1 = u1.id
             JOIN "role" r1 ON u1.id_role = r1.id
             JOIN "user" u2 ON f.user2 = u2.id
@@ -314,10 +313,10 @@ class PgsqlUserRequests
     }
     /**
      * Get user conversations
-     * @param int $userId
+     * @param string $userId
      * @return array
      */
-    public function getUserConversations(int $userId): array
+    public function getUserConversations(string $userId): array
     {
         $sql = 'SELECT c.id, c.created_at, c."name", c.image_path FROM user_conversation uc 
             JOIN conversation c ON uc.id_conversation = c.id 
@@ -356,7 +355,7 @@ class PgsqlUserRequests
         ]);
     }
 
-    public function deleteUser(int $userId): void
+    public function deleteUser(string $userId): void
     {
         $sql = 'SELECT u.id FROM "user" u
             WHERE u.id = :userId;';

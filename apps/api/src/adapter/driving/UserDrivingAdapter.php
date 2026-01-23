@@ -84,14 +84,14 @@ class UserDrivingAdapter
      */
     public function createUser(string $requestContent): Response
     {
-        $requestData = VerifyUtils::verifyJsonRequestBody($requestContent, ['id', 'username', 'email', 'password', 'image_path', 'id_role']);
+        $requestData = VerifyUtils::verifyJsonRequestBody($requestContent, ['id', 'username', 'email', 'image_path', 'id_role']);
 
         $service = new UserService();
         $service->createUser(new User(
             $requestData['id'],
             $requestData['username'],
             $requestData['email'],
-            $requestData['password'],
+            null,
             $requestData['image_path'],
             new Library($requestData['id'], [], [], []),
             new UserRole(1, 'User'),
@@ -119,10 +119,10 @@ class UserDrivingAdapter
 
     /**
      * Function to get one user
-     * @param int $userId
+     * @param string $userId
      * @return Response
      */
-    public function getOneUser(int $userId): Response
+    public function getOneUser(string $userId): Response
     {
         $service = new UserService();
 
@@ -160,10 +160,10 @@ class UserDrivingAdapter
     }
     /**
      * Delete an user
-     * @param int $userId
+     * @param string $userId
      * @return Response
      */
-    public function deleteUser(int $userId): Response
+    public function deleteUser(string $userId): Response
     {
         $service = new UserService();
         $service->deleteUser($userId);

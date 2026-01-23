@@ -56,7 +56,7 @@ class ArtistDrivingAdapter
         }
 
         // Vérification des types
-        if (!is_int($body['id_user']) || !is_int($body['id_artist'])) {
+        if (!is_string($body['id_user']) || !is_int($body['id_artist'])) {
             throw new Exception("Les champs 'id_user' et 'id_artist' doivent être des entiers.");
         }
         $service = new ArtistService();

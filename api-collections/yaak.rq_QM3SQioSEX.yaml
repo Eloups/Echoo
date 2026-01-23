@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_QM3SQioSEX
 createdAt: 2026-01-14T15:34:16.173795
-updatedAt: 2026-01-14T15:35:04.397922900
+updatedAt: 2026-01-22T20:30:28.997811200
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_XGNPk28yhy
 authentication: {}
@@ -14,5 +14,5 @@ headers: []
 method: DELETE
 name: Delete user
 sortPriority: 1000.002
-url: ${[ API_HOST ]}/users/4
+url: ${[ API_HOST ]}/users/52TESTID
 urlParameters: []

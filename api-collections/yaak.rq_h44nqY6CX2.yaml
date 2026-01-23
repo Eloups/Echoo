@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_h44nqY6CX2
 createdAt: 2025-12-09T16:07:04.246519800
-updatedAt: 2026-01-05T09:20:56.078439
+updatedAt: 2026-01-23T13:00:54.912629400
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_zuMHoGGruW
 authentication: {}
@@ -14,5 +14,5 @@ headers: []
 method: GET
 name: get singles from an artist
 sortPriority: -1760599398215.0
-url: ${[ API_HOST ]}/artist/1/singles
+url: ${[ API_HOST ]}/artist/3/singles
 urlParameters: []
