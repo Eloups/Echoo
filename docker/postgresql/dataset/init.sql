@@ -268,17 +268,17 @@ insert into project (id, title, release, color1, color2, cover_path, id_type) va
 insert into library (id) values
 ('1'), ('2'), ('3'), ('4'), ('5'), ('6'), ('7'), ('8'), ('9'), ('10');
 
-insert into playlist (id, title, isPublic, description, cover_path) values
-(1, 'Playlist 1', TRUE, 'Description for playlist 1', 'playlist_1.jpg'),
-(2, 'Playlist 2', FALSE, 'Description for playlist 2', 'playlist_2.jpg'),
-(3, 'Playlist 3', TRUE, 'Description for playlist 3', 'playlist_3.jpg'),
-(4, 'Playlist 4', FALSE, 'Description for playlist 4', 'playlist_4.jpg'),
-(5, 'Playlist 5', TRUE, 'Description for playlist 5', 'playlist_5.jpg'),
-(6, 'Playlist 6', FALSE, 'Description for playlist 6', 'playlist_6.jpg'),
-(7, 'Playlist 7', TRUE, 'Description for playlist 7', 'playlist_7.jpg'),
-(8, 'Playlist 8', FALSE, 'Description for playlist 8', 'playlist_8.jpg'),
-(9, 'Playlist 9', TRUE, 'Description for playlist 9', 'playlist_9.jpg'),
-(10, 'liked', FALSE, 'Description for playlist liked', 'playlist_10.jpg');
+insert into playlist (title, isPublic, description, cover_path) values
+('Playlist 1', TRUE, 'Description for playlist 1', 'playlist_1.jpg'),
+('Playlist 2', FALSE, 'Description for playlist 2', 'playlist_2.jpg'),
+('Playlist 3', TRUE, 'Description for playlist 3', 'playlist_3.jpg'),
+('Playlist 4', FALSE, 'Description for playlist 4', 'playlist_4.jpg'),
+('Playlist 5', TRUE, 'Description for playlist 5', 'playlist_5.jpg'),
+('Playlist 6', FALSE, 'Description for playlist 6', 'playlist_6.jpg'),
+('Playlist 7', TRUE, 'Description for playlist 7', 'playlist_7.jpg'),
+('Playlist 8', FALSE, 'Description for playlist 8', 'playlist_8.jpg'),
+('Playlist 9', TRUE, 'Description for playlist 9', 'playlist_9.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_10.jpg');
 
 insert into "user" (id, username, email, image_path, id_library, id_role, id_artist) values
 ('1', 'user1', 'user1@example.com', 'user_1.jpg', '1', 2, 1),
