@@ -123,7 +123,6 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
                         <TouchableOpacity
                             style={styles.menuItem}
                             onPress={() => {
-                                console.log('Bouton "Ajouter à la file" cliqué');
                                 setMenuVisible(false);
                                 addToQueue(infos);
                             }}
