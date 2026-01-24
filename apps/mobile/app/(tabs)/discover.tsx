@@ -1,5 +1,6 @@
 import MusicCard from "@/lib/components/musicCard";
 import ArtistCard from "@/lib/components/artistCard";
+import MusicContainerCard from "@/lib/components/musicContainerCard";
 import { BaseInfos } from "@/lib/types/types";
 import { Button, ScrollView, TextInput, View, StyleSheet } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
@@ -115,6 +116,8 @@ export default function Discover() {
                         {releasedRecentlyList.map((music, key) =>
                             music.type === "artist" ? 
                                 <ArtistCard key={key} infos={music} isSearch={false} isHome={true}></ArtistCard> :
+                            music.type === "playlist" || music.type === "album" || music.type === "ep" || music.type === "single" ?
+                                <MusicContainerCard key={key} infos={music} isSearch={false} isHome={true}></MusicContainerCard> :
                                 <MusicCard key={key} infos={music}  isSearch={false} isHome={true}></MusicCard>
                         )}
                     </ScrollView>
@@ -125,6 +128,8 @@ export default function Discover() {
                         {forYouList.map((music, key) =>
                             music.type === "artist" ? 
                                 <ArtistCard key={key} infos={music} isSearch={false} isHome={true}></ArtistCard> :
+                            music.type === "playlist" || music.type === "album" || music.type === "ep" || music.type === "single" ?
+                                <MusicContainerCard key={key} infos={music} isSearch={false} isHome={true}></MusicContainerCard> :
                                 <MusicCard key={key} infos={music}  isSearch={false} isHome={true}></MusicCard>
                         )}
                     </ScrollView>
@@ -135,6 +140,8 @@ export default function Discover() {
                         {topsList.map((music, key) =>
                             music.type === "artist" ? 
                                 <ArtistCard key={key} infos={music} isSearch={false} isHome={true}></ArtistCard> :
+                            music.type === "playlist" || music.type === "album" || music.type === "ep" || music.type === "single" ?
+                                <MusicContainerCard key={key} infos={music} isSearch={false} isHome={true}></MusicContainerCard> :
                                 <MusicCard key={key} infos={music}  isSearch={false} isHome={true}></MusicCard>
                         )}
                     </ScrollView>
@@ -145,6 +152,8 @@ export default function Discover() {
                         {searchList.map((music, key) =>
                             music.type === "artist" ? 
                                 <ArtistCard key={key} infos={music} isSearch={true} isHome={true}></ArtistCard> :
+                            music.type === "playlist" || music.type === "album" || music.type === "ep" || music.type === "single" ?
+                                <MusicContainerCard key={key} infos={music} isSearch={true} isHome={true}></MusicContainerCard> :
                                 <MusicCard key={key} infos={music}  isSearch={true} isHome={true}></MusicCard>
                         )}
                     </ScrollView>

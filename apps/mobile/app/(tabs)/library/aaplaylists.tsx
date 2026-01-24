@@ -1,4 +1,4 @@
-import MusicCard from "@/lib/components/musicCard";
+import MusicContainerCard from "@/lib/components/musicContainerCard";
 import { useTheme } from "@/lib/theme/provider";
 import { BaseInfos } from "@/lib/types/types";
 import { ScrollView, View, ActivityIndicator } from "react-native";
@@ -88,7 +88,7 @@ export default function Playlists() {
         <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>
             <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
                 {playlists.map((playlist, key) =>
-                    <MusicCard key={key} infos={playlist} isSearch={false}></MusicCard>
+                    <MusicContainerCard key={key} infos={playlist} isSearch={false}></MusicContainerCard>
                 )}
             </ScrollView>
         </View>
