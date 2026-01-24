@@ -5,15 +5,19 @@ import AppText from '@/lib/components/global/appText';
 import { useTheme } from "../theme/provider";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import usePlayerStore from "@/hook/usePlayerStore";
 
 type DetailMusicCardProps = {
     infos: BaseInfos;
     onRemove?: () => void;
     isAlbum?: boolean;
+    queue?: BaseInfos[];
+    index?: number;
 }
 
-export default function DetailMusicCard({ infos, onRemove, isAlbum = false }: DetailMusicCardProps) {
+export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queue = [], index = 0 }: DetailMusicCardProps) {
     const { theme } = useTheme();
+    const { playTrack, addToQueue, playNext } = usePlayerStore();
     const [menuVisible, setMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState<'below' | 'above'>('below');
     const buttonRef = useRef<View>(null);
@@ -38,16 +42,22 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false }: De
         }
     };
 
+    const handlePlayMusic = () => {
+        // Si une queue est fournie, on l'utilise, sinon on joue juste cette musique
+        const fileName = infos.audioFile || 'default.mp3';
+        playTrack(infos, fileName, queue.length > 0 ? queue : [infos], index);
+    };
+
     return (
         <View style={styles.container}>
-            <Pressable style={styles.leftSection}>
+            <Pressable style={styles.leftSection} onPress={handlePlayMusic}>
                 <Image
                     source={infos.cover}
                     style={styles.coverImage}
                 />
                 <View style={styles.infoSection}>
-                    <AppText size="md" numberOfLines={1}>{infos.title}</AppText>
-                    <AppText size="sm" color="text2" numberOfLines={1}>
+                    <AppText size="md" numberOfLines={1} pointerEvents="none">{infos.title}</AppText>
+                    <AppText size="sm" color="text2" numberOfLines={1} pointerEvents="none">
                         {Array.isArray(infos.artist) ? infos.artist.join(', ') : infos.artist}
                     </AppText>
                 </View>
@@ -94,7 +104,7 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false }: De
                                     }}
                                 >
                                     <MaterialIcons name="playlist-remove" size={20} color="#ff4444" />
-                                    <AppText style={{ marginLeft: 12, color: '#ff4444' }}>Supprimer de la playlist</AppText>
+                                    <AppText style={{ marginLeft: 12, color: '#ff4444' }} pointerEvents="none">Supprimer de la playlist</AppText>
                                 </TouchableOpacity>
                                 <View style={{ height: 1, backgroundColor: theme.colors.background, marginVertical: 4 }} />
                             </>
@@ -103,22 +113,22 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false }: De
                             style={styles.menuItem}
                             onPress={() => {
                                 setMenuVisible(false);
-                                console.log('Lire ensuite');
+                                playNext(infos);
                             }}
                         >
                             <MaterialIcons name="play-arrow" size={20} color={theme.colors.text} />
-                            <AppText style={{ marginLeft: 12 }}>Lire ensuite</AppText>
+                            <AppText style={{ marginLeft: 12 }} pointerEvents="none">Lire ensuite</AppText>
                         </TouchableOpacity>
                         <View style={{ height: 1, backgroundColor: theme.colors.background, marginVertical: 4 }} />
                         <TouchableOpacity
                             style={styles.menuItem}
                             onPress={() => {
                                 setMenuVisible(false);
-                                console.log('Ajouter à la file d\'attente');
+                                addToQueue(infos);
                             }}
                         >
                             <MaterialIcons name="queue-music" size={20} color={theme.colors.text} />
-                            <AppText style={{ marginLeft: 12 }}>Ajouter à la file d'attente</AppText>
+                            <AppText style={{ marginLeft: 12 }} pointerEvents="none">Ajouter à la file d'attente</AppText>
                         </TouchableOpacity>
                         <View style={{ height: 1, backgroundColor: theme.colors.background, marginVertical: 4 }} />
                         <TouchableOpacity
@@ -129,7 +139,7 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false }: De
                             }}
                         >
                             <MaterialIcons name="person" size={20} color={theme.colors.text} />
-                            <AppText style={{ marginLeft: 12 }}>Aller à l'artiste</AppText>
+                            <AppText style={{ marginLeft: 12 }} pointerEvents="none">Aller à l'artiste</AppText>
                         </TouchableOpacity>
                     </View>
                 </>

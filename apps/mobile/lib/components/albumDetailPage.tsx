@@ -128,6 +128,8 @@ export default function AlbumDetailPage({ data, onBack }: AlbumDetailPageProps) 
                                 <DetailMusicCard 
                                     infos={music}
                                     isAlbum={true}
+                                    queue={data.musicList || []}
+                                    index={index}
                                 />
                             </View>
                         ))}

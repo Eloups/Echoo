@@ -9,5 +9,6 @@
 export { default as useArtistStore } from './useArtistStore';
 export { default as useMusicStore } from './useMusicStore';
 export { default as usePlaylistStore } from './usePlaylistStore';
+export { default as usePlayerStore } from './usePlayerStore';
 export { default as useGlobalHook } from './globalHook';
 export { default as useExempleHook } from './exempleHook';

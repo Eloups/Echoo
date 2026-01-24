@@ -42,11 +42,13 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                         ? { uri: apiClient.getImageUrl(music.coverPath) }
                         : data.cover,
                     title: music.title,
-                    artist: music.artist || "Artiste inconnu",
+                    artist: music.nameArtist || music.artist || "Artiste inconnu",
                     color1: "#04131D",
                     color2: "#082840",
                     nbStreams: music.nbStreams || 0,
-                    type: "music" as const
+                    type: "music" as const,
+                    audioFile: music.filePath || music.fichierAudio || music.audioFile || `music_${music.id}.mp3`,
+                    duration: music.duration || 0
                 }));
                 
                 setMusicList(formattedMusics);
@@ -195,7 +197,9 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                                     <View key={music.id || index} style={{ marginBottom: 9 }}>
                                         <DetailMusicCard 
                                             infos={music} 
-                                            onRemove={() => console.log(`Supprimer ${music.title}`)} 
+                                            onRemove={() => console.log(`Supprimer ${music.title}`)}
+                                            queue={musicList}
+                                            index={index}
                                         />
                                     </View>
                                 ))}
@@ -204,12 +208,12 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                     </ScrollView>
                 )}
 
-                {/* Bouton flottant en bas à droite */}
+                {/* Bouton pour ajouter des musiques à la playlist */}
                 <Pressable
                     onPress={() => setModalVisible(true)}
                     style={{
                         position: 'absolute',
-                        bottom: 27,
+                        bottom: 90,
                         right: 20,
                         width: 60,
                         height: 60,

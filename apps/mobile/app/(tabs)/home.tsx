@@ -52,7 +52,8 @@ export default function home() {
         color1: "#04131D",
         color2: "#082840",
         nbStreams: 46,
-        type: "music"
+        type: "music",
+        audioFile: "music_1.mp3"
     }
 
     const musicTemp2: BaseInfos = {
@@ -62,7 +63,8 @@ export default function home() {
         color1: "#000000",
         color2: "#0E0E0E",
         nbStreams: 24,
-        type: "music"
+        type: "music",
+        audioFile: "music_2.mp3"
     }
 
     const musicTemp3: BaseInfos = {
@@ -72,7 +74,8 @@ export default function home() {
         color1: "#965F4C",
         color2: "#291A15",
         nbStreams: 11,
-        type: "music"
+        type: "music",
+        audioFile: "music_3.mp3"
     }
 
     const artist1: BaseInfos = {

@@ -9,7 +9,9 @@ export type BaseInfos = {
     musicList?: BaseInfos[],
     nbMusics?: number,
     description?: string,
-    id?: number
+    id?: number,
+    audioFile?: string,
+    duration?: number,
 }
 
 type APIMusic = {

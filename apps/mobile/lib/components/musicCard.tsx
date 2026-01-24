@@ -6,6 +6,7 @@ import { themes } from "../theme";
 import { useTheme } from "../theme/provider";
 import { cloneElement } from "react";
 import { router, useSegments } from "expo-router";
+import usePlayerStore from "@/hook/usePlayerStore";
 
 type PageProps = {
     infos: BaseInfos,
@@ -17,12 +18,20 @@ type PageProps = {
 export default function MusicCard(props: PageProps) {
     const { theme, toggleTheme } = useTheme();
     const segments = useSegments();
+    const { playTrack } = usePlayerStore();
 
     props.isHome ?? false;
 
     const handlePress = () => {
         // Construire le chemin actuel
         const currentPath = '/' + segments.join('/');
+        
+        // Si c'est une musique, lancer le lecteur
+        if (props.infos.type === "music") {
+            const fileName = props.infos.audioFile || 'default.mp3';
+            playTrack(props.infos, fileName);
+            return;
+        }
         
         if (props.infos.type === "artist") {
             router.push({
