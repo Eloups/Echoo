@@ -10,8 +10,8 @@ export type BaseInfos = {
     nbMusics?: number,
     description?: string,
     id?: number,
-    audioFile?: string, // Nom du fichier audio pour le streaming
-    duration?: number, // Durée en secondes depuis le backend
+    audioFile?: string,
+    duration?: number,
 }
 
 type APIMusic = {
