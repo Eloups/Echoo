@@ -20,7 +20,6 @@ export default function Playlists() {
             const userId = 3; // ID utilisateur
             const response: any = await PlaylistService.getAllPlaylistsByUserID(userId);
             
-            // La réponse contient un objet avec une clé "playlists" qui est un tableau
             const playlistsArray = response.playlists || [];
             
             // Convertir les données de l'API au format BaseInfos
@@ -62,7 +61,6 @@ export default function Playlists() {
             }
         }, []);
 
-    // Recharger à chaque fois que l'écran est focus
     useFocusEffect(
         useCallback(() => {
             fetchPlaylists();

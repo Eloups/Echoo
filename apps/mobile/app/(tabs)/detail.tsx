@@ -30,7 +30,6 @@ export default function Detail() {
         }
     };
 
-    // Afficher la page appropriée selon le type
     if (data.type === "playlist") {
         return (
             <PlaylistDetailPage 
