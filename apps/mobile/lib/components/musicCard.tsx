@@ -33,16 +33,7 @@ export default function MusicCard(props: PageProps) {
             return;
         }
         
-        if (props.infos.type === "artist") {
-            router.push({
-                pathname: "/(tabs)/artist/presentation",
-                params: {
-                    title: props.infos.title,
-                    data: JSON.stringify(props.infos),
-                    from: currentPath
-                }
-            });
-        } else if (props.infos.type === "album" || props.infos.type === "ep" || props.infos.type === "single") {
+        if (props.infos.type === "album" || props.infos.type === "ep" || props.infos.type === "single") {
             router.push({
                 pathname: "/(tabs)/album/musiques",
                 params: {
@@ -64,9 +55,9 @@ export default function MusicCard(props: PageProps) {
     return (
         <Pressable onPress={handlePress}>
             <View>
-                {props.isSearch == false && (props.infos.type == "music" || props.infos.type == "artist") && props.isHome == true ? (
+                {props.isSearch == false && props.infos.type == "music" && props.isHome == true ? (
                     <View>
-                        <Image source={props.infos.cover} height={95} width={95} style={props.infos.type == "artist" ? styles.imageArtist : styles.imageMusic}></Image>
+                        <Image source={props.infos.cover} height={95} width={95} style={styles.imageMusic}></Image>
                         <AppText size={"md"} style={{ marginTop: 3 }}>{props.infos.title.length > 15 ? props.infos.title.slice(0, 13) + "..." : props.infos.title}</AppText>
                         <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -5 }] }}>{props.infos.artist.length > 16 ? props.infos.artist.slice(0, 15) + "..." : props.infos.artist}</AppText>
                     </View>
@@ -101,11 +92,10 @@ export default function MusicCard(props: PageProps) {
                             : (
                                 // Pour la recherche dans la page Découvrir
                                 <View style={styles.searchContainer}>
-                                    <Image source={props.infos.cover} height={95} width={95} style={props.infos.type == "artist" ? styles.imageArtistSearch : styles.imageMusicSearch}></Image>
+                                    <Image source={props.infos.cover} height={95} width={95} style={styles.imageMusicSearch}></Image>
                                     <View>
                                         <AppText size={"md"} style={{ marginTop: 3 }}>{props.infos.title.length > 40 ? props.infos.title.slice(0, 40) + "..." : props.infos.title}</AppText>
-
-                                        {props.infos.type != "artist" ? (<AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -5 }] }}>{props.infos.type == "music" ? ("Morceau") : props.infos.type == "album" ? ("Album") : props.infos.type == "ep" ? ("EP") : ("Single")}  <View style={{ backgroundColor: theme.colors.text2, width: 3, height: 3, borderRadius: 10, transform: "translateY(-1px)" }}></View>  {props.infos.artist.length > 40 ? props.infos.artist.slice(0, 40) + "..." : props.infos.artist}</AppText>) : <></>}
+                                        <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -5 }] }}>{props.infos.type == "music" ? ("Morceau") : props.infos.type == "album" ? ("Album") : props.infos.type == "ep" ? ("EP") : ("Single")}  <View style={{ backgroundColor: theme.colors.text2, width: 3, height: 3, borderRadius: 10, transform: "translateY(-1px)" }}></View>  {props.infos.artist.length > 40 ? props.infos.artist.slice(0, 40) + "..." : props.infos.artist}</AppText>
                                     </View>
                                 </View>
                             )}
@@ -122,20 +112,10 @@ const styles = StyleSheet.create({
         width: 95,
         borderRadius: 5
     },
-    imageArtist: {
-        height: 95,
-        width: 95,
-        borderRadius: 1000
-    },
     imageMusicSearch: {
         height: 55,
         width: 55,
         borderRadius: 5
-    },
-    imageArtistSearch: {
-        height: 55,
-        width: 55,
-        borderRadius: 1000
     },
     searchContainer: {
         display: "flex",

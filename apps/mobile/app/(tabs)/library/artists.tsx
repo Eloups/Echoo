@@ -1,4 +1,4 @@
-import MusicCard from "@/lib/components/musicCard";
+import ArtistCard from "@/lib/components/artistCard";
 import { useTheme } from "@/lib/theme/provider";
 import { BaseInfos } from "@/lib/types/types";
 import { ScrollView, View, ActivityIndicator } from "react-native";
@@ -19,8 +19,6 @@ export default function Artists() {
                 const userId = 3; // ID utilisateur
                 const response: any = await ArtistService.getAllArtistsByUserID(userId);
                 
-                
-                // La réponse contient un objet avec une clé "artists" qui est un tableau
                 const artistsArray = response.artists || [];
                 
                 // Convertir les données de l'API au format BaseInfos
@@ -71,7 +69,7 @@ export default function Artists() {
         <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>
             <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
                 {artists.map((artist, key) =>
-                    <MusicCard key={key} infos={artist} isSearch={false}></MusicCard>
+                    <ArtistCard key={key} infos={artist} isSearch={false}></ArtistCard>
                 )}
             </ScrollView>
         </View>
