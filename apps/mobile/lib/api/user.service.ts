@@ -11,9 +11,7 @@ export const UserService = {
    * Post 
    */
   createUser: async (request: CreateUserRequest): Promise<any> => {
-    console.log("request = ", request);
-    
-    let val = await apiClient.post<any>('/users', {
+    let retour = await apiClient.post<any>('/users', {
       id: request.id,
       username: request.username,
       email: request.email,
@@ -22,15 +20,15 @@ export const UserService = {
       id_role: 1,
       id_artist: null,
     });
-    console.log("val = ", val);
-    return val;
-  }
-  // getPlaylistById: async (playlistId: number): Promise<Playlist> => {
-  //   //return await apiClient.get<Playlist>(`/playlist/${playlistId}`);
-  //   return await apiClient.get<Playlist>(`/playlist/${playlistId}`);
-  // },
+    return retour;
+  },
 
-  // getAllPlaylistsByUserID: async (userId: number): Promise<Playlist> => {
-  //   return await apiClient.get<Playlist>(`/playlist/library/${userId}/all`);
-  // },
+  /**
+   * récupérer les info d'un utilisateur
+   * Get
+   */
+  getUser: async (idUser: string): Promise<any> => {
+    let retour = await apiClient.get<any>('/users' + `/${idUser}`);
+    return retour;
+  }
 };

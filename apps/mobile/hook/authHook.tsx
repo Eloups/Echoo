@@ -8,7 +8,7 @@ import { UserService } from '../lib/api/user.service';
 import { CreateUserRequest } from '../lib/api/types';
 
 
-const API_BASE_AUTH = 'http://192.168.1.86:3333'
+const API_BASE_AUTH = 'http://10.100.43.41:3333'
 
 interface AuthHook {
   login: (email: string, password: string) => Promise<void>;
@@ -30,29 +30,30 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
   setAuthLoading: (loading: boolean) => set({ isLoading: loading }),
   setAuthError: (error: string | null) => set({ authError: error }),
 
-  logout: () => {
-    // Clear global user state
+  logout: async () => {
+    try {
+      let val = await authClient.signOut();
+    } catch (e) {
+      console.error('Logout failed:', e);
+    }
+
     useGlobalHook.setState({ user: null })
+    router.push('/connexion/connexion');
   },
 
   login: async (email: string, password: string) => {
     set({ isLoading: true, authError: null });
 
-    console.log("111");
-
     const { data, error } = await authClient.signIn.email({
       email,
       password,
     })
-    console.log("222");
-
     if (error) {
       // ICIIIIIII a voir pour mettre un message d'erreur a la main pour l'avoir en français 
       // et pour que ce ne soit pas dirrectement l'erreur du serveur
       set({ isLoading: false, authError: error.message ?? String(error) });
       return;
     }
-
     if (data) {
       const JWT = await authClient.token()
 
@@ -61,10 +62,10 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
       if (JWT && JWT?.data && JWT?.data?.token) {
         const tokenValue = JWT.data.token;
 
+        let decodedToken: JWTPayload | undefined;
         try {
           const { verifyToken } = get();
-
-          const decodedToken = await verifyToken(tokenValue);
+          decodedToken = await verifyToken(tokenValue);
           if (decodedToken) {
             useGlobalHook.setState({ user: User.fromJWTPayload(decodedToken) })
           }
@@ -75,12 +76,15 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
         }
 
         try {
-          // ICIIIII 
-          // Prendre les infos supplémentaire de l'utilisateur dans l'API backend 
-          // (role etc..)
+          //Recupération des infos utilisateur dans l'API backend
+          let expirationTime = decodedToken?.exp;
+          const userData = await UserService.getUser(data.user.id);
+          if (userData) {
+            let userRender = new User(userData.user);
+            userRender.expirationTime = expirationTime;
 
-
-
+            useGlobalHook.setState({ user: userRender });
+          }
         } catch (e: any) {
           set({ authError: e.message ?? String(e) });
           set({ isLoading: false });
@@ -98,6 +102,7 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
   register: async (name: string, email: string, password: string) => {
     set({ isLoading: true, authError: null });
 
+    // Creation de l'utilisateur dans le service d'authentification
     const { data, error } = await authClient.signUp.email({
       name,
       email,
@@ -112,17 +117,19 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     }
 
     if (data) {
+      // Génération du JWT
       const JWT = await authClient.token()
 
-      // décoder le JWT pour avoir les infos de l'utilisateur 
-      // (dont l'id pour ensouite le crée dans l'API backend)
+      // Décodage du JWT pour avoir les infos de l'utilisateur 
+      // (dont l'id pour ensuite le crée dans l'API backend)
       if (JWT && JWT.data && JWT.data.token) {
         const tokenValue = JWT.data.token;
 
+        let decodedToken: JWTPayload | undefined;
         try {
           const { verifyToken } = get();
 
-          const decodedToken = await verifyToken(tokenValue);
+          decodedToken = await verifyToken(tokenValue);
           if (decodedToken) {
             useGlobalHook.setState({ user: User.fromJWTPayload(decodedToken) })
           }
@@ -132,8 +139,8 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
           return;
         }
 
+        // Creation de l'utilisateur dans l'API backend
         try {
-          // ICIII TESTE
           let request: CreateUserRequest = {
             id: data.user.id,
             username: name,
@@ -141,11 +148,18 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
             image_path: "",
             id_role: 1,
           }
-          console.log("ICIIII request");
+          //Creation de l'utilisateur dans l'API backend (avec le même token)
           let val = await UserService.createUser(request);
-          console.log("val ici = ", val);
+          if (val.code == 201) {
+            let expirationTime = decodedToken?.exp;
+            const userData = await UserService.getUser(data.user.id);
+            if (userData) {
+              let userRender = new User(userData.user);
+              userRender.expirationTime = expirationTime;
 
-
+              useGlobalHook.setState({ user: userRender });
+            }
+          }
         } catch (e: any) {
           set({ authError: e.message ?? String(e) });
           set({ isLoading: false });

@@ -113,12 +113,14 @@ class ApiClient {
   
   // Récupérer l'URL complète d'une image
   getImageUrl(fileName: string): string {
+    console.log("API_BASE_URL =", API_BASE_URL);
     return `${API_BASE_URL}/images/${fileName}`;
   }
 
   
   // Récupérer l'URL complète d'un stream audio
   getStreamUrl(fileName: string): string {
+    console.log("API_BASE_URL =", API_BASE_URL);
     return `${API_BASE_URL}/stream/${fileName}`;
   }
 }

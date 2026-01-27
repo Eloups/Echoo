@@ -64,7 +64,7 @@ export function BtnConnexion(props: BtnConnexionProps) {
                 alignItems: "center",
                 borderRadius: 5,
                 paddingVertical: 12,
-                backgroundColor: theme.colors.primary,
+                backgroundColor: props.color ?? theme.colors.primary,
                 opacity: props.isLoading ? 0.8 : 1,
             }}
             onPress={props.isLoading ? undefined : props.onClick}
