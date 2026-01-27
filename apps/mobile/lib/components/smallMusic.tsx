@@ -1,11 +1,11 @@
 import { View, Image } from "react-native"
-import { BaseInfos } from "../types/baseInfos"
+import { Music } from "../types/types"
 import AppText from "./global/appText"
 import { LinearGradient } from "expo-linear-gradient"
 import { routePatternToRegex } from "expo-router/build/fork/getStateFromPath-forks"
 
 type Pageprops = {
-    music: BaseInfos
+    music: Music
 }
 
 export default function SmallMuisc(props: Pageprops){

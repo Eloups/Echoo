@@ -1,9 +1,9 @@
 import { View, Image } from "react-native"
-import { BaseInfos } from "../types/baseInfos"
+import { Artist } from "../types/types"
 import AppText from "./global/appText"
 
 type Pageprops = {
-    artist: BaseInfos
+    artist: Artist
 }
 
 export default function SmallArtist(props: Pageprops){

@@ -1,10 +1,10 @@
 import { View } from "react-native";
-import { BaseInfos } from "../types/types"
+import { Music } from "../types/types"
 import SmallArtist from "./smallArtist";
 import SmallMuisc from "./smallMusic";
 
 type PageProps = {
-    musicList: BaseInfos[];
+    musicList: Music[];
 }
 
 export default function MonthMusics(props: PageProps) {

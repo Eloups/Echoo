@@ -1,22 +1,22 @@
 import { create } from 'zustand';
-import { BaseInfos } from '@/lib/types/types';
+import { Music } from '@/lib/types/types';
 import { audioService } from '@/lib/services/audioService';
 import { AVPlaybackStatus } from 'expo-av';
 
 interface PlayerState {
   // État
-  currentTrack: BaseInfos | null;
+  currentTrack: Music | null;
   currentFileName: string | null;
   isPlaying: boolean;
   progress: number; // En secondes
   duration: number; // En secondes
-  queue: BaseInfos[];
+  queue: Music[];
   currentIndex: number;
   isPlayerModalVisible: boolean;
   isLoading: boolean;
   
   // Actions
-  playTrack: (track: BaseInfos, fileName: string, queue?: BaseInfos[], startIndex?: number) => Promise<void>;
+  playTrack: (track: Music, fileName: string, queue?: Music[], startIndex?: number) => Promise<void>;
   pause: () => Promise<void>;
   play: () => Promise<void>;
   togglePlayPause: () => Promise<void>;
@@ -31,9 +31,9 @@ interface PlayerState {
   hidePlayerModal: () => void;
   togglePlayerModal: () => void;
   removeFromQueue: (index: number) => void;
-  reorderQueue: (newQueue: BaseInfos[]) => void;
-  addToQueue: (track: BaseInfos) => void;
-  playNext: (track: BaseInfos) => void;
+  reorderQueue: (newQueue: Music[]) => void;
+  addToQueue: (track: Music) => void;
+  playNext: (track: Music) => void;
 }
 
 /**
@@ -52,7 +52,7 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
   isLoading: false,
 
   // Jouer une piste
-  playTrack: async (track: BaseInfos, fileName: string, queue: BaseInfos[] = [], startIndex: number = 0) => {
+  playTrack: async (track: Music, fileName: string, queue: Music[] = [], startIndex: number = 0) => {
     set({ isLoading: true });
     
     try {
@@ -256,7 +256,7 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
   },
 
   // Réorganiser la queue
-  reorderQueue: (newQueue: BaseInfos[]) => {
+  reorderQueue: (newQueue: Music[]) => {
     const { currentTrack } = get();
     // Trouver le nouvel index de la musique en cours
     const newCurrentIndex = newQueue.findIndex(track => track.id === currentTrack?.id);
@@ -264,14 +264,14 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
   },
 
   // Ajouter une musique à la fin de la queue
-  addToQueue: (track: BaseInfos) => {
+  addToQueue: (track: Music) => {
     const { queue } = get();
     const newQueue = [...queue, track];
     set({ queue: newQueue });
   },
 
   // Ajouter une musique juste après la musique en cours
-  playNext: (track: BaseInfos) => {
+  playNext: (track: Music) => {
     const { queue, currentIndex } = get();
     const newQueue = [...queue];
     // Insérer après l'index actuel
