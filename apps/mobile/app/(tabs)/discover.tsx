@@ -1,7 +1,8 @@
 import MusicCard from "@/lib/components/musicCard";
 import ArtistCard from "@/lib/components/artistCard";
-import MusicContainerCard from "@/lib/components/musicContainerCard";
-import { BaseInfos } from "@/lib/types/types";
+import PlaylistCard from "@/lib/components/playlistCard";
+import ProjectCard from "@/lib/components/projectCard";
+import { Music, Artist } from "@/lib/types/types";
 import { Button, ScrollView, TextInput, View, StyleSheet } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
 import React from "react";
@@ -12,65 +13,58 @@ import Feather from '@expo/vector-icons/Feather';
 
 const placeholderImage = require("../../assets/images/react-logo.png");
 
+// Type guards pour différencier les types
+const isArtist = (item: Music | Artist): item is Artist => {
+    return !('id' in item && 'audioFile' in item);
+};
+
 export default function Discover() {
     // Appel à la gestion de thème pour les couleurs
     const { theme, toggleTheme } = useTheme();
 
-    const musicTemp: BaseInfos = {
+    const musicTemp: Music = {
+        id: 1,
         cover: placeholderImage,
         title: "CHIHIRO",
         artist: "Billie Eilish",
         color1: "#04131D",
         color2: "#082840",
         nbStreams: 46,
-        type: "music"
+        audioFile: "music_1.mp3"
     }
 
-    const musicTemp2: BaseInfos = {
+    const musicTemp2: Music = {
+        id: 2,
         cover: placeholderImage,
         title: "Rich Man",
         artist: "aespa",
         color1: "#000000",
         color2: "#0E0E0E",
         nbStreams: 24,
-        type: "music"
-
+        audioFile: "music_2.mp3"
     }
 
-    const musicTemp3: BaseInfos = {
+    const musicTemp3: Music = {
+        id: 3,
         cover: placeholderImage,
         title: "What do you want from me ?",
         artist: "Jann",
         color1: "#965F4C",
         color2: "#291A15",
         nbStreams: 11,
-        type: "music"
+        audioFile: "music_3.mp3"
     }
 
-    const artist1: BaseInfos = {
+    const artist1: Artist = {
         cover: placeholderImage,
-        title: "Madison Beer",
-        artist: "",
-        color1: "",
-        color2: "",
-        type: "artist"
+        title: "Madison Beer"
     }
     
-    
-    // const album1: BaseInfos = {
-    //     cover: cover3,
-    //     title: "I store my fear and my pain in the nape of my neck",
-    //     artist: "Jann",
-    //     color1: "",
-    //     color2: "",
-    //     type: "album"
-    // }
-
     // TODO : récupérer les infos de la BDD pour remplir ces listes
-    const releasedRecentlyList: BaseInfos[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
-    const forYouList: BaseInfos[] = [artist1, musicTemp2, musicTemp3, artist1, musicTemp2, musicTemp3];
-    const topsList: BaseInfos[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
-    const searchList: BaseInfos[] = [artist1, musicTemp2];
+    const releasedRecentlyList: (Music | Artist)[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
+    const forYouList: (Music | Artist)[] = [artist1, musicTemp2, musicTemp3, artist1, musicTemp2, musicTemp3];
+    const topsList: (Music | Artist)[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
+    const searchList: (Music | Artist)[] = [artist1, musicTemp2];
 
     // Variable qui gère le champ de recherche
     const [searchField, setSearchField] = React.useState("");
@@ -113,48 +107,40 @@ export default function Discover() {
                     <SectionTitle text="Dernières sorties"></SectionTitle>
 
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
-                        {releasedRecentlyList.map((music, key) =>
-                            music.type === "artist" ? 
-                                <ArtistCard key={key} infos={music} isSearch={false} isHome={true}></ArtistCard> :
-                            music.type === "playlist" || music.type === "album" || music.type === "ep" || music.type === "single" ?
-                                <MusicContainerCard key={key} infos={music} isSearch={false} isHome={true}></MusicContainerCard> :
-                                <MusicCard key={key} infos={music}  isSearch={false} isHome={true}></MusicCard>
+                        {releasedRecentlyList.map((item, key) =>
+                            isArtist(item) ? 
+                                <ArtistCard key={key} infos={item} isSearch={false} isHome={true}></ArtistCard> :
+                                <MusicCard key={key} infos={item} isSearch={false} isHome={true}></MusicCard>
                         )}
                     </ScrollView>
 
                     <SectionTitle text="Pour vous"></SectionTitle>
 
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
-                        {forYouList.map((music, key) =>
-                            music.type === "artist" ? 
-                                <ArtistCard key={key} infos={music} isSearch={false} isHome={true}></ArtistCard> :
-                            music.type === "playlist" || music.type === "album" || music.type === "ep" || music.type === "single" ?
-                                <MusicContainerCard key={key} infos={music} isSearch={false} isHome={true}></MusicContainerCard> :
-                                <MusicCard key={key} infos={music}  isSearch={false} isHome={true}></MusicCard>
+                        {forYouList.map((item, key) =>
+                            isArtist(item) ? 
+                                <ArtistCard key={key} infos={item} isSearch={false} isHome={true}></ArtistCard> :
+                                <MusicCard key={key} infos={item} isSearch={false} isHome={true}></MusicCard>
                         )}
                     </ScrollView>
 
                     <SectionTitle text="Tops"></SectionTitle>
 
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
-                        {topsList.map((music, key) =>
-                            music.type === "artist" ? 
-                                <ArtistCard key={key} infos={music} isSearch={false} isHome={true}></ArtistCard> :
-                            music.type === "playlist" || music.type === "album" || music.type === "ep" || music.type === "single" ?
-                                <MusicContainerCard key={key} infos={music} isSearch={false} isHome={true}></MusicContainerCard> :
-                                <MusicCard key={key} infos={music}  isSearch={false} isHome={true}></MusicCard>
+                        {topsList.map((item, key) =>
+                            isArtist(item) ? 
+                                <ArtistCard key={key} infos={item} isSearch={false} isHome={true}></ArtistCard> :
+                                <MusicCard key={key} infos={item} isSearch={false} isHome={true}></MusicCard>
                         )}
                     </ScrollView>
                 </View>
             ) :
                 <View>
                     <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
-                        {searchList.map((music, key) =>
-                            music.type === "artist" ? 
-                                <ArtistCard key={key} infos={music} isSearch={true} isHome={true}></ArtistCard> :
-                            music.type === "playlist" || music.type === "album" || music.type === "ep" || music.type === "single" ?
-                                <MusicContainerCard key={key} infos={music} isSearch={true} isHome={true}></MusicContainerCard> :
-                                <MusicCard key={key} infos={music}  isSearch={true} isHome={true}></MusicCard>
+                        {searchList.map((item, key) =>
+                            isArtist(item) ? 
+                                <ArtistCard key={key} infos={item} isSearch={true} isHome={true}></ArtistCard> :
+                                <MusicCard key={key} infos={item} isSearch={true} isHome={true}></MusicCard>
                         )}
                     </ScrollView>
                 </View>}

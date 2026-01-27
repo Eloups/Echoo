@@ -1,10 +1,10 @@
 import { View, Image, StyleSheet, Pressable } from "react-native";
-import { BaseInfos } from "../types/types";
+import { Artist } from "../types/types";
 import AppText from "./global/appText";
 import { router, useSegments } from "expo-router";
 
 type ArtistCardProps = {
-    infos: BaseInfos,
+    infos: Artist,
     isSearch: boolean,
     isHome?: boolean
 }

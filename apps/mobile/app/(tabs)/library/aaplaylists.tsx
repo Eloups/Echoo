@@ -1,6 +1,6 @@
-import MusicContainerCard from "@/lib/components/musicContainerCard";
+import PlaylistCard from "@/lib/components/playlistCard";
 import { useTheme } from "@/lib/theme/provider";
-import { BaseInfos } from "@/lib/types/types";
+import { Playlist } from "@/lib/types/types";
 import { ScrollView, View, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
 import { PlaylistService, apiClient } from "@/lib/api";
@@ -10,7 +10,7 @@ import { useCallback } from "react";
 
 export default function Playlists() {
     const { theme } = useTheme();
-    const [playlists, setPlaylists] = useState<BaseInfos[]>([]);
+    const [playlists, setPlaylists] = useState<Playlist[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -22,8 +22,8 @@ export default function Playlists() {
             
             const playlistsArray = response.playlists || [];
             
-            // Convertir les données de l'API au format BaseInfos
-            const formattedPlaylists: BaseInfos[] = playlistsArray.map((playlist: any) => ({
+            // Convertir les données de l'API au format Playlist du front
+            const formattedPlaylists: Playlist[] = playlistsArray.map((playlist: any) => ({
                     id: playlist.id,
                     cover: playlist.coverPath 
                         ? { uri: apiClient.getImageUrl(playlist.coverPath) }
@@ -88,7 +88,7 @@ export default function Playlists() {
         <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>
             <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
                 {playlists.map((playlist, key) =>
-                    <MusicContainerCard key={key} infos={playlist} isSearch={false}></MusicContainerCard>
+                    <PlaylistCard key={key} infos={playlist} isSearch={false}></PlaylistCard>
                 )}
             </ScrollView>
         </View>

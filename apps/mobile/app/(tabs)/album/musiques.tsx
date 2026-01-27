@@ -2,7 +2,7 @@ import { View, ScrollView, Image, Pressable, TouchableOpacity, StyleSheet } from
 import { useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
-import { BaseInfos } from '@/lib/types/types';
+import { Project } from '@/lib/types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import DetailMusicCard from '@/lib/components/detailMusicCard';
 import { useLocalSearchParams } from 'expo-router';
@@ -14,7 +14,7 @@ export default function MusiquesPage() {
     const params = useLocalSearchParams();
     const [menuVisible, setMenuVisible] = useState(false);
 
-    const data: BaseInfos = params.data ? JSON.parse(params.data as string) : null;
+    const data: Project = params.data ? JSON.parse(params.data as string) : null;
 
     if (!data) {
         return null;
@@ -76,22 +76,22 @@ export default function MusiquesPage() {
                         {data.title}
                     </AppText>
                     <AppText size="md" color="text2" style={{ marginTop: 5 }}>
-                        {data.artist}
+                        {Array.isArray(data.artist) ? data.artist.join(', ') : data.artist}
                     </AppText>
-                    {data.duration && data.nbMusic && (
+                    {data.musics && data.musics.length > 0 && (
                         <AppText size="sm" color="text2" style={{ marginTop: 5 }}>
-                            {data.nbMusic} morceaux • {data.duration}
+                            {data.musics.length} morceaux
                         </AppText>
                     )}
                 </View>
 
                 <View style={{ paddingHorizontal: 20 }}>
-                    {data.musicList?.map((music, index) => (
+                    {data.musics?.map((music, index) => (
                         <View key={index} style={{ marginBottom: 16 }}>
                             <DetailMusicCard 
                                 infos={music}
                                 isAlbum={true}
-                                queue={data.musicList || []}
+                                queue={data.musics || []}
                                 index={index}
                             />
                         </View>

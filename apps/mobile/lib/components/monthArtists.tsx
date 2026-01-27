@@ -1,9 +1,9 @@
 import { View } from "react-native";
-import { BaseInfos } from "../types/types"
+import { Artist } from "../types/types"
 import SmallArtist from "./smallArtist";
 
 type PageProps = {
-    artistList: BaseInfos[];
+    artistList: Artist[];
 }
 
 export default function MonthArtists(props: PageProps) {

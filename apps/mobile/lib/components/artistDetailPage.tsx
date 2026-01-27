@@ -3,12 +3,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
-import { BaseInfos } from '../types/types';
+import { Artist, Music } from '../types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from './musicCard';
 
 type ArtistDetailPageProps = {
-    data: BaseInfos;
+    data: Artist;
     onBack: () => void;
 };
 
@@ -103,12 +103,10 @@ function ArtistHeader({ data, theme, onBack, menuVisible, setMenuVisible }: any)
 }
 
 // Composants pour chaque tab
-function PresentationTab({ data }: { data: BaseInfos }) {
+function PresentationTab({ data }: { data: Artist }) {
     const { theme } = useTheme();
-    const popularTracks: BaseInfos[] = Array(5).fill({
-        ...data.musicList?.[0] || { title: "Track", artist: data.title, cover: data.cover, type: "music" }
-    });
-    const recentReleases: BaseInfos[] = data.musicList?.slice(0, 4) || [];
+    const popularTracks: Music[] = data.popular_musics?.slice(0, 5) || [];
+    const recentReleases: Music[] = data.last_releases?.slice(0, 4) || [];
 
     return (
         <View>

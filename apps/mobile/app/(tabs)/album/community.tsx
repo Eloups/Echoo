@@ -2,7 +2,7 @@ import { View, ScrollView, Image, Pressable, TextInput, StyleSheet } from 'react
 import { useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
-import { BaseInfos } from '@/lib/types/types';
+import { Project } from '@/lib/types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useLocalSearchParams } from 'expo-router';
 
@@ -21,7 +21,7 @@ export default function CommunityPage() {
     const params = useLocalSearchParams();
     const [rating, setRating] = useState(0);
 
-    const data: BaseInfos = params.data ? JSON.parse(params.data as string) : null;
+    const data: Project = params.data ? JSON.parse(params.data as string) : null;
 
     if (!data) {
         return null;

@@ -2,7 +2,7 @@ import { View, ScrollView, Image, Pressable, StyleSheet, TouchableOpacity } from
 import { useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
-import { BaseInfos } from '@/lib/types/types';
+import { Artist, Music } from '@/lib/types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from '@/lib/components/musicCard';
 import SectionTitle from '@/lib/components/sectionTitle';
@@ -17,12 +17,10 @@ export default function PresentationPage() {
     // Récupérer les données de l'artiste depuis les params
     const artistData = params.data ? JSON.parse(params.data as string) : {
         title: params.title as string || "Artiste",
-        cover: params.cover,
-        type: "artist",
-        nbStreams: parseInt(params.nbStreams as string) || 1234567,
+        cover: params.cover
     };
     
-    const data: BaseInfos = artistData;
+    const data: Artist = artistData;
     const from = params.from as string;
 
     const handleBack = () => {
@@ -34,19 +32,8 @@ export default function PresentationPage() {
     };
 
     // Données temporaires
-    const popularTracks: BaseInfos[] = Array(5).fill({
-        title: "Track populaire",
-        artist: data.title,
-        cover: data.cover,
-        type: "music"
-    });
-
-    const recentReleases: BaseInfos[] = Array(4).fill({
-        title: "Single récent",
-        artist: data.title,
-        cover: data.cover,
-        type: "music"
-    });
+    const popularTracks: Music[] = data.popular_musics?.slice(0, 5) || [];
+    const recentReleases: Music[] = data.last_releases?.slice(0, 4) || [];
 
     return (
         <View style={{ flex: 1, backgroundColor: theme.colors.background }}>

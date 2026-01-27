@@ -1,5 +1,5 @@
 import { View, Image, StyleSheet, Pressable } from "react-native";
-import { BaseInfos } from "../types/types";
+import { Music } from "../types/types";
 import AppText from "./global/appText";
 import { isSearchBarAvailableForCurrentPlatform, SearchBar } from "react-native-screens";
 import { themes } from "../theme";
@@ -9,7 +9,7 @@ import { router, useSegments } from "expo-router";
 import usePlayerStore from "@/hook/usePlayerStore";
 
 type PageProps = {
-    infos: BaseInfos,
+    infos: Music,
     isSearch: boolean,
     isHome?: boolean
 }

@@ -3,7 +3,7 @@ import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
 import usePlayerStore from '@/hook/usePlayerStore';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { BaseInfos } from '../types/types';
+import { Music } from '../types/types';
 import { useState } from 'react';
 import DraggableFlatList, { RenderItemParams, ScaleDecorator } from 'react-native-draggable-flatlist';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -17,7 +17,7 @@ export default function QueueModal({ visible, onClose }: QueueModalProps) {
   const { theme } = useTheme();
   const { queue, currentIndex, removeFromQueue, playTrack, reorderQueue } = usePlayerStore();
 
-  const handlePlayTrack = (track: BaseInfos, index: number) => {
+  const handlePlayTrack = (track: Music, index: number) => {
     // Si c'est déjà la musique en cours, ne rien faire
     if (index === currentIndex) {
       onClose();
@@ -38,11 +38,11 @@ export default function QueueModal({ visible, onClose }: QueueModalProps) {
     removeFromQueue(index);
   };
 
-  const handleDragEnd = ({ data }: { data: BaseInfos[] }) => {
+  const handleDragEnd = ({ data }: { data: Music[] }) => {
     reorderQueue(data);
   };
 
-  const renderItem = ({ item, drag, isActive, getIndex }: RenderItemParams<BaseInfos>) => {
+  const renderItem = ({ item, drag, isActive, getIndex }: RenderItemParams<Music>) => {
     const index = getIndex();
     if (index === undefined) return null;
     

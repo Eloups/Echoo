@@ -1,6 +1,6 @@
-import MusicContainerCard from "@/lib/components/musicContainerCard";
+import ProjectCard from "@/lib/components/projectCard";
 import { useTheme } from "@/lib/theme/provider";
-import { BaseInfos } from "@/lib/types/types";
+import { Project } from "@/lib/types/types";
 import { ScrollView, View, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
 import { apiClient } from "@/lib/api";
@@ -8,7 +8,7 @@ import AppText from "@/lib/components/global/appText";
 
 export default function Albums() {
     const { theme } = useTheme();
-    const [albums, setAlbums] = useState<BaseInfos[]>([]);
+    const [albums, setAlbums] = useState<Project[]>([]);
     const [loading, setLoading] = useState(false);
 
     if (loading) {
@@ -24,7 +24,7 @@ export default function Albums() {
         <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>
             <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
                 {albums.map((album, key) =>
-                    <MusicContainerCard key={key} infos={album} isSearch={false}></MusicContainerCard>
+                    <ProjectCard key={key} infos={album} isSearch={false}></ProjectCard>
                 )}
             </ScrollView>
         </View>

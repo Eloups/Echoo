@@ -1,6 +1,6 @@
 import { View, Image, StyleSheet, Pressable, TouchableOpacity, Dimensions } from "react-native";
 import { useState, useRef } from "react";
-import { BaseInfos } from "../types/types";
+import { Music } from "../types/types";
 import AppText from '@/lib/components/global/appText';
 import { useTheme } from "../theme/provider";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -8,10 +8,10 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import usePlayerStore from "@/hook/usePlayerStore";
 
 type DetailMusicCardProps = {
-    infos: BaseInfos;
+    infos: Music;
     onRemove?: () => void;
     isAlbum?: boolean;
-    queue?: BaseInfos[];
+    queue?: Music[];
     index?: number;
 }
 
