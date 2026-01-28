@@ -18,6 +18,10 @@ const betterAuthView = (context: Context) => {
 
 
 const app = new Elysia()
+  // affiche dans la console pour dire quel requète est appelée
+  .onRequest(({ request }) => {
+    console.log(`[AUTH-SERVICE] ${request.method} ${request.url}`);
+  })
   .use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

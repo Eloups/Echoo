@@ -7,16 +7,19 @@ import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
 import useAuthHook from '@/hook/authHook';
 import { useTheme } from "@/lib/theme/provider";
+import { useGlobalHook } from "@/hook";
 
 export default function CompteScreen() {
     const router = useRouter();
     const { logout } = useAuthHook();
+    const { user } = useGlobalHook();
     const { theme } = useTheme();
     
+    console.log("user = ", user);
+
     function handleLogout() {
         logout();
     }
-
 
     return (
         <View
