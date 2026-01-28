@@ -33,11 +33,18 @@ bunx prisma generate
 bunx prisma migrate dev
 bunx prisma db push 
 bun run dev
+
+npx prisma generate
+npx prisma migrate dev
+npx prisma db push 
+npm run dev
 ```
 
 Pour voir les donnée de la bdd : 
 ```bash
 bunx prisma studio
+
+npx prisma studio
 ```
 
 ## Lancement de conteneurs docker

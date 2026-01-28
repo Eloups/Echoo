@@ -2,7 +2,7 @@ import { config } from '@dotenvx/dotenvx';
 import { join } from 'path';
 
 config({
-  path: join(import.meta.dirname, '..', '..', '..', '.env')
+  path: join(import.meta.dirname, '..', '.env')
 });
 
 type Env = {
