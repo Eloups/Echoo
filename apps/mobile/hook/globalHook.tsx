@@ -5,8 +5,8 @@ import type { VerifyAuthResponse } from '@/lib/types/auth'
 import { User } from '@/lib/types/auth'
 import { router } from 'expo-router'
 
-const API_BASE = 'https://api.example.com'
-const API_BASE_AUTH = 'http://10.100.43.41:3333'
+const API_BASE = process.env.EXPO_PUBLIC_API_BASE_URL;
+const API_BASE_AUTH = process.env.EXPO_PUBLIC_API_AUTH_URL;
 
 /**
  * Hook global pour l'état de l'application

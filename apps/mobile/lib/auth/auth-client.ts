@@ -1,11 +1,9 @@
 import { createAuthClient } from "better-auth/react";
 import { jwtClient } from "better-auth/client/plugins";
 
-// fallback to local IP if EXPO_PUBLIC_API_AUTH_URL is not set
-const DEFAULT_API = "http://10.100.43.41:3333";
-const baseURL = DEFAULT_API;
+const AUTH_URL = process.env.EXPO_PUBLIC_API_AUTH_URL
 
 export const authClient = createAuthClient({
-  baseURL,
+  AUTH_URL,
   plugins: [jwtClient()],
 });

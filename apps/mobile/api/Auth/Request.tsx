@@ -5,7 +5,7 @@ import { LoginResponse } from './Model';
 // ici il faut mettre l'adresse IP locale du pc 
 // allé dans le terminal et tapez ipconfig (windows) 
 // et prendre l'adresse IPv4
-const AUTH_URL = "http://10.100.43.41:3333"
+const AUTH_URL = process.env.EXPO_PUBLIC_API_AUTH_URL;
 
 
 export const login = async (email: string, password: string): Promise<string> => {

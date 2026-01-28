@@ -8,7 +8,7 @@ import { UserService } from '../lib/api/user.service';
 import { CreateUserRequest } from '../lib/api/types';
 
 
-const API_BASE_AUTH = 'http://10.100.43.41:3333'
+const API_BASE_AUTH = process.env.EXPO_PUBLIC_API_AUTH_URL
 
 interface AuthHook {
   login: (email: string, password: string) => Promise<void>;
