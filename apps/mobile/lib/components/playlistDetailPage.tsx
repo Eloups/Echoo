@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
-import { BaseInfos } from '../types/types';
+import { Playlist, Music } from '../types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from './musicCard';
 import DetailMusicCard from './detailMusicCard';
@@ -11,7 +11,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { PlaylistService, apiClient } from '@/lib/api';
 
 type PlaylistDetailPageProps = {
-    data: BaseInfos;
+    data: Playlist;
     onBack: () => void;
 };
 
@@ -21,7 +21,7 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
     const [menuVisible, setMenuVisible] = useState(false);
     const [playlistDetails, setPlaylistDetails] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-    const [musicList, setMusicList] = useState<BaseInfos[]>([]);
+    const [musicList, setMusicList] = useState<Music[]>([]);
     const [totalDuration, setTotalDuration] = useState(0);
 
     useEffect(() => {
@@ -35,18 +35,20 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                 
                 setPlaylistDetails(playlistData);
                 
-                // Convertir les musiques au format BaseInfos
-                const formattedMusics: BaseInfos[] = (playlistData.musics || []).map((music: any) => ({
+                // Convertir les musiques au format Music
+                const formattedMusics: Music[] = (playlistData.musics || []).map((music: any) => ({
                     id: music.id,
                     cover: music.coverPath 
                         ? { uri: apiClient.getImageUrl(music.coverPath) }
                         : data.cover,
                     title: music.title,
-                    artist: music.artist || "Artiste inconnu",
+                    artist: music.nameArtist || music.artist || "Artiste inconnu",
                     color1: "#04131D",
                     color2: "#082840",
                     nbStreams: music.nbStreams || 0,
-                    type: "music" as const
+                    type: "music" as const,
+                    audioFile: music.filePath || music.fichierAudio || music.audioFile || `music_${music.id}.mp3`,
+                    duration: music.duration || 0
                 }));
                 
                 setMusicList(formattedMusics);
@@ -195,7 +197,9 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                                     <View key={music.id || index} style={{ marginBottom: 9 }}>
                                         <DetailMusicCard 
                                             infos={music} 
-                                            onRemove={() => console.log(`Supprimer ${music.title}`)} 
+                                            onRemove={() => console.log(`Supprimer ${music.title}`)}
+                                            queue={musicList}
+                                            index={index}
                                         />
                                     </View>
                                 ))}
@@ -204,12 +208,12 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                     </ScrollView>
                 )}
 
-                {/* Bouton flottant en bas à droite */}
+                {/* Bouton pour ajouter des musiques à la playlist */}
                 <Pressable
                     onPress={() => setModalVisible(true)}
                     style={{
                         position: 'absolute',
-                        bottom: 27,
+                        bottom: 90,
                         right: 20,
                         width: 60,
                         height: 60,

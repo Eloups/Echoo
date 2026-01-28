@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, ScrollView, Pressable } from "react-nati
 import { useTheme } from "@/lib/theme/provider";
 import AppText from "@/lib/components/global/appText";
 import LastSongPlayedCard from "@/lib/components/home_last_song_played_card";
-import { BaseInfos } from "@/lib/types/types";
+import { Music, Artist, Project } from "@/lib/types/types";
 import SectionTitle from "@/lib/components/sectionTitle";
 import MusicCard from "@/lib/components/musicCard";
 import MonthArtists from "@/lib/components/monthArtists";
@@ -24,7 +24,7 @@ export default function home() {
         } as any);
     }, [navigation]);
 
-    const handleAlbumPress = (album: BaseInfos) => {
+    const handleAlbumPress = (album: Project) => {
         const currentPath = '/' + segments.join('/');
         router.push({
             pathname: "/(tabs)/detail",
@@ -36,76 +36,66 @@ export default function home() {
     };
 
 
-    const albumTemp: BaseInfos = {
+    const albumTemp: Project = {
         cover: placeholderImage,
         title: "HIT ME HARD AND SOFT",
         artist: "Billie Eilish",
-        color1: "",
-        color2: "",
-        type: "album"
+        type: "album",
+        description: ""
     }
 
-    const musicTemp: BaseInfos = {
+    const musicTemp: Music = {
+        id: 1,
         cover: placeholderImage,
         title: "CHIHIRO",
         artist: "Billie Eilish",
         color1: "#04131D",
         color2: "#082840",
         nbStreams: 46,
-        type: "music"
+        audioFile: "music_1.mp3"
     }
 
-    const musicTemp2: BaseInfos = {
+    const musicTemp2: Music = {
+        id: 2,
         cover: placeholderImage,
         title: "Rich Man",
         artist: "aespa",
         color1: "#000000",
         color2: "#0E0E0E",
         nbStreams: 24,
-        type: "music"
+        audioFile: "music_2.mp3"
     }
 
-    const musicTemp3: BaseInfos = {
+    const musicTemp3: Music = {
+        id: 3,
         cover: placeholderImage,
         title: "What do you want from me ?",
         artist: "Jann",
         color1: "#965F4C",
         color2: "#291A15",
         nbStreams: 11,
-        type: "music"
+        audioFile: "music_3.mp3"
     }
 
-    const artist1: BaseInfos = {
+    const artist1: Artist = {
         cover: placeholderImage,
-        title: "Madison Beer",
-        artist: "",
-        color1: "",
-        color2: "",
-        type: "artist"
+        title: "Madison Beer"
     }
 
-    const artist2: BaseInfos = {
+    const artist2: Artist = {
         cover: placeholderImage,
-        title: "Billie Eilish",
-        artist: "",
-        color1: "",
-        color2: "",
-        type: "artist"
+        title: "Billie Eilish"
     }
 
-    const artist3: BaseInfos = {
+    const artist3: Artist = {
         cover: placeholderImage,
-        title: "aespa",
-        artist: "",
-        color1: "",
-        color2: "",
-        type: "artist"
+        title: "aespa"
     }
 
     // TODO : remplacer les infos par celles de la BDD
-    const artistList: BaseInfos[] = [artist1, artist2, artist3, artist1, artist2, artist3];
-    const musicList: BaseInfos[] = [musicTemp, musicTemp2, musicTemp3, musicTemp];
-    const releasedRecentlyList: BaseInfos[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
+    const artistList: Artist[] = [artist1, artist2, artist3, artist1, artist2, artist3];
+    const musicList: Music[] = [musicTemp, musicTemp2, musicTemp3, musicTemp];
+    const releasedRecentlyList: Music[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
     
 
     return (

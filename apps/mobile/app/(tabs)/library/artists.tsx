@@ -1,6 +1,6 @@
-import MusicCard from "@/lib/components/musicCard";
+import ArtistCard from "@/lib/components/artistCard";
 import { useTheme } from "@/lib/theme/provider";
-import { BaseInfos } from "@/lib/types/types";
+import { Artist } from "@/lib/types/types";
 import { ScrollView, View, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
 import { ArtistService, apiClient } from "@/lib/api";
@@ -8,7 +8,7 @@ import AppText from "@/lib/components/global/appText";
 
 export default function Artists() {
     const { theme } = useTheme();
-    const [artists, setArtists] = useState<BaseInfos[]>([]);
+    const [artists, setArtists] = useState<Artist[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -19,23 +19,17 @@ export default function Artists() {
                 const userId = 3; // ID utilisateur
                 const response: any = await ArtistService.getAllArtistsByUserID(userId);
                 
-                console.log('Artistes récupérés:', response);
-                
-                // La réponse contient un objet avec une clé "artists" qui est un tableau
                 const artistsArray = response.artists || [];
                 
-                // Convertir les données de l'API au format BaseInfos
-                const formattedArtists: BaseInfos[] = artistsArray.map((artist: any) => ({
+                // Convertir les données de l'API au format Artist
+                const formattedArtists: Artist[] = artistsArray.map((artist: any) => ({
                     id: artist.id,
                     cover: artist.imagePath 
                         ? { uri: apiClient.getImageUrl(artist.imagePath) }
                         : require("../../../assets/images/react-logo.png"),
                     title: artist.name,
-                    artist: artist.isVerified ? "Vérifié" : "",
-                    color1: "#04131D",
-                    color2: "#082840",
-                    nbStreams: 0,
-                    type: "artist" as const,
+                    name: artist.name,
+                    isVerified: artist.isVerified,
                     description: artist.description
                 }));
                 
@@ -72,7 +66,7 @@ export default function Artists() {
         <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>
             <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
                 {artists.map((artist, key) =>
-                    <MusicCard key={key} infos={artist} isSearch={false}></MusicCard>
+                    <ArtistCard key={key} infos={artist} isSearch={false}></ArtistCard>
                 )}
             </ScrollView>
         </View>

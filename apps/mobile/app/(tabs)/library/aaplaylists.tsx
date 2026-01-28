@@ -1,31 +1,29 @@
-import MusicCard from "@/lib/components/musicCard";
+import PlaylistCard from "@/lib/components/playlistCard";
 import { useTheme } from "@/lib/theme/provider";
-import { BaseInfos } from "@/lib/types/types";
+import { Playlist } from "@/lib/types/types";
 import { ScrollView, View, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
 import { PlaylistService, apiClient } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 export default function Playlists() {
     const { theme } = useTheme();
-    const [playlists, setPlaylists] = useState<BaseInfos[]>([]);
+    const [playlists, setPlaylists] = useState<Playlist[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchPlaylists = async () => {
-            try {
-                setLoading(true);
-                const userId = 3; // ID utilisateur
-                const response: any = await PlaylistService.getAllPlaylistsByUserID(userId);
-                
-                console.log('Playlists récupérées:', response);
-                
-                // La réponse contient un objet avec une clé "playlists" qui est un tableau
-                const playlistsArray = response.playlists || [];
-                
-                // Convertir les données de l'API au format BaseInfos
-                const formattedPlaylists: BaseInfos[] = playlistsArray.map((playlist: any) => ({
+    const fetchPlaylists = useCallback(async () => {
+        try {
+            setLoading(true);
+            const userId = 3; // ID utilisateur
+            const response: any = await PlaylistService.getAllPlaylistsByUserID(userId);
+            
+            const playlistsArray = response.playlists || [];
+            
+            // Convertir les données de l'API au format Playlist du front
+            const formattedPlaylists: Playlist[] = playlistsArray.map((playlist: any) => ({
                     id: playlist.id,
                     cover: playlist.coverPath 
                         ? { uri: apiClient.getImageUrl(playlist.coverPath) }
@@ -39,15 +37,18 @@ export default function Playlists() {
                     description: playlist.description || "",
                     nbMusics: playlist.musics?.length || 0,
                     musicList: playlist.musics?.map((music: any) => ({
+                        id: music.id,
                         cover: music.coverPath 
                             ? { uri: apiClient.getImageUrl(music.coverPath) }
                             : require("../../../assets/images/react-logo.png"),
                         title: music.titre || music.title,
-                        artist: music.artisteNom || music.artist || "Artiste inconnu",
+                        artist: music.artisteNom || music.nameArtist || music.artist || "Artiste inconnu",
                         color1: "#04131D",
                         color2: "#082840",
-                        nbStreams: music.nbEcoutes || 0,
-                        type: "music" as const
+                        nbStreams: music.nbEcoutes || music.nbStreams || 0,
+                        type: "music" as const,
+                        audioFile: music.fichierAudio || music.audioFile || music.filePath || `music_${music.id}.mp3`,
+                        duration: music.duree || music.duration || 300 // 300 secondes par défaut si pas de durée
                     })) || []
                 }));
                 
@@ -58,10 +59,13 @@ export default function Playlists() {
             } finally {
                 setLoading(false);
             }
-        };
+        }, []);
 
-        fetchPlaylists();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            fetchPlaylists();
+        }, [fetchPlaylists])
+    );
 
     if (loading) {
         return (
@@ -84,7 +88,7 @@ export default function Playlists() {
         <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>
             <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
                 {playlists.map((playlist, key) =>
-                    <MusicCard key={key} infos={playlist} isSearch={false}></MusicCard>
+                    <PlaylistCard key={key} infos={playlist} isSearch={false}></PlaylistCard>
                 )}
             </ScrollView>
         </View>

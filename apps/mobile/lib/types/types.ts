@@ -1,15 +1,42 @@
-export type BaseInfos = {
+export type Music = {
+    id: number,
     cover: any,
-    title: string,
-    artist: string[] | string,
+    title : string,
+    artist : string[] | string,
     color1: string,
     color2: string,
     nbStreams?: number,
+    audioFile?: string,
+    duration?: number,
+}
+
+export type Playlist = {
+    id?: number,
+    cover: any,
+    title : string,
+    description : string,
+    musics? : Music[],
+}
+
+export type Project = {
+    cover: any,
     type: string,
-    musicList?: BaseInfos[],
-    nbMusics?: number,
+    title : string,
+    description : string,
+    artist : string[] | string,
+    musics? : Music[],
+}
+
+export type Artist = {
+    id?: number,
+    cover: any,
+    title: string,
+    name?: string,
+    isVerified?: boolean,
     description?: string,
-    id?: number
+    nb_likes?: number,
+    popular_musics?: Music[],
+    last_releases?: Music[]
 }
 
 type APIMusic = {
@@ -28,7 +55,7 @@ export type APIArtist = {
     isVerified: boolean,
     description?: string,
     image_path?: string,
-    nb_likes: Int16Array,
+    nb_likes: number,
     popular_musics: APIMusic[],
     last_releases : APIMusic[] 
 }

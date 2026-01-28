@@ -6,11 +6,15 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { Tabs } from 'expo-router';
 import LibraryIcon from '@/assets/icons/libraryIcon';
 import AppHeader from '@/lib/components/appHeader';
+import MiniPlayer from '@/lib/components/miniPlayer';
+import PlayerModal from '@/lib/components/playerModal';
+import { View } from 'react-native';
 
 export default function TabLayout() {
     const { theme } = useTheme();
     return (
-        <Tabs screenOptions={{
+        <View style={{ flex: 1, position: 'relative' }}>
+            <Tabs screenOptions={{
             tabBarActiveTintColor: theme.colors.text,
             tabBarInactiveTintColor: theme.colors.primaryLight,
             tabBarActiveBackgroundColor: theme.colors.background2,
@@ -82,6 +86,9 @@ export default function TabLayout() {
                     title: 'Album',
                 }}
             />
-        </Tabs>
+            </Tabs>
+            <MiniPlayer />
+            <PlayerModal />
+        </View>
     );
 }

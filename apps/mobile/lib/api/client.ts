@@ -23,10 +23,7 @@ class ApiClient {
 
     // Intercepteur de requêtes (pour ajouter des tokens, logs, etc.)
     this.client.interceptors.request.use(
-      (config: AxiosRequestConfig) => {
-        if (__DEV__) {
-          console.log(`API Request: ${config.method?.toUpperCase()} ${config.url}`);
-        }
+      (config) => {
         return config;
       },
       (error: any) => {
@@ -37,10 +34,7 @@ class ApiClient {
 
     // Intercepteur de réponses (pour gérer les erreurs globalement)
     this.client.interceptors.response.use(
-      (response: AxiosResponse) => {
-        if (__DEV__) {
-          console.log(`API Response: ${response.config.url}`, response.status);
-        }
+      (response) => {
         return response;
       },
       (error: AxiosError) => {

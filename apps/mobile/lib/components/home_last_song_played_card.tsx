@@ -1,10 +1,10 @@
 import { View, Image } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import AppText from "./global/appText";
-import { BaseInfos } from "../types/baseInfos";
+import { Music } from "../types/types";
 
 type PageProps = {
-    music: BaseInfos
+    music: Music
 }
 
 export default function LastSongPlayedCard(props: PageProps) {
