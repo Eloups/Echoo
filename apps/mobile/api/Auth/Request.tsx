@@ -9,9 +9,6 @@ const AUTH_URL = process.env.EXPO_PUBLIC_API_AUTH_URL;
 
 
 export const login = async (email: string, password: string): Promise<string> => {
-        console.log("login in request");
-
-        //     const res = await fetch(`${AUTH_URL}/login`, {
         const res = await fetch(`${AUTH_URL}/api/auth/sign-in/email`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

@@ -51,6 +51,8 @@ class ApiClient {
     if (error.response) {
       // Le serveur a répondu avec un code d'erreur
       const status = error.response.status;
+      console.log('Backend error response:', error.response.data);
+
       const message = error.response.data || error.message;
       
       switch (status) {
@@ -85,8 +87,17 @@ class ApiClient {
 
   
   // Méthode POST
-  async post<T>(url: string, data?: any): Promise<T> {
-    const response = await this.client.post<T>(url, data);
+  async post<T>(url: string, data?: any, isFile: boolean = false): Promise<T> {
+    let config = {};
+    if (isFile) {
+      config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json',
+        },
+      };
+    }
+    const response = await this.client.post<T>(url, data, config);
     return response.data;
   }
 
@@ -107,14 +118,12 @@ class ApiClient {
   
   // Récupérer l'URL complète d'une image
   getImageUrl(fileName: string): string {
-    console.log("API_BASE_URL =", API_BASE_URL);
     return `${API_BASE_URL}/images/${fileName}`;
   }
 
   
   // Récupérer l'URL complète d'un stream audio
   getStreamUrl(fileName: string): string {
-    console.log("API_BASE_URL =", API_BASE_URL);
     return `${API_BASE_URL}/stream/${fileName}`;
   }
 }

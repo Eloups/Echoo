@@ -11,9 +11,6 @@ export const UserService = {
    * Post 
    */
   createUser: async (request: CreateUserRequest): Promise<any> => {
-    console.log("ICII1");
-    console.log("Request = ", request);
-
     let retour = await apiClient.post<any>('/users', {
       id: request.id,
       username: request.username,
@@ -23,9 +20,6 @@ export const UserService = {
       id_role: 1,
       id_artist: null,
     });
-    
-    console.log("Retour = ", retour);
-    console.log("ICII2");
 
     return retour;
   },

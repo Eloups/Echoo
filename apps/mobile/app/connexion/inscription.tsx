@@ -7,11 +7,13 @@ import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
 import useAuthHook from '@/hook/authHook';
+import useGlobalHook from "@/hook/globalHook";
 
 
 export default function InscriptionScreen() {
     const router = useRouter();
     const { register, isLoading, authError } = useAuthHook();
+    const { AddImage } = useGlobalHook();
 
     const [pseudo, setPseudo] = React.useState("");
     const [email, setEmail] = React.useState("");
@@ -19,6 +21,12 @@ export default function InscriptionScreen() {
     const [mdpConf, setMdpConf] = React.useState("");
     const [imagePdp, setImagePdp] = React.useState<string | null>(null);
 
+
+    React.useEffect(() => {
+        if (imagePdp && imagePdp !== "") {
+            AddImage(imagePdp);
+        }
+    }, [imagePdp]);
 
     function verifCreation() {
         // ICIIII TODO Mettre la vérification front des champs

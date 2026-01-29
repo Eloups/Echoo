@@ -44,15 +44,11 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
   login: async (email: string, password: string) => {
     set({ isLoading: true, authError: null });
 
-    console.log("email =", email);
-    console.log("password =", password);
     const { data, error } = await authClient.signIn.email({
       email,
       password,
     })
 
-    console.log("Login data:", data);
-    console.log("Login error:", error);
     if (error) {
       // ICIIIIIII a voir pour mettre un message d'erreur a la main pour l'avoir en français 
       // et pour que ce ne soit pas dirrectement l'erreur du serveur
