@@ -22,16 +22,16 @@ export default function InscriptionScreen() {
     const [imagePdp, setImagePdp] = React.useState<string | null>(null);
 
 
-    React.useEffect(() => {
-        if (imagePdp && imagePdp !== "") {
-            AddImage(imagePdp);
-        }
-    }, [imagePdp]);
+    // React.useEffect(() => {
+    //     if (imagePdp && imagePdp !== "") {
+            // AddImage(imagePdp);
+    //     }
+    // }, [imagePdp]);
 
     function verifCreation() {
         // ICIIII TODO Mettre la vérification front des champs
 
-        register(pseudo, email, mdp);
+        register(pseudo, email, mdp, imagePdp);
     }
 
     return (

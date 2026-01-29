@@ -12,7 +12,7 @@ const API_BASE_AUTH = process.env.EXPO_PUBLIC_API_AUTH_URL
 
 interface AuthHook {
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string, PdpB64: string | null) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
   authError: string | null;
@@ -100,7 +100,7 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     set({ isLoading: false });
   },
 
-  register: async (name: string, email: string, password: string) => {
+  register: async (name: string, email: string, password: string, PdpB64: string | null) => {
     set({ isLoading: true, authError: null });
 
     // Creation de l'utilisateur dans le service d'authentification
@@ -119,11 +119,13 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
 
     if (data) {
       // Génération du JWT
+
       const JWT = await authClient.token()
 
       // Décodage du JWT pour avoir les infos de l'utilisateur 
       // (dont l'id pour ensuite le crée dans l'API backend)
       if (JWT && JWT.data && JWT.data.token) {
+
         const tokenValue = JWT.data.token;
 
         let decodedToken: JWTPayload | undefined;
@@ -140,17 +142,37 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
           return;
         }
 
+        // ajout de la photo de profil si elle est présente 
+        let imagePath = "";
+        try {
+          if (PdpB64) {
+            // Utilise le hook global pour sauvegarder l'image et récupérer le nom du fichier
+            const { AddImage } = useGlobalHook.getState();
+
+            const fileName: string = await AddImage(PdpB64);
+            if (fileName) {
+              imagePath = fileName;
+            }
+          }
+        } catch (e: any) {
+          set({ authError: e.message ?? String(e) });
+          set({ isLoading: false });
+          return;
+        }
+
         // Creation de l'utilisateur dans l'API backend
         try {
           let request: CreateUserRequest = {
             id: data.user.id,
             username: name,
             email: email,
-            image_path: "",
+            image_path: imagePath,
             id_role: 1,
           }
+
           //Creation de l'utilisateur dans l'API backend (avec le même token)
           let val = await UserService.createUser(request);
+
           if (val.code == 201) {
             let expirationTime = decodedToken?.exp;
             const userData = await UserService.getUser(data.user.id);
@@ -166,6 +188,7 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
           set({ isLoading: false });
           return;
         }
+        console.log("user =", useGlobalHook.getState().user);
 
         router.push('/(tabs)/home');
       }

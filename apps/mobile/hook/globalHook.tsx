@@ -13,19 +13,21 @@ const API_BASE_AUTH = process.env.EXPO_PUBLIC_API_AUTH_URL;
 interface GlobalHook {
     user: User | null;
 
-    AddImage: (imagePath: string) => Promise<void>;
+    AddImage: (imageB64: string) => Promise<string>;
     GetImage: (imagePath: string) => Promise<string | null>;
 }
 
 const useGlobalHook = create<GlobalHook>((set, get) => ({
     user: null,
 
-    AddImage: async (imagePath: string) => {
+    AddImage: async (imageB64: string) => {
         try {
-            const retour = await ImageService.AddImage(imagePath);
-            console.log("retour hook:", retour);
+            const retour = await ImageService.AddImage(imageB64);
+            if (retour && retour.fileName){return retour.fileName ;}
+            return "";
         } catch (e) {
             console.error('Erreur lors de l\'upload de l\'image:', e);
+            return "";
         }
     },
 

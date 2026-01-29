@@ -4,6 +4,6 @@ import { jwtClient } from "better-auth/client/plugins";
 const AUTH_URL = process.env.EXPO_PUBLIC_API_AUTH_URL
 
 export const authClient = createAuthClient({
-  AUTH_URL,
+  baseURL: AUTH_URL,
   plugins: [jwtClient()],
 });
