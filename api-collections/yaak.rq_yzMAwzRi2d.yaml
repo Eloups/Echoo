@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_yzMAwzRi2d
 createdAt: 2026-01-02T08:03:17.468994500
-updatedAt: 2026-01-12T11:30:03.268577700
+updatedAt: 2026-01-27T16:25:49.301124900
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_XGNPk28yhy
 authentication: {}
@@ -12,7 +12,7 @@ bodyType: null
 description: ''
 headers: []
 method: GET
-name: Get last listened musics this month
+name: Get most listened musics of the month
 sortPriority: -1760599398214.998
 url: ${[ API_HOST ]}/user/1/lastListened/musics
 urlParameters:
