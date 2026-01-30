@@ -1,6 +1,6 @@
 {
     "name": "echoo/api",
-    "description": "Une application musicale communautaire innovante permettant d'écouter de la musique et de la partager avec ses amis !",
+    "description": "Une application musicale communautaire innovante permettant d'\u00e9couter de la musique et de la partager avec ses amis !",
     "type": "project",
     "autoload": {
         "psr-4": {
@@ -45,14 +45,23 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^12.3",
-        "symfony/var-dumper": "^7.4"
+        "symfony/var-dumper": "^7.4",
+        "codeception/codeception": "^5.3",
+        "codeception/module-phpbrowser": "*",
+        "codeception/module-asserts": "*",
+        "codeception/module-rest": "^3.4"
     },
     "scripts": {
         "test": [
-            "composer unit_test"
+            "composer docker_start",
+            "composer unit_test",
+            "composer e2e_test",
+            "composer docker_drop"
         ],
-        "unit_test": [
-            "./vendor/bin/phpunit ./tests/unit/"
-        ]
+        "unit_test": "./vendor/bin/phpunit ./tests/unit/",
+        "e2e_test": "php vendor/bin/codecept run",
+        "docker_start": "docker-compose up -d",
+        "docker_stop": "docker-compose stop",
+        "docker_drop": "docker-compose down -v"
     }
 }
