@@ -1,1 +1,0 @@
-{"code":500,"message":"Internal server error : Erreur de connexion \u00e0 la base de donn\u00e9es : SQLSTATE[08006] [7] connection to server at \"database\" (172.18.0.3), port 5432 failed: Connection refused\n\tIs the server running on that host and accepting TCP\/IP connections?"}

@@ -59,7 +59,10 @@
             "composer docker_drop"
         ],
         "unit_test": "./vendor/bin/phpunit ./tests/unit/",
-        "e2e_test": "php vendor/bin/codecept run",
+        "e2e_test": [
+            "php vendor/bin/codecept build",
+            "php vendor/bin/codecept run"
+        ],
         "docker_start": "docker-compose up -d",
         "docker_stop": "docker-compose stop",
         "docker_drop": "docker-compose down -v"
