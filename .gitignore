@@ -3,5 +3,5 @@ vendor
 composer.lock
 .env
 /docker/file-server/files
-/apps/api/test/e2e/_output
-/apps/api/test/e2e/Support
+/apps/api/tests/e2e/_output
+/apps/api/tests/e2e/Support
