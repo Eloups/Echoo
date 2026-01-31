@@ -16,19 +16,32 @@ composer install
 
 ## Lancer l'application mobile 
 
-Commande pour lancer l'application mobile avec Expo go
+Assurez-vous d'être sur le même réseau entre le PC qui fait tourner le conteneur Docker et le téléphone qui va utiliser l'application mobile.  
 
+Ouvrez un terminal PowerShell à la racine du projet puis tapez les commandes suivantes :  
 ```bash
 cd .\apps\mobile\
 npm install
+cp .env.exemple .env
+```
+Ouvrez un terminal cmd et tapez :
+```bash
+ipconfig
+```
+Remplacez "localhost" dans le fichier *apps/mobile/.env* par l'adresse IP trouvée dans la partie **Carte réseau sans fil Wi-Fi**, puis dans la section **Adresse IPv4**.
+
+Retournez dans le premier terminal et tapez :
+```bash
 npm run start
 ```
-
+Scannez avec le téléphone le QR code apparu et accédez à l'application.
 
 ## Lancer l'Auth service
 Commande pour lancer l'Auth Service
 
 ```bash
+cd .\apps\auth-service-JWT\
+
 bunx prisma generate
 bunx prisma migrate dev
 bunx prisma db push 
