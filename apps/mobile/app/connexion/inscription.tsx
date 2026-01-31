@@ -12,8 +12,7 @@ import useGlobalHook from "@/hook/globalHook";
 
 export default function InscriptionScreen() {
     const router = useRouter();
-    const { register, isLoading, authError } = useAuthHook();
-    const { AddImage } = useGlobalHook();
+    const { register, isLoading, authError, sendVerificationEmail } = useAuthHook();
 
     const [pseudo, setPseudo] = React.useState("");
     const [email, setEmail] = React.useState("");
@@ -21,18 +20,17 @@ export default function InscriptionScreen() {
     const [mdpConf, setMdpConf] = React.useState("");
     const [imagePdp, setImagePdp] = React.useState<string | null>(null);
 
-
-    // React.useEffect(() => {
-    //     if (imagePdp && imagePdp !== "") {
-            // AddImage(imagePdp);
-    //     }
-    // }, [imagePdp]);
-
     function verifCreation() {
         // ICIIII TODO Mettre la vérification front des champs
 
         register(pseudo, email, mdp, imagePdp);
     }
+
+    async function sendEmail() {
+        sendVerificationEmail("thibaultcallerand@gmail.com");
+
+    }
+
 
     return (
         <View
@@ -134,6 +132,16 @@ export default function InscriptionScreen() {
             >
                 Déjà un compte ? Se connecter
             </AppText>
+
+            <View style={{ width: "100%", height: 50, marginTop: 20 }}>
+                <BtnConnexion
+                    title="TEST ENVOIE MAIL"
+                    onClick={() => {
+                        sendEmail();
+                    }}
+                    isLoading={isLoading}
+                />
+            </View>
         </View>
     );
 }

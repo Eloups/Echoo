@@ -21,6 +21,9 @@ interface AuthHook {
   checkToken: () => Promise<boolean>;
   tokenIsExpired: () => boolean;  // lib/auth/service.ts
   verifyToken: (token: string) => Promise<JWTPayload | undefined>;
+
+  sendVerificationEmail: (email: string) => Promise<void>;
+
 }
 
 export const useAuthHook = create<AuthHook>((set, get) => ({
@@ -224,8 +227,18 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     const json = await res.json() as VerifyAuthResponse;
     if (!res.ok || json.status !== 'SUCCESS') throw new Error(json.message ?? 'verify failed');
     return json.decoded;
-  }
+  },
 
+  sendVerificationEmail: async (email: string) => {
+    console.log("ici");
+
+    let retour = await authClient.requestPasswordReset({
+    email: email, // required
+    redirectTo: "",
+})
+
+    console.log("sendVerificationEmail retour =", retour);
+  },
 }))
 
 export default useAuthHook;
