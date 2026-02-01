@@ -5,13 +5,15 @@ import { router, useSegments } from "expo-router";
 
 type ProjectCardProps = {
     infos: Project,
-    isSearch?: boolean
+    isSearch?: boolean,
+    isHome?: boolean
 }
 
 // Composant dédié à l'affichage des projets (albums, EP, singles)
 export default function ProjectCard(props: ProjectCardProps) {
     const segments = useSegments();
     const isSearch = props.isSearch ?? false;
+    const isHome = props.isHome ?? false;
 
     const handlePress = () => {
         const currentPath = '/' + segments.join('/');
@@ -63,6 +65,17 @@ export default function ProjectCard(props: ProjectCardProps) {
                             </AppText>
                         </View>
                     </View>
+                ) : isHome ? (
+                    // Vue compacte pour la page d'accueil
+                    <View>
+                        <Image source={props.infos.cover} height={95} width={95} style={styles.imageProject}></Image>
+                        <AppText size={"md"} style={{ marginTop: 3 }}>
+                            {props.infos.title.length > 15 ? props.infos.title.slice(0, 13) + "..." : props.infos.title}
+                        </AppText>
+                        <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -5 }] }}>
+                            {getProjectTypeLabel()}
+                        </AppText>
+                    </View>
                 ) : (
                     // Vue normale
                     <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
@@ -94,6 +107,11 @@ export default function ProjectCard(props: ProjectCardProps) {
 }
 
 const styles = StyleSheet.create({
+    imageProject: {
+        height: 95,
+        width: 95,
+        borderRadius: 5
+    },
     imageMusicSearch: {
         height: 55,
         width: 55,

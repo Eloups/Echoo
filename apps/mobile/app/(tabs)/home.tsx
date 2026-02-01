@@ -5,6 +5,7 @@ import LastSongPlayedCard from "@/lib/components/home_last_song_played_card";
 import { Music, Artist, Project } from "@/lib/types/types";
 import SectionTitle from "@/lib/components/sectionTitle";
 import MusicCard from "@/lib/components/musicCard";
+import ProjectCard from "@/lib/components/projectCard";
 import MonthArtists from "@/lib/components/monthArtists";
 import MonthMusics from "@/lib/components/monthMusics";
 import { useEffect, useState, useCallback } from "react";
@@ -19,6 +20,7 @@ export default function home() {
     const navigation = useNavigation();
     const segments = useSegments();
     const [lastListenedMusics, setLastListenedMusics] = useState<Music[]>([]);
+    const [latestReleases, setLatestReleases] = useState<Project[]>([]);
     
     useEffect(() => {
         navigation.setOptions({
@@ -34,6 +36,12 @@ export default function home() {
                     // TODO: Remplacer l'ID hardcodé par l'ID de l'utilisateur connecté
                     const userId = 3;
                     const data = await HomeService.getLastListenedMusics(userId);
+                    
+                    // Vérifier si des musiques ont été retournées
+                    if (!data.musics || data.musics.length === 0) {
+                        setLastListenedMusics([]);
+                        return;
+                    }
                     
                     // Récupérer les covers pour chaque musique
                     const mappedMusics: Music[] = await Promise.all(
@@ -66,10 +74,42 @@ export default function home() {
                     setLastListenedMusics(mappedMusics);
                 } catch (error) {
                     console.error("Erreur lors de la récupération des dernières musiques écoutées:", error);
+                    setLastListenedMusics([]);
+                }
+            };
+
+            const fetchLatestReleases = async () => {
+                try {
+                    // TODO: Remplacer l'ID hardcodé par l'ID de l'utilisateur connecté
+                    const userId = 3;
+                    const data = await HomeService.getFollowedArtistsReleases(userId);
+                    
+                    // Mapper les projets de l'API vers le type Project
+                    const mappedProjects: Project[] = data.projects.map((apiProject) => {
+                        let coverUri = placeholderImage;
+                        
+                        if (apiProject.coverPath) {
+                            coverUri = { uri: apiClient.getImageUrl(apiProject.coverPath) };
+                        }
+                        
+                        return {
+                            cover: coverUri,
+                            type: apiProject.projectType.toLowerCase(),
+                            title: apiProject.title,
+                            description: "",
+                            artist: "", // TODO: Récupérer le nom de l'artiste si nécessaire
+                            musics: []
+                        };
+                    });
+                    
+                    setLatestReleases(mappedProjects);
+                } catch (error) {
+                    console.error("Erreur lors de la récupération des dernières sorties:", error);
                 }
             };
 
             fetchLastListenedMusics();
+            fetchLatestReleases();
         }, [])
     );
 
@@ -151,17 +191,23 @@ export default function home() {
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: theme.colors.background }}>
             <View style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingHorizontal: 24, marginTop: 10 }}>
                 <AppText size={"lg"} style={{ marginBottom: 15 }}>Derniers morceaux écoutés</AppText>
-                <View style={{ display: "flex", gap: 9, width: '100%' }}>
-                    {lastListenedMusics.slice(0, 3).map((music, index) => (
-                        <LastSongPlayedCard key={music.id} music={music}></LastSongPlayedCard>
-                    ))}
-                </View>
+                {lastListenedMusics.length > 0 ? (
+                    <View style={{ display: "flex", gap: 9, width: '100%' }}>
+                        {lastListenedMusics.slice(0, 3).map((music, index) => (
+                            <LastSongPlayedCard key={music.id} music={music}></LastSongPlayedCard>
+                        ))} 
+                    </View>
+                ) : (
+                    <View style={{ width: '100%', paddingVertical: 20, alignItems: 'center' }}>
+                        <AppText size={"md"} color="text2">Aucune musique écoutée récemment</AppText>
+                    </View>
+                )}
             </View>
             <SectionTitle text="Dernières sorties"></SectionTitle>
 
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
-                {releasedRecentlyList.map((music, key) =>
-                    <MusicCard key={key} infos={music}  isSearch={false} isHome={true}></MusicCard>
+                {latestReleases.map((project, key) =>
+                    <ProjectCard key={key} infos={project} isSearch={false} isHome={true}></ProjectCard>
                 )}
             </ScrollView>
 
