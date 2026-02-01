@@ -189,8 +189,10 @@ export default function home() {
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: theme.colors.background }}>
-            <View style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingHorizontal: 24, marginTop: 10 }}>
-                <AppText size={"lg"} style={{ marginBottom: 15 }}>Derniers morceaux écoutés</AppText>
+                            <SectionTitle text="Derniers morceaux écoutés"></SectionTitle>
+
+            <View style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingHorizontal: 24}}>
+
                 {lastListenedMusics.length > 0 ? (
                     <View style={{ display: "flex", gap: 9, width: '100%' }}>
                         {lastListenedMusics.slice(0, 3).map((music, index) => (
