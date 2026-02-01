@@ -7,8 +7,10 @@ import SectionTitle from "@/lib/components/sectionTitle";
 import MusicCard from "@/lib/components/musicCard";
 import MonthArtists from "@/lib/components/monthArtists";
 import MonthMusics from "@/lib/components/monthMusics";
-import { useEffect } from "react";
-import { useNavigation, router, useSegments } from "expo-router";
+import { useEffect, useState, useCallback } from "react";
+import { useNavigation, router, useSegments, useFocusEffect } from "expo-router";
+import { HomeService } from "@/lib/api/home.service";
+import { MusicService, apiClient } from "@/lib/api";
 
 const placeholderImage = require("../../assets/images/react-logo.png");
 
@@ -16,6 +18,7 @@ export default function home() {
     const { theme } = useTheme();
     const navigation = useNavigation();
     const segments = useSegments();
+    const [lastListenedMusics, setLastListenedMusics] = useState<Music[]>([]);
     
     useEffect(() => {
         navigation.setOptions({
@@ -23,6 +26,52 @@ export default function home() {
             subtitle: "",
         } as any);
     }, [navigation]);
+
+    useFocusEffect(
+        useCallback(() => {
+            const fetchLastListenedMusics = async () => {
+                try {
+                    // TODO: Remplacer l'ID hardcodé par l'ID de l'utilisateur connecté
+                    const userId = 3;
+                    const data = await HomeService.getLastListenedMusics(userId);
+                    
+                    // Récupérer les covers pour chaque musique
+                    const mappedMusics: Music[] = await Promise.all(
+                        data.musics.map(async (apiMusic) => {
+                            let coverUri = placeholderImage;
+                            
+                            try {
+                                const coverData = await MusicService.getMusicCoverPath(apiMusic.id);
+                                if (coverData.cover_path) {
+                                    coverUri = { uri: apiClient.getImageUrl(coverData.cover_path) };
+                                }
+                            } catch (error) {
+                                console.error(`Erreur lors de la récupération de la cover pour la musique ${apiMusic.id}:`, error);
+                            }
+                            
+                            return {
+                                id: apiMusic.id,
+                                title: apiMusic.title,
+                                artist: apiMusic.nameArtist || "Artiste inconnu",
+                                cover: coverUri,
+                                color1: "#04131D", // TODO: Générer ou récupérer les couleurs depuis l'API
+                                color2: "#082840",
+                                duration: apiMusic.duration,
+                                nbStreams: apiMusic.nbStreams,
+                                audioFile: apiMusic.filePath
+                            };
+                        })
+                    );
+                    
+                    setLastListenedMusics(mappedMusics);
+                } catch (error) {
+                    console.error("Erreur lors de la récupération des dernières musiques écoutées:", error);
+                }
+            };
+
+            fetchLastListenedMusics();
+        }, [])
+    );
 
     const handleAlbumPress = (album: Project) => {
         const currentPath = '/' + segments.join('/');
@@ -112,9 +161,9 @@ export default function home() {
                 <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
                     <AppText size={"lg"} style={{ marginBottom: 10 }}>Derniers morceaux écoutés</AppText>
                     <View style={{ display: "flex", gap: 9 }}>
-                        <LastSongPlayedCard music={musicTemp}></LastSongPlayedCard>
-                        <LastSongPlayedCard music={musicTemp2}></LastSongPlayedCard>
-                        <LastSongPlayedCard music={musicTemp3}></LastSongPlayedCard>
+                        {lastListenedMusics.slice(0, 3).map((music, index) => (
+                            <LastSongPlayedCard key={music.id} music={music}></LastSongPlayedCard>
+                        ))}
                     </View>
                 </View>
             </View>
