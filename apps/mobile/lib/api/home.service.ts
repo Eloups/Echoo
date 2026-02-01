@@ -36,6 +36,21 @@ export interface FollowedArtistsReleasesResponse {
   projects: APIProject[];
 }
 
+export interface APIArtist {
+  id: number;
+  name: string;
+  isVerified: boolean;
+  description: string;
+  imagePath: string;
+  network: any[];
+  projects: any[];
+  featuredMusic: any[];
+}
+
+export interface MonthArtistsResponse {
+  artists: APIArtist[];
+}
+
 /**
  * Service API pour la page d'accueil
  * Gère les données spécifiques à l'écran Home
@@ -55,5 +70,13 @@ export const HomeService = {
    */
   getFollowedArtistsReleases: async (userId: number): Promise<FollowedArtistsReleasesResponse> => {
     return await apiClient.get<FollowedArtistsReleasesResponse>(`/user/${userId}/follows/artists/releases`);
+  },
+
+  /**
+   * Récupérer les artistes les plus écoutés du mois
+   * GET /artist/listened/month
+   */
+  getMonthArtists: async (): Promise<MonthArtistsResponse> => {
+    return await apiClient.get<MonthArtistsResponse>('/artist/listened/month');
   },
 };

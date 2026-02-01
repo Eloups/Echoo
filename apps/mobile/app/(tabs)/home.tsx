@@ -21,6 +21,7 @@ export default function home() {
     const segments = useSegments();
     const [lastListenedMusics, setLastListenedMusics] = useState<Music[]>([]);
     const [latestReleases, setLatestReleases] = useState<Project[]>([]);
+    const [monthArtists, setMonthArtists] = useState<Artist[]>([]);
     
     useEffect(() => {
         navigation.setOptions({
@@ -108,8 +109,34 @@ export default function home() {
                 }
             };
 
+            const fetchMonthArtists = async () => {
+                try {
+                    const data = await HomeService.getMonthArtists();
+                    
+                    // Mapper les artistes de l'API vers le type Artist
+                    const mappedArtists: Artist[] = data.artists.map((apiArtist) => {
+                        let coverUri = placeholderImage;
+                        
+                        if (apiArtist.imagePath) {
+                            coverUri = { uri: apiClient.getImageUrl(apiArtist.imagePath) };
+                        }
+                        
+                        return {
+                            id: apiArtist.id,
+                            cover: coverUri,
+                            title: apiArtist.name
+                        };
+                    });
+                    
+                    setMonthArtists(mappedArtists);
+                } catch (error) {
+                    console.error("Erreur lors de la récupération des artistes du mois:", error);
+                }
+            };
+
             fetchLastListenedMusics();
             fetchLatestReleases();
+            fetchMonthArtists();
         }, [])
     );
 
@@ -213,11 +240,11 @@ export default function home() {
                 )}
             </ScrollView>
 
-            <SectionTitle text="Mes artistes du mois"></SectionTitle>
+            <SectionTitle text="Les artistes du mois"></SectionTitle>
 
-            <MonthArtists artistList={artistList}></MonthArtists>
+            <MonthArtists artistList={monthArtists}></MonthArtists>
 
-            <SectionTitle text="Mes morceaux du mois"></SectionTitle>
+            <SectionTitle text="Les morceaux du mois"></SectionTitle>
 
             <MonthMusics musicList={musicList}></MonthMusics>
         </ScrollView>
