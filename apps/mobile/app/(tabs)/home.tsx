@@ -215,7 +215,7 @@ export default function home() {
     
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: theme.colors.background }}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: theme.colors.background }} contentContainerStyle={{ paddingBottom: 100 }}>
                             <SectionTitle text="Derniers morceaux écoutés"></SectionTitle>
 
             <View style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingHorizontal: 24}}>
@@ -243,10 +243,6 @@ export default function home() {
             <SectionTitle text="Les artistes du mois"></SectionTitle>
 
             <MonthArtists artistList={monthArtists}></MonthArtists>
-
-            <SectionTitle text="Les morceaux du mois"></SectionTitle>
-
-            <MonthMusics musicList={musicList}></MonthMusics>
         </ScrollView>
     )
 }
