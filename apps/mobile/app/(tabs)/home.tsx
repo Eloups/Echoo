@@ -149,22 +149,12 @@ export default function home() {
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: theme.colors.background }}>
-            <View style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "row", alignSelf: 'stretch', gap: 17, marginTop: 10 }}>
-                <Pressable onPress={() => handleAlbumPress(albumTemp)}>
-                    <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
-                        <AppText size={"lg"} style={{ marginBottom: 10 }}>Dernier album écouté</AppText>
-                        <Image source={albumTemp.cover} style={{ width: 144, height: 144, borderRadius: 5 }} />
-                        <AppText size={"md"}>{albumTemp.title}</AppText>
-                        <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -6 }] }}>{albumTemp.artist}</AppText>
-                    </View>
-                </Pressable>
-                <View style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 3 }}>
-                    <AppText size={"lg"} style={{ marginBottom: 10 }}>Derniers morceaux écoutés</AppText>
-                    <View style={{ display: "flex", gap: 9 }}>
-                        {lastListenedMusics.slice(0, 3).map((music, index) => (
-                            <LastSongPlayedCard key={music.id} music={music}></LastSongPlayedCard>
-                        ))}
-                    </View>
+            <View style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingHorizontal: 24, marginTop: 10 }}>
+                <AppText size={"lg"} style={{ marginBottom: 15 }}>Derniers morceaux écoutés</AppText>
+                <View style={{ display: "flex", gap: 9, width: '100%' }}>
+                    {lastListenedMusics.slice(0, 3).map((music, index) => (
+                        <LastSongPlayedCard key={music.id} music={music}></LastSongPlayedCard>
+                    ))}
                 </View>
             </View>
             <SectionTitle text="Dernières sorties"></SectionTitle>

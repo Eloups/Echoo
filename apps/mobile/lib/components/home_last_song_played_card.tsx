@@ -35,23 +35,24 @@ export default function LastSongPlayedCard(props: PageProps) {
                 style={{
                     display: "flex",
                     flexDirection: "row",
-                    width: 184,
+                    width: '100%',
                     gap: 10,
-                    borderRadius: 5
+                    borderRadius: 5,
+                    alignItems: "center"
                 }}
             >
                 <Image 
                     source={props.music.cover} 
                     height={42} 
                     width={42} 
-                    style={{ height: 42, width: 42 }}
+                    style={{ height: 50, width: 50, borderRadius: 5 }}
                 />
                 <View style={{ display: "flex" }}>
                     <AppText size={"lg"} style={{ transform: [{ translateY: 3 }] }}>
-                        {props.music.title.length > 16 ? props.music.title.slice(0, 15) + "..." : props.music.title}
+                        {props.music.title.length > 30 ? props.music.title.slice(0, 30) + "..." : props.music.title}
                     </AppText>
                     <AppText size={"xs"} color="text2" style={{ transform: [{ translateY: -3 }] }}>
-                        {artistDisplay.length > 16 ? artistDisplay.slice(0, 15) + "..." : artistDisplay}
+                        {artistDisplay.length > 30 ? artistDisplay.slice(0, 30) + "..." : artistDisplay}
                     </AppText>
                 </View>
             </LinearGradient>
