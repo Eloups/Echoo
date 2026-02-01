@@ -1,6 +1,7 @@
 <?php
 
 use Api\Controller\MusicController;
+use Api\Controller\UserController;
 use Api\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -44,10 +45,10 @@ class RouterTest extends TestCase
         $routes = include __DIR__ . '/../../src/router/routes.php';
 
         // Test d'une requête de musique
-        $request = Request::create('/musics', 'GET');
+        $request = Request::create('/users', 'GET');
         $router = new Router($routes, $request);
         $controller = $router->matchController($request);
 
-        $this->assertInstanceOf(MusicController::class, $controller);
+        $this->assertInstanceOf(UserController::class, $controller);
     }
 }
