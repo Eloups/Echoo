@@ -74,7 +74,7 @@ export default function ConnexionScreen() {
                         <AppText color="error" size="md">{authError}</AppText>
                     ) : null}
                     <View style={{ width: "100%", alignItems: "center", marginTop: 33 }}>
-                        <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/inscription") }}>Pas de compte ? S'inscrire</AppText>
+                        <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/inscription"); console.log("zizi") }}>Pas de compte ? S'inscrire</AppText>
                     </View>
                 </View>
             </View>
