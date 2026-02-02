@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TextProps, StyleSheet, TextStyle } from "react-native";
+import { Text, TextProps, StyleSheet, TextStyle, Pressable } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
 
 type Variant = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
@@ -59,9 +59,20 @@ export default function AppText({
         textAlign: align,
     };
 
-    return (
-        <Text {...rest} style={[baseStyle, style]} onPress={() => { onPress ? onPress() : undefined}} pointerEvents="none">
+    const textElement = (
+        <Text {...rest} style={[baseStyle, style]}>
             {children}
         </Text>
     );
+
+    // Si onPress est défini, envelopper dans un Pressable pour iOS
+    if (onPress) {
+        return (
+            <Pressable onPress={onPress}>
+                {textElement}
+            </Pressable>
+        );
+    }
+
+    return textElement;
 }

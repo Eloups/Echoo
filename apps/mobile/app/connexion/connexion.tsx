@@ -5,26 +5,28 @@ import EchoCompleteLogo from "@/assets/img/EchoCompleteLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
+import useAuthHook from '@/hook/authHook';
 
 export default function ConnexionScreen() {
     const router = useRouter();
-
-    const [pseudo, setPseudo] = React.useState<string>("")
-    const [mdp, setMdp] = React.useState<string>("")
-
+    const {login, isLoading, authError} = useAuthHook();
+    const [email, setEmail] = React.useState<string>("");
+    const [mdp, setMdp] = React.useState<string>("");
 
     function handleConect() {
-        if (pseudo.trim() !== ""  && mdp.trim() !== "") {
+        if (email.trim() !== ""  && mdp.trim() !== "") {
             // pass pour le dev Tempo 
-            if (pseudo == "Admin" && mdp == "Admin") {
-                router.push("/(tabs)/home");
-                return;
+            if (email == "A" && mdp == "A") {
+                login("test@gmail.com", "Test1234_");
+            }
+            else {
+                login(email, mdp);
             }
         }
         else {
             let messageError = "";
-            if (pseudo.trim() === "") {
-                messageError += "Le pseudo ne peut pas être vide.\n";
+            if (email.trim() === "") {
+                messageError += "L'email ne peut pas être vide.\n";
             }
             if (mdp.trim() === "") {
                 messageError += "Le mot de passe ne peut pas être vide.\n";
@@ -58,15 +60,19 @@ export default function ConnexionScreen() {
                     }}
                 >
                     <View style={{ width: "100%" }}>
-                        <TextInputGlobal text={pseudo} setText={setPseudo} label="Pseudo" />
+                        <TextInputGlobal text={email} setText={setEmail} label="Email" />
                     </View>
                     <View style={{ width: "100%" }}>
                         <TextInputGlobal text={mdp} setText={setMdp} label="Mot de passe" star={true} />
                     </View>
-                    <AppText color="primary" size="lg" onPress={() => {  }}>Mot de passe oublié ?</AppText>
+                    <AppText color="primary" size="lg" onPress={() => { console.log("Mot de passe oublié") }}>Mot de passe oublié ?</AppText>
                     <View style={{ width: "100%", height: 50 }}>
-                        <BtnConnexion title="Se connecter" onClick={() => { handleConect() }} />
+                        <BtnConnexion title="Se connecter" onClick={() => { handleConect() }} isLoading={isLoading} />
                     </View>
+
+                    {authError ? (
+                        <AppText color="error" size="md">{authError}</AppText>
+                    ) : null}
                     <View style={{ width: "100%", alignItems: "center", marginTop: 33 }}>
                         <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/inscription") }}>Pas de compte ? S'inscrire</AppText>
                     </View>

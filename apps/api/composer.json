@@ -49,7 +49,10 @@
         "codeception/codeception": "^5.3",
         "codeception/module-phpbrowser": "*",
         "codeception/module-asserts": "*",
-        "codeception/module-rest": "^3.4"
+        "codeception/module-rest": "^3.4",
+        "pestphp/pest-plugin-stressless": "^4.0",
+        "pestphp/pest": "^4.3",
+        "phpstan/phpstan": "^2.1"
     },
     "scripts": {
         "test": [
@@ -63,8 +66,16 @@
             "php vendor/bin/codecept build",
             "php vendor/bin/codecept run"
         ],
+        "perf_test": "./vendor/bin/pest tests/perf/ApiPerfTest.php",
+        "full_perf_test": "./vendor/bin/pest tests/perf/ApiFullPerfTest.php",
         "docker_start": "docker-compose up -d",
         "docker_stop": "docker-compose stop",
-        "docker_drop": "docker-compose down -v"
+        "docker_drop": "docker-compose down -v",
+        "lint": "vendor/bin/phpstan analyse public src tests -l 1"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }

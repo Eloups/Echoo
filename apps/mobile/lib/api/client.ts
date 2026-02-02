@@ -26,7 +26,7 @@ class ApiClient {
       (config) => {
         return config;
       },
-      (error) => {
+      (error: any) => {
         console.error('Request Error:', error);
         return Promise.reject(error);
       }
@@ -51,6 +51,8 @@ class ApiClient {
     if (error.response) {
       // Le serveur a répondu avec un code d'erreur
       const status = error.response.status;
+      console.log('Backend error response:', error.response.data);
+
       const message = error.response.data || error.message;
       
       switch (status) {
@@ -85,8 +87,17 @@ class ApiClient {
 
   
   // Méthode POST
-  async post<T>(url: string, data?: any): Promise<T> {
-    const response = await this.client.post<T>(url, data);
+  async post<T>(url: string, data?: any, isFile: boolean = false): Promise<T> {
+    let config = {};
+    if (isFile) {
+      config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json',
+        },
+      };
+    }
+    const response = await this.client.post<T>(url, data, config);
     return response.data;
   }
 

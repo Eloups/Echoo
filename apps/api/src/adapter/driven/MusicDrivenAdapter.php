@@ -29,7 +29,7 @@ class MusicDrivenAdapter implements MusicDrivenAdapterInterface
         $rows = $request->getAllMusics($idArtist);
 
         // Conversion du résultat en tableau d'objets 
-        $musics = ConvertUtils::convertRowToMusic($rows);
+        $musics = ConvertUtils::convertRowToMusic($rows, true);
         return $musics;
     }
 

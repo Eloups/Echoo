@@ -6,10 +6,13 @@ import EchooSmallLogo from "@/assets/img/EchooSmallLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
+import useAuthHook from '@/hook/authHook';
+import useGlobalHook from "@/hook/globalHook";
 
 
 export default function InscriptionScreen() {
     const router = useRouter();
+    const { register, isLoading, authError, sendVerificationEmail } = useAuthHook();
 
     const [pseudo, setPseudo] = React.useState("");
     const [email, setEmail] = React.useState("");
@@ -17,13 +20,16 @@ export default function InscriptionScreen() {
     const [mdpConf, setMdpConf] = React.useState("");
     const [imagePdp, setImagePdp] = React.useState<string | null>(null);
 
-
     function verifCreation() {
-        // TODO Mettre la vérification front des champs 
+        // ICIIII TODO Mettre la vérification front des champs
 
-        // Tempo redirection
-        router.push("/(tabs)/home");
+        register(pseudo, email, mdp, imagePdp);
     }
+
+    // async function sendEmail() {
+    //     sendVerificationEmail("thibaultcallerand@gmail.com");
+    // }
+
 
     return (
         <View
@@ -43,7 +49,7 @@ export default function InscriptionScreen() {
                     flexDirection: "row",
                 }}
             >
-                <EchooSmallLogo height={40} width={65} style={{marginRight : 14}}/>
+                <EchooSmallLogo height={40} width={65} style={{ marginRight: 14 }} />
                 <AppText size="3xl" weight="bold">
                     Inscription
                 </AppText>
@@ -108,8 +114,13 @@ export default function InscriptionScreen() {
                     onClick={() => {
                         verifCreation();
                     }}
+                    isLoading={isLoading}
                 />
             </View>
+
+            {authError ? (
+                <AppText color="error" size="md">{authError}</AppText>
+            ) : null}
 
             <AppText
                 color="primary"
@@ -120,6 +131,16 @@ export default function InscriptionScreen() {
             >
                 Déjà un compte ? Se connecter
             </AppText>
+
+            {/* <View style={{ width: "100%", height: 50, marginTop: 20 }}>
+                <BtnConnexion
+                    title="TEST ENVOIE MAIL"
+                    onClick={() => {
+                        sendEmail();
+                    }}
+                    isLoading={isLoading}
+                />
+            </View> */}
         </View>
     );
 }

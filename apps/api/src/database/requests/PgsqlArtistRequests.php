@@ -155,7 +155,7 @@ class PgsqlArtistRequests
         $request->execute([":id_music" => $idMusic]);
         $result = $request->fetchAll();
 
-        $musics = ConvertUtils::convertRowToMusic($result);
+        $musics = ConvertUtils::convertRowToMusic($result, true);
 
         return $musics;
     }

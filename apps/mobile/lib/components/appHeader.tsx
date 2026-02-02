@@ -29,7 +29,7 @@ export default function AppHeader({ title, subtitle }: Props) {
             }}
         >
             <Pressable
-                onPress={() => router.push("/debug")}
+                onPress={() => router.push("/connexion/compte")}
                 style={{ width: 34, height: 34, borderRadius: 17, overflow: "hidden" }}
             >
                 <Image
