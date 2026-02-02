@@ -61,7 +61,7 @@ export const HomeService = {
    * GET /user/{id}/listened/musics
    */
   getLastListenedMusics: async (userId: number): Promise<LastListenedMusicsResponse> => {
-    return await apiClient.get<LastListenedMusicsResponse>(`/user/${userId}/lastListened/musics`);
+    return await apiClient.get<LastListenedMusicsResponse>(`/user/${userId}/listened/musics`);
   },
 
   /**
