@@ -193,6 +193,7 @@ class ConvertUtils
             // Récupération des genres de la musique
             $genres = [];
             $genresData = $musicRequests->getMusicsGenres($row['id']);
+            $nameArtist = $musicRequests->getMusicArtist($row['id']);
             foreach ($genresData as $genreData) {
                 array_push($genres, $genreData['name']);
             }
@@ -207,7 +208,8 @@ class ConvertUtils
                 $genres,
                 $row['nb_streams'],
                 null,
-                null
+                $nameArtist[0]['name']
+                
             ));
         }
 
