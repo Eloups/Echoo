@@ -13,8 +13,8 @@ class VerifyUtilsTest extends TestCase {
     public function testVerifyJsonRequestBodyValid(): void
     {
         $json = json_encode([
-            'username' => 'john_doe',
-            'email' => 'john@test.com',
+            'username' => 'user1',
+            'email' => 'user1@test.com',
         ]);
 
         $requiredKeys = ['username', 'email'];
@@ -22,8 +22,8 @@ class VerifyUtilsTest extends TestCase {
         $result = VerifyUtils::verifyJsonRequestBody($json, $requiredKeys);
 
         $this->assertEquals([
-            'username' => 'john_doe',
-            'email' => 'john@test.com',
+            'username' => 'user1',
+            'email' => 'user1@test.com',
         ], $result);
     }
 
@@ -33,7 +33,7 @@ class VerifyUtilsTest extends TestCase {
      */
     public function testVerifyJsonRequestBodyInvalidJson(): void
     {
-        $invalidJson = '{username:"john_doe", "email": "john@test.com"';
+        $invalidJson = '{username:"user1", "email": "user1@test.com"';
         $this->expectException(ApiCustomException::class);
         $this->expectExceptionMessage("Le json n'est pas valide");
 
@@ -47,7 +47,7 @@ class VerifyUtilsTest extends TestCase {
     public function testVerifyJsonRequestBodyMissingKey(): void
     {
         $json = json_encode([
-            'username' => 'john_doe',
+            'username' => 'user1',
         ]);
 
         $this->expectException(ApiCustomException::class);

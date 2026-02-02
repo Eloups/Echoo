@@ -399,8 +399,8 @@ class ConvertUtilsTest extends TestCase
             [
                 // User avec artiste
                 'id' => 1,
-                'username' => 'john_doe',
-                'email' => 'john@test.com',
+                'username' => 'user1',
+                'email' => 'user1@test.com',
                 'image_path' => '/images/user1.png',
 
                 'id_library' => 10,
@@ -409,7 +409,7 @@ class ConvertUtilsTest extends TestCase
                 'role' => 'ROLE_USER',
 
                 'id_artist' => 5,
-                'artist_name' => 'John Artist',
+                'artist_name' => 'user1 Artist',
                 'isverified' => true,
                 'description' => 'Artist description',
                 'artist_image_path' => '/images/artist1.png',
@@ -440,8 +440,8 @@ class ConvertUtilsTest extends TestCase
             [
                 new User(
                     1,
-                    'john_doe',
-                    'john@test.com',
+                    'user1',
+                    'user1@test.com',
                     null,
                     '/images/user1.png',
                     new Library(10, [], [], []),
@@ -451,7 +451,7 @@ class ConvertUtilsTest extends TestCase
                     null,
                     new Artist(
                         5,
-                        'John Artist',
+                        'user1 Artist',
                         true,
                         'Artist description',
                         '/images/artist1.png',
@@ -486,8 +486,8 @@ class ConvertUtilsTest extends TestCase
     {
         $row = [
             'id' => 1,
-            'username' => 'john_doe',
-            'email' => 'john@test.com',
+            'username' => 'user1',
+            'email' => 'user1@test.com',
             'image_path' => '/images/user1.png',
 
             'id_library' => 10,
@@ -496,7 +496,7 @@ class ConvertUtilsTest extends TestCase
             'role' => 'ROLE_USER',
 
             'id_artist' => 5,
-            'artist_name' => 'John Artist',
+            'artist_name' => 'user1 Artist',
             'isverified' => true,
             'description' => 'Artist description',
             'artist_image_path' => '/images/artist1.png',
@@ -510,8 +510,8 @@ class ConvertUtilsTest extends TestCase
         $this->assertEquals(
             new User(
                 1,
-                'john_doe',
-                'john@test.com',
+                'user1',
+                'user1@test.com',
                 null,
                 '/images/user1.png',
                 new Library(10, [], [], []),
@@ -521,7 +521,7 @@ class ConvertUtilsTest extends TestCase
                 null,
                 new Artist(
                     5,
-                    'John Artist',
+                    'user1 Artist',
                     true,
                     'Artist description',
                     '/images/artist1.png',
