@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Music } from '@/lib/types/types';
-import { audioService } from '@/lib/services/audioService';
+import { audioService } from '@/lib/api/audioService';
 import { AVPlaybackStatus } from 'expo-av';
 
 interface PlayerState {
@@ -66,9 +66,14 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
         imageUri: typeof track.cover === 'object' && 'uri' in track.cover ? track.cover.uri : undefined,
       };
       
+      // TODO: Récupérer l'ID utilisateur depuis un contexte d'authentification
+      const userId = 3;
+      
       // Charger et jouer la musique avec métadonnées
       await audioService.loadAndPlay(
-        fileName, 
+        fileName,
+        userId,
+        track.id,
         (status) => {
           get().updatePlaybackStatus(status);
         },
@@ -124,9 +129,12 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
       const nextTrack = queue[nextIndex];
       const fileName = nextTrack.audioFile || 'default.mp3';
       
+      // TODO: Récupérer l'ID utilisateur depuis un contexte d'authentification
+      const userId = 3;
+      
       // Charger et jouer la nouvelle piste
       try {
-        await audioService.loadAndPlay(fileName, (status) => {
+        await audioService.loadAndPlay(fileName, userId, nextTrack.id, (status) => {
           get().updatePlaybackStatus(status);
         });
         
@@ -157,9 +165,12 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
       const prevTrack = queue[prevIndex];
       const fileName = prevTrack.audioFile || 'default.mp3';
       
+      // TODO: Récupérer l'ID utilisateur depuis un contexte d'authentification
+      const userId = 3;
+      
       // Charger et jouer la nouvelle piste
       try {
-        await audioService.loadAndPlay(fileName, (status) => {
+        await audioService.loadAndPlay(fileName, userId, prevTrack.id, (status) => {
           get().updatePlaybackStatus(status);
         });
         
