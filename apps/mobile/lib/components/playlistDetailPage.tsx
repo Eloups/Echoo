@@ -1,4 +1,4 @@
-import { View, ScrollView, Image, Pressable, StyleSheet, Modal, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, ScrollView, Image, Pressable, StyleSheet, Modal, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/lib/theme/provider';
@@ -8,7 +8,8 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from './musicCard';
 import DetailMusicCard from './detailMusicCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { PlaylistService, apiClient, MusicService } from '@/lib/api';
+import { PlaylistService, apiClient, MusicService, ImageService } from '@/lib/api';
+import EditPlaylistModal from './editPlaylistModal';
 
 type PlaylistDetailPageProps = {
     data: Playlist;
@@ -18,6 +19,7 @@ type PlaylistDetailPageProps = {
 export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageProps) {
     const { theme } = useTheme();
     const [modalVisible, setModalVisible] = useState(false);
+    const [editModalVisible, setEditModalVisible] = useState(false);
     const [menuVisible, setMenuVisible] = useState(false);
     const [playlistDetails, setPlaylistDetails] = useState<any>(null);
     const [loading, setLoading] = useState(true);
@@ -85,6 +87,44 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
         return `${mins}min${secs.toString().padStart(2, '0')}`;
     };
 
+    const handleEditPlaylist = async (title: string, description: string, coverBase64: string | null, isPublic: boolean) => {
+        try {
+            if (!data.id) return;
+
+            let coverPath = playlistDetails?.coverPath || "";
+            
+            // Si une nouvelle image a été sélectionnée, l'uploader
+            if (coverBase64) {
+                try {
+                    const uploadResult = await ImageService.AddImage(coverBase64, 'image/jpeg');
+                    coverPath = uploadResult.filename;
+                } catch (uploadError) {
+                    console.error('Erreur lors de l\'upload de l\'image:', uploadError);
+                    Alert.alert("Avertissement", "L'image n'a pas pu être uploadée");
+                }
+            }
+
+            // Mettre à jour la playlist
+            await PlaylistService.updatePlaylist(data.id, {
+                title,
+                description,
+                cover_path: coverPath,
+                isPublic
+            });
+
+            Alert.alert("Succès", "Playlist modifiée avec succès !");
+            setEditModalVisible(false);
+            
+            // Recharger les détails de la playlist
+            const response: any = await PlaylistService.getPlaylistById(data.id);
+            const playlistData = response.playlist || response;
+            setPlaylistDetails(playlistData);
+        } catch (err) {
+            console.error('Erreur lors de la modification de la playlist:', err);
+            Alert.alert("Erreur", "Impossible de modifier la playlist");
+        }
+    };
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['top']}>
             <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -128,6 +168,7 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                                 style={styles.menuItem}
                                 onPress={() => {
                                     setMenuVisible(false);
+                                    setEditModalVisible(true);
                                 }}
                             >
                                 <MaterialIcons name="edit" size={20} color={theme.colors.text} />
@@ -265,6 +306,21 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                         </View>
                     </SafeAreaView>
                 </Modal>
+
+                {/* Modale d'édition de playlist */}
+                <EditPlaylistModal
+                    visible={editModalVisible}
+                    onClose={() => setEditModalVisible(false)}
+                    onSubmit={handleEditPlaylist}
+                    initialData={{
+                        title: playlistDetails?.title || data.title,
+                        description: playlistDetails?.description || data.description || "",
+                        coverUri: playlistDetails?.coverPath 
+                            ? apiClient.getImageUrl(playlistDetails.coverPath)
+                            : undefined,
+                        isPublic: playlistDetails?.isPublic || false
+                    }}
+                />
             </View>
         </SafeAreaView>
     );

@@ -32,4 +32,17 @@ export const PlaylistService = {
   }): Promise<any> => {
     return await apiClient.post('/playlist/add', data);
   },
+
+  /**
+   * Mettre à jour une playlist
+   * PATCH /playlist/{id}
+   */
+  updatePlaylist: async (playlistId: number, data: {
+    title?: string;
+    isPublic?: boolean;
+    description?: string;
+    cover_path?: string;
+  }): Promise<any> => {
+    return await apiClient.patch(`/playlist/${playlistId}`, data);
+  },
 };
