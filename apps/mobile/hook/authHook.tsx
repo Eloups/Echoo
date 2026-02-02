@@ -233,9 +233,9 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     console.log("ici");
 
     let retour = await authClient.requestPasswordReset({
-    email: email, // required
-    redirectTo: "",
-})
+      email: email, // required
+      redirectTo: "",
+    })
 
     console.log("sendVerificationEmail retour =", retour);
   },

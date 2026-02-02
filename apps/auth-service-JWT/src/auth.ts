@@ -6,32 +6,24 @@ import { sendEmail } from "./email";
 
 export const jwtPlugin = jwt();
 
+const WEB_SERVICE_AUTHENTIFICATION_URL = process.env.WEB_SERVICE_AUTHENTIFICATION_URL;
+
 export const auth = betterAuth({
+  baseURL: "http://localhost:3333",
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url, token }, request) => {
-      console.log("user", { user });
-      console.log("url", { url });
-      console.log("token", { token });
-      console.log("request", { request });
-      
-      console.log("sendResetPassword called with:", { user, url, token });
+      url = `${WEB_SERVICE_AUTHENTIFICATION_URL}/reset-password/${token}`;
       await sendEmail({
         to: user.email,
+        URL_RESET_PASSWORD: url,
       });
     },
   },
   jwt: {
-    // configuration de la date d'expiration du token JWT
-    // de base c'est 15 minutes (900 secondes)
     expirationTime: 3600, // 1 hour en secondes
   },
-  advanced: {
-    // À ne pas laisser en prod ! // sa désactive la vérification de l'origine des requêtes
-    disableOriginCheck: true,
-  },
-  trustedOrigins: ['http://localhost:3001'],
-  // trustedOrigins: ['*'],
+  trustedOrigins: ['http://localhost:3000'],
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
