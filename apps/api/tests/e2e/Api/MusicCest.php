@@ -81,4 +81,24 @@ final class MusicCest
             'message' => 'Like ajouté avec succès'
         ]);
     }
+
+    /**
+     * Test de /musics/artist/1
+     * @param ApiTester $I
+     * @return void
+     */
+    public function GetMusicsFromArtist(ApiTester $I): void
+    {
+        $I->haveHttpHeader('accept', 'application/json');
+        $I->haveHttpHeader('content-type', 'application/json');
+
+        $I->sendGet('/musics/artist/1');
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'code' => 200,
+            'message' => 'Like ajouté avec succès'
+        ]);
+    }
 }
