@@ -23,7 +23,7 @@ headers:
   value: application/json
   id: 0qXJqkKYEZ
 method: PATCH
-name: ''
+name: update playlist
 sortPriority: -1767090939325.0
 url: ${[ API_HOST ]}/playlist/3
 urlParameters: []

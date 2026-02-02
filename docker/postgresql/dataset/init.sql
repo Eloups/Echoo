@@ -196,38 +196,61 @@ insert into genre (id, name) values
 (10, 'Metal');
 
 insert into music (id, title, duration, release, nb_streams, file_path) values
-(1, 'Dance Floor', 312, '2022-05-15 12:00:00', 456123, '1.mp3'),
-(2, 'Indie Vibes', 287, '2021-11-22 12:00:00', 123456, '2.mp3'),
-(3, 'Jazz Night', 356, '2023-02-10 12:00:00', 789012, '3.mp3'),
-(4, 'Summer Vibes', 245, '2020-07-30 12:00:00', 321654, '4.mp3'),
-(5, 'Hip-Hop Beats', 298, '2024-01-18 12:00:00', 987654, '5.mp3'),
-(6, 'Classical Symphony', 420, '2023-08-14 12:00:00', 123456, '6.mp3'),
-(7, 'Electronic Pulse', 330, '2022-09-20 12:00:00', 456789, '7.mp3'),
-(8, 'Country Roads', 250, '2021-03-10 12:00:00', 234567, '8.mp3'),
-(9, 'BIRDS OF A FEATHER', 210, '2023-05-05 12:00:00', 567890, 'BOAF.mp3'),
-(10, 'Falling Forever', 280, '2022-12-12 12:00:00', 345678, 'FallingForever.mp3'),
-(11, 'Metal Thunder', 400, '2023-07-22 12:00:00', 678901, '11.mp3'),
-(12, 'Pop Sensation', 220, '2021-06-18 12:00:00', 234567, '12.mp3'),
-(13, 'Chillout Lounge', 310, '2023-01-30 12:00:00', 456789, '13.mp3'),
-(14, 'Dance Floor Remix', 320, '2022-11-15 12:00:00', 567890, '14.mp3'),
-(15, 'Indie Vibes Remix', 290, '2023-09-05 12:00:00', 678901, '15.mp3');
+(1, 'LUNCH', 179, '2024-05-17 12:00:00', 456123, 'LUNCH.mp3'),
+(2, 'CHIHIRO', 312, '2024-05-17 12:00:00', 789456, 'CHIHIRO.mp3'),
+(3, 'Houdini', 189, '2024-05-03 12:00:00', 654321, 'Houdini.mp3'),
+(4, 'Training Season', 212, '2024-05-03 12:00:00', 543210, 'TrainingSeason.mp3'),
+(5, 'bellyache', 180, '2017-08-11 12:00:00', 321456, 'bellyache.mp3'),
+(6, 'idontwannabeyouanymore', 204, '2017-08-11 12:00:00', 234567, 'idontwannabeyouanymore.mp3'),
+(7, 'Levitating', 203, '2020-03-27 12:00:00', 987654, 'Levitating.mp3'),
+(8, 'Don''t Start Now', 183, '2020-03-27 12:00:00', 876543, 'DontStartNow.mp3'),
+(9, 'BIRDS OF A FEATHER', 210, '2024-05-17 12:00:00', 567890, 'BOAF.mp3'),
+(10, 'Falling Forever', 280, '2024-05-03 12:00:00', 345678, 'FallingForever.mp3'),
+(11, 'drivers license', 242, '2021-05-21 12:00:00', 765432, 'driverslicense.mp3'),
+(12, 'good 4 u', 178, '2021-05-21 12:00:00', 654321, 'good4u.mp3'),
+(13, 'vampire', 219, '2023-09-08 12:00:00', 543210, 'vampire.mp3'),
+(14, 'get him back!', 191, '2023-09-08 12:00:00', 432109, 'gethimback.mp3'),
+(15, 'Feather', 175, '2022-07-15 12:00:00', 321098, 'Feather.mp3'),
+(16, 'Espresso', 175, '2024-08-23 12:00:00', 890123, 'Espresso.mp3'),
+(17, 'Please Please Please', 186, '2024-08-23 12:00:00', 780123, 'PleasePleasePlease.mp3'),
+(18, 'Kiss Me More', 208, '2021-06-25 12:00:00', 670123, 'KissMeMore.mp3'),
+(19, 'Woman', 172, '2021-06-25 12:00:00', 560123, 'Woman.mp3'),
+(20, 'Cards', 223, '2025-06-20 12:00:00', 450123, 'Cards.mp3'),
+(21, 'Jealous Type', 163, '2025-06-20 12:00:00', 340123, 'JealousType.mp3'),
+(22, 'Stupid Love', 193, '2020-05-29 12:00:00', 230123, 'StupidLove.mp3'),
+(23, 'Rain On Me', 182, '2020-05-29 12:00:00', 120123, 'RainOnMe.mp3'),
+(24, 'Selfish', 199, '2021-02-26 12:00:00', 890234, 'Selfish.mp3'),
+(25, 'Baby', 176, '2021-02-26 12:00:00', 780234, 'Baby.mp3'),
+(26, '360', 133, '2024-06-07 12:00:00', 670234, '360.mp3'),
+(27, 'Apple', 151, '2024-06-07 12:00:00', 560234, 'Apple.mp3'),
+(28, 'Midnight Stun', 189, '2025-03-07 12:00:00', 450234, 'MidnightSun.mp3'),
+(29, 'Crush', 177, '2025-09-26 12:00:00', 340234, 'Crush.mp3'),
+(30, 'Spicy', 186, '2023-05-08 12:00:00', 230234, 'Spicy.mp3'),
+(31, 'Better Things', 193, '2023-11-10 12:00:00', 120234, 'BetterThings.mp3'),
+(32, 'Supernova', 214, '2024-05-27 12:00:00', 890345, 'Supernova.mp3'),
+(33, 'my future', 210, '2021-07-30 12:00:00', 780345, 'myfuture.mp3'),
+(34, 'Oxytocin', 199, '2021-07-30 12:00:00', 670345, 'Oxytocin.mp3'),
+(35, 'bad guy', 194, '2019-03-29 12:00:00', 560345, 'badguy.mp3'),
+(36, 'bury a friend', 193, '2019-03-29 12:00:00', 450345, 'buryafriend.mp3'),
+(37, 'bittersweet', 202, '2026-01-16 12:00:00', 340345, 'bittersweet.mp3'),
+(38, 'Showed Me', 189, '2023-09-15 12:00:00', 230345, 'ShowedMe.mp3');
 
 insert into artist (id, name, isVerified, description, image_path) values
-(1, 'Beyoncé', TRUE, 'Description for artist 1', 'artist_1.jpg'),
-(2, 'Drake', TRUE, 'Description for artist 2', 'artist_2.jpg'),
-(3, 'Taylor Swift', TRUE, 'Description for artist 3', 'artist_3.jpg'),
-(4, 'Kendrick Lamar', TRUE, 'Description for artist 4', 'artist_4.jpg'),
-(5, 'Billie Eilish', TRUE, 'Description for artist 5', 'artist_5.jpg'),
-(6, 'Ed Sheeran', TRUE, 'Description for artist 6', 'artist_6.jpg'),
-(7, 'Adele', TRUE, 'Description for artist 7', 'artist_7.jpg'),
-(8, 'Lady Gaga', TRUE, 'Description for artist 8', 'artist_8.jpg'),
-(9, 'Dua Lipa', TRUE, 'Description for artist 9', 'artist_9.jpg'),
-(10, 'Rihanna', TRUE, 'Description for artist 10', 'artist_10.jpg'),
-(11, 'Coldplay', TRUE, 'Description for artist 11', 'artist_11.jpg'),
-(12, 'The Weeknd', TRUE, 'Description for artist 12', 'artist_12.jpg'),
-(13, 'Ariana Grande', TRUE, 'Description for artist 13', 'artist_13.jpg'),
-(14, 'Justin Bieber', TRUE, 'Description for artist 14', 'artist_14.jpg'),
-(15, 'Post Malone', TRUE, 'Description for artist 15', 'artist_15.jpg');
+(1, 'Billie Eilish', TRUE, 'American singer-songwriter', 'BillieEilish.jpg'),
+(2, 'Dua Lipa', TRUE, 'English-Albanian singer', 'DuaLipa.jpg'),
+(3, 'Olivia Rodrigo', TRUE, 'American singer-songwriter and actress', 'OliviaRodrigo.jpg'),
+(4, 'Sabrina Carpenter', TRUE, 'American singer and actress', 'SabrinaCarpenter.jpg'),
+(5, 'Doja Cat', TRUE, 'American rapper and singer', 'DojaCat.jpg'),
+(6, 'Lady Gaga', TRUE, 'American singer, songwriter, and actress', 'LadyGaga.jpg'),
+(7, 'Madison Beer', TRUE, 'American singer', 'MadisonBeer.jpg'),
+(8, 'Charli XCX', TRUE, 'English singer and songwriter', 'CharliXCX.jpg'),
+(9, 'Zara Larsson', TRUE, 'Swedish singer', 'ZaraLarsson.jpg'),
+(10, 'aespa', TRUE, 'South Korean girl group', 'aespa.jpg'),
+(11, 'Taylor Swift', TRUE, 'American singer-songwriter', 'TaylorSwift.jpg'),
+(12, 'Ariana Grande', TRUE, 'American singer and actress', 'ArianaGrande.jpg'),
+(13, 'The Weeknd', TRUE, 'Canadian singer and songwriter', 'TheWeeknd.jpg'),
+(14, 'Miley Cyrus', TRUE, 'American singer and actress', 'MileyCyrus.jpg'),
+(15, 'Rihanna', TRUE, 'Barbadian singer', 'Rihanna.jpg');
 
 insert into network (id, name) values
 (1, 'Spotify'),
@@ -244,26 +267,28 @@ insert into project_type (id, name) values
 (4, 'Compilation');
 
 insert into project (id, title, release, color1, color2, cover_path, id_type) values
-(1, 'Project 1', '2022-05-15 12:00:00', '#FF5733', '#33FF57', 'project_1.jpg', 1),
-(2, 'Project 2', '2021-11-22 12:00:00', '#3357FF', '#F033FF', 'project_2.jpg', 2),
-(3, 'Project 3', '2023-02-10 12:00:00', '#57FF33', '#FF33F0', 'HMHAS.jpg', 3),
-(4, 'Project 4', '2020-07-30 12:00:00', '#33FFF0', '#F0FF33', 'project_4.jpg', 1),
-(5, 'Project 5', '2024-01-18 12:00:00', '#FF33A8', '#A833FF', 'RadicalOptimism.jpg', 2),
-(6, 'Project 6', '2023-08-14 12:00:00', '#33A8FF', '#A8FF33', 'project_6.jpg', 3),
-(7, 'Project 7', '2022-09-20 12:00:00', '#A833FF', '#33FFA8', 'project_7.jpg', 1),
-(8, 'Project 8', '2021-03-10 12:00:00', '#FFA833', '#33A8FF', 'project_8.jpg', 2),
-(9, 'Project 9', '2023-05-05 12:00:00', '#33FFA8', '#A833FF', 'project_9.jpg', 3),
-(10, 'Project 10', '2022-12-12 12:00:00', '#A8FF33', '#FF33A8', 'project_10.jpg', 1),
-(11, 'Project 11', '2022-05-15 12:00:00', '#FF5733', '#33FF57', 'project_11.jpg', 1),
-(12, 'Project 12', '2021-11-22 12:00:00', '#3357FF', '#F033FF', 'project_12.jpg', 2),
-(13, 'Project 13', '2023-02-10 12:00:00', '#57FF33', '#FF33F0', 'project_13.jpg', 3),
-(14, 'Project 14', '2020-07-30 12:00:00', '#33FFF0', '#F0FF33', 'project_14.jpg', 1),
-(15, 'Project 15', '2024-01-18 12:00:00', '#FF33A8', '#A833FF', 'project_15.jpg', 2),
-(16, 'Project 16', '2023-08-14 12:00:00', '#33A8FF', '#A8FF33', 'project_16.jpg', 3),
-(17, 'Project 17', '2022-09-20 12:00:00', '#A833FF', '#33FFA8', 'project_17.jpg', 1),
-(18, 'Project 18', '2021-03-10 12:00:00', '#FFA833', '#33A8FF', 'project_18.jpg', 2),
-(19, 'Project 19', '2023-05-05 12:00:00', '#33FFA8', '#A833FF', 'project_19.jpg', 3),
-(20, 'Project 20', '2022-12-12 12:00:00', '#A8FF33', '#FF33A8', 'project_20.jpg', 1);
+(1, 'HIT ME HARD AND SOFT', '2024-05-17 12:00:00', '#0e131d', '#101b30', 'HMHAS.jpg', 1),
+(2, 'Radical Optimism', '2024-05-03 12:00:00', '#346372', '#274c5e', 'RadicalOptimism.jpg', 1),
+(3, 'don''t smile at me', '2017-08-11 12:00:00', '#e3d178', '#c0b167', 'DSAM.jpg', 3),
+(4, 'Future Nostalgia', '2020-03-27 12:00:00', '#ff1493', '#8b008b', 'FutureNostalgia.jpg', 1),
+(5, 'SOUR', '2021-05-21 12:00:00', '#a855f7', '#ec4899', 'SOUR.jpg', 1),
+(6, 'GUTS', '2023-09-08 12:00:00', '#7c3aed', '#4c1d95', 'GUTS.jpg', 1),
+(7, 'Emails I Can''t Send', '2022-07-15 12:00:00', '#60a5fa', '#3b82f6', 'EmailsICantSend.jpg', 1),
+(8, 'Short n'' Sweet', '2024-08-23 12:00:00', '#fbbf24', '#f59e0b', 'ShortNSweet.jpg', 1),
+(9, 'Planet Her', '2021-06-25 12:00:00', '#ec4899', '#be185d', 'PlanetHer.jpg', 1),
+(10, 'Vie', '2025-06-20 12:00:00', '#a78bfa', '#8b5cf6', 'Vie.jpg', 1),
+(11, 'Chromatica', '2020-05-29 12:00:00', '#f472b6', '#ec4899', 'Chromatica.jpg', 1),
+(12, 'Life Support', '2021-02-26 12:00:00', '#fca5a5', '#f87171', 'LifeSupport.jpg', 1),
+(13, 'BRAT', '2024-06-07 12:00:00', '#84cc16', '#65a30d', 'BRAT.jpg', 1),
+(14, 'Mayhem', '2025-03-07 12:00:00', '#06b6d4', '#0891b2', 'Mayhem.jpg', 1),
+(15, 'Midnight Sun', '2025-09-26 12:00:00', '#f97316', '#ea580c', 'MidnightSun.jpg', 1),
+(16, 'MY WORLD', '2023-05-08 12:00:00', '#8b5cf6', '#7c3aed', 'MYWORLD.jpg', 3),
+(17, 'Drama', '2023-11-10 12:00:00', '#ef4444', '#dc2626', 'Drama.jpg', 1),
+(18, 'Armageddon', '2024-05-27 12:00:00', '#6366f1', '#4f46e5', 'Armageddon.jpg', 1),
+(19, 'Happier Than Ever', '2021-07-30 12:00:00', '#fef3c7', '#fde68a', 'HappierThanEver.jpg', 1),
+(20, 'When We All Fall Asleep, Where Do We Go?', '2019-03-29 12:00:00', '#d1fae5', '#a7f3d0', 'WWAFAWDWG.jpg', 1),
+(21, 'locket', '2026-01-16 12:00:00', '#e8b4f0', '#d8a4e0', 'Locket.jpg', 1),
+(22, 'Silence Between Songs', '2023-09-15 12:00:00', '#c9daf8', '#a4c2f4', 'SilenceBetweenSongs.jpg', 1);
 
 insert into library (id) values
 ('1'), ('2'), ('3'), ('4'), ('5'), ('6'), ('7'), ('8'), ('9'), ('10');
@@ -274,7 +299,7 @@ insert into playlist (title, isPublic, description, cover_path) values
 ('Playlist 3', TRUE, 'Description for playlist 3', 'playlist_3.jpg'),
 ('Playlist 4', FALSE, 'Description for playlist 4', 'playlist_4.jpg'),
 ('Playlist 5', TRUE, 'Description for playlist 5', 'playlist_5.jpg'),
-('Playlist 6', FALSE, 'Description for playlist 6', 'playlist_6.jpg'),
+('ALL', FALSE, 'Toutes les musiques d''Echoo', 'playlist_6.jpg'),
 ('Playlist 7', TRUE, 'Description for playlist 7', 'playlist_7.jpg'),
 ('Playlist 8', FALSE, 'Description for playlist 8', 'playlist_8.jpg'),
 ('Playlist 9', TRUE, 'Description for playlist 9', 'playlist_9.jpg'),
@@ -389,9 +414,10 @@ insert into friendship (user1, user2) values
 ('1', '2'), ('1', '3'), ('1', '5'), ('2', '4'), ('2', '6'), ('3', '4'), ('3', '7'), ('4', '8'), ('5', '9'), ('6', '10');
 
 insert into featuring (id_artist, id_music) values
-(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (5, 9), (9, 10),
-(11, 11), (12, 12), (13, 13), (14, 14), (15, 15), (1, 6), (2, 7), (3, 8), (4, 9),
-(6, 11), (7, 12), (8, 13), (9, 14), (10, 15), (11, 1), (12, 2), (13, 3), (14, 4), (15, 5);
+(1, 1), (1, 2), (2, 3), (2, 4), (1, 5), (1, 6), (2, 7), (2, 8), (1, 9), (2, 10),
+(3, 11), (3, 12), (3, 13), (3, 14), (4, 15), (4, 16), (4, 17), (5, 18), (5, 19), (5, 20), (5, 21),
+(6, 22), (6, 23), (7, 24), (7, 25), (8, 26), (8, 27), (9, 28), (9, 29), (10, 30), (10, 31),
+(10, 32), (1, 33), (1, 34), (1, 35), (1, 36), (7, 37), (7, 38);
 
 insert into artist_network (id_artist, id_network, link) values
 (1, 1, 'https://example.com/artist_1_network_1'),
@@ -431,12 +457,14 @@ insert into artist_network (id_artist, id_network, link) values
 (15, 3, 'https://example.com/artist_15_network_3');
 
 insert into project_music (id_project, id_music) values
-(1, 1), (1, 2), (2, 3), (2, 4), (3, 5), (3, 6), (4, 7), (4, 8), (3, 9), (5, 10),
-(6, 11), (6, 12), (7, 13), (7, 14), (8, 15), (8, 1), (9, 2), (9, 3), (10, 4), (10, 5);
+(1, 1), (1, 2), (1, 9), (2, 3), (2, 4), (2, 10), (3, 5), (3, 6), (4, 7), (4, 8),
+(5, 11), (5, 12), (6, 13), (6, 14), (7, 15), (8, 16), (8, 17), (9, 18), (9, 19), (10, 20), (10, 21),
+(11, 22), (11, 23), (12, 24), (12, 25), (13, 26), (13, 27), (15, 28), (15, 29), (16, 30), (17, 31),
+(18, 32), (19, 33), (19, 34), (20, 35), (20, 36), (21, 37), (22, 38);
 
 insert into artist_project (id_artist, id_project) values
-(1, 1), (2, 11), (3, 2), (4, 12), (5, 3), (6, 13), (7, 4), (8, 14), (9, 5), (10, 15),
-(11, 6), (12, 16), (13, 7), (14, 17), (15, 8), (1, 18), (2, 9), (3, 19), (4, 10), (5, 20);
+(1, 1), (2, 2), (1, 3), (2, 4), (3, 5), (3, 6), (4, 7), (4, 8), (5, 9), (5, 10),
+(6, 11), (7, 12), (8, 13), (9, 14), (9, 15), (10, 16), (10, 17), (10, 18), (1, 19), (1, 20), (7, 21), (7, 22);
 
 insert into library_artist (id_library, id_artist) values
 ('1', 1), ('1', 2), ('1', 3), ('2', 4), ('2', 5), ('3', 6), ('3', 7), ('4', 8), ('4', 9), ('5', 10),
@@ -452,7 +480,11 @@ insert into library_playlist (id_library, id_playlist) values
 
 insert into playlist_music (id_playlist, id_music) values
 (1, 1), (1, 2), (2, 3), (2, 4), (3, 5), (3, 6), (4, 7), (4, 8), (5, 9), (5, 10),
-(6, 11), (6, 12), (7, 13), (7, 14), (8, 15), (8, 1), (9, 2), (9, 3), (10, 4), (10, 5),
+(6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6), (6, 7), (6, 8), (6, 9), (6, 10),
+(6, 11), (6, 12), (6, 13), (6, 14), (6, 15), (6, 16), (6, 17), (6, 18), (6, 19), (6, 20),
+(6, 21), (6, 22), (6, 23), (6, 24), (6, 25), (6, 26), (6, 27), (6, 28), (6, 29), (6, 30),
+(6, 31), (6, 32), (6, 33), (6, 34), (6, 35), (6, 36), (6, 37), (6, 38),
+(7, 13), (7, 14), (8, 15), (8, 1), (9, 2), (9, 3), (10, 4), (10, 5),
 (1, 6), (2, 7), (3, 8), (4, 9), (7, 12), (8, 13), (9, 14), (10, 15);
 
 insert into user_conversation (id_user, id_conversation) values
