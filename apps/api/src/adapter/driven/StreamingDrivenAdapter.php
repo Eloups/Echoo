@@ -31,8 +31,8 @@ class StreamingDrivenAdapter implements StreamingDrivenAdapterInterface
         $fileUrl = $fsHost . ':' . $fsPort . '/musics/' . $fileName;
 
         [, $fileExtention] = explode('.', $fileName);
-        if ($fileExtention !== 'flac' && $fileExtention !== 'mp3') {
-            throw new ApiCustomException('Wrong file extention, only flac or mp3 are supported', 422);
+        if ($fileExtention !== 'mp3') {
+            throw new ApiCustomException('Wrong file extention, only mp3 is supported', 422);
         }
 
         $ch = curl_init($fileUrl);
@@ -61,7 +61,7 @@ class StreamingDrivenAdapter implements StreamingDrivenAdapterInterface
         }
 
         $isPartialContent = false;
-        if ($range && preg_match('/bytes=(\d+)-(\d*)/', $range, $matches) && $fileExtention === 'mp3') {
+        if ($range && preg_match('/bytes=(\d+)-(\d*)/', $range, $matches)) {
             $start = intval($matches[1]);
             $end = $matches[2] !== '' ? intval($matches[2]) : $contentLength;
             $isPartialContent = true;
@@ -84,7 +84,6 @@ class StreamingDrivenAdapter implements StreamingDrivenAdapterInterface
         });
 
         $response->headers->set('Content-Type', match ($fileExtention) {
-            'flac' => 'audio/flac',
             'mp3' => 'audio/mp3',
         });
 
