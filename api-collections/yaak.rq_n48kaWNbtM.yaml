@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_n48kaWNbtM
 createdAt: 2026-01-08T17:35:14.560016800
-updatedAt: 2026-01-08T17:35:37.095628200
+updatedAt: 2026-02-01T14:51:27.951998
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_k7AiE9NFCL
 authentication: {}
@@ -14,5 +14,5 @@ headers: []
 method: GET
 name: get cover file project with id music
 sortPriority: -1760599398215.0
-url: ${[ API_HOST ]}/music/2/coverPath
+url: ${[ API_HOST ]}/music/10/coverPath
 urlParameters: []

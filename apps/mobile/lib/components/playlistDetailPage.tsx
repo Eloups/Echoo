@@ -8,7 +8,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from './musicCard';
 import DetailMusicCard from './detailMusicCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { PlaylistService, apiClient } from '@/lib/api';
+import { PlaylistService, apiClient, MusicService } from '@/lib/api';
 
 type PlaylistDetailPageProps = {
     data: Playlist;
@@ -35,21 +35,34 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                 
                 setPlaylistDetails(playlistData);
                 
-                // Convertir les musiques au format Music
-                const formattedMusics: Music[] = (playlistData.musics || []).map((music: any) => ({
-                    id: music.id,
-                    cover: music.coverPath 
-                        ? { uri: apiClient.getImageUrl(music.coverPath) }
-                        : data.cover,
-                    title: music.title,
-                    artist: music.nameArtist || music.artist || "Artiste inconnu",
-                    color1: "#04131D",
-                    color2: "#082840",
-                    nbStreams: music.nbStreams || 0,
-                    type: "music" as const,
-                    audioFile: music.filePath || music.fichierAudio || music.audioFile || `music_${music.id}.mp3`,
-                    duration: music.duration || 0
-                }));
+                // Convertir les musiques au format Music et récupérer les covers
+                const formattedMusics: Music[] = await Promise.all(
+                    (playlistData.musics || []).map(async (music: any) => {
+                        let coverUri = data.cover;
+                        
+                        try {
+                            const coverData = await MusicService.getMusicCoverPath(music.id);
+                            if (coverData.cover_path) {
+                                coverUri = { uri: apiClient.getImageUrl(coverData.cover_path) };
+                            }
+                        } catch (error) {
+                            console.error(`Erreur lors de la récupération de la cover pour la musique ${music.id}:`, error);
+                        }
+                        
+                        return {
+                            id: music.id,
+                            cover: coverUri,
+                            title: music.title,
+                            artist: music.nameArtist || music.artist || "Artiste inconnu",
+                            color1: "#04131D",
+                            color2: "#082840",
+                            nbStreams: music.nbStreams || 0,
+                            type: "music" as const,
+                            audioFile: music.filePath || music.fichierAudio || music.audioFile || `music_${music.id}.mp3`,
+                            duration: music.duration || 0
+                        };
+                    })
+                );
                 
                 setMusicList(formattedMusics);
                 

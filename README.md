@@ -81,6 +81,18 @@ Commande pour supprimer les conteneurs :
 docker-compose down -v
 ```
 
+## Lancement des tests de l'application
+
+Dirigez-vous dans le dossier de l'API:
+```bash
+cd apps/api
+```
+
+Puis, lancez les tests :
+```bash
+composer test
+```
+
 ## Auteurs
 
 - TISSIER Elouan (Eloups)

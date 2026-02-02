@@ -1,5 +1,5 @@
-import axios from 'axios';
-import type { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
+import { MusicService } from './music.service';
 
 // Configuration de l'URL de base de l'API depuis les variables d'environnement
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
@@ -122,8 +122,13 @@ class ApiClient {
   }
 
   
-  // Récupérer l'URL complète d'un stream audio
-  getStreamUrl(fileName: string): string {
+  // Récupérer l'URL complète d'un stream audio et enregistrer dans l'historique
+  async getStreamUrl(fileName: string, userId: number, musicId: number): Promise<string> {
+    // Enregistrer la musique dans l'historique d'écoute (fire-and-forget)
+    MusicService.addListenedMusic(userId, musicId).catch(error => {
+      console.error("Erreur lors de l'enregistrement de la musique dans l'historique:", error);
+    });
+    
     return `${API_BASE_URL}/stream/${fileName}`;
   }
 }

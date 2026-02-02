@@ -67,11 +67,15 @@ class AudioService {
   /**
    * Charge et joue une musique depuis le serveur de streaming
    * @param fileName Nom du fichier audio (ex: "music1.mp3")
+   * @param userId ID de l'utilisateur
+   * @param musicId ID de la musique
    * @param onPlaybackStatusUpdate Callback pour les mises à jour du statut
    * @param metadata Métadonnées de la musique (titre, artiste, image)
    */
   async loadAndPlay(
     fileName: string,
+    userId: number,
+    musicId: number,
     onPlaybackStatusUpdate?: (status: any) => void,
     metadata?: { title: string; artist: string; imageUri?: string }
   ): Promise<void> {
@@ -84,8 +88,8 @@ class AudioService {
       // Arrêter les anciennes mises à jour
       this.stopStatusUpdates();
 
-      // Construire l'URL de streaming
-      const streamUrl = apiClient.getStreamUrl(fileName);
+      // Construire l'URL de streaming et enregistrer dans l'historique
+      const streamUrl = await apiClient.getStreamUrl(fileName, userId, musicId);
       this.currentUri = streamUrl;
 
       // Stocker le callback

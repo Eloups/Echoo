@@ -1,0 +1,27 @@
+name: API unit tests
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Install Composer
+        run: composer install --working-dir=apps/api --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Run unit tests
+        run: cd apps/api && composer unit_test
