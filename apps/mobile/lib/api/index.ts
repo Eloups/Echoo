@@ -8,3 +8,4 @@ export * from './client';
 export { ArtistService } from './artist.service';
 export { MusicService } from './music.service';
 export { PlaylistService } from './playlist.service';
+export { ImageService } from './image.service';
