@@ -61,8 +61,35 @@ services:
     - ./docker/file-server/files/images:/usr/share/nginx/html/images
     - ./docker/file-server/files/musics:/usr/share/nginx/html/musics
     networks:
-      - net1
+      - net1  
+  
+  database_auth:
+    image: postgres:18-alpine
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5433:5432"
 
+  auth-service:
+    image: php:8.3-apache
+    volumes: 
+     - ./apps/auth-service-JWT/apps/api:/var/www/html
+    environment:
+      AUTH_SERVICE_URL: http://host.docker.internal:3333
+    extra_hosts:
+      # Allow accessing localhost from inside a docker container through host.docker.internal
+      - "host.docker.internal:host-gateway"
+    ports: 
+      - 8888:80
+    networks: 
+      - net1
+      
 networks:
   net1:
-    driver: bridge
+    driver: bridge  
+
+

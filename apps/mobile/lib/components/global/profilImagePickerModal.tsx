@@ -33,10 +33,11 @@ export function ProfilImagePickerModal(props: ProfilImagePickerProps) {
             allowsEditing: true,
             aspect: [1, 1],
             quality: 1,
+            base64: true,
         });
 
         if (!result.canceled) {
-            props.setImagePdp(result.assets[0].uri);
+            props.setImagePdp(result.assets[0].base64 || null);
         }
     };
 
@@ -73,7 +74,7 @@ export function ProfilImagePickerModal(props: ProfilImagePickerProps) {
             <TouchableOpacity onPress={() => setModalVisible(true)}>
                 {props.imagePdp ? (
                     <Image
-                        source={{ uri: props.imagePdp }}
+                        source={{ uri: `data:image/jpeg;base64,${props.imagePdp}` }}
                         style={{
                             height: props.height ? props.height : 74,
                             width: props.width ? props.width : 74,
