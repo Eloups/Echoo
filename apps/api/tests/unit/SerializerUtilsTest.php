@@ -10,7 +10,7 @@ class SerializerUtilsTest extends TestCase
      * Test de la classe SerializeUtils pour serialiser les objets en json
      * @return void
      */
-    public function testSerializerUtilsGet(): void
+    public function test_SerializerUtilsGet(): void
     {
         // Créons un objet simple à sérialiser
         $music = new Music(null, "titre", 120, new DateTime(), "file_path", null, 56, null, null);
@@ -23,6 +23,5 @@ class SerializerUtilsTest extends TestCase
         $this->assertStringContainsString('"title":"titre"', $json);
         $this->assertStringContainsString('"duration":120', $json);
         $this->assertStringContainsString('"nbStreams":56', $json);
-    
     }
 }
