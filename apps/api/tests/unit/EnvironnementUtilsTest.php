@@ -3,7 +3,7 @@
 use Api\Utils\EnvironmentUtils;
 use PHPUnit\Framework\TestCase;
 
-Class EnvironnementUtilsTest extends TestCase {
+class EnvironnementUtilsTest extends TestCase {
 
     /**
      * Test de la fonction checkEnvironnement

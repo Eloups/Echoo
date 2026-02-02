@@ -4,7 +4,7 @@ use Api\Exception\ApiCustomException;
 use Api\Utils\VerifyUtils;
 use PHPUnit\Framework\TestCase;
 
-Class VerifyUtilsTest extends TestCase {
+class VerifyUtilsTest extends TestCase {
 
     /**
      * Test de la fonction de vérification du json avec un body valide
