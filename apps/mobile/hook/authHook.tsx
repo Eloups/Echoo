@@ -191,7 +191,7 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
           set({ isLoading: false });
           return;
         }
-        console.log("user =", useGlobalHook.getState().user);
+        // console.log("user =", useGlobalHook.getState().user);
 
         router.push('/(tabs)/home');
       }
@@ -230,14 +230,12 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
   },
 
   sendVerificationEmail: async (email: string) => {
-    console.log("ici");
-
     let retour = await authClient.requestPasswordReset({
       email: email, // required
       redirectTo: "",
     })
 
-    console.log("sendVerificationEmail retour =", retour);
+    // console.log("sendVerificationEmail retour =", retour);
   },
 }))
 

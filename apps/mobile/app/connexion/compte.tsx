@@ -14,8 +14,6 @@ export default function CompteScreen() {
     const { logout } = useAuthHook();
     const { user } = useGlobalHook();
     const { theme } = useTheme();
-    
-    console.log("user = ", user);
 
     function handleLogout() {
         logout();
