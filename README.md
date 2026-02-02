@@ -55,6 +55,16 @@ Puis, lancez les tests :
 composer test
 ```
 
+Pour lancer les tests de performances simples, lancez :
+```bash
+composer perf_test
+```
+
+Pour lancer les tests de performances complets, lancez :
+```bash
+composer full_perf_test
+```
+
 ## Auteurs
 
 - TISSIER Elouan (Eloups)
