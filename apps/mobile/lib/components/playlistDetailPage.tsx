@@ -111,8 +111,6 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                 cover_path: coverPath,
                 isPublic
             });
-
-            Alert.alert("Succès", "Playlist modifiée avec succès !");
             setEditModalVisible(false);
             
             // Recharger les détails de la playlist
@@ -123,6 +121,34 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
             console.error('Erreur lors de la modification de la playlist:', err);
             Alert.alert("Erreur", "Impossible de modifier la playlist");
         }
+    };
+
+    const handleDeletePlaylist = async () => {
+        Alert.alert(
+            "Supprimer la playlist",
+            "Êtes-vous sûr de vouloir supprimer cette playlist ? Cette action est irréversible.",
+            [
+                {
+                    text: "Annuler",
+                    style: "cancel"
+                },
+                {
+                    text: "Supprimer",
+                    style: "destructive",
+                    onPress: async () => {
+                        try {
+                            if (!data.id) return;
+                            
+                            await PlaylistService.deletePlaylist(data.id);
+                            onBack();
+                        } catch (err) {
+                            console.error('Erreur lors de la suppression de la playlist:', err);
+                            Alert.alert("Erreur", "Impossible de supprimer la playlist");
+                        }
+                    }
+                }
+            ]
+        );
     };
 
     return (
@@ -179,6 +205,7 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                                 style={styles.menuItem}
                                 onPress={() => {
                                     setMenuVisible(false);
+                                    handleDeletePlaylist();
                                 }}
                             >
                                 <MaterialIcons name="delete" size={20} color="#ff4444" />

@@ -45,4 +45,12 @@ export const PlaylistService = {
   }): Promise<any> => {
     return await apiClient.patch(`/playlist/${playlistId}`, data);
   },
+
+  /**
+   * Supprimer une playlist
+   * DELETE /playlist/{id}
+   */
+  deletePlaylist: async (playlistId: number): Promise<any> => {
+    return await apiClient.delete(`/playlist/${playlistId}`);
+  },
 };
