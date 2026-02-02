@@ -122,6 +122,29 @@ class PgsqlMusicRequests
     }
 
     /**
+     * Requête pour récupérer l'artiste d'une musique
+     * @param int $musicId
+     * @return array
+     */
+    public function getMusicArtist(int $musicId): array
+    {
+        $sql = "SELECT a.name 
+        FROM artist a
+        JOIN artist_project ap
+            ON a.id = ap.id_artist
+        JOIN project p
+            ON ap.id_project = p.id
+        JOIN project_music pm
+            ON p.id = pm.id_project
+        JOIN music m
+            ON pm.id_music = :musicId";
+
+        $request = $this->pdo->prepare($sql);
+        $request->execute([":musicId" => $musicId]);
+        return $request->fetchAll();
+    }
+
+    /**
      * Récupération des notes d'une musique
      * @param int $musicId
      * @param int $limit
