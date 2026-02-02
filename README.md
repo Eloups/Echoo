@@ -42,10 +42,10 @@ Commande pour lancer l'Auth Service
 ```bash
 cd .\apps\auth-service-JWT\
 
-bunx prisma generate
-bunx prisma migrate dev
-bunx prisma db push 
-bun run dev
+# bunx prisma generate
+# bunx prisma migrate dev
+# bunx prisma db push 
+# bun run dev
 
 npx prisma generate
 npx prisma migrate dev
@@ -55,10 +55,17 @@ npm run dev
 
 Pour voir les donnée de la bdd : 
 ```bash
-bunx prisma studio
+# bunx prisma studio
 
 npx prisma studio
 ```
+
+### 💡 Astuce pour le développement
+**Compte de test** :
+- Email : `test@gmail.com`
+- Mot de passe : `Test1234_`
+
+**Pour vous reconnecter** : Entrez simplement `A` dans les champs email et mot de passe.
 
 ## Lancement de conteneurs docker
 
