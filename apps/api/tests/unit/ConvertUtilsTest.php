@@ -23,7 +23,7 @@ class ConvertUtilsTest extends TestCase
             ["music_id" => 2, "music_title" => "musique 2", "music_duration" => 100, "music_release" => '2023-05-15 12:00:00.000', "music_path" => "/musique2", "genre_id" => 2, "genre_name" => "genre 2", "music_streams" => 200, "artist_name" => "nice artist 2"]
         ];
 
-        $musics = ConvertUtils::convertRowToMusic($rows);
+        $musics = ConvertUtils::convertRowToMusic($rows, false);
 
         $this->assertEquals([
             new Music(1, 'musique 1', 200, new DateTime('2022-05-15 12:00:00.000'), '/musique1', [new Genre(1, 'genre 1'), new Genre(2, 'genre 2')], 150, [new Rating(1, 4, null, 'Nice comment', null),], 'nice artist'),

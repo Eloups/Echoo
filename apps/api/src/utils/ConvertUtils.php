@@ -26,7 +26,7 @@ class ConvertUtils
      * @param array $rows
      * @return Music[]
      */
-    public static function convertRowToMusic(array $rows): array
+    public static function convertRowToMusic(array $rows, bool $artistPage): array
     {
         if ($rows === []) {
             return [];
@@ -42,17 +42,32 @@ class ConvertUtils
             if (!isset($musics[$musicId])) {
                 $release = new DateTime($row['music_release']);
 
-                $musics[$musicId] = new Music(
-                    id: $musicId,
-                    title: $row['music_title'],
-                    duration: $row['music_duration'],
-                    release: $release,
-                    file_path: $row['music_path'],
-                    genres: [],
-                    nbStreams: $row['music_streams'],
-                    rates: [],
-                    nameArtist: $row['artist_name']
-                );
+                if ($artistPage == true) {
+                    $musics[$musicId] = new Music(
+                        id: $musicId,
+                        title: $row['music_title'],
+                        duration: $row['music_duration'],
+                        release: $release,
+                        file_path: $row['music_path'],
+                        genres: [],
+                        nbStreams: $row['music_streams'],
+                        rates: [],
+                        nameArtist: null
+                    );
+                }
+                else {
+                    $musics[$musicId] = new Music(
+                        id: $musicId,
+                        title: $row['music_title'],
+                        duration: $row['music_duration'],
+                        release: $release,
+                        file_path: $row['music_path'],
+                        genres: [],
+                        nbStreams: $row['music_streams'],
+                        rates: [],
+                        nameArtist: $row['artist_name']
+                    );
+                }
             }
 
             $music = $musics[$musicId];
