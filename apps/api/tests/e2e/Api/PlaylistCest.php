@@ -61,7 +61,7 @@ final class PlaylistCest
      * @param ApiTester $I
      * @return void
      */
-    public function getAllPlaylists(ApiTester $I) {
+    public function getAllPlaylistsInLibrary(ApiTester $I) {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendGet('/playlist/library/3/all');
