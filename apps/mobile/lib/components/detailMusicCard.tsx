@@ -6,6 +6,8 @@ import { useTheme } from "../theme/provider";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import usePlayerStore from "@/hook/usePlayerStore";
+import AddToPlaylistModal from './addToPlaylistModal';
+import { PlaylistService } from "../api";
 
 type DetailMusicCardProps = {
     infos: Music;
@@ -13,16 +15,18 @@ type DetailMusicCardProps = {
     isAlbum?: boolean;
     queue?: Music[];
     index?: number;
+    fromPlaylistId?: number;
 }
 
-export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queue = [], index = 0 }: DetailMusicCardProps) {
+export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queue = [], index = 0, fromPlaylistId = 0 }: DetailMusicCardProps) {
     const { theme } = useTheme();
     const { playTrack, addToQueue, playNext } = usePlayerStore();
     const [menuVisible, setMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState<'below' | 'above'>('below');
+    const [addToPlaylistModalVisible, setAddToPlaylistModalVisible] = useState(false);
     const buttonRef = useRef<View>(null);
     
-    const MENU_HEIGHT = 220; // Hauteur approximative du menu
+    const MENU_HEIGHT = 300; // Hauteur approximative du menu
     const NAV_BAR_HEIGHT = 60; // Hauteur de la barre de navigation
     const screenHeight = Dimensions.get('window').height;
 
@@ -47,6 +51,11 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
         const fileName = infos.audioFile || 'default.mp3';
         playTrack(infos, fileName, queue.length > 0 ? queue : [infos], index);
     };
+
+    const deleteFromPlaylist = async(playlistId: number, musicId: number) => {
+        await PlaylistService.deleteMusicFromPlaylist(musicId, playlistId)
+        if (onRemove) onRemove();
+    }
 
     return (
         <View style={styles.container}>
@@ -99,8 +108,7 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
                                     style={styles.menuItem}
                                     onPress={() => {
                                         setMenuVisible(false);
-                                        onRemove?.();
-                                        console.log('Supprimer de la playlist');
+                                        deleteFromPlaylist(infos.id, fromPlaylistId);
                                     }}
                                 >
                                     <MaterialIcons name="playlist-remove" size={20} color="#ff4444" />
@@ -135,15 +143,25 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
                             style={styles.menuItem}
                             onPress={() => {
                                 setMenuVisible(false);
-                                console.log('Aller à l\'artiste');
+                                setAddToPlaylistModalVisible(true);
                             }}
                         >
-                            <MaterialIcons name="person" size={20} color={theme.colors.text} />
-                            <AppText style={{ marginLeft: 12 }} pointerEvents="none">Aller à l'artiste</AppText>
+                            <MaterialIcons name="playlist-add" size={20} color={theme.colors.text} />
+                            <AppText style={{ marginLeft: 12 }} pointerEvents="none">Ajouter à une playlist</AppText>
                         </TouchableOpacity>
                     </View>
                 </>
             )}
+
+            {/* Modale pour ajouter à une playlist */}
+            <AddToPlaylistModal
+                visible={addToPlaylistModalVisible}
+                onClose={() => setAddToPlaylistModalVisible(false)}
+                musicId={infos.id}
+                onSuccess={() => {
+                    console.log('Musique ajoutée aux playlists avec succès');
+                }}
+            />
         </View>
     );
 }
