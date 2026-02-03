@@ -96,9 +96,37 @@ final class MusicCest
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseContainsJson([
-            'code' => 200,
-            'message' => 'Like ajouté avec succès'
+        $I->seeResponseMatchesJsonType([
+            'musics' => [
+                [
+                    'id' => 'integer',
+                    'title' => 'string',
+                    'duration' => 'integer',
+                    'release' => 'string',
+                    'filePath' => 'string',
+
+                    'genres' => [
+                        [
+                            'id' => 'integer',
+                            'name' => 'string',
+                        ]
+                    ],
+
+                    'nbStreams' => 'integer',
+
+                    'rates' => [
+                        [
+                            'id' => 'integer',
+                            'rate' => 'integer',
+                            'createdAt' => 'string|null',
+                            'comment' => 'string|null',
+                            'user' => 'integer|null',
+                        ]
+                    ],
+
+                    'nameArtist' => 'string|null',
+                ]
+            ]
         ]);
     }
 }
