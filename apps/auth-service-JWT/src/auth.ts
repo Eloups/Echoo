@@ -23,6 +23,9 @@ export const auth = betterAuth({
   jwt: {
     expirationTime: 3600, // 1 hour en secondes
   },
+  advanced: {
+    disableCSRFCheck: true,
+  },
   trustedOrigins: ['http://localhost:3000'],
   database: prismaAdapter(prisma, {
     provider: "postgresql",

@@ -14,22 +14,34 @@ export const ImageService = {
      * Crée un utilisateur
      * Post 
      */
-    AddImage: async (imageBase64: string, mimeType: string = 'image/jpeg'): Promise<any> => {
-        // imageBase64 doit être la chaîne base64 pure (result.assets[0].base64)
+    AddImage: async (imageBase64: string, mimeType: string = 'image/jpeg'): Promise<{ filename: string }> => {
+        // Nettoyer le base64 si nécessaire
+        const cleanBase64 = imageBase64.replace(/^data:image\/\w+;base64,/, '');
+        
+        // Décoder le base64 en binaire pour React Native
+        // On va utiliser fetch avec le body binaire brut
+        const binaryString = atob(cleanBase64);
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+
         const response = await fetch(`${process.env.EXPO_PUBLIC_API_BASE_URL}/images`, {
             method: 'POST',
-            body: imageBase64, // juste la string base64 !
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'image/jpeg',
+                'Content-Type': mimeType, // Le backend vérifie ce header pour l'extension
             },
+            body: bytes,
         });
 
-        const data = await response.json();
         if (!response.ok) {
-            throw new Error(data.message || 'Erreur upload');
+            const errorText = await response.text();
+            throw new Error(errorText || 'Erreur upload');
         }
-        return data;
+
+        // Le backend retourne { "fileName": "..." }
+        const data = await response.json();
+        return { filename: data.fileName };
     },
 
     /**

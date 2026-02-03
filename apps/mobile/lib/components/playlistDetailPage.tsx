@@ -1,4 +1,4 @@
-import { View, ScrollView, Image, Pressable, StyleSheet, Modal, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, ScrollView, Image, Pressable, StyleSheet, Modal, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/lib/theme/provider';
@@ -8,7 +8,8 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from './musicCard';
 import DetailMusicCard from './detailMusicCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { PlaylistService, apiClient, MusicService } from '@/lib/api';
+import { PlaylistService, apiClient, MusicService, ImageService } from '@/lib/api';
+import EditPlaylistModal from './editPlaylistModal';
 
 type PlaylistDetailPageProps = {
     data: Playlist;
@@ -18,64 +19,65 @@ type PlaylistDetailPageProps = {
 export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageProps) {
     const { theme } = useTheme();
     const [modalVisible, setModalVisible] = useState(false);
+    const [editModalVisible, setEditModalVisible] = useState(false);
     const [menuVisible, setMenuVisible] = useState(false);
     const [playlistDetails, setPlaylistDetails] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [musicList, setMusicList] = useState<Music[]>([]);
     const [totalDuration, setTotalDuration] = useState(0);
 
-    useEffect(() => {
-        const fetchPlaylistDetails = async () => {
-            if (!data.id) return;
+    const fetchPlaylistDetails = async () => {
+        if (!data.id) return;
+        
+        try {
+            setLoading(true);
+            const response: any = await PlaylistService.getPlaylistById(data.id);
+            const playlistData = response.playlist || response;
             
-            try {
-                setLoading(true);
-                const response: any = await PlaylistService.getPlaylistById(data.id);
-                const playlistData = response.playlist || response;
-                
-                setPlaylistDetails(playlistData);
-                
-                // Convertir les musiques au format Music et récupérer les covers
-                const formattedMusics: Music[] = await Promise.all(
-                    (playlistData.musics || []).map(async (music: any) => {
-                        let coverUri = data.cover;
-                        
-                        try {
-                            const coverData = await MusicService.getMusicCoverPath(music.id);
-                            if (coverData.cover_path) {
-                                coverUri = { uri: apiClient.getImageUrl(coverData.cover_path) };
-                            }
-                        } catch (error) {
-                            console.error(`Erreur lors de la récupération de la cover pour la musique ${music.id}:`, error);
+            setPlaylistDetails(playlistData);
+            
+            // Convertir les musiques au format Music et récupérer les covers
+            const formattedMusics: Music[] = await Promise.all(
+                (playlistData.musics || []).map(async (music: any) => {
+                    let coverUri = data.cover;
+                    
+                    try {
+                        const coverData = await MusicService.getMusicCoverPath(music.id);
+                        if (coverData.cover_path) {
+                            coverUri = { uri: apiClient.getImageUrl(coverData.cover_path) };
                         }
-                        
-                        return {
-                            id: music.id,
-                            cover: coverUri,
-                            title: music.title,
-                            artist: music.nameArtist || music.artist || "Artiste inconnu",
-                            color1: "#04131D",
-                            color2: "#082840",
-                            nbStreams: music.nbStreams || 0,
-                            type: "music" as const,
-                            audioFile: music.filePath || music.fichierAudio || music.audioFile || `music_${music.id}.mp3`,
-                            duration: music.duration || 0
-                        };
-                    })
-                );
-                
-                setMusicList(formattedMusics);
-                
-                // Calculer la durée totale
-                const total = (playlistData.musics || []).reduce((acc: number, music: any) => acc + (music.duration || 0), 0);
-                setTotalDuration(total);
-            } catch (err) {
-                console.error('Erreur lors du chargement de la playlist:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
+                    } catch (error) {
+                        console.error(`Erreur lors de la récupération de la cover pour la musique ${music.id}:`, error);
+                    }
+                    
+                    return {
+                        id: music.id,
+                        cover: coverUri,
+                        title: music.title,
+                        artist: music.nameArtist || music.artist || "Artiste inconnu",
+                        color1: "#04131D",
+                        color2: "#082840",
+                        nbStreams: music.nbStreams || 0,
+                        type: "music" as const,
+                        audioFile: music.filePath || music.fichierAudio || music.audioFile || `music_${music.id}.mp3`,
+                        duration: music.duration || 0
+                    };
+                })
+            );
+            
+            setMusicList(formattedMusics);
+            
+            // Calculer la durée totale
+            const total = (playlistData.musics || []).reduce((acc: number, music: any) => acc + (music.duration || 0), 0);
+            setTotalDuration(total);
+        } catch (err) {
+            console.error('Erreur lors du chargement de la playlist:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchPlaylistDetails();
     }, [data.id]);
 
@@ -83,6 +85,70 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
         return `${mins}min${secs.toString().padStart(2, '0')}`;
+    };
+
+    const handleEditPlaylist = async (title: string, description: string, coverBase64: string | null, isPublic: boolean) => {
+        try {
+            if (!data.id) return;
+
+            let coverPath = playlistDetails?.coverPath || "";
+            
+            // Si une nouvelle image a été sélectionnée, l'uploader
+            if (coverBase64) {
+                try {
+                    const uploadResult = await ImageService.AddImage(coverBase64, 'image/jpeg');
+                    coverPath = uploadResult.filename;
+                } catch (uploadError) {
+                    console.error('Erreur lors de l\'upload de l\'image:', uploadError);
+                    Alert.alert("Avertissement", "L'image n'a pas pu être uploadée");
+                }
+            }
+
+            // Mettre à jour la playlist
+            await PlaylistService.updatePlaylist(data.id, {
+                title,
+                description,
+                cover_path: coverPath,
+                isPublic
+            });
+            setEditModalVisible(false);
+            
+            // Recharger les détails de la playlist
+            const response: any = await PlaylistService.getPlaylistById(data.id);
+            const playlistData = response.playlist || response;
+            setPlaylistDetails(playlistData);
+        } catch (err) {
+            console.error('Erreur lors de la modification de la playlist:', err);
+            Alert.alert("Erreur", "Impossible de modifier la playlist");
+        }
+    };
+
+    const handleDeletePlaylist = async () => {
+        Alert.alert(
+            "Supprimer la playlist",
+            "Êtes-vous sûr de vouloir supprimer cette playlist ? Cette action est irréversible.",
+            [
+                {
+                    text: "Annuler",
+                    style: "cancel"
+                },
+                {
+                    text: "Supprimer",
+                    style: "destructive",
+                    onPress: async () => {
+                        try {
+                            if (!data.id) return;
+                            
+                            await PlaylistService.deletePlaylist(data.id);
+                            onBack();
+                        } catch (err) {
+                            console.error('Erreur lors de la suppression de la playlist:', err);
+                            Alert.alert("Erreur", "Impossible de supprimer la playlist");
+                        }
+                    }
+                }
+            ]
+        );
     };
 
     return (
@@ -128,6 +194,7 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                                 style={styles.menuItem}
                                 onPress={() => {
                                     setMenuVisible(false);
+                                    setEditModalVisible(true);
                                 }}
                             >
                                 <MaterialIcons name="edit" size={20} color={theme.colors.text} />
@@ -138,6 +205,7 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                                 style={styles.menuItem}
                                 onPress={() => {
                                     setMenuVisible(false);
+                                    handleDeletePlaylist();
                                 }}
                             >
                                 <MaterialIcons name="delete" size={20} color="#ff4444" />
@@ -160,7 +228,7 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                         <AppText style={{ marginTop: 10 }}>Chargement de la playlist...</AppText>
                     </View>
                 ) : (
-                    <ScrollView contentContainerStyle={{ paddingBottom: 0 }}>
+                    <ScrollView contentContainerStyle={{ paddingBottom: 150 }}>
                         {/* En-tête avec image et infos */}
                         <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: 20 }}>
                             <View style={styles.containerImgPlaylists}>
@@ -210,9 +278,10 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                                     <View key={music.id || index} style={{ marginBottom: 9 }}>
                                         <DetailMusicCard 
                                             infos={music} 
-                                            onRemove={() => console.log(`Supprimer ${music.title}`)}
+                                            onRemove={() => fetchPlaylistDetails()}
                                             queue={musicList}
                                             index={index}
+                                            fromPlaylistId={data.id}
                                         />
                                     </View>
                                 ))}
@@ -265,6 +334,21 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                         </View>
                     </SafeAreaView>
                 </Modal>
+
+                {/* Modale d'édition de playlist */}
+                <EditPlaylistModal
+                    visible={editModalVisible}
+                    onClose={() => setEditModalVisible(false)}
+                    onSubmit={handleEditPlaylist}
+                    initialData={{
+                        title: playlistDetails?.title || data.title,
+                        description: playlistDetails?.description || data.description || "",
+                        coverUri: playlistDetails?.coverPath 
+                            ? apiClient.getImageUrl(playlistDetails.coverPath)
+                            : undefined,
+                        isPublic: playlistDetails?.isPublic || false
+                    }}
+                />
             </View>
         </SafeAreaView>
     );
