@@ -26,58 +26,58 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
     const [musicList, setMusicList] = useState<Music[]>([]);
     const [totalDuration, setTotalDuration] = useState(0);
 
-    useEffect(() => {
-        const fetchPlaylistDetails = async () => {
-            if (!data.id) return;
+    const fetchPlaylistDetails = async () => {
+        if (!data.id) return;
+        
+        try {
+            setLoading(true);
+            const response: any = await PlaylistService.getPlaylistById(data.id);
+            const playlistData = response.playlist || response;
             
-            try {
-                setLoading(true);
-                const response: any = await PlaylistService.getPlaylistById(data.id);
-                const playlistData = response.playlist || response;
-                
-                setPlaylistDetails(playlistData);
-                
-                // Convertir les musiques au format Music et récupérer les covers
-                const formattedMusics: Music[] = await Promise.all(
-                    (playlistData.musics || []).map(async (music: any) => {
-                        let coverUri = data.cover;
-                        
-                        try {
-                            const coverData = await MusicService.getMusicCoverPath(music.id);
-                            if (coverData.cover_path) {
-                                coverUri = { uri: apiClient.getImageUrl(coverData.cover_path) };
-                            }
-                        } catch (error) {
-                            console.error(`Erreur lors de la récupération de la cover pour la musique ${music.id}:`, error);
+            setPlaylistDetails(playlistData);
+            
+            // Convertir les musiques au format Music et récupérer les covers
+            const formattedMusics: Music[] = await Promise.all(
+                (playlistData.musics || []).map(async (music: any) => {
+                    let coverUri = data.cover;
+                    
+                    try {
+                        const coverData = await MusicService.getMusicCoverPath(music.id);
+                        if (coverData.cover_path) {
+                            coverUri = { uri: apiClient.getImageUrl(coverData.cover_path) };
                         }
-                        
-                        return {
-                            id: music.id,
-                            cover: coverUri,
-                            title: music.title,
-                            artist: music.nameArtist || music.artist || "Artiste inconnu",
-                            color1: "#04131D",
-                            color2: "#082840",
-                            nbStreams: music.nbStreams || 0,
-                            type: "music" as const,
-                            audioFile: music.filePath || music.fichierAudio || music.audioFile || `music_${music.id}.mp3`,
-                            duration: music.duration || 0
-                        };
-                    })
-                );
-                
-                setMusicList(formattedMusics);
-                
-                // Calculer la durée totale
-                const total = (playlistData.musics || []).reduce((acc: number, music: any) => acc + (music.duration || 0), 0);
-                setTotalDuration(total);
-            } catch (err) {
-                console.error('Erreur lors du chargement de la playlist:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
+                    } catch (error) {
+                        console.error(`Erreur lors de la récupération de la cover pour la musique ${music.id}:`, error);
+                    }
+                    
+                    return {
+                        id: music.id,
+                        cover: coverUri,
+                        title: music.title,
+                        artist: music.nameArtist || music.artist || "Artiste inconnu",
+                        color1: "#04131D",
+                        color2: "#082840",
+                        nbStreams: music.nbStreams || 0,
+                        type: "music" as const,
+                        audioFile: music.filePath || music.fichierAudio || music.audioFile || `music_${music.id}.mp3`,
+                        duration: music.duration || 0
+                    };
+                })
+            );
+            
+            setMusicList(formattedMusics);
+            
+            // Calculer la durée totale
+            const total = (playlistData.musics || []).reduce((acc: number, music: any) => acc + (music.duration || 0), 0);
+            setTotalDuration(total);
+        } catch (err) {
+            console.error('Erreur lors du chargement de la playlist:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchPlaylistDetails();
     }, [data.id]);
 
@@ -228,7 +228,7 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                         <AppText style={{ marginTop: 10 }}>Chargement de la playlist...</AppText>
                     </View>
                 ) : (
-                    <ScrollView contentContainerStyle={{ paddingBottom: 0 }}>
+                    <ScrollView contentContainerStyle={{ paddingBottom: 150 }}>
                         {/* En-tête avec image et infos */}
                         <View style={{ alignItems: 'center', paddingTop: 60, paddingHorizontal: 20 }}>
                             <View style={styles.containerImgPlaylists}>
@@ -278,9 +278,10 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                                     <View key={music.id || index} style={{ marginBottom: 9 }}>
                                         <DetailMusicCard 
                                             infos={music} 
-                                            onRemove={() => console.log(`Supprimer ${music.title}`)}
+                                            onRemove={() => fetchPlaylistDetails()}
                                             queue={musicList}
                                             index={index}
+                                            fromPlaylistId={data.id}
                                         />
                                     </View>
                                 ))}

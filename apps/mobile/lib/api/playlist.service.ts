@@ -53,4 +53,26 @@ export const PlaylistService = {
   deletePlaylist: async (playlistId: number): Promise<any> => {
     return await apiClient.delete(`/playlist/${playlistId}`);
   },
+
+  /**
+   * Ajouter une musique à une playlist
+   * POST /playlist/add/music
+   */
+  addMusicToPlaylist: async (playlistId: number, musicId: number): Promise<any> => {
+    return await apiClient.post('/playlist/add/music', {
+      id_playlist: playlistId,
+      id_music: musicId
+    });
+  },
+
+  /**
+   * Supprimer une musique d'une playlist
+   * DELETE /playlist/delete/music
+   */
+  deleteMusicFromPlaylist: async (playlistId: number, musicId: number): Promise<any> => {
+    return await apiClient.delete('/playlist/delete/music', {
+      id_playlist: playlistId,
+      id_music: musicId
+    });
+  },
 };

@@ -100,7 +100,12 @@ class ApiClient {
     const response = await this.client.post<T>(url, data, config);
     return response.data;
   }
-
+  
+  // Méthode DELETE
+  async delete<T>(url: string, data?: any): Promise<T> {
+    const response = await this.client.delete<T>(url, { data });
+    return response.data;
+  }
   
   // Méthode PUT
   async put<T>(url: string, data?: any): Promise<T> {
@@ -116,11 +121,6 @@ class ApiClient {
   }
 
   
-  // Méthode DELETE
-  async delete<T>(url: string): Promise<T> {
-    const response = await this.client.delete<T>(url);
-    return response.data;
-  }
 
   
   // Récupérer l'URL complète d'une image
