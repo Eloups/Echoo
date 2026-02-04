@@ -13,7 +13,8 @@ final class PlaylistCest
      * @param ApiTester $I
      * @return void
      */
-    public function createPlaylist(ApiTester $I) {
+    public function createPlaylist(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendPost(
@@ -39,7 +40,8 @@ final class PlaylistCest
      * @param ApiTester $I
      * @return void
      */
-    public function addMusicToPlaylist(ApiTester $I) {
+    public function addMusicToPlaylist(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendPost(
@@ -61,7 +63,8 @@ final class PlaylistCest
      * @param ApiTester $I
      * @return void
      */
-    public function getAllPlaylistsInLibrary(ApiTester $I) {
+    public function getAllPlaylistsInLibrary(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendGet('/playlist/library/3/all');
@@ -71,7 +74,7 @@ final class PlaylistCest
                 [
                     'id' => 'integer',
                     'title' => 'string',
-                    'public' => 'boolean',
+                    'isPublic' => 'boolean',
                     'description' => 'string',
                     'coverPath' => 'string',
                     'musics' => 'array',
@@ -86,7 +89,8 @@ final class PlaylistCest
      * @param ApiTester $I
      * @return void
      */
-    public function getOnePlaylist(ApiTester $I) {
+    public function getOnePlaylist(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendGet('/playlist/5');
@@ -95,7 +99,7 @@ final class PlaylistCest
             'playlist' => [
                 'id' => 'integer',
                 'title' => 'string',
-                'public' => 'boolean',
+                'isPublic' => 'boolean',
                 'description' => 'string',
                 'coverPath' => 'string',
                 'musics' => [
@@ -121,7 +125,8 @@ final class PlaylistCest
      * @param ApiTester $I
      * @return void
      */
-    public function updatePlaylist(ApiTester $I) {
+    public function updatePlaylist(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendPatch(
@@ -145,7 +150,8 @@ final class PlaylistCest
      * @param ApiTester $I
      * @return void
      */
-    public function deleteMusicInPlaylist(ApiTester $I) {
+    public function deleteMusicInPlaylist(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendDelete(
@@ -167,7 +173,8 @@ final class PlaylistCest
      * @param ApiTester $I
      * @return void
      */
-    public function deletePlaylist(ApiTester $I) {
+    public function deletePlaylist(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendDelete('/playlist/12');
