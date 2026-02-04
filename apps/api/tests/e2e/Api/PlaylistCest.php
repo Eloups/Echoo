@@ -74,7 +74,7 @@ final class PlaylistCest
                 [
                     'id' => 'integer',
                     'title' => 'string',
-                    'isPublic' => 'boolean',
+                    'public' => 'boolean',
                     'description' => 'string',
                     'coverPath' => 'string',
                     'musics' => 'array',
@@ -99,7 +99,7 @@ final class PlaylistCest
             'playlist' => [
                 'id' => 'integer',
                 'title' => 'string',
-                'isPublic' => 'boolean',
+                'public' => 'boolean',
                 'description' => 'string',
                 'coverPath' => 'string',
                 'musics' => [
