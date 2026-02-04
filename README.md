@@ -67,6 +67,17 @@ npx prisma studio
 
 **Pour vous reconnecter** : Entrez simplement `A` dans les champs email et mot de passe.
 
+## Lancer formunaile d'authentification web  
+lancé le formilaire d'authentification permettant de confirmé son mail ou de modifier s'on mot de passe
+
+Ouvrez un terminal PowerShell à la racine du projet puis tapez les commandes suivantes :  
+```bash
+cd .\apps\web-service-authentification\
+npm install
+cp .env.exemple .env
+npm run dev
+```
+
 ## Lancement de conteneurs docker
 
 Note : Vous avez besoin de générer le fichier vendor localement avant de lancer les conteneurs Docker.\
