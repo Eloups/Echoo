@@ -45,7 +45,7 @@ class MusicController implements ControllerInterface
         $response = match ($this->action) {
             'list' => $adapter->listMusics($this->params["id"]),
             'like' => $adapter->likeMusic($request->getContent()),
-            'ratings' => $adapter->getMusicsRatings($this->params["id"], $request->get('limit')),
+            'ratings' => $adapter->getMusicsRatings($this->params["id"], $request->get('limit') ?? 6),
             'coverPathProject' => $adapter->getCoverFileProject($this->params["id"]),
             default => throw new ResourceNotFoundException(),
         };
