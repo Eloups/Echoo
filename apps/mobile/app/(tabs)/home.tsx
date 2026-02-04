@@ -84,7 +84,12 @@ export default function home() {
                     // TODO: Remplacer l'ID hardcodé par l'ID de l'utilisateur connecté
                     const userId = 3;
                     const data = await HomeService.getFollowedArtistsReleases(userId);
-                    
+
+                    //Vérification de la data
+                    if (!data || !data.projects || data.projects.length === 0) {
+                        setLatestReleases([]);
+                        return;
+                    }
                     // Mapper les projets de l'API vers le type Project
                     const mappedProjects: Project[] = data.projects.map((apiProject) => {
                         let coverUri = placeholderImage;
@@ -112,7 +117,12 @@ export default function home() {
             const fetchMonthArtists = async () => {
                 try {
                     const data = await HomeService.getMonthArtists();
-                    
+
+                    //Vérification de la data
+                    if (!data || !data.artists || data.artists.length === 0) {
+                        setMonthArtists([]);
+                        return;
+                    }
                     // Mapper les artistes de l'API vers le type Artist
                     const mappedArtists: Artist[] = data.artists.map((apiArtist) => {
                         let coverUri = placeholderImage;
