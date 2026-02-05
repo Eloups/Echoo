@@ -33,6 +33,7 @@ export default function PlayerModal() {
   const [isSeeking, setIsSeeking] = useState(false);
   const [queueVisible, setQueueVisible] = useState(false);
   const seekTimeoutRef = useState<NodeJS.Timeout | null>(null)[0];
+  const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
 
   // Synchroniser le slider avec la progression réelle
   useEffect(() => {
@@ -141,8 +142,8 @@ export default function PlayerModal() {
                 <Pressable style={styles.actionButton}>
                   <MaterialIcons name="playlist-add" size={28} color={theme.colors.text} />
                 </Pressable>
-                <Pressable style={styles.actionButton}>
-                  <Ionicons name="heart-outline" size={26} color={theme.colors.text} />
+                <Pressable onPress={() => setIsMusicLike(!isMusicLike)} style={styles.actionButton}>
+                  <Ionicons name={isMusicLike ? "heart" : "heart-outline"} size={26} color={isMusicLike ? '#DB1151' : theme.colors.text} />
                 </Pressable>
               </View>
             </View>
