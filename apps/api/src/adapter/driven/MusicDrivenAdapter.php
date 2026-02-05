@@ -35,11 +35,11 @@ class MusicDrivenAdapter implements MusicDrivenAdapterInterface
 
     /**
      * Méthode pour ajouter un like à une musique
-     * @param int $id_user
+     * @param string $id_user
      * @param int $id_music
      * @return void
      */
-    public function addLike(int $id_user, int $id_music): void
+    public function addLike(string $id_user, int $id_music): void
     {
         $pgslserver = new PgsqlServer();
 

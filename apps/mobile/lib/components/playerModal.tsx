@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState } from 'react';
 import Slider from '@react-native-community/slider';
 import QueueModal from './queueModal';
+import { UserService } from '../api/user.service';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -28,6 +29,8 @@ export default function PlayerModal() {
     hidePlayerModal,
     isLoading,
   } = usePlayerStore();
+
+  const userId = "3";
 
   const [localProgress, setLocalProgress] = useState(progress);
   const [isSeeking, setIsSeeking] = useState(false);
@@ -83,6 +86,20 @@ export default function PlayerModal() {
       setIsSeeking(false);
     }
   };
+
+  // Like d'une musique
+  const handleMusicLike = () => {
+    setIsMusicLike(!isMusicLike);
+  }
+
+  useEffect(() => {
+    if (isMusicLike === true) {
+      console.log(currentTrack);
+      console.log(userId);
+      UserService.postLikeMusic(userId, currentTrack.id);
+    }
+  }, [isMusicLike]);
+
 
   return (
     <Modal
@@ -142,7 +159,7 @@ export default function PlayerModal() {
                 <Pressable style={styles.actionButton}>
                   <MaterialIcons name="playlist-add" size={28} color={theme.colors.text} />
                 </Pressable>
-                <Pressable onPress={() => setIsMusicLike(!isMusicLike)} style={styles.actionButton}>
+                <Pressable onPress={handleMusicLike} style={styles.actionButton}>
                   <Ionicons name={isMusicLike ? "heart" : "heart-outline"} size={26} color={isMusicLike ? '#DB1151' : theme.colors.text} />
                 </Pressable>
               </View>

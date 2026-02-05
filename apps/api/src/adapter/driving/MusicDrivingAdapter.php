@@ -51,8 +51,8 @@ class MusicDrivingAdapter
         }
 
         // Vérification des types
-        if (!is_int($body['id_user']) || !is_int($body['id_music'])) {
-            throw new Exception("Les champs 'id_user' et 'id_music' doivent être des entiers.");
+        if (!is_string($body['id_user']) || !is_int($body['id_music'])) {
+            throw new Exception("Le champs 'id_user' doit être un string et 'id_music' doit être un entier.");
         }
         $service = new MusicService();
         $service->likeMusic($body['id_user'], $body['id_music']);

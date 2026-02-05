@@ -31,5 +31,17 @@ export const UserService = {
   getUser: async (idUser: string): Promise<any> => {
     let retour = await apiClient.get<any>('/users' + `/${idUser}`);
     return retour;
+  },
+
+  /**
+   * Liker une musique
+   * POST
+   */
+  postLikeMusic: async (idUser: string, idMusic: number): Promise<any> => {
+    let retour = await apiClient.post<any>('/music/like', {
+      id_user: idUser,
+      id_music: idMusic
+    });
+    return retour;
   }
 };

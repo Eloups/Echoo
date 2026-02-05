@@ -34,11 +34,11 @@ class MusicService implements MusicServiceInterface
 
     /**
      * Action de l'ajout d'un like sur une musique
-     * @param int $id_user
+     * @param string $id_user
      * @param int $id_music
      * @return void
      */
-    public function likeMusic(int $id_user, int $id_music): void
+    public function likeMusic(string $id_user, int $id_music): void
     {
         $driven = new MusicDrivenAdapter();
         $driven->addLike($id_user, $id_music);

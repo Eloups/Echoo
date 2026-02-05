@@ -4,6 +4,7 @@ namespace Api\Database\Requests;
 
 use Api\Utils\RequestUtils;
 use PDO;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
 /**
  * Classe permettant de lancer des requêtes SQL sur les musiques de la base de données
@@ -72,11 +73,11 @@ class PgsqlMusicRequests
 
     /**
      * Requête pour ajouter un like à une musique
-     * @param int $id_user
+     * @param string $id_user
      * @param int $id_music
      * @return void
      */
-    public function addLike(int $id_user, int $id_music): void
+    public function addLike(string $id_user, int $id_music): void
     {
         $getIdPlaylistLiked = "SELECT playlist.id
         FROM \"user\"
@@ -91,17 +92,41 @@ class PgsqlMusicRequests
 
         $request = $this->pdo->prepare($getIdPlaylistLiked);
         $request->execute([":id_user" => $id_user]);
-        $idPlaylistLiked = intval($request->fetchAll());
+        $idPlaylistLikedFetch = $request->fetch();
+        $idPlaylistLiked = intval($idPlaylistLikedFetch["id"]);
+        var_dump($idPlaylistLiked);
 
-        $request = $this->pdo->prepare("
-            INSERT INTO playlist_music (id_playlist, id_music)
-            VALUES (:id_playlist, :id_music)
-        ");
+        $sqlCheckIfAlreadyLiked = "SELECT id_playlist, id_music 
+        FROM playlist_music 
+        WHERE id_playlist = :id_playlist AND id_music = :id_music";
+        $request = $this->pdo->prepare($sqlCheckIfAlreadyLiked);
+        $request->execute([":id_playlist" => $idPlaylistLiked, ":id_music" => $id_music]);
+        $checkIfAlreadyLiked = $request->fetch();
 
-        $request->execute([
-            ":id_playlist" => $idPlaylistLiked,
-            ":id_music" => $id_music
-        ]);
+        if ($checkIfAlreadyLiked == null) {
+            $request = $this->pdo->prepare("
+                INSERT INTO playlist_music (id_playlist, id_music)
+                VALUES (:id_playlist, :id_music)
+            ");
+
+            $request->execute([
+                ":id_playlist" => $idPlaylistLiked,
+                ":id_music" => $id_music
+            ]);
+        }
+        else {
+            $request = $this->pdo->prepare("
+                DELETE FROM playlist_music
+                WHERE id_playlist = :id_playlist AND id_music = :id_music;
+            ");
+
+            $request->execute([
+                ":id_playlist" => $idPlaylistLiked,
+                ":id_music" => $id_music
+            ]);
+        }
+
+        
     }
 
     /**
