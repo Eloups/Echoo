@@ -65,7 +65,7 @@ class ConvertUtilsTest extends TestCase
             new Playlist(2, 'title 2', false, 'A nice description again', '/cover2', [
                 new Music(1, 'title 1', 100, new DateTime('2022-05-15 12:00:00.000'), '/path1', [], 1500, [], 'Artist 1'),
                 new Music(2, 'title 2', 200, new DateTime('2025-05-15 12:00:00.000'), '/path2', [], 250, [], 'Artist 2')
-            ], 0),
+            ], 2),
             $playlists
         );
     }
