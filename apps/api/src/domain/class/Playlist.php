@@ -52,6 +52,7 @@ class Playlist
      * @param ?string $description
      * @param ?string $cover_path
      * @param Music[] $musics
+     * @param ?int $nbMusics
      */
     public function __construct(?int $id, string $title, bool $isPublic, ?string $description, ?string $cover_path, array $musics, ?int $nbMusics = null)
     {
