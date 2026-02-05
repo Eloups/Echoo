@@ -22,7 +22,8 @@ final class UsersCest
      * @param ApiTester $I
      * @return void
      */
-    public function getLastListenedMusics(ApiTester $I) {
+    public function getLastListenedMusics(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $response = $I->sendGet('/user/3/listened/musics');
@@ -49,7 +50,8 @@ final class UsersCest
      * @param ApiTester $I
      * @return void
      */
-    public function AddListenedMusic(ApiTester $I) {
+    public function AddListenedMusic(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendPost(
@@ -71,7 +73,8 @@ final class UsersCest
      * @param ApiTester $I
      * @return void
      */
-    public function getMostListenedMusics(ApiTester $I) {
+    public function getMostListenedMusics(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $response = $I->sendGet('/user/3/lastListened/musics');
@@ -86,7 +89,8 @@ final class UsersCest
      * @param ApiTester $I
      * @return void
      */
-    public function createUser(ApiTester $I) {
+    public function createUser(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendPost(
@@ -112,7 +116,8 @@ final class UsersCest
      * @param ApiTester $I
      * @return void
      */
-    public function updateUser(ApiTester $I) {
+    public function updateUser(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendPut(
@@ -131,13 +136,14 @@ final class UsersCest
         ]);
     }
 
-    
+
     /**
      * Test de delete /users/1
      * @param ApiTester $I
      * @return void
      */
-    public function deleteUser(ApiTester $I) {
+    public function deleteUser(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendDelete('/users/1');
@@ -153,7 +159,8 @@ final class UsersCest
      * @param ApiTester $I
      * @return void
      */
-    public function getLastFollowArtistsReleases(ApiTester $I) {
+    public function getLastFollowArtistsReleases(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $response = $I->sendGet('/user/2/follows/artists/releases');
@@ -181,7 +188,8 @@ final class UsersCest
      * @param ApiTester $I
      * @return void
      */
-    public function getAllUsers(ApiTester $I) {
+    public function getAllUsers(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $response = $I->sendGet('/users');
@@ -209,6 +217,37 @@ final class UsersCest
                     'conversations' => 'array|null',
                     'rates' => 'array|null',
                 ]
+            ]
+        ]);
+    }
+
+    public function getLikedPlaylist(ApiTester $I)
+    {
+        $I->haveHttpHeader('accept', 'application/json');
+        $I->haveHttpHeader('content-type', 'application/json');
+        $response = $I->sendGet('/users/5/liked/playlist');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseMatchesJsonType([
+            'playlist' => [
+                'id' => 'integer',
+                'title' => 'string',
+                'public' => 'boolean',
+                'description' => 'string',
+                'coverPath' => 'string',
+                'musics' => [
+                    [
+                        'id' => 'integer',
+                        'title' => 'string',
+                        'duration' => 'integer',
+                        'release' => 'string',
+                        'filePath' => 'string',
+                        'genres' => 'array',
+                        'nbStreams' => 'integer',
+                        'rates' => 'array',
+                        'nameArtist' => 'string|null',
+                    ]
+                ],
+                'nbMusics' => 'integer|null',
             ]
         ]);
     }

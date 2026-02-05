@@ -54,8 +54,7 @@ class ConvertUtils
                         rates: [],
                         nameArtist: null
                     );
-                }
-                else {
+                } else {
                     $musics[$musicId] = new Music(
                         id: $musicId,
                         title: $row['music_title'],
@@ -195,7 +194,8 @@ class ConvertUtils
             isPublic: $playlistPublic,
             description: $playlistDescription,
             cover_path: $playlistCover,
-            musics: array_values($musics)
+            musics: array_values($musics),
+            nbMusics: count($musics)
         );
     }
 
@@ -224,7 +224,7 @@ class ConvertUtils
                 $row['nb_streams'],
                 null,
                 $nameArtist[0]['name']
-                
+
             ));
         }
 

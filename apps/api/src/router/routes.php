@@ -52,5 +52,6 @@ $routes->add('user|getAll', new Route('/users', methods: 'GET'));
 $routes->add('user|getOne', new Route('/users/{id}', methods: 'GET'));
 $routes->add('user|update', new Route('/users/{id}', methods: 'PUT'));
 $routes->add('user|delete', new Route('/users/{id}', methods: 'DELETE'));
+$routes->add('user|likedPlaylist', new Route('/users/{id}/liked/playlist', methods: 'GET'));
 
 return $routes;
