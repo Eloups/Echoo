@@ -303,7 +303,16 @@ insert into playlist (title, isPublic, description, cover_path) values
 ('Playlist 7', TRUE, 'Description for playlist 7', 'playlist_7.jpg'),
 ('Playlist 8', FALSE, 'Description for playlist 8', 'playlist_8.jpg'),
 ('Playlist 9', TRUE, 'Description for playlist 9', 'playlist_9.jpg'),
-('liked', FALSE, 'Description for playlist liked', 'playlist_10.jpg');
+('liked', FALSE, 'Description for playlist liked', 'playlist_10.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_11.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_12.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_13.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_14.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_15.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_16.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_17.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_18.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_19.jpg');
 
 insert into "user" (id, username, email, image_path, id_library, id_role, id_artist) values
 ('1', 'user1', 'user1@example.com', 'user_1.jpg', '1', 2, 1),
@@ -475,8 +484,9 @@ insert into library_project (id_library, id_project) values
 ('1', 3), ('2', 5), ('3', 7), ('4', 9), ('5', 1);
 
 insert into library_playlist (id_library, id_playlist) values
-('1', 1), ('1', 2), ('2', 3), ('2', 4), ('3', 5), ('3', 6), ('4', 7), ('4', 8), ('5', 9), ('5', 10),
-('1', 3), ('2', 5), ('3', 7), ('4', 9), ('5', 1);
+('1', 1), ('1', 2), ('2', 3), ('2', 4), ('3', 5), ('3', 6), ('4', 7), ('4', 8), ('5', 9),
+('1', 3), ('2', 5), ('3', 7), ('4', 9), ('5', 1),
+('1', 10), ('2', 11), ('3', 12), ('4', 13), ('5', 14), ('6', 15), ('7', 16), ('8', 17), ('9', 18), ('10', 19);
 
 insert into playlist_music (id_playlist, id_music) values
 (1, 1), (1, 2), (2, 3), (2, 4), (3, 5), (3, 6), (4, 7), (4, 8), (5, 9), (5, 10),
