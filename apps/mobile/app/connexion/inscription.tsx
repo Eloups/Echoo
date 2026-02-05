@@ -25,12 +25,7 @@ export default function InscriptionScreen() {
 
         register(pseudo, email, mdp, imagePdp);
     }
-
-    async function sendEmail() {
-        sendVerificationEmail("thibaultcallerand@gmail.com");
-    }
-
-
+    
     return (
         <View
             style={{
@@ -131,16 +126,6 @@ export default function InscriptionScreen() {
             >
                 Déjà un compte ? Se connecter
             </AppText>
-
-            <View style={{ width: "100%", height: 50, marginTop: 20 }}>
-                <BtnConnexion
-                    title="TEST ENVOIE MAIL"
-                    onClick={() => {
-                        sendEmail();
-                    }}
-                    isLoading={isLoading}
-                />
-            </View>
         </View>
     );
 }

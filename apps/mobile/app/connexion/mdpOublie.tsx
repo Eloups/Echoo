@@ -6,30 +6,29 @@ import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
 import useAuthHook from '@/hook/authHook';
+import { set } from "better-auth";
 
-export default function ConnexionScreen() {
+export default function mdpOublieScreen() {
     const router = useRouter();
-    const {login, isLoading, authError} = useAuthHook();
+    const { sendVerificationEmail, isLoading, authError } = useAuthHook();
     const [email, setEmail] = React.useState<string>("");
-    const [mdp, setMdp] = React.useState<string>("");
+    const [waitResetPassword, setWaitResetPassword] = React.useState<boolean>(false);
 
-    function handleConect() {
-        if (email.trim() !== ""  && mdp.trim() !== "") {
-            // pass pour le dev Tempo 
-            if (email == "A" && mdp == "A") {
-                login("test@gmail.com", "Test1234_");
+    function handleSendEmail() {
+        if (email.trim() !== "") {
+            // pass pour le dev Tempo ICIIIII
+            if (!waitResetPassword) { setWaitResetPassword(true); }
+            if (email == "A") {
+                sendVerificationEmail("thibaultcallerand@gmail.com");
             }
             else {
-                login(email, mdp);
+                sendVerificationEmail(email);
             }
         }
         else {
             let messageError = "";
             if (email.trim() === "") {
                 messageError += "L'email ne peut pas être vide.\n";
-            }
-            if (mdp.trim() === "") {
-                messageError += "Le mot de passe ne peut pas être vide.\n";
             }
         }
     }
@@ -50,26 +49,37 @@ export default function ConnexionScreen() {
 
             <View style={{ width: "100%", height: "100%", marginTop: 100 }}>
                 <View style={{ alignItems: "center" }}>
-                    <AppText size="3xl" weight="bold">Connexion</AppText>
+                    <AppText size="3xl" weight="bold">Mot de passe oublié</AppText>
                 </View>
                 <View
                     style={{
                         flex: 1,
-                        gap: 7,
+                        gap: 10,
                         alignItems: "center"
                     }}
                 >
-                    <View style={{ width: "100%" }}>
-                        <TextInputGlobal text={email} setText={setEmail} label="Email" />
-                    </View>
-                    <View style={{ width: "100%" }}>
-                        <TextInputGlobal text={mdp} setText={setMdp} label="Mot de passe" star={true} />
-                    </View>
-                    <AppText color="primary" size="lg" onPress={() => {router.push("/connexion/mdpOublie"); console.log("Mot de passe oublié") }}>Mot de passe oublié ?</AppText>
-                    <View style={{ width: "100%", height: 50 }}>
-                        <BtnConnexion title="Se connecter" onClick={() => { handleConect() }} isLoading={isLoading} />
+
+
+                    <View style={{ width: "100%", paddingLeft: 20, paddingRight: 20, alignItems: "center" }}>
+                        <AppText size="md" align="center">Entrer votre adresse email pour réinitialiser votre mot de passe</AppText>
                     </View>
 
+                    <View style={{ width: "100%" }}>
+                        <TextInputGlobal text={email} setText={setEmail} label="Email*" />
+                    </View>
+
+                    <View style={{ width: "100%", height: 50 }}>
+                        <BtnConnexion title="Envoyer le mail" onClick={() => { handleSendEmail() }} isLoading={isLoading} />
+                    </View>
+
+                    {waitResetPassword ? (
+                        <View style={{ width: "100%", paddingLeft: 20, paddingRight: 20, alignItems: "center" }}>
+                            <AppText size="md" align="center">Un email de réinitialisation a été envoyé. Veuillez vérifier votre boîte de réception.</AppText>
+                            <AppText size="md" align="center">Si c'est fait, reconecté vous.</AppText>
+                            <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/connexion") }}>Se connecter</AppText>
+                        </View>
+                    ) : null}
+                    
                     {authError ? (
                         <AppText color="error" size="md">{authError}</AppText>
                     ) : null}
