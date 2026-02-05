@@ -230,13 +230,29 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
   },
 
   sendVerificationEmail: async (email: string) => {
-    let retour = await authClient.requestPasswordReset({
-      email: email, // required
-      redirectTo: "",
-    })
+    console.log("sendVerificationEmail email =", email);
 
-    // console.log("sendVerificationEmail retour =", retour);
-  },
+    set({ isLoading: true, authError: null });
+
+    try{
+
+      const {data, error} = await authClient.requestPasswordReset({
+        email: email, // required
+        redirectTo: "",
+      })
+      if(error){
+        throw new Error(error.message ?? String(error));
+      }
+      
+      console.log("sendVerificationEmail retour =", data, error);
+
+    }catch(e:any){
+      set({ authError: e.message ?? String(e) }); 
+    }
+    finally{
+      set({ isLoading: false });
+    }
+  }
 }))
 
 export default useAuthHook;
