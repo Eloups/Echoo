@@ -90,15 +90,8 @@ export default function PlayerModal() {
   // Like d'une musique
   const handleMusicLike = () => {
     setIsMusicLike(!isMusicLike);
+    UserService.postLikeMusic(userId, currentTrack.id);
   }
-
-  useEffect(() => {
-    if (isMusicLike === true) {
-      console.log(currentTrack);
-      console.log(userId);
-      UserService.postLikeMusic(userId, currentTrack.id);
-    }
-  }, [isMusicLike]);
 
 
   return (
