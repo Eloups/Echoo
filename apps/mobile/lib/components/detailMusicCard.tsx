@@ -149,6 +149,17 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
                             <MaterialIcons name="playlist-add" size={20} color={theme.colors.text} />
                             <AppText style={{ marginLeft: 12 }} pointerEvents="none">Ajouter à une playlist</AppText>
                         </TouchableOpacity>
+                        <View style={{ height: 1, backgroundColor: theme.colors.background, marginVertical: 4 }} />
+                        <TouchableOpacity
+                            style={styles.menuItem}
+                            onPress={() => {
+                                setMenuVisible(false);
+                                setAddToPlaylistModalVisible(true);
+                            }}
+                        >
+                            <Ionicons name="heart-outline" size={20} color={theme.colors.text} />
+                            <AppText style={{ marginLeft: 12 }} pointerEvents="none">Ajouter à une playlist</AppText>
+                        </TouchableOpacity>
                     </View>
                 </>
             )}
