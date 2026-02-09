@@ -73,7 +73,7 @@ interface UserDrivenAdapterInterface
     /**
      * Get an user liked playlist
      * @param string $userId
-     * @return Playlist
+     * @return ?Playlist
      */
-    public function getLikedPlaylist(string $userId): Playlist;
+    public function getLikedPlaylist(string $userId): ?Playlist;
 }

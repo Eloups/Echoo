@@ -199,7 +199,7 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
      * @param string $userId
      * @return Playlist
      */
-    public function getLikedPlaylist(string $userId): Playlist
+    public function getLikedPlaylist(string $userId): ?Playlist
     {
         $pgslserver = new PgsqlServer();
 

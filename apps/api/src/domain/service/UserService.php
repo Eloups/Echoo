@@ -157,7 +157,7 @@ class UserService implements UserServiceInterface
      * @param string $userId
      * @return Playlist
      */
-    public function getLikedPlaylist(string $userId): Playlist
+    public function getLikedPlaylist(string $userId): ?Playlist
     {
         $adapter = new UserDrivenAdapter();
         return $adapter->getLikedPlaylist($userId);
