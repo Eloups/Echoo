@@ -31,7 +31,8 @@ class PgsqlProjectRequests
      * @param int $id_project
      * @return void
      */
-    public function addLike(int $id_user, int $id_project): void {
+    public function addLike(int $id_user, int $id_project): void
+    {
         $getIdLibrary = "SELECT id_library
         FROM \"user\"
         WHERE \"user\".id = :id_user;";
@@ -44,7 +45,7 @@ class PgsqlProjectRequests
             INSERT INTO library_project (id_library, id_project)
             VALUES (:id_library, :id_project)
         ");
-        
+
         $request->execute([
             ":id_library" => $idLibrary,
             ":id_project" => $id_project
@@ -56,21 +57,16 @@ class PgsqlProjectRequests
      * @param int $id_library
      * @return array
      */
-    public function getProjectsInLibrary(int $id_library): array {
-        $getArtistsInLibrary = "SELECT 
-        p.id, 
-        p.title, 
-        p.release, 
-        p.color1, 
-        p.color2, 
-        p.cover_path, 
-        project_type.name AS project_type 
-        FROM project p
-        INNER JOIN library_project
-            ON p.id = library_project.id_project
-        INNER JOIN project_type
-            ON p.id_type = project_type.id
-        WHERE library_project.id_library = :id_library;";
+    public function getProjectsInLibrary(int $id_library): array
+    {
+        $getArtistsInLibrary = 'SELECT p.id, p.title, p.release, p.color1, p.color2, p.cover_path, pt.name AS project_type, a.name AS artist_name
+            FROM "library" l
+            JOIN library_project lp ON l.id = lp.id_library
+            JOIN project p ON lp.id_project = p.id 
+            JOIN project_type pt ON p.id_type = pt.id
+            JOIN artist_project ap ON p.id = ap.id_project
+            JOIN artist a ON ap.id_artist = a.id
+            WHERE l.id = :id_library;';
 
         $request = $this->pdo->prepare($getArtistsInLibrary);
         $request->execute([":id_library" => $id_library]);
@@ -83,7 +79,8 @@ class PgsqlProjectRequests
      * @param int $id_project
      * @return array
      */
-    public function getAvgRatesOfProject(int $id_project): array {
+    public function getAvgRatesOfProject(int $id_project): array
+    {
         $getAvgRatesOfProject = "SELECT AVG(rating) AS average_rating
         FROM project_rating
         WHERE id_project = :id_project;";
@@ -94,7 +91,8 @@ class PgsqlProjectRequests
         return $result;
     }
 
-    public function getOneProject(int $id_project): array {
+    public function getOneProject(int $id_project): array
+    {
         $getOneProject = "SELECT
             p.id AS project_id,
             p.title AS project_title,
