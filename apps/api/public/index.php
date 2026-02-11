@@ -2,6 +2,8 @@
 
 use Api\Exception\ApiCustomException;
 use Api\Router;
+use Api\Utils\AuthUtils;
+use Api\Utils\EnvironmentUtils;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +20,9 @@ $dotenv->loadEnv(__DIR__ . '/../.env', overrideExistingVars: true);
 try {
     // On récupère la requête utilisateur
     $request = Request::createFromGlobals();
+
+    // Authentification
+    AuthUtils::authenticate($request);
 
     // On récupère la collection de routes pour le routeur
     $routeCollection = include __DIR__ . '/../src/router/routes.php';

@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_KBaPuweF3C
 createdAt: 2025-12-03T09:27:23.789367200
-updatedAt: 2026-02-03T17:09:14.622388200
+updatedAt: 2026-02-11T13:55:31.435602600
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_UVtcB9RLfX
 authentication: {}
@@ -14,5 +14,5 @@ headers: []
 method: GET
 name: Get an Image
 sortPriority: 999.9999
-url: ${[ API_HOST ]}/images/proute.jpg
+url: ${[ API_HOST ]}/images/cat.gif
 urlParameters: []
