@@ -279,7 +279,8 @@ class ConvertUtils
             $rows['color1'],
             $rows['color2'],
             [],
-            null
+            null,
+            $rows['artist_name'] ?? null
         );
     }
 

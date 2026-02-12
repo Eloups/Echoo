@@ -13,7 +13,8 @@ final class ProjectCest
      * @param ApiTester $I
      * @return void
      */
-    public function getOneProject(ApiTester $I) {
+    public function getOneProject(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendGet('/project/3');
@@ -42,6 +43,7 @@ final class ProjectCest
                 'color2' => 'string',
                 'rates' => 'array|null',
                 'avgRate' => 'float|null',
+                'artistName' => 'string|null',
             ]
         ]);
     }
@@ -51,7 +53,8 @@ final class ProjectCest
      * @param ApiTester $I
      * @return void
      */
-    public function getAllProjectsInLibrary(ApiTester $I) {
+    public function getAllProjectsInLibrary(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendGet('/project/library/3/all');
@@ -69,6 +72,7 @@ final class ProjectCest
                     'color2' => 'string',
                     'rates' => 'array',
                     'avgRate' => 'float|null',
+                    'artistName' => 'string'
                 ]
             ]
         ]);
@@ -79,7 +83,8 @@ final class ProjectCest
      * @param ApiTester $I
      * @return void
      */
-    public function postLikeProject(ApiTester $I) {
+    public function postLikeProject(ApiTester $I)
+    {
         $I->haveHttpHeader('accept', 'application/json');
         $I->haveHttpHeader('content-type', 'application/json');
         $I->sendPost(

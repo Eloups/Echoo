@@ -62,6 +62,12 @@ class Project
     private ?float $avgRate;
 
     /**
+     * artiste du projet
+     * @var ?string
+     */
+    private ?string $artistName;
+
+    /**
      * Constructeur du projet de musique
      * @param ?int $id
      * @param string $title
@@ -74,7 +80,7 @@ class Project
      * @param ?Rating[] $rates
      * @param ?float $avgRate
      */
-    public function __construct(?int $id, string $title, DateTime $release, string $cover_path, string $projectType, array $musics, string $color1, string $color2, ?array $rates, ?float $avgRate)
+    public function __construct(?int $id, string $title, DateTime $release, string $cover_path, string $projectType, array $musics, string $color1, string $color2, ?array $rates, ?float $avgRate, ?string $artistName = null)
     {
         $this->id = $id;
         $this->title = $title;
@@ -86,6 +92,7 @@ class Project
         $this->color2 = $color2;
         $this->rates = $rates;
         $this->avgRate = $avgRate;
+        $this->artistName = $artistName;
     }
 
     /**
@@ -162,11 +169,20 @@ class Project
     }
 
     /**
-     * Accesseur des notes de la musique
+     * Accesseur des notes du projet
      * @return ?float
      */
     public function getAvgRate(): ?float
     {
         return $this->avgRate;
+    }
+
+    /**
+     * Accesseur de l'artiste du projet
+     * @return ?string
+     */
+    public function getArtistName(): ?string
+    {
+        return $this->artistName;
     }
 }
