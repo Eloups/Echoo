@@ -100,7 +100,7 @@ export default function Liked() {
                     </View>
                 </View>
                 <View style={{ width: '100%', height: 1, backgroundColor: theme.colors.text, marginTop: 5 }}></View>
-                {musics.length > 0 && (
+                {musics.length > 0 ? (
                     <View style={{ marginTop: 30, paddingHorizontal: 20 }}>
                         {musics.map((music, index) => (
                             <View key={music.id || index} style={{ marginBottom: 9 }}>
@@ -114,7 +114,9 @@ export default function Liked() {
                             </View>
                         ))}
                     </View>
-                )}
+                ) : <View style={{ marginTop: 30, paddingHorizontal: 20 }}>
+                    <AppText style={{ textAlign: 'center' }}>Aucun titres likés</AppText>
+                </View>}
             </ScrollView >
         </View >
     )
