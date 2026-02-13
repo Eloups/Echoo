@@ -11,6 +11,7 @@ $routes->add('music|list', new Route('/musics/artist/{id}', methods: 'GET'));
 $routes->add('music|like', new Route('/music/like', methods: 'POST'));
 $routes->add('music|ratings', new Route('/musics/{id}/ratings', methods: 'GET'));
 $routes->add('music|coverPathProject', new Route('/music/{id}/coverPath', methods: 'GET'));
+$routes->add('music|isLikeByUser', new Route('/music/user/isLike', methods: 'POST'));
 
 // Streaming
 $routes->add('stream|getFile', new Route('/stream/{fileName}', methods: 'GET'));

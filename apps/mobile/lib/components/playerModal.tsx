@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import Slider from '@react-native-community/slider';
 import QueueModal from './queueModal';
 import { UserService } from '../api/user.service';
+import { MusicService } from '../api';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -37,6 +38,15 @@ export default function PlayerModal() {
   const [queueVisible, setQueueVisible] = useState(false);
   const seekTimeoutRef = useState<NodeJS.Timeout | null>(null)[0];
   const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
+
+  //Vérifie si la musique est déjà likée par un utilisateur
+  useEffect(() => {
+    if (currentTrack !== null) {
+      MusicService.getIsMusicIsLike(userId, currentTrack.id)
+      .then(setIsMusicLike);
+    }
+    
+  }, [currentTrack])
 
   // Synchroniser le slider avec la progression réelle
   useEffect(() => {

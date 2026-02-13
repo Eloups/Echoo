@@ -25,6 +25,7 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
     const [menuPosition, setMenuPosition] = useState<'below' | 'above'>('below');
     const [addToPlaylistModalVisible, setAddToPlaylistModalVisible] = useState(false);
     const buttonRef = useRef<View>(null);
+    const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
     
     const MENU_HEIGHT = 300; // Hauteur approximative du menu
     const NAV_BAR_HEIGHT = 60; // Hauteur de la barre de navigation

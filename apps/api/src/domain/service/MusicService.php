@@ -76,4 +76,16 @@ class MusicService implements MusicServiceInterface
 
         return $cover_path;
     }
+
+    /**
+     * Action de la vérification si une musique est likée par un utilisateur
+     * @param int $id_user
+     * @param int $id_music
+     * @return bool
+     */
+    public function getIsMusicLikeByUser(int $id_user, int $id_music): bool {
+        $driven = new MusicDrivenAdapter();
+        $isLike = $driven->getIsMusicLikeByUser($id_user, $id_music);
+        return $isLike;
+    }
 }

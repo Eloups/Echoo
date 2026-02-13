@@ -94,7 +94,6 @@ class PgsqlMusicRequests
         $request->execute([":id_user" => $id_user]);
         $idPlaylistLikedFetch = $request->fetch();
         $idPlaylistLiked = intval($idPlaylistLikedFetch["id"]);
-        var_dump($idPlaylistLiked);
 
         $sqlCheckIfAlreadyLiked = "SELECT id_playlist, id_music 
         FROM playlist_music 
@@ -202,5 +201,44 @@ class PgsqlMusicRequests
         $request->execute([":id_music" => $id_music]);
 
         return $request->fetchAll();
+    }
+
+    /**
+     * Requête pour vérifier si une musique est like par un utilisateur
+     * @param int $id_user
+     * @param int $id_music
+     * @return bool
+     */
+    public function getIsMusicLikeByUser(string $id_user, int $id_music): bool
+    {
+        $getIdPlaylistLiked = "SELECT playlist.id
+        FROM \"user\"
+        INNER JOIN library 
+            ON \"user\".id_library = library.id 
+        INNER JOIN library_playlist 
+            ON library.id = library_playlist.id_library
+        INNER JOIN playlist 
+            ON library_playlist.id_playlist = playlist.id
+        WHERE playlist.title = 'liked'
+        AND \"user\".id = :id_user;";
+
+        $request = $this->pdo->prepare($getIdPlaylistLiked);
+        $request->execute([":id_user" => $id_user]);
+        $idPlaylistLikedFetch = $request->fetch();
+        $idPlaylistLiked = intval($idPlaylistLikedFetch["id"]);
+
+        $sqlCheckIfAlreadyLiked = "SELECT id_playlist, id_music 
+        FROM playlist_music 
+        WHERE id_playlist = :id_playlist AND id_music = :id_music";
+        $request = $this->pdo->prepare($sqlCheckIfAlreadyLiked);
+        $request->execute([":id_playlist" => $idPlaylistLiked, ":id_music" => $id_music]);
+        $checkIfAlreadyLiked = $request->fetch();
+
+        if ($checkIfAlreadyLiked == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }

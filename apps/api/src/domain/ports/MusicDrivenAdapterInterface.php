@@ -34,4 +34,12 @@ interface MusicDrivenAdapterInterface
      * @return string
      */
     public function getCoverFileProject(int $id_music): string;
+
+    /**
+     * Méthode pour vérifier si une musique est likée par un utilisateur
+     * @param int $id_user
+     * @param int $id_music
+     * @return bool
+     */
+    public function getIsMusicLikeByUser(int $id_user, int $id_music): bool;
 }

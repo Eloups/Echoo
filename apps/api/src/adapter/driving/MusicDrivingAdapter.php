@@ -4,6 +4,7 @@ namespace Api\Adapter;
 
 use Api\Domain\Service\MusicService;
 use Api\Utils\SerializerUtils;
+use Api\Utils\VerifyUtils;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -85,5 +86,19 @@ class MusicDrivingAdapter
         $cover_path = $service->getCoverFileProject($id_music);
 
         return new Response(SerializerUtils::get()->serialize(['cover_path' => $cover_path], "json"));
+    }
+
+    /**
+     * Méthode pour vérifier si une musique est likée par un utilisateur
+     * @param int $requestBody
+     * @return Response
+     */
+    public function getIsMusicLikeByUser(string $requestBody)
+    {
+        $body = VerifyUtils::verifyJsonRequestBody($requestBody, ['id_user', 'id_music']);
+
+        $service = new MusicService();
+        $isLike = $service->getIsMusicLikeByUser($body['id_user'], $body['id_music']);
+        return new Response(json_encode(['isLike' => $isLike]));
     }
 }

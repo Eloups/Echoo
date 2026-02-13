@@ -85,4 +85,18 @@ class MusicDrivenAdapter implements MusicDrivenAdapterInterface
 
         return $cover_path[0]["cover_path"];
     }
+
+    /**
+     * Méthode pour vérifier si une musique est likée par un utilisateur
+     * @param int $id_user
+     * @param int $id_music
+     * @return bool
+     */
+    public function getIsMusicLikeByUser(int $id_user, int $id_music): bool {
+        $pgslserver = new PgsqlServer();
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlMusicRequests($pdo);
+        $isLike = $request->getIsMusicLikeByUser($id_user, $id_music);
+        return $isLike;
+    }
 }
