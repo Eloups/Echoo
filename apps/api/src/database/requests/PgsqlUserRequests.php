@@ -241,6 +241,23 @@ class PgsqlUserRequests
                 ":idRole" => $user->getUserRole()->getId()
             ]);
 
+            // we create the liked playlist
+            $sql = 'INSERT INTO playlist (title, ispublic, description, cover_path) VALUES (\'liked\', false, \'Playlist des titres likés\', \'/liked.png\') RETURNING id;';
+
+            $request = $this->pdo->prepare($sql);
+            $request->execute();
+            $idPlaylist = $request->fetch();
+
+            // We bind the user with the playlist
+
+            $sql = 'INSERT INTO library_playlist (id_library, id_playlist) VALUES (:idLibrary, :idPlaylist);';
+
+            $request = $this->pdo->prepare($sql);
+            $request->execute([
+                ':idLibrary' => $user->getLibrary()->getId(),
+                ':idPlaylist' => $idPlaylist['id']
+            ]);
+
             $this->pdo->commit();
         } catch (Exception $e) {
             $this->pdo->rollBack();
