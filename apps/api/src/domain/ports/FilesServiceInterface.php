@@ -12,7 +12,7 @@ interface FilesServiceInterface
     /**
      * Action de la récupération de fichier image
      * @param string $fileName
-     * @return void
+     * @return Response
      */
     public function getImageFile(string $fileName): Response;
 
@@ -20,7 +20,7 @@ interface FilesServiceInterface
      * Action d'ajouter une image au serveur de fichier
      * @param string $fileContent
      * @param string $contentType
-     * @return void
+     * @return Response
      */
     public function addImageFile(string $fileContent, string $contentType): Response;
 }

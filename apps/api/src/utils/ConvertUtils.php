@@ -232,7 +232,7 @@ class ConvertUtils
     }
     /**
      * Convertir les données de la base en objets Playlist
-     * @param array $rows
+     * @param array $row
      * @return Playlist
      */
     public static function ConvertRowToPlaylists(array $row, ?int $nbMusics = null): ?Playlist

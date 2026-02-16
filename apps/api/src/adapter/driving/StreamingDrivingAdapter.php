@@ -3,7 +3,6 @@
 namespace Api\Adapter;
 
 use Api\Domain\Service\StreamingService;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -15,7 +14,7 @@ class StreamingDrivingAdapter
      * Fonction pour récupérer un fichier de musique en streaming
      * @param string $fileName
      * @param ?string $range Partie du fichier que l'on veut streamer
-     * @return Response
+     * @return StreamedResponse
      */
     public function getMusicFile(string $fileName, ?string $range): StreamedResponse
     {

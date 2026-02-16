@@ -5,7 +5,6 @@ namespace Api\Adapter;
 use Api\Domain\Service\PlaylistService;
 use Api\Utils\SerializerUtils;
 use Api\Utils\VerifyUtils;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -16,7 +15,7 @@ class PlaylistDrivingAdapter
 {
     /**
      * Récupération des données de la requête puis lancement du service des playlists avec la bonne fonction
-     * @param Request $request
+     * @param int $idPlaylist
      * @return Response
      */
     public function getOnePlaylist(int $idPlaylist): Response

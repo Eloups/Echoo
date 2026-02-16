@@ -6,10 +6,11 @@ namespace Api\Domain\Class;
 /**
  * Classe pour définir les différents types de projets
  */
-class ProjectType {
+class ProjectType
+{
     /**
      * Id du type de projet
-     * @var 
+     * @var ?int
      */
     private ?int $id;
     /**
@@ -23,7 +24,8 @@ class ProjectType {
      * @param ?int $id
      * @param string $name
      */
-    public function __construct(?int $id, string $name) {
+    public function __construct(?int $id, string $name)
+    {
         $this->id = $id;
         $this->name = $name;
     }
@@ -32,14 +34,16 @@ class ProjectType {
      * Accesseur de l'id du type de projet
      * @return int|null
      */
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
     /**
      * Accesseur du nom du type de projet
      * @return string
      */
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->name;
     }
 }

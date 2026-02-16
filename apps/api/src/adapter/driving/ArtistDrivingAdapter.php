@@ -8,7 +8,6 @@ use Api\Exception\ApiCustomException;
 use Api\Utils\SerializerUtils;
 use DateTime;
 use Exception;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -19,7 +18,8 @@ class ArtistDrivingAdapter
 {
     /**
      * Récupération des données de la requête puis lancement du service des artistes avec la bonne fonction
-     * @param Request $request
+     * @param int $idArtist
+     * @param int $limit
      * @return Response
      */
     public function ArtistPage(int $idArtist, int $limit): Response
