@@ -27,4 +27,4 @@ jobs:
         run: cd apps/api && composer unit_test
 
       - name: Run PHPStan linter
-        run: composer lint
+        run: cd apps/api && composer lint
