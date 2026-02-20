@@ -29,8 +29,8 @@ function ThemedRoot() {
       try {
         const expired = await useAuthHook.getState().checkToken();
         if (expired) {
-        router.push('/connexion/connexion');
-      }
+          router.push('/connexion/connexion');
+        }
       } catch (e) {
         console.error('checkToken error', e);
       }

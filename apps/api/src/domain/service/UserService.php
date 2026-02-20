@@ -4,6 +4,7 @@ namespace Api\Domain\Service;
 
 use Api\Adapter\UserDrivenAdapter;
 use Api\Domain\Class\Music;
+use Api\Domain\Class\Playlist;
 use Api\Domain\Class\Project;
 use Api\Domain\Class\User;
 use Api\Domain\Ports\UserServiceInterface;
@@ -149,5 +150,16 @@ class UserService implements UserServiceInterface
     {
         $adapter = new UserDrivenAdapter();
         $adapter->deleteUser($userId);
+    }
+
+    /**
+     * Get an user liked playlist
+     * @param string $userId
+     * @return Playlist
+     */
+    public function getLikedPlaylist(string $userId): ?Playlist
+    {
+        $adapter = new UserDrivenAdapter();
+        return $adapter->getLikedPlaylist($userId);
     }
 }

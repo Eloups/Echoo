@@ -241,6 +241,23 @@ class PgsqlUserRequests
                 ":idRole" => $user->getUserRole()->getId()
             ]);
 
+            // we create the liked playlist
+            $sql = 'INSERT INTO playlist (title, ispublic, description, cover_path) VALUES (\'liked\', false, \'Playlist des titres likés\', \'/liked.png\') RETURNING id;';
+
+            $request = $this->pdo->prepare($sql);
+            $request->execute();
+            $idPlaylist = $request->fetch();
+
+            // We bind the user with the playlist
+
+            $sql = 'INSERT INTO library_playlist (id_library, id_playlist) VALUES (:idLibrary, :idPlaylist);';
+
+            $request = $this->pdo->prepare($sql);
+            $request->execute([
+                ':idLibrary' => $user->getLibrary()->getId(),
+                ':idPlaylist' => $idPlaylist['id']
+            ]);
+
             $this->pdo->commit();
         } catch (Exception $e) {
             $this->pdo->rollBack();
@@ -380,5 +397,29 @@ class PgsqlUserRequests
         $request->execute([
             ":userId" => $userId
         ]);
+    }
+
+    /**
+     * Function to get an user 'liked' playlist
+     * @param string $userId
+     * @return array
+     */
+    public function getLikedPlaylist(string $userId): array
+    {
+        $sql = 'SELECT p.id as playlist_id, p.title as playlist_title, p.ispublic as playlist_public, p.description as playlist_description, p.cover_path as playlist_cover, m.id music_id, m."release" music_release, m.title music_title, m.duration music_duration, m.file_path music_path, m.nb_streams music_streams, a."name" artist_name FROM "library" l 
+            JOIN library_playlist lp ON l.id = lp.id_library 
+            JOIN playlist p ON lp.id_playlist = p.id
+            JOIN playlist_music pm ON p.id = pm.id_playlist
+            JOIN music m ON pm.id_music = m.id
+            JOIN project_music prm ON m.id = prm.id_music
+            JOIN project pr ON prm.id_project = pr.id
+            JOIN artist_project ap ON pr.id = ap.id_project
+            JOIN artist a ON ap.id_artist = a.id
+            WHERE l.id = :userId AND p.title = \'liked\';';
+
+        $request = $this->pdo->prepare($sql);
+        $request->execute([':userId' => $userId]);
+
+        return $request->fetchAll();
     }
 }

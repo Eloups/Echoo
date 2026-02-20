@@ -2,11 +2,12 @@ type: folder
 model: folder
 id: fl_XGNPk28yhy
 createdAt: 2025-12-08T18:06:27.241789400
-updatedAt: 2025-12-08T18:06:27.241790200
+updatedAt: 2026-02-11T13:51:47.495213700
 workspaceId: wk_uYbS3VsxD9
 folderId: null
-authentication: {}
-authenticationType: null
+authentication:
+  token: ${[ AUTH_TOKEN ]}
+authenticationType: bearer
 description: ''
 headers: []
 name: User

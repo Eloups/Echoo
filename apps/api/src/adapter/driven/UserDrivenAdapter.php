@@ -6,6 +6,7 @@ use Api\Database\PgsqlServer;
 use Api\Database\Requests\PgsqlMusicRequests;
 use Api\Database\Requests\PgsqlUserRequests;
 use Api\Domain\Class\Music;
+use Api\Domain\Class\Playlist;
 use Api\Domain\Class\User;
 use Api\Domain\Ports\UserDrivenAdapterInterface;
 use Api\Utils\ConvertUtils;
@@ -94,10 +95,10 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
     public function getUserMostListenedMusicsOfMonth(int $userId, int $limit, DateTime $date): array
     {
         $pgslserver = new PgsqlServer();
-        
+
         $pdo = $pgslserver->getConnection();
         $userRequests = new PgsqlUserRequests($pdo);
-        
+
         $musicsIdsRows = $userRequests->getUserMostListenedMusicsOfMonth($userId, $limit, $date);
         $musicsIds = ConvertUtils::convertRowsToMusicsIds($musicsIdsRows);
 
@@ -191,5 +192,23 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
         $userRequests = new PgsqlUserRequests($pdo);
 
         $userRequests->deleteUser($userId);
+    }
+
+    /**
+     * Get an user liked playlist
+     * @param string $userId
+     * @return Playlist
+     */
+    public function getLikedPlaylist(string $userId): ?Playlist
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $playlistRow = $userRequests->getLikedPlaylist($userId);
+        $playlist = ConvertUtils::convertRowToPlaylist($playlistRow);
+
+        return $playlist;
     }
 }

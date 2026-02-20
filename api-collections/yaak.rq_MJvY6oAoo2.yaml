@@ -2,13 +2,12 @@ type: http_request
 model: http_request
 id: rq_MJvY6oAoo2
 createdAt: 2025-12-11T14:50:20.478711600
-updatedAt: 2025-12-31T18:34:20.077745700
+updatedAt: 2026-02-11T13:54:44.778332700
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_UVtcB9RLfX
 authentication: {}
 authenticationType: null
-body:
-  filePath: C:\Users\eloud\OneDrive\Images\Captures d’écran\Capture d'écran 2024-11-24 141418.png
+body: {}
 bodyType: binary
 description: ''
 headers:

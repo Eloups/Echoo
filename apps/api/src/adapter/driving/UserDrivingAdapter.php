@@ -170,4 +170,12 @@ class UserDrivingAdapter
 
         return new Response(json_encode(['code' => 200, 'message' => 'User deleted']));
     }
+
+    public function getLikedPlaylist(string $userId): Response
+    {
+        $service = new UserService();
+        $playlist = $service->getLikedPlaylist($userId);
+
+        return new Response(SerializerUtils::get()->serialize(['playlist' => $playlist], "json"));
+    }
 }

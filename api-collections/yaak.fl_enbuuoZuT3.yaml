@@ -2,11 +2,12 @@ type: folder
 model: folder
 id: fl_enbuuoZuT3
 createdAt: 2025-11-27T15:00:12.755433900
-updatedAt: 2025-12-01T14:27:33.597823400
+updatedAt: 2026-02-11T13:56:41.900569400
 workspaceId: wk_uYbS3VsxD9
 folderId: null
-authentication: {}
-authenticationType: null
+authentication:
+  token: ${[ AUTH_TOKEN ]}
+authenticationType: bearer
 description: ''
 headers: []
 name: Streaming

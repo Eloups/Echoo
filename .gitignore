@@ -1,6 +1,5 @@
 /database
 vendor
-composer.lock
 .env
 /docker/file-server/files
 /apps/api/tests/e2e/_output

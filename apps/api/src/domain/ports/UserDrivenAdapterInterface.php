@@ -2,6 +2,7 @@
 
 namespace Api\Domain\Ports;
 
+use Api\Domain\Class\Playlist;
 use Api\Domain\Class\User;
 use DateTime;
 
@@ -68,4 +69,11 @@ interface UserDrivenAdapterInterface
      * @return void
      */
     public function deleteUser(string $userId): void;
+
+    /**
+     * Get an user liked playlist
+     * @param string $userId
+     * @return ?Playlist
+     */
+    public function getLikedPlaylist(string $userId): ?Playlist;
 }
