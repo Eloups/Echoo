@@ -10,7 +10,7 @@ import { set } from "better-auth";
 
 export default function mdpOublieScreen() {
     const router = useRouter();
-    const { sendVerificationEmail, isLoading, authError } = useAuthHook();
+    const { sendResetPassword, isLoading, authError } = useAuthHook();
     const [email, setEmail] = React.useState<string>("");
     const [waitResetPassword, setWaitResetPassword] = React.useState<boolean>(false);
 
@@ -19,10 +19,10 @@ export default function mdpOublieScreen() {
             // pass pour le dev Tempo ICIIIII
             if (!waitResetPassword) { setWaitResetPassword(true); }
             if (email == "A") {
-                sendVerificationEmail("thibaultcallerand@gmail.com");
+                sendResetPassword("thibaultcallerand@gmail.com");
             }
             else {
-                sendVerificationEmail(email);
+                sendResetPassword(email);
             }
         }
         else {
