@@ -32,6 +32,10 @@ const app = new Elysia()
     set.status = 204; // No Content
     return "";
   })
+  .options("/api/auth/verify-email", ({ set }) => {
+    set.status = 204; // No Content
+    return "";
+  })
   .post("/api/auth/verify", async ({ body, set }) => {
     try {
       const { token } = body;
@@ -64,6 +68,67 @@ const app = new Elysia()
         status: "ERROR",
         code: "INVALID_TOKEN",
         message: err.message,
+      };
+    }
+  }, {
+    body: t.Object({
+      token: t.String(),
+    })
+  })
+  .post("/api/auth/verify-email", async ({ body, set }) => {
+    try {
+      const { token } = body;
+      console.log("[VERIFY-EMAIL] Received token:", token);
+      
+      if (!token) {
+        set.status = 400;
+        return { status: "ERROR", message: "Missing token" };
+      }
+
+      // Verify JWT with Better-Auth secret
+      try {
+        const secret = new TextEncoder().encode(env.BETTER_AUTH_SECRET);
+        const { payload } = await jwtVerify(token, secret);
+        
+        console.log("[VERIFY-EMAIL] JWT verified, payload:", payload);
+        
+        if (!payload.email) {
+          set.status = 400;
+          return { status: "ERROR", message: "Invalid token format - missing email" };
+        }
+
+        // Update user email verification status using email from JWT
+        const user = await prisma.user.findUnique({
+          where: { email: payload.email as string },
+        });
+
+        if (!user) {
+          set.status = 404;
+          return { status: "ERROR", message: "User not found" };
+        }
+
+        await prisma.user.update({
+          where: { email: payload.email as string },
+          data: { emailVerified: true },
+        });
+
+        console.log("[VERIFY-EMAIL] User email verified successfully:", payload.email);
+
+        return {
+          status: "SUCCESS",
+          message: "Email verified successfully",
+        };
+      } catch (jwtErr: any) {
+        console.error("[VERIFY-EMAIL] JWT verification failed:", jwtErr.message);
+        set.status = 400;
+        return { status: "ERROR", message: "Invalid or expired verification token" };
+      }
+    } catch (err: any) {
+      console.error("[VERIFY-EMAIL] Error:", err);
+      set.status = 500;
+      return {
+        status: "ERROR",
+        message: "An error occurred during email verification",
       };
     }
   }, {

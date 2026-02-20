@@ -5,8 +5,8 @@ import { User } from '@/lib/types/auth'
 import { router } from 'expo-router'
 import useGlobalHook from './globalHook'
 import { UserService } from '../lib/api/user.service';
-import { CreateUserRequest } from '../lib/api/types';
-
+import * as SecureStore from 'expo-secure-store';
+import { CreateUserRequest } from '@/lib/api'
 
 const API_BASE_AUTH = process.env.EXPO_PUBLIC_API_AUTH_URL
 
@@ -15,6 +15,7 @@ interface AuthHook {
   register: (name: string, email: string, password: string, PdpB64: string | null) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
+  waitVerificationMail: boolean;
   authError: string | null;
   setAuthLoading: (loading: boolean) => void;
   setAuthError: (error: string | null) => void;
@@ -22,13 +23,14 @@ interface AuthHook {
   tokenIsExpired: () => boolean;  // lib/auth/service.ts
   verifyToken: (token: string) => Promise<JWTPayload | undefined>;
 
+  sendResetPassword: (email: string) => Promise<void>;
   sendVerificationEmail: (email: string) => Promise<void>;
-
 }
 
 export const useAuthHook = create<AuthHook>((set, get) => ({
   isLoading: false,
   authError: null,
+  waitVerificationMail: false,
 
   setAuthLoading: (loading: boolean) => set({ isLoading: loading }),
   setAuthError: (error: string | null) => set({ authError: error }),
@@ -55,11 +57,20 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     if (error) {
       // ICIIIIIII a voir pour mettre un message d'erreur a la main pour l'avoir en français 
       // et pour que ce ne soit pas dirrectement l'erreur du serveur
+      if (error.status === 403 && error.code == 'EMAIL_NOT_VERIFIED') {
+        // redirection vers un écran d'attente de vérification de l'email
+        set({ waitVerificationMail: true, isLoading: false });
+        // Stocker l'email pour permettre le renvoi
+        await SecureStore.setItemAsync('pendingVerificationEmail', email);
+        router.push('/connexion/waitingVerification');
+      }
+
       set({ isLoading: false, authError: error.message ?? String(error) });
       return;
     }
     if (data) {
       const JWT = await authClient.token()
+      // console.log("JWT =", JWT);
 
       // décoder le JWT pour avoir les infos de l'utilisateur 
       // (dont l'id pour ensouite prendre les infos supplémentaire dans l'API backend)
@@ -114,93 +125,57 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     });
 
     if (error) {
-      // ICIIIIIII a voir pour mettre un message d'erreur a la main pour l'avoir en français 
-      // et pour que ce ne soit pas dirrectement l'erreur du serveur
-      set({ isLoading: false, authError: error.message ?? String(error) });
+      set({ authError: error.message, isLoading: false });
       return;
     }
 
     if (data) {
-      // Génération du JWT
+      // ajout de la photo de profil si elle est présente 
+      let imagePath = "";
+      try {
+        if (PdpB64) {
+          // Utilise le hook global pour sauvegarder l'image et récupérer le nom du fichier
+          const { AddImage } = useGlobalHook.getState();
 
-      const JWT = await authClient.token()
-
-      // Décodage du JWT pour avoir les infos de l'utilisateur 
-      // (dont l'id pour ensuite le crée dans l'API backend)
-      if (JWT && JWT.data && JWT.data.token) {
-
-        const tokenValue = JWT.data.token;
-
-        let decodedToken: JWTPayload | undefined;
-        try {
-          const { verifyToken } = get();
-
-          decodedToken = await verifyToken(tokenValue);
-          if (decodedToken) {
-            useGlobalHook.setState({ user: User.fromJWTPayload(decodedToken) })
+          const fileName: string = await AddImage(PdpB64);
+          if (fileName) {
+            imagePath = fileName;
           }
-        } catch (e: any) {
-          set({ authError: e.message ?? String(e) });
-          set({ isLoading: false });
-          return;
         }
-
-        // ajout de la photo de profil si elle est présente 
-        let imagePath = "";
-        try {
-          if (PdpB64) {
-            // Utilise le hook global pour sauvegarder l'image et récupérer le nom du fichier
-            const { AddImage } = useGlobalHook.getState();
-
-            const fileName: string = await AddImage(PdpB64);
-            if (fileName) {
-              imagePath = fileName;
-            }
-          }
-        } catch (e: any) {
-          set({ authError: e.message ?? String(e) });
-          set({ isLoading: false });
-          return;
-        }
-
-        // Creation de l'utilisateur dans l'API backend
-        try {
-          let request: CreateUserRequest = {
-            id: data.user.id,
-            username: name,
-            email: email,
-            image_path: imagePath,
-            id_role: 1,
-          }
-
-          //Creation de l'utilisateur dans l'API backend (avec le même token)
-          let val = await UserService.createUser(request);
-
-          if (val.code == 201) {
-            let expirationTime = decodedToken?.exp;
-            const userData = await UserService.getUser(data.user.id);
-            if (userData) {
-              let userRender = new User(userData.user);
-              userRender.expirationTime = expirationTime;
-
-              useGlobalHook.setState({ user: userRender });
-            }
-          }
-        } catch (e: any) {
-          set({ authError: e.message ?? String(e) });
-          set({ isLoading: false });
-          return;
-        }
-        // console.log("user =", useGlobalHook.getState().user);
-
-        router.push('/(tabs)/home');
+      } catch (e: any) {
+        set({ authError: e.message ?? String(e) });
+        set({ isLoading: false });
+        return;
       }
+
+      // Creation de l'utilisateur dans l'API backend avec l'ID du signUp
+      try {
+        let request: CreateUserRequest = {
+          id: data.user.id,
+          username: name,
+          email: email,
+          image_path: imagePath,
+          id_role: 1,
+        }
+
+        //Creation de l'utilisateur dans l'API backend
+        let val = await UserService.createUser(request);
+        if (val.code !== 201) {
+          throw new Error("Failed to create user in backend");
+        }
+      } catch (e: any) {
+        set({ authError: e.message ?? String(e) });
+        set({ isLoading: false });
+        return;
+      }
+
+      // redirection vers un écran d'attente de vérification de l'email
+      set({ waitVerificationMail: true, isLoading: false });
+      // Stocker l'email pour permettre le renvoi
+      await SecureStore.setItemAsync('pendingVerificationEmail', email);
+      router.push('/connexion/waitingVerification');
     }
-
-    // Tout est bon, rediriger vers l'écran principal
-    set({ isLoading: false });
   },
-
   checkToken: async () => {
     const { tokenIsExpired } = get();
     // ICIIIIIIIIIIII Mettre le reload du token quand j'aurais le temps
@@ -229,30 +204,36 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     return json.decoded;
   },
 
-  sendVerificationEmail: async (email: string) => {
-    console.log("sendVerificationEmail email =", email);
-
+  sendResetPassword: async (email: string) => {
     set({ isLoading: true, authError: null });
 
-    try{
-
-      const {data, error} = await authClient.requestPasswordReset({
+    try {
+      const { data, error } = await authClient.requestPasswordReset({
         email: email, // required
         redirectTo: "",
       })
-      if(error){
+      if (error) {
         throw new Error(error.message ?? String(error));
       }
-      
-      console.log("sendVerificationEmail retour =", data, error);
 
-    }catch(e:any){
-      set({ authError: e.message ?? String(e) }); 
+    } catch (e: any) {
+      set({ authError: e.message ?? String(e) });
     }
-    finally{
+    finally {
       set({ isLoading: false });
     }
-  }
+  },
+
+  sendVerificationEmail: async (email: string) => {
+    // set({ isLoading: true, waitVerificationMail: true });
+
+    try {
+      let val = await authClient.sendVerificationEmail({
+        email: email,
+        callbackURL: "",
+      });
+    } catch (e: any) { }
+  },
 }))
 
 export default useAuthHook;
