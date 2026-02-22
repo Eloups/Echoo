@@ -15,6 +15,11 @@ class AuthUtils
     public static function authenticate(Request $req): void
     {
         $authHeader = $req->headers->get('Authorization');
+
+        if (!isset($authHeader) || !str_contains($authHeader, ' ')) {
+            throw new ApiCustomException("Unauthorized", 401);
+        }
+
         [$authType, $token] = explode(' ', $authHeader);
 
         if ($authType !== 'Bearer') {
