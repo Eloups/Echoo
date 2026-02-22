@@ -7,11 +7,12 @@ use Api\Domain\Class\Playlist;
 /**
  * Interface du service des playlists
  */
-interface PlaylistServiceInterface {
+interface PlaylistServiceInterface
+{
     /**
      * Action du listage d'une playlist
      * @param int $idPlaylist
-     * @return array
+     * @return Playlist
      */
     public function getOnePlaylist(int $idPlaylist): Playlist;
 
@@ -26,7 +27,7 @@ interface PlaylistServiceInterface {
      * Action de l'ajout d'une musique à une playlist
      * @param int $id_playlist
      * @param int $id_music
-     * @return array
+     * @return void
      */
     public function addMusicInPlaylist(int $id_playlist, int $id_music): void;
 
@@ -52,7 +53,7 @@ interface PlaylistServiceInterface {
      * Action de la suppression d'une musique d'une playlist
      * @param int $id_playlist
      * @param int $id_music
-     * @return array
+     * @return void
      */
     public function deleteMusicInPlaylist(int $id_playlist, int $id_music): void;
 

@@ -14,7 +14,7 @@ class FilesService implements FilesServiceInterface
     /**
      * Action de la récupération de fichier image
      * @param string $fileName
-     * @return void
+     * @return Response
      */
     public function getImageFile(string $fileName): Response
     {

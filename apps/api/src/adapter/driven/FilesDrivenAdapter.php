@@ -5,7 +5,6 @@ namespace Api\Adapter;
 use Api\Domain\Ports\FilesDrivenAdapterInterface;
 use Api\Exception\ApiCustomException;
 use Api\Utils\EnvironmentUtils;
-use CURLFile;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -66,7 +65,7 @@ class FilesDrivenAdapter implements FilesDrivenAdapterInterface
      * Fonction pour ajouter une image au serveur de fichier
      * @param string $fileContent
      * @param string $contentType
-     * @return void
+     * @return Response
      */
     public function addImageFile(string $fileContent, string $contentType): Response
     {

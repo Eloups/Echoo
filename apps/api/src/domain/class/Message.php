@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Api\Domain\Class;
 
@@ -7,7 +7,8 @@ use DateTime;
 /**
  * Classe Message
  */
-class Message {
+class Message
+{
     /**
      * Id du message
      * @var ?int
@@ -25,7 +26,7 @@ class Message {
     private string $content;
     /**
      * Musique du message s'il contient une musique
-     * @var 
+     * @var ?Music
      */
     private ?Music $music;
     /**
@@ -42,7 +43,8 @@ class Message {
      * @param ?Music $music
      * @param User $user
      */
-    public function __construct(?int $id, DateTime $sendAt, string $content, ?Music $music, User $user) {
+    public function __construct(?int $id, DateTime $sendAt, string $content, ?Music $music, User $user)
+    {
         $this->id = $id;
         $this->sendAt = $sendAt;
         $this->content = $content;
@@ -54,35 +56,40 @@ class Message {
      * Accesseur de l'id du message
      * @return int|null
      */
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
     /**
      * Accesseur de la date d'envoi du message
      * @return DateTime
      */
-    public function getSendAt(): DateTime {
+    public function getSendAt(): DateTime
+    {
         return $this->sendAt;
     }
     /**
      * Accesseur du contenu du message
      * @return string
      */
-    public function getContent(): string {
+    public function getContent(): string
+    {
         return $this->content;
     }
     /**
      * Accesseur de la musique du message
-     * @return Music|null
+     * @return Music
      */
-    public function getMusic(): Music {
+    public function getMusic(): Music
+    {
         return $this->music;
     }
     /**
      * Accesseur de l'utilisateur qui envoie le message
      * @return User
      */
-    public function getUser(): User {
+    public function getUser(): User
+    {
         return $this->user;
     }
 }

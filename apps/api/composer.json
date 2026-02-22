@@ -71,7 +71,7 @@
         "docker_start": "docker-compose up -d",
         "docker_stop": "docker-compose stop",
         "docker_drop": "docker-compose down -v",
-        "lint": "vendor/bin/phpstan analyse public src tests -l 1"
+        "lint": "vendor/bin/phpstan analyse public src tests -l 5"
     },
     "config": {
         "allow-plugins": {

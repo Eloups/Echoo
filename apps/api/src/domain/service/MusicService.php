@@ -17,7 +17,7 @@ class MusicService implements MusicServiceInterface
 {
     /**
      * Action du listage des musiques
-     * @return Response
+     * @return array
      */
     public function listMusics(int $idArtist): array
     {
