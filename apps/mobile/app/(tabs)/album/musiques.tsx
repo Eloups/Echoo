@@ -1,24 +1,137 @@
-import { View, ScrollView, Image, Pressable, TouchableOpacity, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { View, ScrollView, Image, Pressable, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
-import { Project } from '@/lib/types/types';
+import { Music, Project } from '@/lib/types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import DetailMusicCard from '@/lib/components/detailMusicCard';
 import { useLocalSearchParams } from 'expo-router';
+import { AlbumService, apiClient } from '@/lib/api';
 
 const IMAGE_SIZE = 200;
+const placeholderImage = require("../../../assets/images/react-logo.png");
 
 export default function MusiquesPage() {
     const { theme } = useTheme();
     const params = useLocalSearchParams();
     const [menuVisible, setMenuVisible] = useState(false);
+    const [project, setProject] = useState<Project | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [totalDuration, setTotalDuration] = useState(0);
 
-    const data: Project = params.data ? JSON.parse(params.data as string) : null;
+    const rawData = useMemo(() => {
+        if (!params.data) return null;
+        try {
+            return JSON.parse(params.data as string) as Project & { id?: number };
+        } catch (parseError) {
+            if (__DEV__) {
+                console.error('Erreur de parsing des params album:', parseError);
+            }
+            return null;
+        }
+    }, [params.data]);
 
-    if (!data) {
+    const projectId = useMemo(() => {
+        const candidate = params.idProject ?? params.projectId ?? rawData?.id;
+        const parsed = Number(candidate);
+        return Number.isFinite(parsed) ? parsed : null;
+    }, [params.idProject, params.projectId, rawData?.id]);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetchProject = async () => {
+            if (!projectId) {
+                setProject(rawData as Project | null);
+                setLoading(false);
+                return;
+            }
+
+            try {
+                setLoading(true);
+                setError(null);
+                const response = await AlbumService.getProjectById(projectId);
+                const apiProject = response.project;
+
+                const albumCover = apiProject.coverPath
+                    ? { uri: apiClient.getImageUrl(apiProject.coverPath) }
+                    : placeholderImage;
+
+                const mappedMusics: Music[] = (apiProject.musics || []).map((music) => ({
+                    id: music.id,
+                    cover: albumCover,
+                    title: music.title,
+                    artist: music.nameArtist || 'Artiste inconnu',
+                    color1: apiProject.color1 || '#04131D',
+                    color2: apiProject.color2 || '#082840',
+                    nbStreams: music.nbStreams || 0,
+                    audioFile: music.filePath,
+                    duration: music.duration,
+                }));
+
+                const mappedProject: Project = {
+                    cover: albumCover,
+                    type: apiProject.projectType?.toLowerCase() || 'album',
+                    title: apiProject.title,
+                    description: apiProject.musics?.[0]?.nameArtist || '',
+                    artist: apiProject.musics?.[0]?.nameArtist || '',
+                    musics: mappedMusics,
+                };
+
+                if (isMounted) {
+                    setProject(mappedProject);
+                    const total = (apiProject.musics || []).reduce((acc, music) => acc + (music.duration || 0), 0);
+                    setTotalDuration(total);
+                }
+            } catch (fetchError) {
+                if (__DEV__) {
+                    console.error('Erreur lors du chargement du projet:', fetchError);
+                }
+                if (isMounted) {
+                    setError('Impossible de charger cet album');
+                }
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        fetchProject();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [projectId, rawData]);
+
+    if (loading && !project) {
+        return (
+            <View style={{ flex: 1, backgroundColor: theme.colors.background, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color={theme.colors.primary} />
+                <AppText style={{ marginTop: 10 }}>Chargement de l'album...</AppText>
+            </View>
+        );
+    }
+
+    if (error && !project) {
+        return (
+            <View style={{ flex: 1, backgroundColor: theme.colors.background, justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+                <AppText color="text2" style={{ textAlign: 'center' }}>{error}</AppText>
+            </View>
+        );
+    }
+
+    if (!project) {
         return null;
     }
+
+    const formatDuration = (seconds: number): string => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}min${secs.toString().padStart(2, '0')}`;
+    };
 
     return (
         <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -67,31 +180,40 @@ export default function MusiquesPage() {
             </View>
 
             <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
-                <View style={{ alignItems: 'center', paddingTop: 60, paddingBottom: 20 }}>
+                <View style={{ alignItems: 'center', paddingTop: 60, paddingBottom: 20, paddingHorizontal: 20 }}>
                     <Image 
-                        source={data.cover} 
+                        source={project.cover} 
                         style={{ width: IMAGE_SIZE, height: IMAGE_SIZE, borderRadius: 5 }}
                     />
                     <AppText size="2xl" style={{ marginTop: 20, fontWeight: 'bold', textAlign: 'center', paddingHorizontal: 20 }}>
-                        {data.title}
+                        {project.title}
                     </AppText>
                     <AppText size="md" color="text2" style={{ marginTop: 5 }}>
-                        {Array.isArray(data.artist) ? data.artist.join(', ') : data.artist}
+                        {Array.isArray(project.artist) ? project.artist.join(', ') : project.artist}
                     </AppText>
-                    {data.musics && data.musics.length > 0 && (
-                        <AppText size="sm" color="text2" style={{ marginTop: 5 }}>
-                            {data.musics.length} morceaux
-                        </AppText>
+                    {project.musics && project.musics.length > 0 && (
+                        <>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12, gap: 10, width: '100%', justifyContent: 'space-between' }}>
+                                <AppText size="sm" color="text">
+                                    {project.musics.length} Morceaux
+                                </AppText>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                                    <AppText size="sm" color="text">{formatDuration(totalDuration)}</AppText>
+                                    <Ionicons name="time-outline" size={14} color={theme.colors.text} />
+                                </View>
+                            </View>
+                            <View style={{ width: '100%', height: 1, backgroundColor: theme.colors.text, marginTop: 5 }}></View>
+                        </>
                     )}
                 </View>
 
                 <View style={{ paddingHorizontal: 20 }}>
-                    {data.musics?.map((music, index) => (
+                    {project.musics?.map((music, index) => (
                         <View key={index} style={{ marginBottom: 16 }}>
                             <DetailMusicCard 
                                 infos={music}
                                 isAlbum={true}
-                                queue={data.musics || []}
+                                queue={project.musics || []}
                                 index={index}
                             />
                         </View>
