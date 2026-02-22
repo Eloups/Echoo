@@ -17,7 +17,7 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface
 {
     /**
      * Méthode pour récupérer les données d'un artiste
-     * @return Artist[]
+     * @return Artist
      */
     public function getArtist(int $idArtist): Artist
     {
@@ -36,7 +36,7 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface
     /**
      * Méthode pour récupérer les likes d'un artiste
      * @param int $idArtist
-     * @return void
+     * @return int
      */
     public function getLikesArtist(int $idArtist): int
     {
@@ -55,7 +55,7 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface
      * Méthode pour récupérer les musiques les plus populaires d'un artiste
      * @param int $idArtist
      * @param int $limit
-     * @return Music[]
+     * @return Music[][]
      */
     public function getPopularMusicsByArtist(int $idArtist, int $limit): array
     {
@@ -77,7 +77,7 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface
      * Méthode pour récupérer les dernières musiques publiées d'un artiste
      * @param int $idArtist
      * @param int $limit
-     * @return Music[]
+     * @return Music[][]
      */
     public function getLastReleaseByArtist(int $idArtist, int $limit): array
     {
@@ -97,11 +97,11 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface
 
     /**
      * Méthode pour ajouter un like à un artiste
-     * @param int $id_user
+     * @param string $id_user
      * @param int $id_artist
      * @return void
      */
-    public function addLike(int $id_user, int $id_artist): void
+    public function addLike(string $id_user, int $id_artist): void
     {
         $pgslserver = new PgsqlServer();
 

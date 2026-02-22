@@ -9,7 +9,6 @@ use Api\Domain\Class\Project;
 use Api\Domain\Ports\ArtistServiceInterface;
 use DateTime;
 use Exception;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Classe de service des artistes
@@ -18,7 +17,7 @@ class ArtistService implements ArtistServiceInterface
 {
     /**
      * Action des données de la page artiste
-     * @return Response
+     * @return array
      */
     public function artistPage(int $idArtist, int $limit): array
     {
@@ -34,11 +33,11 @@ class ArtistService implements ArtistServiceInterface
 
     /**
      * Action de l'ajout d'un like à un artiste
-     * @param int $id_user
+     * @param string $id_user
      * @param int $id_artist
      * @return void
      */
-    public function likeArtist(int $id_user, int $id_artist): void
+    public function likeArtist(string $id_user, int $id_artist): void
     {
         $driven = new ArtistDrivenAdapter();
         $driven->addLike($id_user, $id_artist);
@@ -48,7 +47,7 @@ class ArtistService implements ArtistServiceInterface
      * Action de la récupération des artistes de la library
      * @param int $id_library
      * @throws Exception
-     * @return never
+     * @return array
      */
     public function getArtistsInLibrary(int $id_library): array
     {

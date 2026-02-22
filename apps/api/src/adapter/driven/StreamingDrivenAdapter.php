@@ -17,7 +17,7 @@ class StreamingDrivenAdapter implements StreamingDrivenAdapterInterface
      * Méthode pour streamer un fichier de musique
      * @param string $fileName
      * @param ?string $range Partie du fichier que l'on veut streamer
-     * @return void
+     * @return StreamedResponse
      */
     public function streamMusicFile(string $fileName, ?string $range): StreamedResponse
     {

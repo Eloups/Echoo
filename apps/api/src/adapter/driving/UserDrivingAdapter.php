@@ -9,7 +9,6 @@ use Api\Domain\Service\UserService;
 use Api\Utils\SerializerUtils;
 use Api\Utils\VerifyUtils;
 use DateTime;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -19,10 +18,11 @@ class UserDrivingAdapter
 {
     /**
      * Méthode pour récupérer les écoutes les plus récentes d'un utilisateur
+     * @param string $userId id de l'utilisateur
      * @param int $limit limite de musqiues à récupérer
      * @return Response
      */
-    public function getUserListenedMusics(int $userId, int $limit): Response
+    public function getUserListenedMusics(string $userId, int $limit): Response
     {
         $service = new UserService();
         $musics = $service->getLastUserListenedMusics($userId, $limit);
@@ -49,11 +49,11 @@ class UserDrivingAdapter
 
     /**
      * Méthode pour récupérer les dernères sorties des artistes suivis par un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
      * @return Response
      */
-    public function getUserArtistsLastsReleases(int $userId, int $limit): Response
+    public function getUserArtistsLastsReleases(string $userId, int $limit): Response
     {
         $service = new UserService();
         $projects = $service->getUserArtistsLastsReleases($userId, $limit);
@@ -63,11 +63,11 @@ class UserDrivingAdapter
 
     /**
      * Méthode pour récupérer les musiques les plus écoutées par un utilisateur ce mois
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
      * @return Response
      */
-    public function getUserMostListenedMusicsOfTheMonth(int $userId, int $limit): Response
+    public function getUserMostListenedMusicsOfTheMonth(string $userId, int $limit): Response
     {
         $service = new UserService();
         $today = new DateTime();
@@ -133,11 +133,11 @@ class UserDrivingAdapter
 
     /**
      * Méthode de mise à jour d'un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @param string $requestContent
      * @return Response
      */
-    public function updateUser(int $userId, string $requestContent): Response
+    public function updateUser(string $userId, string $requestContent): Response
     {
         $requestData = VerifyUtils::verifyJsonRequestBody($requestContent, ['username', 'email', 'image_path', 'id_role']);
 

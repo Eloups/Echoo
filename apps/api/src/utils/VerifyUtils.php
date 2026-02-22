@@ -13,7 +13,7 @@ class VerifyUtils
     /**
      * Function pour vérifier le corps JSON de requête
      * @param string $requestBody
-     * @param array $keys
+     * @param array $requiredKeys
      * @return array
      */
     public static function verifyJsonRequestBody(string $requestBody, array $requiredKeys): array

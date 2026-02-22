@@ -129,7 +129,7 @@ class Project
     }
     /**
      * Accesseur du type de projet de musique
-     * @return ProjectType
+     * @return string
      */
     public function getProjectType(): string
     {

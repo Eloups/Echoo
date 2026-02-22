@@ -45,7 +45,7 @@ class User
     private UserRole $userRole;
     /**
      * Page artiste si l'utilisateur est un artiste
-     * @var 
+     * @var ?Artist
      */
     private ?Artist $artist;
     /**
@@ -95,7 +95,7 @@ class User
 
     /**
      * Accesseur de l'id de l'utilisateur
-     * @return int|null
+     * @return ?string
      */
     public function getId(): ?string
     {

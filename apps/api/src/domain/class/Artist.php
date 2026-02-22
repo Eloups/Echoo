@@ -122,7 +122,7 @@ class Artist
     }
     /**
      * Accesseur des musiques créées par l'artiste
-     * @return ?Music[]
+     * @return ?Project[]
      */
     public function getProjects(): ?array
     {

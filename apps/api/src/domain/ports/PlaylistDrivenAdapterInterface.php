@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Api\Domain\Ports;
 
@@ -7,7 +7,8 @@ use Api\Domain\Class\Playlist;
 /**
  * Interface pour le PlaylistDrivenAdapter
  */
-interface PlaylistDrivenAdapterInterface {
+interface PlaylistDrivenAdapterInterface
+{
     /**
      * Méthode pour récupérer une playlist
      * @param int $idPlaylist
@@ -26,7 +27,7 @@ interface PlaylistDrivenAdapterInterface {
      * Méthode pour ajouter une musique à une playlist
      * @param int $id_playlist
      * @param int $id_music
-     * @return array
+     * @return void
      */
     public function addMusicInPlaylist(int $id_playlist, int $id_music): void;
 
@@ -45,7 +46,7 @@ interface PlaylistDrivenAdapterInterface {
      * Méthode pour supprimer une musique d'une playlist
      * @param int $id_playlist
      * @param int $id_music
-     * @return array
+     * @return void
      */
     public function deleteMusicInPlaylist(int $id_playlist, int $id_music): void;
 

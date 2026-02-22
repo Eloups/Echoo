@@ -3,7 +3,6 @@
 use Api\Exception\ApiCustomException;
 use Api\Router;
 use Api\Utils\AuthUtils;
-use Api\Utils\EnvironmentUtils;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
