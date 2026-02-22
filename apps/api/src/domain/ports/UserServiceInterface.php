@@ -2,6 +2,7 @@
 
 namespace Api\Domain\Ports;
 
+use Api\Domain\Class\Playlist;
 use Api\Domain\Class\User;
 use DateTime;
 
@@ -12,33 +13,33 @@ interface UserServiceInterface
 {
     /**
      * Action de récupération des dernières musiques écoutées
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
      * @return array
      */
-    public function getLastUserListenedMusics(int $userId, int $limit): array;
+    public function getLastUserListenedMusics(string $userId, int $limit): array;
     /**
      * Fonction pour ajouter une musique écoutée par un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @param int $musicId
      * @return void
      */
-    public function addUserListenedMusic(int $userId, int $musicId): void;
+    public function addUserListenedMusic(string $userId, int $musicId): void;
     /**
      * Fonction pour récupérer les dernères sorties des artistes suivis par un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
-     * @return void
+     * @return array
      */
-    public function getUserArtistsLastsReleases(int $userId, int $limit): array;
+    public function getUserArtistsLastsReleases(string $userId, int $limit): array;
     /**
      * Méthode pour récupérer les musiques les plus écoutées par un utilisateur un mois
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
      * @param DateTime $date
      * @return array
      */
-    public function getUserMostListenedMusicsOfMonth(int $userId, int $limit, DateTime $date): array;
+    public function getUserMostListenedMusicsOfMonth(string $userId, int $limit, DateTime $date): array;
     /**
      * Méthode pour créer un utilisateur
      * @param User $user
@@ -68,4 +69,11 @@ interface UserServiceInterface
      * @return void
      */
     public function deleteUser(string $userId): void;
+
+    /**
+     * Get an user liked playlist
+     * @param string $userId
+     * @return ?Playlist
+     */
+    public function getLikedPlaylist(string $userId): ?Playlist;
 }

@@ -6,17 +6,18 @@ use Api\Adapter\PlaylistDrivenAdapter;
 use Api\Domain\Class\Playlist;
 use Api\Domain\Ports\PlaylistServiceInterface;
 use Exception;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Classe de service des playlists
  */
-class PlaylistService implements PlaylistServiceInterface {
+class PlaylistService implements PlaylistServiceInterface
+{
     /**
      * Action des données d'une playlist
-     * @return Response
+     * @return Playlist
      */
-    public function getOnePlaylist(int $idPlaylist): Playlist {
+    public function getOnePlaylist(int $idPlaylist): Playlist
+    {
         $driven = new PlaylistDrivenAdapter();
 
         $playlist = $driven->getPlaylist($idPlaylist);
@@ -34,7 +35,7 @@ class PlaylistService implements PlaylistServiceInterface {
         $driven = new PlaylistDrivenAdapter();
 
         $playlists = $driven->getPlaylistsInLibrary($id_library);
-        foreach($playlists as $playlist) {
+        foreach ($playlists as $playlist) {
             if (!$playlist instanceof Playlist) {
                 throw new Exception("Les données ne sont pas du type Playlist");
             }

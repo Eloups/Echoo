@@ -15,7 +15,7 @@ class StreamingService implements StreamingServiceInterface
      * Fonction de récupération d'un fichier de musique en stream
      * @param string $fileName Nom du fichier
      * @param ?string $range Partie du fichier que l'on veut streamer
-     * @return void
+     * @return StreamedResponse
      */
     public function getMusicFile(string $fileName, ?string $range): StreamedResponse
     {

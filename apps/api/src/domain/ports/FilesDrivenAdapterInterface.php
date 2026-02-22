@@ -20,7 +20,7 @@ interface FilesDrivenAdapterInterface
      * Méthode pour ajouter une image au serveur de fichier
      * @param string $fileContent
      * @param string $contentType
-     * @return void
+     * @return Response
      */
     public function addImageFile(string $fileContent, string $contentType): Response;
 }

@@ -5,7 +5,6 @@ namespace Api\Adapter;
 use Api\Domain\Service\PlaylistService;
 use Api\Utils\SerializerUtils;
 use Api\Utils\VerifyUtils;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -16,7 +15,7 @@ class PlaylistDrivingAdapter
 {
     /**
      * Récupération des données de la requête puis lancement du service des playlists avec la bonne fonction
-     * @param Request $request
+     * @param int $idPlaylist
      * @return Response
      */
     public function getOnePlaylist(int $idPlaylist): Response
@@ -43,7 +42,8 @@ class PlaylistDrivingAdapter
      * @param string $requestBody
      * @return Response
      */
-    public function addMusicInPlaylist(string $requestBody): Response {
+    public function addMusicInPlaylist(string $requestBody): Response
+    {
         $body = VerifyUtils::verifyJsonRequestBody($requestBody, ['id_playlist', 'id_music']);
 
         $service = new PlaylistService();
@@ -56,7 +56,8 @@ class PlaylistDrivingAdapter
      * @param string $requestBody
      * @return Response
      */
-    public function addPlaylist(string $requestBody): Response {
+    public function addPlaylist(string $requestBody): Response
+    {
         $body = VerifyUtils::verifyJsonRequestBody($requestBody, ['id_library', 'title', 'description', 'cover_path', 'musics']);
 
         $service = new PlaylistService();
@@ -69,7 +70,8 @@ class PlaylistDrivingAdapter
      * @param string $requestBody
      * @return Response
      */
-    public function deleteMusicInPlaylist(string $requestBody): Response {
+    public function deleteMusicInPlaylist(string $requestBody): Response
+    {
         $body = VerifyUtils::verifyJsonRequestBody($requestBody, ['id_playlist', 'id_music']);
 
         $service = new PlaylistService();
@@ -82,7 +84,8 @@ class PlaylistDrivingAdapter
      * @param int $id_playlist
      * @return Response
      */
-    public function deletePlaylist(int $id_playlist): Response {
+    public function deletePlaylist(int $id_playlist): Response
+    {
         $service = new PlaylistService();
         $service->deletePlaylist($id_playlist);
         return new Response(json_encode(['code' => 200, 'message' => 'playlist supprimée avec succès']));
@@ -94,7 +97,8 @@ class PlaylistDrivingAdapter
      * @param string $requestBody
      * @return Response
      */
-    public function updatePlaylist(int $id_playlist, string $requestBody) {
+    public function updatePlaylist(int $id_playlist, string $requestBody)
+    {
         $body = VerifyUtils::verifyJsonRequestBody($requestBody, ['title', 'isPublic', 'description', 'cover_path']);
 
         $service = new PlaylistService();

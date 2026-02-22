@@ -54,6 +54,7 @@ class UserController implements ControllerInterface
             'getOne' => $adapter->getOneUser($this->params['id']),
             'update' => $adapter->updateUser($this->params['id'], $request->getContent()),
             'delete' => $adapter->deleteUser($this->params['id']),
+            'likedPlaylist' => $adapter->getLikedPlaylist($this->params["id"]),
             default => throw new ResourceNotFoundException(),
         };
 

@@ -5,7 +5,6 @@ namespace Api\Adapter;
 use Api\Domain\Service\MusicService;
 use Api\Utils\SerializerUtils;
 use Exception;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -75,8 +74,7 @@ class MusicDrivingAdapter
 
     /**
      * Récupération du cover file d'un projet à partir de l'id musique
-     * @param int $musicId
-     * @param int $limit
+     * @param int $id_music
      * @return Response
      */
     public function getCoverFileProject(int $id_music): Response

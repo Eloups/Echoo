@@ -65,7 +65,7 @@ class ConvertUtilsTest extends TestCase
             new Playlist(2, 'title 2', false, 'A nice description again', '/cover2', [
                 new Music(1, 'title 1', 100, new DateTime('2022-05-15 12:00:00.000'), '/path1', [], 1500, [], 'Artist 1'),
                 new Music(2, 'title 2', 200, new DateTime('2025-05-15 12:00:00.000'), '/path2', [], 250, [], 'Artist 2')
-            ], 0),
+            ], 2),
             $playlists
         );
     }
@@ -439,12 +439,12 @@ class ConvertUtilsTest extends TestCase
         $this->assertEquals(
             [
                 new User(
-                    1,
+                    '1',
                     'user1',
                     'user1@test.com',
                     null,
                     '/images/user1.png',
-                    new Library(10, [], [], []),
+                    new Library('10', [], [], []),
                     new UserRole(1, 'ROLE_USER'),
                     null,
                     null,
@@ -461,12 +461,12 @@ class ConvertUtilsTest extends TestCase
                     )
                 ),
                 new User(
-                    2,
+                    '2',
                     'jane_doe',
                     'jane@test.com',
                     null,
                     '/images/user2.png',
-                    new Library(20, [], [], []),
+                    new Library('20', [], [], []),
                     new UserRole(2, 'ROLE_ADMIN'),
                     null,
                     null,
@@ -485,12 +485,12 @@ class ConvertUtilsTest extends TestCase
     public function test_ConvertRowToUser(): void
     {
         $row = [
-            'id' => 1,
+            'id' => '1',
             'username' => 'user1',
             'email' => 'user1@test.com',
             'image_path' => '/images/user1.png',
 
-            'id_library' => 10,
+            'id_library' => '10',
 
             'id_role' => 1,
             'role' => 'ROLE_USER',
@@ -502,19 +502,19 @@ class ConvertUtilsTest extends TestCase
             'artist_image_path' => '/images/artist1.png',
         ];
 
-        $userFriends = ['friend1', 'friend2'];
-        $userConversations = ['conv1', 'conv2'];
+        $userFriends = [new User('2', 'test', 'test@test.com', null, null, new Library('2', [], [], []), new UserRole(1, 'test'), null, [], null, null), new User('3', 'test', 'test@test.com', null, null, new Library('3', [], [], []), new UserRole(1, 'test'), null, [], null, null)];
+        $userConversations = [new Conversation(1, null, new DateTime('2026-02-16'), '/test', null, null, null), new Conversation(2, null, new DateTime('2026-02-16'), '/test', null, null, null)];
 
         $user = ConvertUtils::convertRowToUser($row, $userFriends, $userConversations);
 
         $this->assertEquals(
             new User(
-                1,
+                '1',
                 'user1',
                 'user1@test.com',
                 null,
                 '/images/user1.png',
-                new Library(10, [], [], []),
+                new Library('10', [], [], []),
                 new UserRole(1, 'ROLE_USER'),
                 $userFriends,
                 $userConversations,
@@ -543,11 +543,11 @@ class ConvertUtilsTest extends TestCase
         $rows = [
             [
                 // Cas où initialUserId = u2_id
-                'u1_id' => 1,
+                'u1_id' => '1',
                 'u1_username' => 'alice',
                 'u1_email' => 'alice@test.com',
                 'u1_image_path' => '/images/alice.png',
-                'u1_id_library' => 11,
+                'u1_id_library' => '11',
                 'u1_id_role' => 1,
                 'u1_role' => 'ROLE_USER',
 
@@ -555,17 +555,17 @@ class ConvertUtilsTest extends TestCase
                 'u2_username' => 'current_user',
                 'u2_email' => 'current@test.com',
                 'u2_image_path' => '/images/current.png',
-                'u2_id_library' => 100,
+                'u2_id_library' => '100',
                 'u2_id_role' => 2,
                 'u2_role' => 'ROLE_ADMIN',
             ],
             [
                 // Cas où initialUserId != u2_id
-                'u1_id' => 2,
+                'u1_id' => '2',
                 'u1_username' => 'bob',
                 'u1_email' => 'bob@test.com',
                 'u1_image_path' => '/images/bob.png',
-                'u1_id_library' => 12,
+                'u1_id_library' => '12',
                 'u1_id_role' => 1,
                 'u1_role' => 'ROLE_USER',
 
@@ -573,7 +573,7 @@ class ConvertUtilsTest extends TestCase
                 'u2_username' => 'charlie',
                 'u2_email' => 'charlie@test.com',
                 'u2_image_path' => '/images/charlie.png',
-                'u2_id_library' => 13,
+                'u2_id_library' => '13',
                 'u2_id_role' => 3,
                 'u2_role' => 'ROLE_GUEST',
             ],
@@ -587,12 +587,12 @@ class ConvertUtilsTest extends TestCase
             [
                 // initialUserId = u2_id => on prend u1
                 new User(
-                    1,
+                    '1',
                     'alice',
                     'alice@test.com',
                     null,
                     '/images/alice.png',
-                    new Library(11, [], [], []),
+                    new Library('11', [], [], []),
                     new UserRole(1, 'ROLE_USER'),
                     null,
                     null,
@@ -606,7 +606,7 @@ class ConvertUtilsTest extends TestCase
                     'charlie@test.com',
                     null,
                     '/images/charlie.png',
-                    new Library(13, [], [], []),
+                    new Library('13', [], [], []),
                     new UserRole(3, 'ROLE_GUEST'),
                     null,
                     null,

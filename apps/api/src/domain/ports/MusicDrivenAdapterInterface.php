@@ -10,7 +10,7 @@ interface MusicDrivenAdapterInterface
     /**
      * Méthode pour récupérer la liste des musiques
      * @param int $idArtist
-     * @return void
+     * @return array
      */
     public function getMusicList(int $idArtist): array;
 

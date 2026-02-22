@@ -3,9 +3,8 @@
 namespace Api\Adapter;
 
 use Api\Database\PgsqlServer;
-use Api\Database\Requests\PgsqlMusicRequests;
 use Api\Database\Requests\PgsqlUserRequests;
-use Api\Domain\Class\Music;
+use Api\Domain\Class\Playlist;
 use Api\Domain\Class\User;
 use Api\Domain\Ports\UserDrivenAdapterInterface;
 use Api\Utils\ConvertUtils;
@@ -18,11 +17,11 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
 {
     /**
      * Fonction de récupération des dernières musqieus écoutées
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
      * @return array
      */
-    public function getUserLastListenedMusics(int $userId, int $limit): array
+    public function getUserLastListenedMusics(string $userId, int $limit): array
     {
         $pgslserver = new PgsqlServer();
 
@@ -48,11 +47,11 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
 
     /**
      * Fonction pour ajouter une musique écoutée par un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @param int $musicId
      * @return void
      */
-    public function addUserListenedMusic(int $userId, int $musicId): void
+    public function addUserListenedMusic(string $userId, int $musicId): void
     {
         $pgslserver = new PgsqlServer();
 
@@ -64,11 +63,11 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
 
     /**
      * Fonction pour récupérer les dernères sorties des artistes suivis par un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
-     * @return void
+     * @return array
      */
-    public function getUserArtistsLastsReleases(int $userId, int $limit): array
+    public function getUserArtistsLastsReleases(string $userId, int $limit): array
     {
         $pgslserver = new PgsqlServer();
 
@@ -86,18 +85,18 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
 
     /**
      * Méthode pour récupérer les musiques les plus écoutées par un utilisateur un mois
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
      * @param DateTime $date
      * @return array
      */
-    public function getUserMostListenedMusicsOfMonth(int $userId, int $limit, DateTime $date): array
+    public function getUserMostListenedMusicsOfMonth(string $userId, int $limit, DateTime $date): array
     {
         $pgslserver = new PgsqlServer();
-        
+
         $pdo = $pgslserver->getConnection();
         $userRequests = new PgsqlUserRequests($pdo);
-        
+
         $musicsIdsRows = $userRequests->getUserMostListenedMusicsOfMonth($userId, $limit, $date);
         $musicsIds = ConvertUtils::convertRowsToMusicsIds($musicsIdsRows);
 
@@ -127,7 +126,7 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
     }
     /**
      * Fonction qui récupère tous les utilisateurs
-     * @return User[]
+     * @return array
      */
     public function getAllUsers(): array
     {
@@ -191,5 +190,23 @@ class UserDrivenAdapter implements UserDrivenAdapterInterface
         $userRequests = new PgsqlUserRequests($pdo);
 
         $userRequests->deleteUser($userId);
+    }
+
+    /**
+     * Get an user liked playlist
+     * @param string $userId
+     * @return Playlist
+     */
+    public function getLikedPlaylist(string $userId): ?Playlist
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $userRequests = new PgsqlUserRequests($pdo);
+
+        $playlistRow = $userRequests->getLikedPlaylist($userId);
+        $playlist = ConvertUtils::convertRowToPlaylist($playlistRow);
+
+        return $playlist;
     }
 }

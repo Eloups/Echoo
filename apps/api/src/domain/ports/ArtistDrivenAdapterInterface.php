@@ -14,14 +14,14 @@ interface ArtistDrivenAdapterInterface
     /**
      * Méthode pour récupérer les données d'un artiste
      * @param int $idArtist
-     * @return void
+     * @return Artist
      */
     public function getArtist(int $idArtist): Artist;
 
     /**
      * Méthode pour récupérer les likes d'un artiste
      * @param int $idArtist
-     * @return void
+     * @return int
      */
     public function getLikesArtist(int $idArtist): int;
 
@@ -29,7 +29,7 @@ interface ArtistDrivenAdapterInterface
      * Méthode pour récupérer les musiques les plus populaires d'un artiste
      * @param int $idArtist
      * @param int $limit
-     * @return Music[]
+     * @return Music[][]
      */
     public function getPopularMusicsByArtist(int $idArtist, int $limit): array;
 
@@ -37,17 +37,17 @@ interface ArtistDrivenAdapterInterface
      * Méthode pour récupérer les dernières musiques publiées d'un artiste
      * @param int $idArtist
      * @param int $limit
-     * @return Music[]
+     * @return Music[][]
      */
     public function getLastReleaseByArtist(int $idArtist, int $limit): array;
 
     /**
      * Méthode pour ajouter un like à un artiste
-     * @param int $id_user
+     * @param string $id_user
      * @param int $id_artist
      * @return void
      */
-    public function addLike(int $id_user, int $id_artist): void;
+    public function addLike(string $id_user, int $id_artist): void;
 
     /**
      * Méthode pour récupérer les artistes d'une library

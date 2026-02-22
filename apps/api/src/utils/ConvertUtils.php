@@ -54,8 +54,7 @@ class ConvertUtils
                         rates: [],
                         nameArtist: null
                     );
-                }
-                else {
+                } else {
                     $musics[$musicId] = new Music(
                         id: $musicId,
                         title: $row['music_title'],
@@ -195,7 +194,8 @@ class ConvertUtils
             isPublic: $playlistPublic,
             description: $playlistDescription,
             cover_path: $playlistCover,
-            musics: array_values($musics)
+            musics: array_values($musics),
+            nbMusics: count($musics)
         );
     }
 
@@ -224,7 +224,7 @@ class ConvertUtils
                 $row['nb_streams'],
                 null,
                 $nameArtist[0]['name']
-                
+
             ));
         }
 
@@ -232,7 +232,7 @@ class ConvertUtils
     }
     /**
      * Convertir les données de la base en objets Playlist
-     * @param array $rows
+     * @param array $row
      * @return Playlist
      */
     public static function ConvertRowToPlaylists(array $row, ?int $nbMusics = null): ?Playlist
@@ -279,7 +279,8 @@ class ConvertUtils
             $rows['color1'],
             $rows['color2'],
             [],
-            null
+            null,
+            $rows['artist_name'] ?? null
         );
     }
 

@@ -303,7 +303,16 @@ insert into playlist (title, isPublic, description, cover_path) values
 ('Playlist 7', TRUE, 'Description for playlist 7', 'playlist_7.jpg'),
 ('Playlist 8', FALSE, 'Description for playlist 8', 'playlist_8.jpg'),
 ('Playlist 9', TRUE, 'Description for playlist 9', 'playlist_9.jpg'),
-('liked', FALSE, 'Description for playlist liked', 'playlist_10.jpg');
+('liked', FALSE, 'Description for playlist liked', 'playlist_10.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_11.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_12.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_13.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_14.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_15.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_16.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_17.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_18.jpg'),
+('liked', FALSE, 'Description for playlist liked', 'playlist_19.jpg');
 
 insert into "user" (id, username, email, image_path, id_library, id_role, id_artist) values
 ('1', 'user1', 'user1@example.com', 'user_1.jpg', '1', 2, 1),
@@ -475,8 +484,9 @@ insert into library_project (id_library, id_project) values
 ('1', 3), ('2', 5), ('3', 7), ('4', 9), ('5', 1);
 
 insert into library_playlist (id_library, id_playlist) values
-('1', 1), ('1', 2), ('2', 3), ('2', 4), ('3', 5), ('3', 6), ('4', 7), ('4', 8), ('5', 9), ('5', 10),
-('1', 3), ('2', 5), ('3', 7), ('4', 9), ('5', 1);
+('1', 1), ('1', 2), ('2', 3), ('2', 4), ('3', 5), ('3', 6), ('4', 7), ('4', 8), ('5', 9),
+('1', 3), ('2', 5), ('3', 7), ('4', 9), ('5', 1),
+('1', 10), ('2', 11), ('3', 12), ('4', 13), ('5', 14), ('6', 15), ('7', 16), ('8', 17), ('9', 18), ('10', 19);
 
 insert into playlist_music (id_playlist, id_music) values
 (1, 1), (1, 2), (2, 3), (2, 4), (3, 5), (3, 6), (4, 7), (4, 8), (5, 9), (5, 10),
@@ -485,7 +495,8 @@ insert into playlist_music (id_playlist, id_music) values
 (6, 21), (6, 22), (6, 23), (6, 24), (6, 25), (6, 26), (6, 27), (6, 28), (6, 29), (6, 30),
 (6, 31), (6, 32), (6, 33), (6, 34), (6, 35), (6, 36), (6, 37), (6, 38),
 (7, 13), (7, 14), (8, 15), (8, 1), (9, 2), (9, 3), (10, 4), (10, 5),
-(1, 6), (2, 7), (3, 8), (4, 9), (7, 12), (8, 13), (9, 14), (10, 15);
+(1, 6), (2, 7), (3, 8), (4, 9), (7, 12), (8, 13), (9, 14),
+(10, 15), (11, 6), (12, 6), (13, 6), (14, 6), (15, 6), (16, 6), (17, 6), (18, 6), (19, 6);
 
 insert into user_conversation (id_user, id_conversation) values
 ('1', 1), ('1', 2), ('2', 1), ('2', 3), ('3', 2), ('3', 4), ('4', 3), ('4', 5), ('5', 4), ('5', 1),
