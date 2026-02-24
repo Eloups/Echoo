@@ -79,6 +79,13 @@ export default function TabLayout() {
                     title: 'Album',
                 }}
             />
+            <Tabs.Screen
+                name="compte"
+                options={{
+                    href: null,
+                    title: 'Compte',
+                }}
+            />
             </Tabs>
             <MiniPlayer />
             <PlayerModal />

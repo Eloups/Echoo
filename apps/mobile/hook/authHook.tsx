@@ -11,6 +11,8 @@ import { CreateUserRequest } from '@/lib/api'
 const API_BASE_AUTH = process.env.EXPO_PUBLIC_API_AUTH_URL
 
 interface AuthHook {
+  token: string | null;
+
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string, PdpB64: string | null) => Promise<void>;
   logout: () => void;
@@ -28,6 +30,8 @@ interface AuthHook {
 }
 
 export const useAuthHook = create<AuthHook>((set, get) => ({
+  token: null,
+  
   isLoading: false,
   authError: null,
   waitVerificationMail: false,
@@ -70,12 +74,14 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     }
     if (data) {
       const JWT = await authClient.token()
+      console.log("JWT = ", JWT);
       // console.log("JWT =", JWT);
-
+      
       // décoder le JWT pour avoir les infos de l'utilisateur 
       // (dont l'id pour ensouite prendre les infos supplémentaire dans l'API backend)
       if (JWT && JWT?.data && JWT?.data?.token) {
         const tokenValue = JWT.data.token;
+        set({ token: tokenValue ?? null });
 
         let decodedToken: JWTPayload | undefined;
         try {
@@ -93,11 +99,15 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
         try {
           //Recupération des infos utilisateur dans l'API backend
           let expirationTime = decodedToken?.exp;
+          console.log("idUser =", data.user.id);
           const userData = await UserService.getUser(data.user.id);
+          console.log("ici");
           if (userData) {
             let userRender = new User(userData.user);
             userRender.expirationTime = expirationTime;
 
+            console.log("userRender = ", userRender);
+            
             useGlobalHook.setState({ user: userRender });
           }
         } catch (e: any) {
@@ -111,7 +121,9 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
       }
     }
 
+
     set({ isLoading: false });
+
   },
 
   register: async (name: string, email: string, password: string, PdpB64: string | null) => {
