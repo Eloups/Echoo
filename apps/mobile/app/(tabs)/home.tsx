@@ -7,7 +7,6 @@ import SectionTitle from "@/lib/components/sectionTitle";
 import MusicCard from "@/lib/components/musicCard";
 import ProjectCard from "@/lib/components/projectCard";
 import MonthArtists from "@/lib/components/monthArtists";
-import MonthMusics from "@/lib/components/monthMusics";
 import { useEffect, useState, useCallback } from "react";
 import { useNavigation, router, useSegments, useFocusEffect } from "expo-router";
 import { HomeService } from "@/lib/api/home.service";
