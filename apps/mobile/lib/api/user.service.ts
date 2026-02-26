@@ -35,8 +35,20 @@ export const UserService = {
   },
 
   /**
-   * Récupérer la playliste de titres likés
+   * Liker une musique
+   * POST
    */
+  postLikeMusic: async (idUser: string, idMusic: number): Promise<any> => {
+    let retour = await apiClient.post<any>('/music/like', {
+      id_user: idUser,
+      id_music: idMusic
+    });
+    return retour;
+  },
+
+  /**
+ * Récupérer la playliste de titres likés
+ */
   getLikedPlaylist: async (idUser: string): Promise<{ playlist: Playlist }> => {
     return await apiClient.get<{ playlist: Playlist }>(`/users/${idUser}/liked/playlist`);
   }
