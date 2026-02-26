@@ -1,5 +1,5 @@
 import { View, Image, StyleSheet, Pressable, TouchableOpacity, Dimensions } from "react-native";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Music } from "../types/types";
 import AppText from '@/lib/components/global/appText';
 import { useTheme } from "../theme/provider";
@@ -7,7 +7,8 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import usePlayerStore from "@/hook/usePlayerStore";
 import AddToPlaylistModal from './addToPlaylistModal';
-import { PlaylistService } from "../api";
+import { MusicService, PlaylistService } from "../api";
+import { UserService } from "../api/user.service";
 
 type DetailMusicCardProps = {
     infos: Music;
@@ -25,11 +26,22 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
     const [menuPosition, setMenuPosition] = useState<'below' | 'above'>('below');
     const [addToPlaylistModalVisible, setAddToPlaylistModalVisible] = useState(false);
     const buttonRef = useRef<View>(null);
+    const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
+    const userId = "3";
     
     const MENU_HEIGHT = 300; // Hauteur approximative du menu
     const NAV_BAR_HEIGHT = 60; // Hauteur de la barre de navigation
     const screenHeight = Dimensions.get('window').height;
 
+    //Vérifie si la musique est déjà likée par un utilisateur
+      useEffect(() => {
+        if (infos !== null) {
+          MusicService.getIsMusicIsLike(userId, infos.id)
+          .then(setIsMusicLike);
+        }
+        
+      }, [infos])
+      
     const handleMenuPress = () => {
         if (!menuVisible) {
             buttonRef.current?.measureInWindow((x, y) => {
@@ -56,6 +68,12 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
         await PlaylistService.deleteMusicFromPlaylist(musicId, playlistId)
         if (onRemove) onRemove();
     }
+
+    // Like d'une musique
+  const handleMusicLike = () => {
+    setIsMusicLike(!isMusicLike);
+    UserService.postLikeMusic(userId, infos.id);
+  }
 
     return (
         <View style={styles.container}>
@@ -148,6 +166,17 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
                         >
                             <MaterialIcons name="playlist-add" size={20} color={theme.colors.text} />
                             <AppText style={{ marginLeft: 12 }} pointerEvents="none">Ajouter à une playlist</AppText>
+                        </TouchableOpacity>
+                        <View style={{ height: 1, backgroundColor: theme.colors.background, marginVertical: 4 }} />
+                        <TouchableOpacity
+                            style={styles.menuItem}
+                            onPress={() => {
+                                setMenuVisible(false);
+                                handleMusicLike();
+                            }}
+                        >
+                            <Ionicons name={isMusicLike ? "heart" : "heart-outline"} size={26} color={isMusicLike ? '#DB1151' : theme.colors.text} />
+                            <AppText style={{ marginLeft: 12 }} pointerEvents="none">{!isMusicLike ? "Liker cette musique" : "Retirer le like"}</AppText>
                         </TouchableOpacity>
                     </View>
                 </>

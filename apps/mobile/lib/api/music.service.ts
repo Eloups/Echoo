@@ -32,4 +32,11 @@ export const MusicService = {
       id_music: musicId
     });
   },
+
+  getIsMusicIsLike: async (userId: string, musicId: number): Promise<boolean> => {
+    return await apiClient.post('/music/user/isLike', {
+      id_user: userId.toString(),
+      id_music: musicId
+    });
+  },
 };
