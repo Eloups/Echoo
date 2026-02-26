@@ -22,6 +22,9 @@ jobs:
       - name: Install Composer
         run: composer install --working-dir=apps/api --no-interaction --prefer-dist --optimize-autoloader
 
+      - name: Codeception build
+        run: cd apps/api && php vendor/bin/codecept build
+
       - name: Run PHPStan linter
         run: cd apps/api && composer lint
 
