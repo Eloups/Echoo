@@ -22,6 +22,7 @@ export default function ArtistCard(props: ArtistCardProps) {
         router.push({
             pathname: "/(tabs)/artist/presentation",
             params: {
+                artistId: props.infos.id,
                 title: props.infos.title,
                 data: JSON.stringify(props.infos),
                 from: currentPath

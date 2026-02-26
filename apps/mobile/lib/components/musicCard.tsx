@@ -23,11 +23,9 @@ export default function MusicCard(props: PageProps) {
     props.isHome ?? false;
 
     const handlePress = () => {
-        // Si c'est une musique, lancer le lecteur
-        if (props.infos.type === "music") {
-            const fileName = props.infos.audioFile || 'default.mp3';
-            playTrack(props.infos, fileName);
-        }
+        const fileName = props.infos.audioFile;
+        if (!fileName) return;
+        playTrack(props.infos, fileName);
     };
 
     return (

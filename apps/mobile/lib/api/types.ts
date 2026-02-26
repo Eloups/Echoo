@@ -4,16 +4,48 @@
 
 export interface Artist {
   id: number;
-  nom: string;
+  name?: string;
+  nom?: string;
+  isVerified?: boolean;
+  description?: string;
   biographie?: string;
+  imagePath?: string;
   photo?: string;
+  nbLikes?: number;
   nbEcoutes?: number;
+  popularMusics?: ArtistPageMusic[][];
+  lastReleases?: ArtistPageMusic[][];
 }
 
 export interface ArtistPage {
   artist: Artist;
   topMusics?: Music[];
   albums?: Album[];
+}
+
+export interface ArtistPageGenre {
+  id: number;
+  name: string;
+}
+
+export interface ArtistPageRate {
+  id: number;
+  rate: number;
+  createdAt: string | null;
+  comment: string | null;
+  user: unknown;
+}
+
+export interface ArtistPageMusic {
+  id: number;
+  title: string;
+  duration: number;
+  release: string;
+  filePath: string;
+  genres: ArtistPageGenre[];
+  nbStreams: number;
+  rates: ArtistPageRate[];
+  nameArtist: string | null;
 }
 
 export interface Music {
