@@ -73,6 +73,7 @@ export default function ProjectDetailsPage() {
                 setError(null);
                 const response = await AlbumService.getProjectById(projectId);
                 const apiProject = response.project;
+                
 
                 const albumCover = apiProject.coverPath
                     ? { uri: apiClient.getImageUrl(apiProject.coverPath) }
@@ -82,7 +83,7 @@ export default function ProjectDetailsPage() {
                     id: music.id,
                     cover: albumCover,
                     title: music.title,
-                    artist: rawData?.artist || 'Artiste inconnu',
+                    artist: apiProject.artistName || 'Artiste inconnu',
                     color1: apiProject.color1 || '#04131D',
                     color2: apiProject.color2 || '#082840',
                     nbStreams: music.nbStreams || 0,
@@ -226,7 +227,7 @@ export default function ProjectDetailsPage() {
                         {project.title}
                     </AppText>
                     <AppText size="md" color="text2" style={{ marginTop: 5 }}>
-                        {rawData?.artist.toString()}
+                        {project.artist}
                     </AppText>
                     {project.musics && project.musics.length > 0 && (
                         <>
