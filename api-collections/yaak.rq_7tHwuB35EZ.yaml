@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_7tHwuB35EZ
 createdAt: 2026-01-15T13:40:44.297428900
-updatedAt: 2026-02-26T15:54:58.829615900
+updatedAt: 2026-02-26T16:37:35.193344100
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_zuMHoGGruW
 authentication: {}
@@ -14,7 +14,7 @@ headers: []
 method: GET
 name: Search in artist
 sortPriority: -1760599398214.999
-url: ${[ API_HOST ]}/artist/search/houd
+url: ${[ API_HOST ]}/artist/search/billie
 urlParameters:
 - enabled: true
   name: limit

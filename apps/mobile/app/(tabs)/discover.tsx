@@ -72,22 +72,22 @@ export default function Discover() {
 
     const trimmed = searchField.trim();
 
-    // 1️⃣ Si champ vide → reset
     if (trimmed.length === 0) {
         setSearchList(undefined);
         return;
     }
 
-    // 2️⃣ Si moins de 3 caractères → ne pas appeler l’API
     if (trimmed.length < 3) {
         return;
     }
 
-    // 3️⃣ Debounce
     const debounceTimer = setTimeout(async () => {
         try {
             const data = await HomeService.searchInDB(trimmed);
-            console.log
+
+            /* =======================
+               🎵 MAPPING MUSICS
+            ======================== */
             const mappedMusics = await Promise.all(
                 (data.musics || []).map(async (music) => {
                     let coverUri: any = placeholderImage;
@@ -98,27 +98,70 @@ export default function Discover() {
                             coverUri = { uri: apiClient.getImageUrl(coverData.cover_path) };
                         }
                     } catch (error) {
-                        console.error(`Erreur lors de la récupération de la cover pour la musique ${music.id}:`, error);
+                        console.error(`Erreur cover musique ${music.id}:`, error);
                     }
 
                     return {
                         ...music,
                         artist: music.nameArtist ?? "Artiste inconnu",
                         cover: coverUri,
-                        type: "music"
+                        type: "music",
+                        audioFile: music.filePath,
+                        rates: music.rates ?? []
                     };
                 })
             );
 
+            /* =======================
+               👤 MAPPING ARTISTS
+            ======================== */
+            const mappedArtists = (data.artists || []).map((artist) => {
+
+                let imageUri: any = placeholderImage;
+
+                if (artist.imagePath) {
+                    imageUri = { uri: apiClient.getImageUrl(artist.imagePath) };
+                }
+
+                return {
+                    ...artist,
+                    image: imageUri,
+                    type: "artist",
+                };
+            });
+
+            /* =======================
+               💿 MAPPING PROJECTS
+            ======================== */
+            const mappedProjects = (data.projects || []).map((project) => {
+
+                let coverUri: any = placeholderImage;
+
+                if (project.coverPath) {
+                    coverUri = { uri: apiClient.getImageUrl(project.coverPath) };
+                }
+
+                return {
+                    ...project,
+                    cover: coverUri,
+                    artist: project.artistName ?? "Artiste inconnu",
+                    type: project.projectType?.toLowerCase() ?? "project",
+                    musics: project.musics ?? [],
+                    rates: project.rates ?? [],
+                    avgRate: project.avgRate ?? 0
+                };
+            });
+
             const safeData = {
-                ...data,
-                musics: mappedMusics
+                musics: mappedMusics,
+                artists: mappedArtists,
+                projects: mappedProjects
             };
 
-setSearchList(safeData);
+            setSearchList(safeData);
+
         } catch (error: any) {
 
-            // Si jamais le backend renvoie quand même une 400
             if (error?.response?.status === 400) {
                 console.warn("Recherche trop courte");
                 return;
@@ -126,6 +169,7 @@ setSearchList(safeData);
 
             console.error("Erreur recherche :", error);
         }
+
     }, 500);
 
     return () => clearTimeout(debounceTimer);
