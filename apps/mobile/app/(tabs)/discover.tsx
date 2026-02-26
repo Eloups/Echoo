@@ -88,17 +88,32 @@ export default function Discover() {
         try {
             const data = await HomeService.searchInDB(trimmed);
             console.log
+            const mappedMusics = await Promise.all(
+                (data.musics || []).map(async (music) => {
+                    let coverUri: any = placeholderImage;
+
+                    try {
+                        const coverData = await MusicService.getMusicCoverPath(music.id);
+                        if (coverData?.cover_path) {
+                            coverUri = { uri: apiClient.getImageUrl(coverData.cover_path) };
+                        }
+                    } catch (error) {
+                        console.error(`Erreur lors de la récupération de la cover pour la musique ${music.id}:`, error);
+                    }
+
+                    return {
+                        ...music,
+                        artist: music.nameArtist ?? "Artiste inconnu",
+                        cover: coverUri,
+                        type: "music"
+                    };
+                })
+            );
+
             const safeData = {
                 ...data,
-                musics: data.musics.map(music => ({
-                    ...music,
-                    artist: music.nameArtist ?? "Artiste inconnu",
-                    cover:"RadicalOptimism.jpg",
-                    type: "music"
-                }
-            )
-        )
-};
+                musics: mappedMusics
+            };
 
 setSearchList(safeData);
         } catch (error: any) {
