@@ -48,7 +48,7 @@ const app = new Elysia()
       const JWKS = createRemoteJWKSet(jwksUrl);
 
       const { payload } = await jwtVerify(token, JWKS);
-
+      // console.log("[VERIFY] JWT verified, payload:", payload);
       return {
         status: "SUCCESS",
         decoded: payload,

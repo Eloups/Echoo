@@ -8,7 +8,6 @@ import { useRouter } from "expo-router";
 import useAuthHook from '@/hook/authHook';
 import { useTheme } from "@/lib/theme/provider";
 import { useGlobalHook } from "@/hook";
-import AppHeader from "@/lib/components/appHeader";
 import StatsProfil from "@/lib/components/statsProfil";
 
 const pp = require("../../../assets/img/pp.jpg");
@@ -46,8 +45,8 @@ export default function CompteScreen() {
                         style={{ width: "100%", height: "100%", borderRadius: 50 }}
                     />
                 </View>
-                <View style={{ flex: 1, height: "100%", backgroundColor: "red", justifyContent: "center" }}>
-                    <AppText size="3xl" >test</AppText>
+                <View style={{ flex: 1, height: "100%", justifyContent: "center" }}>
+                    <AppText size="3xl" >{user?.username || "Test"}</AppText>
                     <AppText size="xs" >XX amis - XX suivis</AppText>
                 </View>
 
