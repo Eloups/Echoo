@@ -1,3 +1,4 @@
+import { Playlist } from '../types/types';
 import { apiClient } from './client';
 import { CreateUserRequest } from './types';
 
@@ -43,5 +44,12 @@ export const UserService = {
       id_music: idMusic
     });
     return retour;
+  },
+
+  /**
+ * Récupérer la playliste de titres likés
+ */
+  getLikedPlaylist: async (idUser: string): Promise<{ playlist: Playlist }> => {
+    return await apiClient.get<{ playlist: Playlist }>(`/users/${idUser}/liked/playlist`);
   }
 };

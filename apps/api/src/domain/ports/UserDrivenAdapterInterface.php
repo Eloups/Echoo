@@ -13,33 +13,33 @@ interface UserDrivenAdapterInterface
 {
     /**
      * Méthode de récupération des dernières musiques écoutées par un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
      * @return array
      */
-    public function getUserLastListenedMusics(int $userId, int $limit): array;
+    public function getUserLastListenedMusics(string $userId, int $limit): array;
     /**
      * Fonction pour ajouter une musique écoutée par un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @param int $musicId
      * @return void
      */
-    public function addUserListenedMusic(int $userId, int $musicId): void;
+    public function addUserListenedMusic(string $userId, int $musicId): void;
     /**
      * Fonction pour récupérer les dernères sorties des artistes suivis par un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
-     * @return void
+     * @return array
      */
-    public function getUserArtistsLastsReleases(int $userId, int $limit): array;
+    public function getUserArtistsLastsReleases(string $userId, int $limit): array;
     /**
      * Méthode pour récupérer les musiques les plus écoutées par un utilisateur un mois
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
      * @param DateTime $date
      * @return array
      */
-    public function getUserMostListenedMusicsOfMonth(int $userId, int $limit, DateTime $date): array;
+    public function getUserMostListenedMusicsOfMonth(string $userId, int $limit, DateTime $date): array;
     /**
      * Fonction pour créer un utilisateur
      * @param User $user
@@ -73,7 +73,7 @@ interface UserDrivenAdapterInterface
     /**
      * Get an user liked playlist
      * @param string $userId
-     * @return Playlist
+     * @return ?Playlist
      */
-    public function getLikedPlaylist(string $userId): Playlist;
+    public function getLikedPlaylist(string $userId): ?Playlist;
 }

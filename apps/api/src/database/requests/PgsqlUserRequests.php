@@ -31,8 +31,7 @@ class PgsqlUserRequests
 
     /**
      * Requête pour récupérer les dernières musiques écoutées par un utilisateur
-     * @param string $idUser
-     * @param int $limit
+     * @param string $userId
      * @return array
      */
     public function getLastListenedMusics(string $userId): array
@@ -136,7 +135,7 @@ class PgsqlUserRequests
      * @param string $userId
      * @param int $limit
      * @param DateTime $date
-     * @return void
+     * @return array
      */
     public function getUserMostListenedMusicsOfMonth(string $userId, int $limit, DateTime $date): array
     {
@@ -164,7 +163,7 @@ class PgsqlUserRequests
 
     /**
      * Fonction pour récupérer plusieurs musiques avec leurs IDs
-     * @param array $ids
+     * @param array $musicsIds
      * @return array
      */
     public function getMusicsFromIds(array $musicsIds): array
@@ -239,6 +238,23 @@ class PgsqlUserRequests
                 ":imagePath" => $user->getImagePath(),
                 ":idLibrary" => $user->getLibrary()->getId(),
                 ":idRole" => $user->getUserRole()->getId()
+            ]);
+
+            // we create the liked playlist
+            $sql = 'INSERT INTO playlist (title, ispublic, description, cover_path) VALUES (\'liked\', false, \'Playlist des titres likés\', \'/liked.png\') RETURNING id;';
+
+            $request = $this->pdo->prepare($sql);
+            $request->execute();
+            $idPlaylist = $request->fetch();
+
+            // We bind the user with the playlist
+
+            $sql = 'INSERT INTO library_playlist (id_library, id_playlist) VALUES (:idLibrary, :idPlaylist);';
+
+            $request = $this->pdo->prepare($sql);
+            $request->execute([
+                ':idLibrary' => $user->getLibrary()->getId(),
+                ':idPlaylist' => $idPlaylist['id']
             ]);
 
             $this->pdo->commit();

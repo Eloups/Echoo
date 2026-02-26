@@ -2,11 +2,12 @@ type: folder
 model: folder
 id: fl_WSmhPPxA8Y
 createdAt: 2025-12-08T13:23:54.754324900
-updatedAt: 2025-12-10T14:41:15.294499700
+updatedAt: 2026-02-11T13:52:15.923112
 workspaceId: wk_uYbS3VsxD9
 folderId: null
-authentication: {}
-authenticationType: null
+authentication:
+  token: ${[ AUTH_TOKEN ]}
+authenticationType: bearer
 description: ''
 headers: []
 name: Projects

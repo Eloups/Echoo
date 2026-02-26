@@ -91,7 +91,7 @@ class Playlist
     }
     /**
      * Accesseur de la description de la playlist
-     * @return string|null
+     * @return string
      */
     public function getDescription(): string
     {
@@ -99,7 +99,7 @@ class Playlist
     }
     /**
      * Accesseur du chemin de l'image de la cover de la playlist
-     * @return string|null
+     * @return string
      */
     public function getCoverPath(): string
     {

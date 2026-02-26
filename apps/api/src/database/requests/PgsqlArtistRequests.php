@@ -162,11 +162,11 @@ class PgsqlArtistRequests
 
     /**
      * Requête pour ajouter un like à un artiste
-     * @param int $id_user
+     * @param string $id_user
      * @param int $id_artist
      * @return void
      */
-    public function addLike(int $id_user, int $id_artist): void
+    public function addLike(string $id_user, int $id_artist): void
     {
         $getIdLibrary = "SELECT id_library
         FROM \"user\"
@@ -249,7 +249,7 @@ class PgsqlArtistRequests
     /**
      * Requête pour récupérer un projet et ses notes à partir de son id
      * @param int $id_album
-     * @return void
+     * @return Project
      */
     public function getAlbumsWithRates(int $id_album): Project
     {

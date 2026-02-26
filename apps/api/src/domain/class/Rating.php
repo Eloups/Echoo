@@ -70,7 +70,7 @@ class Rating
     }
     /**
      * Accesseur de la date de création
-     * @return int
+     * @return ?DateTime
      */
     public function getCreatedAt(): ?DateTime
     {
@@ -86,7 +86,7 @@ class Rating
     }
     /**
      * Accesseur de l'utilisateur qui met la note
-     * @return User
+     * @return ?int
      */
     public function getUser(): ?int
     {

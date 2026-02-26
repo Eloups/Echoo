@@ -18,12 +18,12 @@ class UserService implements UserServiceInterface
 {
     /**
      * Fonction pour récupérer les dernières musiques écoutées par un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
      * @throws Exception
      * @return array
      */
-    public function getLastUserListenedMusics(int $userId, int $limit): array
+    public function getLastUserListenedMusics(string $userId, int $limit): array
     {
         $adapter = new UserDrivenAdapter();
 
@@ -40,11 +40,11 @@ class UserService implements UserServiceInterface
 
     /**
      * Fonction pour ajouter une musique écoutée par un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @param int $musicId
      * @return void
      */
-    public function addUserListenedMusic(int $userId, int $musicId): void
+    public function addUserListenedMusic(string $userId, int $musicId): void
     {
         $adapter = new UserDrivenAdapter();
         $adapter->addUserListenedMusic($userId, $musicId);
@@ -52,11 +52,11 @@ class UserService implements UserServiceInterface
 
     /**
      * Fonction pour récupérer les dernères sorties des artistes suivis par un utilisateur
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
-     * @return void
+     * @return array
      */
-    public function getUserArtistsLastsReleases(int $userId, int $limit): array
+    public function getUserArtistsLastsReleases(string $userId, int $limit): array
     {
         $adapter = new UserDrivenAdapter();
         $projects = $adapter->getUserArtistsLastsReleases($userId, $limit);
@@ -72,12 +72,12 @@ class UserService implements UserServiceInterface
 
     /**
      * Méthode pour récupérer les musiques les plus écoutées par un utilisateur un mois
-     * @param int $userId
+     * @param string $userId
      * @param int $limit
      * @param DateTime $date
      * @return array
      */
-    public function getUserMostListenedMusicsOfMonth(int $userId, int $limit, DateTime $date): array
+    public function getUserMostListenedMusicsOfMonth(string $userId, int $limit, DateTime $date): array
     {
         $adapter = new UserDrivenAdapter();
         $musics = $adapter->getUserMostListenedMusicsOfMonth($userId, $limit, $date);
@@ -157,7 +157,7 @@ class UserService implements UserServiceInterface
      * @param string $userId
      * @return Playlist
      */
-    public function getLikedPlaylist(string $userId): Playlist
+    public function getLikedPlaylist(string $userId): ?Playlist
     {
         $adapter = new UserDrivenAdapter();
         return $adapter->getLikedPlaylist($userId);

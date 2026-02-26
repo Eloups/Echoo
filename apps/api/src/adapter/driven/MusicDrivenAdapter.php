@@ -15,7 +15,7 @@ class MusicDrivenAdapter implements MusicDrivenAdapterInterface
 {
     /**
      * Méthode pour récupérer la liste des musiques
-     * @return Music[]
+     * @return array
      */
     public function getMusicList(int $idArtist): array
     {
