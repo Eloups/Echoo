@@ -7,9 +7,8 @@ import SectionTitle from "@/lib/components/sectionTitle";
 import MusicCard from "@/lib/components/musicCard";
 import ProjectCard from "@/lib/components/projectCard";
 import MonthArtists from "@/lib/components/monthArtists";
-import MonthMusics from "@/lib/components/monthMusics";
 import { useEffect, useState, useCallback } from "react";
-import { useNavigation, router, useSegments, useFocusEffect } from "expo-router";
+import { useNavigation, useFocusEffect } from "expo-router";
 import { HomeService } from "@/lib/api/home.service";
 import { MusicService, apiClient } from "@/lib/api";
 
@@ -18,7 +17,6 @@ const placeholderImage = require("../../assets/images/react-logo.png");
 export default function home() {
     const { theme } = useTheme();
     const navigation = useNavigation();
-    const segments = useSegments();
     const [lastListenedMusics, setLastListenedMusics] = useState<Music[]>([]);
     const [latestReleases, setLatestReleases] = useState<Project[]>([]);
     const [monthArtists, setMonthArtists] = useState<Artist[]>([]);
@@ -99,13 +97,14 @@ export default function home() {
                         }
                         
                         return {
+                            id: apiProject.id,
                             cover: coverUri,
                             type: apiProject.projectType.toLowerCase(),
                             title: apiProject.title,
                             description: "",
-                            artist: "", // TODO: Récupérer le nom de l'artiste si nécessaire
+                            artist: "Artiste inconnu",
                             musics: []
-                        };
+                        } as Project;
                     });
                     
                     setLatestReleases(mappedProjects);
@@ -149,18 +148,6 @@ export default function home() {
             fetchMonthArtists();
         }, [])
     );
-
-    const handleAlbumPress = (album: Project) => {
-        const currentPath = '/' + segments.join('/');
-        router.push({
-            pathname: "/(tabs)/detail",
-            params: { 
-                data: JSON.stringify(album),
-                from: currentPath
-            }
-        });
-    };
-
 
     const albumTemp: Project = {
         cover: placeholderImage,

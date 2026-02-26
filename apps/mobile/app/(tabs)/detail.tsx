@@ -5,11 +5,11 @@ import { Playlist } from '@/lib/types/types';
 
 export default function Detail() {
     const params = useLocalSearchParams();
-    const data: Playlist = params.data ? JSON.parse(params.data as string) : null;
+    const parsedData = params.data ? JSON.parse(params.data as string) : null;
     const from = params.from as string;
     const detailType = params.detailType as string | undefined;
 
-    if (!data) {
+    if (!parsedData) {
         return null;
     }
 
@@ -21,9 +21,13 @@ export default function Detail() {
         }
     };
 
-    if (detailType === 'project') {
+    const isProjectPayload = detailType === 'project' || (typeof parsedData === 'object' && parsedData !== null && 'type' in parsedData);
+
+    if (isProjectPayload) {
         return <ProjectDetailsPage />;
     }
+
+    const data = parsedData as Playlist;
 
     return <PlaylistDetailPage data={data} onBack={handleBack} />;
 }
