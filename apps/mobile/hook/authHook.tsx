@@ -31,7 +31,7 @@ interface AuthHook {
 
 export const useAuthHook = create<AuthHook>((set, get) => ({
   token: null,
-  
+
   isLoading: false,
   authError: null,
   waitVerificationMail: false,
@@ -74,9 +74,8 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     }
     if (data) {
       const JWT = await authClient.token()
-      console.log("JWT = ", JWT);
       // console.log("JWT =", JWT);
-      
+
       // décoder le JWT pour avoir les infos de l'utilisateur 
       // (dont l'id pour ensouite prendre les infos supplémentaire dans l'API backend)
       if (JWT && JWT?.data && JWT?.data?.token) {
@@ -99,15 +98,11 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
         try {
           //Recupération des infos utilisateur dans l'API backend
           let expirationTime = decodedToken?.exp;
-          console.log("idUser =", data.user.id);
           const userData = await UserService.getUser(data.user.id);
-          console.log("ici");
           if (userData) {
             let userRender = new User(userData.user);
             userRender.expirationTime = expirationTime;
 
-            console.log("userRender = ", userRender);
-            
             useGlobalHook.setState({ user: userRender });
           }
         } catch (e: any) {
@@ -142,43 +137,56 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     }
 
     if (data) {
-      // ajout de la photo de profil si elle est présente 
-      let imagePath = "";
-      try {
-        if (PdpB64) {
-          // Utilise le hook global pour sauvegarder l'image et récupérer le nom du fichier
-          const { AddImage } = useGlobalHook.getState();
+      const JWT = await authClient.token()
+      // console.log("JWT =", JWT);
 
-          const fileName: string = await AddImage(PdpB64);
-          if (fileName) {
-            imagePath = fileName;
+      // décoder le JWT pour avoir les infos de l'utilisateur 
+      // (dont l'id pour ensouite prendre les infos supplémentaire dans l'API backend)
+      if (JWT && JWT?.data && JWT?.data?.token) {
+        const tokenValue = JWT.data.token;
+        set({ token: tokenValue ?? null });
+        // ajout de la photo de profil si elle est présente 
+        let imagePath = "";
+        try {
+          if (PdpB64) {
+            // Utilise le hook global pour sauvegarder l'image et récupérer le nom du fichier
+            const { AddImage } = useGlobalHook.getState();
+
+            const fileName: string = await AddImage(PdpB64);
+            if (fileName) {
+              imagePath = fileName;
+            }
           }
-        }
-      } catch (e: any) {
-        set({ authError: e.message ?? String(e) });
-        set({ isLoading: false });
-        return;
-      }
 
-      // Creation de l'utilisateur dans l'API backend avec l'ID du signUp
-      try {
-        let request: CreateUserRequest = {
-          id: data.user.id,
-          username: name,
-          email: email,
-          image_path: imagePath,
-          id_role: 1,
+        } catch (e: any) {
+
+          set({ authError: e.message ?? String(e) });
+          set({ isLoading: false });
+          return;
         }
 
-        //Creation de l'utilisateur dans l'API backend
-        let val = await UserService.createUser(request);
-        if (val.code !== 201) {
-          throw new Error("Failed to create user in backend");
+        // Creation de l'utilisateur dans l'API backend avec l'ID du signUp
+        try {
+          let request: CreateUserRequest = {
+            id: data.user.id,
+            username: name,
+            email: email,
+            image_path: imagePath,
+            id_role: 1,
+          }
+
+          //Creation de l'utilisateur dans l'API backend
+          let val = await UserService.createUser(request);
+
+          if (val.code !== 201) {
+            throw new Error("Failed to create user in backend");
+          }
+        } catch (e: any) {
+
+          set({ authError: e.message ?? String(e) });
+          set({ isLoading: false });
+          return;
         }
-      } catch (e: any) {
-        set({ authError: e.message ?? String(e) });
-        set({ isLoading: false });
-        return;
       }
 
       // redirection vers un écran d'attente de vérification de l'email
