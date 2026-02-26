@@ -48,6 +48,32 @@ export interface ArtistPageMusic {
   nameArtist: string | null;
 }
 
+export interface ArtistAlbumRate {
+  id: number;
+  rate: number;
+  createdAt: string | null;
+  comment: string | null;
+  user: number | null;
+}
+
+export interface ArtistAlbum {
+  id: number;
+  title: string;
+  release: string;
+  coverPath: string;
+  projectType: string;
+  musics: unknown[];
+  color1: string;
+  color2: string;
+  rates: Record<string, ArtistAlbumRate> | null;
+  avgRate: number | null;
+  artistName: string | null;
+}
+
+export interface ArtistAlbumsResponse {
+  albums: ArtistAlbum[];
+}
+
 export interface Music {
   id: number;
   titre: string;

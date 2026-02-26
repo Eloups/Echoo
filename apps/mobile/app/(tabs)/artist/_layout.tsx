@@ -6,6 +6,7 @@ import { View, Pressable } from 'react-native';
 import AppText from '@/lib/components/global/appText';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useEffect } from 'react';
+import { ArtistPageProvider } from './artistPageContext';
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -32,102 +33,112 @@ export default function ArtistLayout() {
     };
 
     useEffect(() => {
-        const artistName = params.title as string || 'Artiste';
+        let artistName = params.title as string || 'Artiste';
+        if (params.data && typeof params.data === 'string') {
+            try {
+                const parsed = JSON.parse(params.data);
+                const artist = parsed?.artist ?? parsed;
+                artistName = artist?.name || artist?.title || artistName;
+            } catch {
+            }
+        }
         navigation.setOptions({
             title: artistName,
         } as any);
     }, [navigation, params.title]);
     
     return (
-        <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-            {/* Bouton retour fixe */}
-            <Pressable
-                onPress={handleBack}
-                style={{
-                    position: 'absolute',
-                    top: 10,
-                    left: 10,
-                    zIndex: 10,
-                    width: 40,
-                    height: 40,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <MaterialIcons name="keyboard-arrow-left" size={32} color="white" />
-            </Pressable>
-
-            <MaterialTopTabs
-                tabBarPosition="bottom"
-                screenOptions={{
-                    swipeEnabled: false,
-                    tabBarActiveTintColor: theme.colors.text,
-                    tabBarInactiveTintColor: theme.colors.text2,
-                    tabBarIndicatorStyle: {
-                        backgroundColor: theme.colors.primary,
-                        height: 28,
-                        borderRadius: 20,
-                        bottom: 4,
-                        left: 4,
-                        width: 80,
-                    },
-                    tabBarIndicatorContainerStyle: {
-                        marginLeft: 4
-                    },
-                    tabBarStyle: {
-                        backgroundColor: theme.colors.background2,
-                        borderRadius: 25,
-                        marginHorizontal: 15,
-                        marginBottom: 10,
-                        height: 36,
+        <ArtistPageProvider params={params as Record<string, any>}>
+            <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+                {/* Bouton retour fixe */}
+                <Pressable
+                    onPress={handleBack}
+                    style={{
                         position: 'absolute',
-                        bottom: 75,
-                        left: 0,
-                        right: 0,
-                    },
-                    tabBarContentContainerStyle: {
+                        top: 10,
+                        left: 10,
+                        zIndex: 10,
+                        width: 40,
+                        height: 40,
+                        justifyContent: 'center',
                         alignItems: 'center',
-                    },
-                    tabBarItemStyle: {
-                        borderRadius: 20,
-                    },
-                    tabBarLabel: ({ focused, children }) => (
-                        <AppText 
-                            size="sm" 
-                            color={theme.colors.text}
-                        >
-                            {children}
-                        </AppText>
-                    ),
-                    tabBarPressColor: 'transparent',
-                    tabBarScrollEnabled: false,
-                }}
-            >
-                <MaterialTopTabs.Screen
-                    name="presentation"
-                    options={{
-                        title: 'Présentation',
                     }}
-                />
-                <MaterialTopTabs.Screen
-                    name="projets"
-                    options={{
-                        title: 'Projets',
+                >
+                    <MaterialIcons name="keyboard-arrow-left" size={32} color="white" />
+                </Pressable>
+
+                <MaterialTopTabs
+                    tabBarPosition="bottom"
+                    screenOptions={{
+                        swipeEnabled: false,
+                        tabBarActiveTintColor: theme.colors.text,
+                        tabBarInactiveTintColor: theme.colors.text2,
+                        tabBarIndicatorStyle: {
+                            backgroundColor: theme.colors.primary,
+                            height: 28,
+                            borderRadius: 20,
+                            bottom: 4,
+                            left: 4,
+                            width: 80,
+                        },
+                        tabBarIndicatorContainerStyle: {
+                            marginLeft: 4
+                        },
+                        tabBarStyle: {
+                            backgroundColor: theme.colors.background2,
+                            borderRadius: 25,
+                            marginHorizontal: 15,
+                            marginBottom: 10,
+                            height: 36,
+                            position: 'absolute',
+                            bottom: 75,
+                            left: 0,
+                            right: 0,
+                        },
+                        tabBarContentContainerStyle: {
+                            alignItems: 'center',
+                        },
+                        tabBarItemStyle: {
+                            borderRadius: 20,
+                        },
+                        tabBarLabel: ({ focused, children }) => (
+                            <AppText 
+                                size="sm" 
+                                color={theme.colors.text}
+                            >
+                                {children}
+                            </AppText>
+                        ),
+                        tabBarPressColor: 'transparent',
+                        tabBarScrollEnabled: false,
                     }}
-                />
-                <MaterialTopTabs.Screen
-                    name="singles"
-                    options={{
-                        title: 'Singles',
-                    }}
-                />
-                <MaterialTopTabs.Screen
-                    name="morceaux"
-                    options={{
-                        title: 'Morceaux',
-                    }}
-                />
-            </MaterialTopTabs>
-        </View>
+                >
+                    <MaterialTopTabs.Screen
+                        name="presentation"
+                        options={{
+                            title: 'Présentation',
+                        }}
+                    />
+                    <MaterialTopTabs.Screen
+                        name="projets"
+                        options={{
+                            title: 'Projets',
+                        }}
+                    />
+                    <MaterialTopTabs.Screen
+                        name="singles"
+                        options={{
+                            title: 'Singles',
+                        }}
+                    />
+                    <MaterialTopTabs.Screen
+                        name="morceaux"
+                        options={{
+                            title: 'Morceaux',
+                        }}
+                    />
+                </MaterialTopTabs>
+            </View>
+        </ArtistPageProvider>
     );
 }
