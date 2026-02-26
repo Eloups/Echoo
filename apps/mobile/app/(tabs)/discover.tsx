@@ -85,9 +85,6 @@ export default function Discover() {
         try {
             const data = await HomeService.searchInDB(trimmed);
 
-            /* =======================
-               🎵 MAPPING MUSICS
-            ======================== */
             const mappedMusics = await Promise.all(
                 (data.musics || []).map(async (music) => {
                     let coverUri: any = placeholderImage;
@@ -112,50 +109,43 @@ export default function Discover() {
                 })
             );
 
-            /* =======================
-               👤 MAPPING ARTISTS
-            ======================== */
-            const mappedArtists = (data.artists || []).map((artist) => {
-
-                let imageUri: any = placeholderImage;
-
-                if (artist.imagePath) {
-                    imageUri = { uri: apiClient.getImageUrl(artist.imagePath) };
-                }
+            const mappedArtists = (data.artists || []).map((artist: any) => {
+                const artistName = artist?.title ?? artist?.name ?? "Artiste inconnu";
+                const artistCoverPath = artist?.imagePath ?? artist?.image_path;
 
                 return {
                     ...artist,
-                    image: imageUri,
-                    type: "artist",
+                    title: artistName,
+                    cover: artistCoverPath
+                        ? { uri: apiClient.getImageUrl(artistCoverPath) }
+                        : placeholderImage,
                 };
             });
 
-            /* =======================
-               💿 MAPPING PROJECTS
-            ======================== */
-            const mappedProjects = (data.projects || []).map((project) => {
-
-                let coverUri: any = placeholderImage;
-
-                if (project.coverPath) {
-                    coverUri = { uri: apiClient.getImageUrl(project.coverPath) };
-                }
+            const mappedProjects = (data.projects || []).map((project: any) => {
+                const projectCoverPath = project?.coverPath ?? project?.cover_path;
+                const projectArtist =
+                    project?.artist ??
+                    project?.nameArtist ??
+                    project?.artists ??
+                    "Artiste inconnu";
 
                 return {
                     ...project,
-                    cover: coverUri,
-                    artist: project.artistName ?? "Artiste inconnu",
-                    type: project.projectType?.toLowerCase() ?? "project",
-                    musics: project.musics ?? [],
-                    rates: project.rates ?? [],
-                    avgRate: project.avgRate ?? 0
+                    title: project?.title ?? "Projet sans titre",
+                    type: (project?.projectType ?? project?.type ?? "single").toLowerCase(),
+                    artist: projectArtist,
+                    cover: projectCoverPath
+                        ? { uri: apiClient.getImageUrl(projectCoverPath) }
+                        : placeholderImage,
                 };
             });
 
             const safeData = {
-                musics: mappedMusics,
+                ...data,
                 artists: mappedArtists,
-                projects: mappedProjects
+                projects: mappedProjects,
+                musics: mappedMusics,
             };
 
             setSearchList(safeData);
