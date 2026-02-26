@@ -37,6 +37,7 @@ COPY ./apps/api /var/www/api
 WORKDIR /var/www/api
 
 RUN composer install --optimize-autoloader
+RUN php vendor/bin/codecept build
 
 # Lancement du serveur PHP FPM
 CMD ["php-fpm"]
