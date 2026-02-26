@@ -1,19 +1,22 @@
 import { View, ScrollView, Image, Pressable, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { useEffect, useMemo, useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
 import { Music, Project } from '@/lib/types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DetailMusicCard from '@/lib/components/detailMusicCard';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { AlbumService, apiClient } from '@/lib/api';
 
 const IMAGE_SIZE = 200;
-const placeholderImage = require("../../../assets/images/react-logo.png");
+const placeholderImage = require("../../assets/images/react-logo.png");
 
-export default function MusiquesPage() {
+export default function ProjectDetailsPage() {
     const { theme } = useTheme();
+    const navigation = useNavigation();
+    const router = useRouter();
     const params = useLocalSearchParams();
     const [menuVisible, setMenuVisible] = useState(false);
     const [project, setProject] = useState<Project | null>(null);
@@ -39,6 +42,22 @@ export default function MusiquesPage() {
         return Number.isFinite(parsed) ? parsed : null;
     }, [params.idProject, params.projectId, rawData?.id]);
 
+    const handleBack = () => {
+        const from = params.from as string;
+        if (from) {
+            router.push(from as any);
+        } else {
+            router.push('/(tabs)/home');
+        }
+    };
+
+    useEffect(() => {
+        const albumName = rawData?.title || 'Album';
+        navigation.setOptions({
+            title: albumName,
+        } as any);
+    }, [navigation, rawData?.title]);
+
     useEffect(() => {
         let isMounted = true;
 
@@ -54,7 +73,6 @@ export default function MusiquesPage() {
                 setError(null);
                 const response = await AlbumService.getProjectById(projectId);
                 const apiProject = response.project;
-
 
                 const albumCover = apiProject.coverPath
                     ? { uri: apiClient.getImageUrl(apiProject.coverPath) }
@@ -80,6 +98,7 @@ export default function MusiquesPage() {
                     artist: apiProject.artistName,
                     musics: mappedMusics,
                 };
+
                 if (isMounted) {
                     setProject(mappedProject);
                     const total = (apiProject.musics || []).reduce((acc, music) => acc + (music.duration || 0), 0);
@@ -134,8 +153,26 @@ export default function MusiquesPage() {
     };
 
     return (
-        <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-            <View style={{ position: 'absolute', top: 10, right: 20, zIndex: 10 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['top']}>
+            <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+                <Pressable
+                    onPress={handleBack}
+                    style={{
+                        position: 'absolute',
+                        top: 10,
+                        left: 20,
+                        zIndex: 10,
+                        width: 40,
+                        height: 40,
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+                    <MaterialIcons name="keyboard-arrow-left" size={32} color={theme.colors.text} />
+                </Pressable>
+
+                <View style={{ position: 'absolute', top: 10, right: 20, zIndex: 10 }}>
                 <Pressable
                     onPress={() => setMenuVisible(!menuVisible)}
                     style={{
@@ -181,8 +218,8 @@ export default function MusiquesPage() {
 
             <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
                 <View style={{ alignItems: 'center', paddingTop: 60, paddingBottom: 20, paddingHorizontal: 20 }}>
-                    <Image 
-                        source={project.cover} 
+                    <Image
+                        source={project.cover}
                         style={{ width: IMAGE_SIZE, height: IMAGE_SIZE, borderRadius: 5 }}
                     />
                     <AppText size="2xl" style={{ marginTop: 20, fontWeight: 'bold', textAlign: 'center', paddingHorizontal: 20 }}>
@@ -210,7 +247,7 @@ export default function MusiquesPage() {
                 <View style={{ paddingHorizontal: 20 }}>
                     {project.musics?.map((music, index) => (
                         <View key={index} style={{ marginBottom: 16 }}>
-                            <DetailMusicCard 
+                            <DetailMusicCard
                                 infos={music}
                                 isAlbum={true}
                                 queue={project.musics || []}
@@ -220,7 +257,8 @@ export default function MusiquesPage() {
                     ))}
                 </View>
             </ScrollView>
-        </View>
+            </View>
+        </SafeAreaView>
     );
 }
 
