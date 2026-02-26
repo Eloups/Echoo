@@ -88,7 +88,7 @@ class MusicDrivingAdapter
 
     /**
      * Méthode pour vérifier si une musique est likée par un utilisateur
-     * @param int $requestBody
+     * @param string $requestBody
      * @return Response
      */
     public function getIsMusicLikeByUser(string $requestBody)

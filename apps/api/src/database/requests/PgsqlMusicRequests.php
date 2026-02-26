@@ -2,9 +2,7 @@
 
 namespace Api\Database\Requests;
 
-use Api\Utils\RequestUtils;
 use PDO;
-use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
 /**
  * Classe permettant de lancer des requêtes SQL sur les musiques de la base de données
@@ -205,7 +203,7 @@ class PgsqlMusicRequests
 
     /**
      * Requête pour vérifier si une musique est like par un utilisateur
-     * @param int $id_user
+     * @param string $id_user
      * @param int $id_music
      * @return bool
      */
