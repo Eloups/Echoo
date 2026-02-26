@@ -351,6 +351,7 @@ class ConvertUtils
         $projectType = $first['project_type'];
         $color1 = $first['color1'];
         $color2 = $first['color2'];
+        $artistName = $first['name_artist'] ?? null;
 
         $musics = [];
 
@@ -375,7 +376,7 @@ class ConvertUtils
                     genres: null,
                     nbStreams: $row['nb_streams'],
                     rates: null,
-                    nameArtist: null
+                    nameArtist: $artistName
                 );
             }
         }
@@ -393,7 +394,8 @@ class ConvertUtils
             color1: $color1,
             color2: $color2,
             rates: $rates,
-            avgRate: $avgRate
+            avgRate: $avgRate,
+            artistName: $artistName
         );
     }
 

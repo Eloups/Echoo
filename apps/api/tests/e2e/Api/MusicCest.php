@@ -69,7 +69,7 @@ final class MusicCest
         $I->sendPost(
             '/music/like',
             json_encode([
-                'id_user' => 5,
+                'id_user' => "5",
                 'id_music' => 11
             ])
         );

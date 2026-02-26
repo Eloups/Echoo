@@ -6,9 +6,7 @@ use Api\Adapter\MusicDrivenAdapter;
 use Api\Domain\Class\Music;
 use Api\Domain\Class\Rating;
 use Api\Domain\Ports\MusicServiceInterface;
-use DateTime;
 use Exception;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Classe de service des musiques
