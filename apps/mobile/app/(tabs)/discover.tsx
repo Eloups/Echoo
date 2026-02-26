@@ -1,15 +1,14 @@
 import MusicCard from "@/lib/components/musicCard";
 import ArtistCard from "@/lib/components/artistCard";
-import PlaylistCard from "@/lib/components/playlistCard";
-import ProjectCard from "@/lib/components/projectCard";
-import { Music, Artist } from "@/lib/types/types";
-import { Button, ScrollView, TextInput, View, StyleSheet } from "react-native";
+import { Music, Artist, Project } from "@/lib/types/types";
+import { ScrollView, TextInput, View, StyleSheet } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SectionTitle from "@/lib/components/sectionTitle";
-import { Background } from "@react-navigation/elements";
-import { themes } from "@/lib/theme";
 import Feather from '@expo/vector-icons/Feather';
+import { HomeService, SearchList } from "@/lib/api/home.service";
+import { apiClient, MusicService } from "@/lib/api";
+import ProjectCard from "@/lib/components/projectCard";
 
 const placeholderImage = require("../../assets/images/react-logo.png");
 
@@ -18,56 +17,106 @@ const isArtist = (item: Music | Artist): item is Artist => {
     return !('id' in item && 'audioFile' in item);
 };
 
+
 export default function Discover() {
     // Appel à la gestion de thème pour les couleurs
     const { theme, toggleTheme } = useTheme();
 
-    const musicTemp: Music = {
-        id: 1,
-        cover: placeholderImage,
-        title: "CHIHIRO",
-        artist: "Billie Eilish",
-        color1: "#04131D",
-        color2: "#082840",
-        nbStreams: 46,
-        audioFile: "music_1.mp3"
-    }
+    const [latestReleases, setLatestReleases] = useState<Project[]>([]);
+    const [searchList, setSearchList] = useState<SearchList>();
 
-    const musicTemp2: Music = {
-        id: 2,
-        cover: placeholderImage,
-        title: "Rich Man",
-        artist: "aespa",
-        color1: "#000000",
-        color2: "#0E0E0E",
-        nbStreams: 24,
-        audioFile: "music_2.mp3"
-    }
-
-    const musicTemp3: Music = {
-        id: 3,
-        cover: placeholderImage,
-        title: "What do you want from me ?",
-        artist: "Jann",
-        color1: "#965F4C",
-        color2: "#291A15",
-        nbStreams: 11,
-        audioFile: "music_3.mp3"
-    }
-
-    const artist1: Artist = {
-        cover: placeholderImage,
-        title: "Madison Beer"
-    }
-    
-    // TODO : récupérer les infos de la BDD pour remplir ces listes
-    const releasedRecentlyList: (Music | Artist)[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
-    const forYouList: (Music | Artist)[] = [artist1, musicTemp2, musicTemp3, artist1, musicTemp2, musicTemp3];
-    const topsList: (Music | Artist)[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
-    const searchList: (Music | Artist)[] = [artist1, musicTemp2];
-
-    // Variable qui gère le champ de recherche
+        // Variable qui gère le champ de recherche
     const [searchField, setSearchField] = React.useState("");
+
+    const fetchLatestReleases = async () => {
+                    try {
+                        // TODO: Remplacer l'ID hardcodé par l'ID de l'utilisateur connecté
+                        const userId = 3;
+                        const data = await HomeService.getFollowedArtistsReleases(userId);
+
+                        //Vérification de la data
+                        if (!data || !data.projects || data.projects.length === 0) {
+                            setLatestReleases([]);
+                            return;
+                        }
+                        // Mapper les projets de l'API vers le type Project
+                        const mappedProjects: Project[] = data.projects.map((apiProject) => {
+                            let coverUri = placeholderImage;
+                            
+                            if (apiProject.coverPath) {
+                                coverUri = { uri: apiClient.getImageUrl(apiProject.coverPath) };
+                            }
+                            
+                            return {
+                                id: apiProject.id,
+                                cover: coverUri,
+                                type: apiProject.projectType.toLowerCase(),
+                                title: apiProject.title,
+                                description: "",
+                                artist: "Artiste inconnu",
+                                musics: []
+                            } as Project;
+                        });
+                        
+                        setLatestReleases(mappedProjects);
+                    } catch (error) {
+                        console.error("Erreur lors de la récupération des dernières sorties:", error);
+                    }
+                };
+
+    useEffect(() => {
+        fetchLatestReleases();
+    }, []);
+
+    useEffect(() => {
+
+    const trimmed = searchField.trim();
+
+    // 1️⃣ Si champ vide → reset
+    if (trimmed.length === 0) {
+        setSearchList(undefined);
+        return;
+    }
+
+    // 2️⃣ Si moins de 3 caractères → ne pas appeler l’API
+    if (trimmed.length < 3) {
+        return;
+    }
+
+    // 3️⃣ Debounce
+    const debounceTimer = setTimeout(async () => {
+        try {
+            const data = await HomeService.searchInDB(trimmed);
+            console.log
+            const safeData = {
+                ...data,
+                musics: data.musics.map(music => ({
+                    ...music,
+                    artist: music.nameArtist ?? "Artiste inconnu",
+                    cover:"RadicalOptimism.jpg",
+                    type: "music"
+                }
+            )
+        )
+};
+
+setSearchList(safeData);
+        } catch (error: any) {
+
+            // Si jamais le backend renvoie quand même une 400
+            if (error?.response?.status === 400) {
+                console.warn("Recherche trop courte");
+                return;
+            }
+
+            console.error("Erreur recherche :", error);
+        }
+    }, 500);
+
+    return () => clearTimeout(debounceTimer);
+
+}, [searchField]);
+
 
     const styles = StyleSheet.create({
         searchBtn: {
@@ -107,41 +156,25 @@ export default function Discover() {
                     <SectionTitle text="Dernières sorties"></SectionTitle>
 
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
-                        {releasedRecentlyList.map((item, key) =>
-                            isArtist(item) ? 
-                                <ArtistCard key={key} infos={item} isSearch={false} isHome={true}></ArtistCard> :
-                                <MusicCard key={key} infos={item} isSearch={false} isHome={true}></MusicCard>
-                        )}
-                    </ScrollView>
-
-                    <SectionTitle text="Pour vous"></SectionTitle>
-
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
-                        {forYouList.map((item, key) =>
-                            isArtist(item) ? 
-                                <ArtistCard key={key} infos={item} isSearch={false} isHome={true}></ArtistCard> :
-                                <MusicCard key={key} infos={item} isSearch={false} isHome={true}></MusicCard>
-                        )}
-                    </ScrollView>
-
-                    <SectionTitle text="Tops"></SectionTitle>
-
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
-                        {topsList.map((item, key) =>
-                            isArtist(item) ? 
-                                <ArtistCard key={key} infos={item} isSearch={false} isHome={true}></ArtistCard> :
-                                <MusicCard key={key} infos={item} isSearch={false} isHome={true}></MusicCard>
+                        {latestReleases.map((item, key) =>
+                            <ProjectCard key={key} infos={item} isSearch={false} isHome={true}></ProjectCard>
                         )}
                     </ScrollView>
                 </View>
             ) :
                 <View>
                     <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
-                        {searchList.map((item, key) =>
-                            isArtist(item) ? 
-                                <ArtistCard key={key} infos={item} isSearch={true} isHome={true}></ArtistCard> :
-                                <MusicCard key={key} infos={item} isSearch={true} isHome={true}></MusicCard>
-                        )}
+                        {searchList?.artists.map((item, key) => (
+                            <ArtistCard key={`artist-${key}`} infos={item} isSearch={true} isHome={true} />
+                        ))}
+
+                        {searchList?.musics.map((item, key) => (
+                            <MusicCard key={`music-${key}`} infos={item} isSearch={true} isHome={true} />
+                        ))}
+
+                        {searchList?.projects.map((item, key) => (
+                            <ProjectCard key={`project-${key}`} infos={item} isSearch={true} isHome={true} />
+                        ))}
                     </ScrollView>
                 </View>}
         </View>
