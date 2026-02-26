@@ -55,6 +55,7 @@ export default function MusiquesPage() {
                 const response = await AlbumService.getProjectById(projectId);
                 const apiProject = response.project;
 
+
                 const albumCover = apiProject.coverPath
                     ? { uri: apiClient.getImageUrl(apiProject.coverPath) }
                     : placeholderImage;
@@ -63,7 +64,7 @@ export default function MusiquesPage() {
                     id: music.id,
                     cover: albumCover,
                     title: music.title,
-                    artist: music.nameArtist || 'Artiste inconnu',
+                    artist: rawData?.artist || 'Artiste inconnu',
                     color1: apiProject.color1 || '#04131D',
                     color2: apiProject.color2 || '#082840',
                     nbStreams: music.nbStreams || 0,
@@ -75,11 +76,10 @@ export default function MusiquesPage() {
                     cover: albumCover,
                     type: apiProject.projectType?.toLowerCase() || 'album',
                     title: apiProject.title,
-                    description: apiProject.musics?.[0]?.nameArtist || '',
-                    artist: apiProject.musics?.[0]?.nameArtist || '',
+                    description: rawData?.artist.toString() || '',
+                    artist: apiProject.artistName,
                     musics: mappedMusics,
                 };
-
                 if (isMounted) {
                     setProject(mappedProject);
                     const total = (apiProject.musics || []).reduce((acc, music) => acc + (music.duration || 0), 0);
@@ -189,7 +189,7 @@ export default function MusiquesPage() {
                         {project.title}
                     </AppText>
                     <AppText size="md" color="text2" style={{ marginTop: 5 }}>
-                        {Array.isArray(project.artist) ? project.artist.join(', ') : project.artist}
+                        {rawData?.artist.toString()}
                     </AppText>
                     {project.musics && project.musics.length > 0 && (
                         <>

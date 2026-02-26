@@ -9,7 +9,7 @@ export type ProjectDetailMusic = {
   genres: string[] | null;
   nbStreams: number;
   rates: number[] | null;
-  nameArtist: string | null;
+  artistName: string | null;
 };
 
 export type ProjectDetail = {
@@ -23,6 +23,7 @@ export type ProjectDetail = {
   color2: string;
   rates: number[] | null;
   avgRate: number | null;
+  artistName: string;
 };
 
 export type ProjectDetailResponse = {

@@ -21,7 +21,6 @@ export default function projects() {
             setLoading(true);
             const userId = "3"; // ID utilisateur
             const response: any = await ArtistService.getAllProjectsByUserID(userId);
-
             const projectsArray = response.projects || [];
             
             // Convertir les données de l'API au format project du front
@@ -31,7 +30,7 @@ export default function projects() {
                         ? { uri: apiClient.getImageUrl(project.coverPath) }
                         : require("../../../assets/images/react-logo.png"),
                     title: project.title || "project",
-                    artist: "",
+                    artist: project.artistName,
                     color1: "#965F4C",
                     color2: "#291A15",
                     nbStreams: 0,
