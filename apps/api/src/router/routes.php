@@ -28,6 +28,7 @@ $routes->add('artist|albums', new Route('/artist/{id}/albums', methods: 'GET'));
 $routes->add('artist|singles', new Route('/artist/{id}/singles', methods: 'GET'));
 $routes->add('artist|mostMistenedMonth', new Route('/artist/listened/month', methods: 'GET'));
 $routes->add('artist|search', new Route('/artist/search/{search}', methods: 'GET'));
+$routes->add('artist|isArtistLiked', new Route('/artist/user/isLike', methods: 'POST'));
 
 // Playlist
 $routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));

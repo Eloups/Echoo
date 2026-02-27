@@ -1,5 +1,5 @@
 import { View, ScrollView, Image, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
 import { Artist, Music } from '@/lib/types/types';
@@ -7,6 +7,9 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from '@/lib/components/musicCard';
 import SectionTitle from '@/lib/components/sectionTitle';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { User } from '@/lib/types/auth';
+import { UserService } from '@/lib/api/user.service';
+import { ArtistService } from '@/lib/api';
 
 export default function PresentationPage() {
     const { theme } = useTheme();
@@ -31,9 +34,26 @@ export default function PresentationPage() {
         }
     };
 
+    const userId = "3";
+
     // Données temporaires
     const popularTracks: Music[] = data.popular_musics?.slice(0, 5) || [];
     const recentReleases: Music[] = data.last_releases?.slice(0, 4) || [];
+    const [isArtistLike, setIsArtistLike] = useState<boolean>(false);
+
+    //Vérifie si l'artiste est déjà liké par un utilisateur
+    useEffect(() => {
+    if (artistData !== null) {
+        ArtistService.getIsArtistIsLike(userId, artistData.id)
+        .then(setIsArtistLike);
+    }
+    
+    }, [artistData])
+
+    const handleArtistLike = () => {
+        setIsArtistLike(!isArtistLike);
+        UserService.postLikeArtist(userId, artistData.id);
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -64,20 +84,14 @@ export default function PresentationPage() {
                             <AppText size="3xl" weight='bold' style={{ fontWeight: 'bold', color: 'white' }}>
                                 {data.title}
                             </AppText>
-                            {data.nbStreams && (
                                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                                    <AppText size="lg" style={{ color: 'white' }}>
-                                        {(data.nbStreams / 1000000).toFixed(1)}M
-                                    </AppText>
+                                    
                                     <Pressable
-                                        onPress={() => {
-                                            console.log('Suivre l\'artiste');
-                                        }}
+                                        onPress={handleArtistLike}
                                     >
                                         <MaterialIcons name="favorite-border" size={32} color="white" />
                                     </Pressable>
                                 </View>
-                            )}
                         </View>
                     </View>
                 </View>
