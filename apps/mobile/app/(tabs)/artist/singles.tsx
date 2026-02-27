@@ -6,6 +6,7 @@ import ProjectCard from '@/lib/components/projectCard';
 import { ArtistService, apiClient } from '@/lib/api';
 import { Project } from '@/lib/types/types';
 import { useArtistPage } from './artistPageContext';
+import { useLocalSearchParams } from 'expo-router';
 
 type ArtistSingleCard = Project & {
     id?: number;
@@ -16,8 +17,21 @@ type ArtistSingleCard = Project & {
 export default function SinglesPage() {
     const { theme } = useTheme();
     const { artist } = useArtistPage();
+    const params = useLocalSearchParams();
     const [singles, setSingles] = useState<ArtistSingleCard[]>([]);
     const [loadingSingles, setLoadingSingles] = useState<boolean>(true);
+
+    const artistReturnParams = {
+        ...params,
+        artistId: (params.artistId as string | undefined) ?? (artist.id ? String(artist.id) : undefined),
+        title: (params.title as string | undefined) ?? artist.title,
+        data: (params.data as string | undefined) ?? JSON.stringify({
+            id: artist.id,
+            title: artist.title,
+            cover: artist.cover,
+        }),
+        from: (params.from as string | undefined) ?? '/(tabs)/home',
+    };
 
     useEffect(() => {
         let isMounted = true;
@@ -82,6 +96,8 @@ export default function SinglesPage() {
                             key={`${single.title}-${index}`}
                             infos={single}
                             isArtistPage
+                            fromPath='/(tabs)/artist/singles'
+                            fromParams={JSON.stringify(artistReturnParams)}
                         />
                     ))}
 

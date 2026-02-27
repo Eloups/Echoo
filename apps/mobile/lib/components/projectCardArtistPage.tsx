@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, View, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router, useSegments } from 'expo-router';
+import { router, useLocalSearchParams, useSegments } from 'expo-router';
 import AppText from './global/appText';
 import { Project } from '../types/types';
 
@@ -14,19 +14,24 @@ type ArtistProjectCardData = Project & {
 
 type ProjectCardArtistPageProps = {
     infos: ArtistProjectCardData;
+    fromPath?: string;
+    fromParams?: string;
 };
 
-export default function ProjectCardArtistPage({ infos }: ProjectCardArtistPageProps) {
+export default function ProjectCardArtistPage({ infos, fromPath, fromParams: fromParamsProp }: ProjectCardArtistPageProps) {
     const segments = useSegments();
+    const localParams = useLocalSearchParams();
 
     const handlePress = () => {
-        const currentPath = '/' + segments.join('/');
+        const currentPath = fromPath || ('/' + segments.join('/'));
+        const fromParams = fromParamsProp || JSON.stringify(localParams);
 
         router.push({
             pathname: '/(tabs)/detail',
             params: {
                 data: JSON.stringify(infos),
                 from: currentPath,
+                fromParams,
                 detailType: 'project',
                 idProject: infos.id,
             },

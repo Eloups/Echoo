@@ -45,6 +45,20 @@ export default function ProjectDetailsPage() {
 
     const handleBack = () => {
         const from = params.from as string;
+        const fromParamsRaw = params.fromParams as string | undefined;
+
+        if (from && fromParamsRaw) {
+            try {
+                const parsedFromParams = JSON.parse(fromParamsRaw);
+                router.push({
+                    pathname: from as any,
+                    params: parsedFromParams,
+                });
+                return;
+            } catch {
+            }
+        }
+
         if (from) {
             router.push(from as any);
         } else {

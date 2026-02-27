@@ -1,7 +1,7 @@
 import { View, Image, StyleSheet, Pressable } from "react-native";
 import { Project } from "../types/types";
 import AppText from "./global/appText";
-import { router, useSegments } from "expo-router";
+import { router, useLocalSearchParams, useSegments } from "expo-router";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useTheme } from "../theme/provider";
 
@@ -9,25 +9,30 @@ type ProjectCardProps = {
     infos: Project & { id?: number },
     isSearch?: boolean,
     isHome?: boolean,
-    isArtistPage?: boolean
+    isArtistPage?: boolean,
+    fromPath?: string,
+    fromParams?: string,
 }
 
 // Composant dédié à l'affichage des projets (albums, EP, singles)
 export default function ProjectCard(props: ProjectCardProps) {
     const { theme } = useTheme();
     const segments = useSegments();
+    const localParams = useLocalSearchParams();
     const isSearch = props.isSearch ?? false;
     const isHome = props.isHome ?? false;
     const isArtistPage = props.isArtistPage ?? false;
 
     const handlePress = () => {
-        const currentPath = '/' + segments.join('/');
+        const currentPath = props.fromPath || ('/' + segments.join('/'));
+        const fromParams = props.fromParams || JSON.stringify(localParams);
         
         router.push({
             pathname: "/(tabs)/detail",
             params: {
                 data: JSON.stringify(props.infos),
                 from: currentPath,
+                fromParams,
                 detailType: 'project',
                 idProject: props.infos.id,
             }
@@ -85,7 +90,7 @@ export default function ProjectCard(props: ProjectCardProps) {
                             </View>
                         </View>
                         <MaterialIcons
-                            name="keyboard-arrow-left"
+                            name="keyboard-arrow-right"
                             size={32}
                             color={theme.colors.text}
                             style={styles.artistPageChevron}
