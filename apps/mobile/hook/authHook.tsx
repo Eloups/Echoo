@@ -74,7 +74,7 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     }
     if (data) {
       const JWT = await authClient.token()
-      // console.log("JWT =", JWT);
+      console.log("JWT =", JWT);
 
       // décoder le JWT pour avoir les infos de l'utilisateur 
       // (dont l'id pour ensouite prendre les infos supplémentaire dans l'API backend)
@@ -138,7 +138,7 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
 
     if (data) {
       const JWT = await authClient.token()
-      // console.log("JWT =", JWT);
+      console.log("JWT =", JWT);
 
       // décoder le JWT pour avoir les infos de l'utilisateur 
       // (dont l'id pour ensouite prendre les infos supplémentaire dans l'API backend)

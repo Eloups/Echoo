@@ -101,14 +101,13 @@ INSERT INTO public.account (id, "accountId", "providerId", "userId", "accessToke
 -- Data for Name: jwks; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.jwks (id, "publicKey", "privateKey", "createdAt", "expiresAt") VALUES ('ygZgnTmO988zxFZZHIN61y1J7aoXPmLQ', '{"crv":"Ed25519","kty":"OKP","x":"EyDSNS4hFUSN_r2Ry2Z0WAWz7Vl25M0uUR2SlmxxBJs"}', '"d889adf747b100a8e1d64af21912c2ad295ee8ad1b336bfc9850f88ae730335de311aeb68b0d8d197b445f3898f6a42b64257bd6513a10a248b5fed538b4a37622672a9c4085a311acc735924037236688f64e82bcf2c1bed805514560f2f83bad1d7955a0eac4cfb65ebea2007eeaea9f42018aff97010a8c0e8a784f06c2691a19dc76b9fc7dbd6f0eae1f57ab3f2889960e9ce15e8ee0b234806da3551e6bda24eb07bd131468d9"', '2027-02-27 14:41:41.676', NULL);
-
+INSERT INTO public.jwks (id, "publicKey", "privateKey", "createdAt", "expiresAt") VALUES ('nzVUoCPWOTB87nz9PhqhgNYjNPhozFDg', '{"crv":"Ed25519","kty":"OKP","x":"fVTpjX4-EpP9WrlRPp1QHdhUwsVAn7RXetteL8xY62U"}', '"517f8d5891b99ea6f8497ec88609886738109ece55bce26be9d00cffca63904e461b2c04f36546ea7e2ec6db6c7d590fa3aaf466b655679c8b47893dd0fc4a68844c506a979826d19ec6f582266f9766d1897f46b9d6f0deeca3fc7ed18fa2759b4ccbe13f09211d79a49c0d7b94f6cb16c29686fd724ba5a866c98ad45c63680cd249fa4f4536d0225eeb8b477cf2e3be19e23b5b0135d4ee4be017b5ad7438f26c5a9a81fc72533d"', '2026-02-27 15:20:28.977', NULL);
 
 --
 -- Data for Name: session; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.session (id, "expiresAt", token, "createdAt", "updatedAt", "ipAddress", "userAgent", "userId") VALUES ('X1YTklfuQty0eVHzTQg4sePthvYfTRUW', '2026-03-06 14:41:41.573', 'zCfvrSa6urDhAkoEzpDSuYAfUox4qW3c', '2026-02-27 14:41:41.574', '2026-02-27 14:41:41.574', '', 'okhttp/4.12.0', '322EZBMz9mlGPzuJM0UmhQv8BkBiO3EC');
+INSERT INTO public.session (id, "expiresAt", token, "createdAt", "updatedAt", "ipAddress", "userAgent", "userId") VALUES ('1gb7VquR9OhP3hawTjOLMcIJoqgXlOxh', '2027-03-06 15:20:28.871', 'wMoLMjJj1DJtXjSg1rHteqvBZN44tHdC', '2026-02-27 15:20:28.871', '2026-02-27 15:20:28.871', '', 'okhttp/4.12.0', '322EZBMz9mlGPzuJM0UmhQv8BkBiO3EC');
 
 --
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: postgres
