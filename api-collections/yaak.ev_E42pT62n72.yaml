@@ -3,7 +3,7 @@ model: environment
 id: ev_E42pT62n72
 workspaceId: wk_uYbS3VsxD9
 createdAt: 2025-10-16T07:23:54.204038
-updatedAt: 2026-02-22T14:42:50.788675800
+updatedAt: 2026-02-27T14:42:14.079694
 name: local
 public: true
 base: false
@@ -16,7 +16,7 @@ variables:
   id: rjM2frX3H2
 - enabled: true
   name: AUTH_TOKEN
-  value: testzgzjiefzhnogkjerzngkojrgkeojrgkeo
+  value: eyJhbGciOiJFZERTQSIsImtpZCI6InlnWmduVG1POTg4enhGWlpISU42MXkxSjdhb1hQbUxRIn0.eyJpYXQiOjE3NzIyMDMzMDEsIm5hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiZW1haWxWZXJpZmllZCI6dHJ1ZSwiaW1hZ2UiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjYtMDItMjdUMTI6NTA6MTcuNDkzWiIsInVwZGF0ZWRBdCI6IjIwMjYtMDItMjdUMTI6NTA6MTcuNDkzWiIsImlkIjoiMzIyRVpCTXo5bWxHUHp1Sk0wVW1oUXY4QmtCaU8zRUMiLCJzdWIiOiIzMjJFWkJNejltbEdQenVKTTBVbWhRdjhCa0JpTzNFQyIsImV4cCI6MTc3MjIwNDIwMSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDozMzMzIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozMzMzIn0.AqNCwhOQPidbTzn4gghXg9H5eDZQbBAWZgfljQ0LwuaLuCaJAIntsO7eU0pfd44MaFbHZAihzxAWtzdrH6pzDg
   id: qaHggtuPcY
 color: var(--info)
 sortPriority: 0.0
