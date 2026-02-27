@@ -36,6 +36,10 @@ npm run start
 ```
 Scannez avec le téléphone le QR code apparu et accédez à l'application.
 
+> Note: le compte pour se connecter est le suivant
+> - email: admin@admin.com
+> - mot de passe: Admin123! 
+
 ## Lancer l'Auth service
 Commande pour lancer l'Auth Service
 
