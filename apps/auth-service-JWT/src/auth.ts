@@ -12,11 +12,31 @@ export const auth = betterAuth({
   baseURL: "http://localhost:3333",
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
+    autoSignIn: false,
     sendResetPassword: async ({ user, url, token }, request) => {
+      // Only send reset password email if email has been verified
+      if (!user.emailVerified) {
+        throw new Error("Email must be verified before resetting password");
+      }
+      
       url = `${WEB_SERVICE_AUTHENTIFICATION_URL}/reset-password/${token}`;
       await sendEmail({
         to: user.email,
         URL_RESET_PASSWORD: url,
+      });
+    },
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: false,
+    sendVerificationEmail: async ({ user, url, token }, request) => {
+
+      // L'URL pointera vers votre site web
+      url = `${WEB_SERVICE_AUTHENTIFICATION_URL}/verify-email/${token}`;
+      await sendEmail({
+        to: user.email,
+        URL_VERIFICATION: url,
       });
     },
   },

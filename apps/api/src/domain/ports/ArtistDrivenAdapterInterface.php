@@ -83,4 +83,12 @@ interface ArtistDrivenAdapterInterface
      * @return array
      */
     public function searchArtists(string $search, int $limit): array;
+
+    /**
+     * Méthode pour vérifier si un artiste est liké
+     * @param string $id_user
+     * @param int $id_artist
+     * @return bool
+     */
+    public function isArtistLiked(string $id_user, int $id_artist): bool;
 }

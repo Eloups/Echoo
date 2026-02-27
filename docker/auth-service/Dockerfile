@@ -1,10 +1,11 @@
-FROM node:20-alpine
+FROM oven/bun:1.3.10-alpine
 
-WORKDIR /app
+COPY ./apps/auth-service-JWT /api
+COPY ./apps/auth-service-JWT/.env.docker /api/.env
 
-COPY ./apps/auth-service .
-COPY ./apps/auth-service/.env.docker ./.env
-RUN npm install
-EXPOSE 3000
-# ENTRYPOINT  ["sh"]
-CMD ["node", "index.js"]
+WORKDIR /api
+
+RUN bun install
+RUN bunx prisma generate
+
+ENTRYPOINT [ "bun", "run", "dev" ] 

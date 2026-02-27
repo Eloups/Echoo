@@ -53,5 +53,16 @@ export const ArtistService = {
    */
   getAllProjectsByUserID: async (userId: string): Promise<Project> => {
     return await apiClient.get<Project>(`/project/library/${userId}/all`)
-  }
+  },
+
+  /**
+   * Vérifier si une musique est déjà liké par l'utilisateur
+   * GET /music/user/isLike
+   */
+  getIsArtistIsLike: async (userId: string, artistId: number): Promise<boolean> => {
+    return await apiClient.post('/artist/user/isLike', {
+      id_user: userId.toString(),
+      id_artist: artistId
+    });
+  },
 };

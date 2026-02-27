@@ -1,4 +1,5 @@
 import { View, ScrollView, Image, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
+import { useEffect, useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -6,6 +7,10 @@ import MusicCard from '@/lib/components/musicCard';
 import SectionTitle from '@/lib/components/sectionTitle';
 import { useArtistPage } from './artistPageContext';
 import { LoadingSpinner } from '@/lib/components/global/BtnConnexion';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { User } from '@/lib/types/auth';
+import { UserService } from '@/lib/api/user.service';
+import { ArtistService } from '@/lib/api';
 
 export default function PresentationPage() {
     const { theme } = useTheme();
@@ -19,7 +24,25 @@ export default function PresentationPage() {
             </View>
         );
     }
-    
+
+    const userId = "3";
+
+    const [isArtistLike, setIsArtistLike] = useState<boolean>(false);
+
+    //Vérifie si l'artiste est déjà liké par un utilisateur
+    useEffect(() => {
+        if (artist.id != null) {
+            ArtistService.getIsArtistIsLike(userId, artist.id)
+            .then(setIsArtistLike);
+        }
+    }, [])
+
+    const handleArtistLike = () => {
+        if (artist.id != null) {
+            setIsArtistLike(!isArtistLike);
+            UserService.postLikeArtist(userId, artist.id);
+        }
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -50,16 +73,14 @@ export default function PresentationPage() {
                             <AppText size="3xl" weight='bold' style={{ fontWeight: 'bold', color: 'white' }}>
                                 {artist.title}
                             </AppText>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-
-                                <Pressable
-                                    onPress={() => {
-                                        console.log('Suivre l\'artiste');
-                                    }}
-                                >
-                                    <MaterialIcons name="favorite-border" size={32} color="white" />
-                                </Pressable>
-                            </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                                    
+                                    <Pressable
+                                        onPress={() => handleArtistLike()}
+                                    >
+                                        <MaterialIcons name={isArtistLike ? "favorite" : "favorite-border"} size={32} color={isArtistLike ? '#DB1151' : "white"} />
+                                    </Pressable>
+                                </View>
                         </View>
                     </View>
                 </View>

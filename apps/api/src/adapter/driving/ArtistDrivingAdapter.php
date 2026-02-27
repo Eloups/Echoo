@@ -6,6 +6,7 @@ use Api\Adapter\DTO\ArtistPageDTO;
 use Api\Domain\Service\ArtistService;
 use Api\Exception\ApiCustomException;
 use Api\Utils\SerializerUtils;
+use Api\Utils\VerifyUtils;
 use DateTime;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
@@ -133,5 +134,18 @@ class ArtistDrivingAdapter
         [$artists, $projects, $musics] = $service->searchArtists(strtolower($search), $limit);
 
         return new Response(SerializerUtils::get()->serialize(['artists' => $artists, 'projects' => $projects, 'musics' => $musics], "json"));
+    }
+
+    /**
+     * Récupération des données de la requête puis lancement du service des projets pour ajouter un like à un projet
+     * @param string $requestBody
+     * @return Response
+     */
+    public function isArtistLiked(string $requestBody): Response
+    {
+        $body = VerifyUtils::verifyJsonRequestBody($requestBody, ['id_user', 'id_artist']);
+        $service = new ArtistService();
+        $isLike = $service->isArtistLiked($body['id_user'], $body['id_artist']);
+        return new Response(json_encode(['isLike' => $isLike]));
     }
 }

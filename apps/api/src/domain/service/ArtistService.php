@@ -135,4 +135,15 @@ class ArtistService implements ArtistServiceInterface
 
         return [$artists, $projects, $musics];
     }
+
+    /**
+     * Action de la vérification si un artiste est liké
+     * @param string $id_user
+     * @param int $id_artist
+     * @return bool
+     */
+    public function isArtistLiked(string $id_user, int $id_artist): bool {
+        $driven = new ArtistDrivenAdapter();
+        return $driven->isArtistLiked($id_user, $id_artist);
+    }
 }

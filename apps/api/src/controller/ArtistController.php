@@ -55,6 +55,7 @@ class ArtistController implements ControllerInterface
             'singles' => $adapter->getArtistSingles($this->params["id"]),
             'mostMistenedMonth' => $adapter->getMostListenedArtistsOfTheMonth($limit),
             'search' => $adapter->searchArtists($this->params['search'], $limit),
+            'isArtistLiked' => $adapter->isArtistLiked($request->getContent()),
             default => throw new ResourceNotFoundException(),
         };
     }

@@ -58,4 +58,12 @@ interface ArtistServiceInterface
      * @return array
      */
     public function searchArtists(string $search, int $limit): array;
+
+    /**
+     * Action de la vérification si un artiste est liké
+     * @param string $id_user
+     * @param int $id_artist
+     * @return bool
+     */
+    public function isArtistLiked(string $id_user, int $id_artist): bool;
 }

@@ -1,9 +1,10 @@
 import React from "react";
 import { View, Pressable, Text, Image, RootTagContext } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { router } from "expo-router";
+import { router, useSegments } from "expo-router";
 import { useTheme } from "@/lib/theme/provider";
 import AppText from "./global/appText";
+import useGlobalHook from "@/hook/globalHook";
 
 const pp = require("../../assets/img/pp.jpg");
 
@@ -15,6 +16,22 @@ type Props = {
 export default function AppHeader({ title, subtitle }: Props) {
     const insets = useSafeAreaInsets();
     const { theme } = useTheme();
+    const { user } = useGlobalHook();
+    const segments = useSegments();
+
+    const handlePress = () => {
+        // Construire le chemin actuel
+        const currentPath = '/' + segments.join('/');
+
+        router.push({
+            pathname: "/(tabs)/user/compte",
+            params: {
+                title: user?.username || "Compte",
+                data: JSON.stringify(user),
+                from: currentPath
+            }
+        });
+    };
 
     return (
         <View
@@ -29,11 +46,11 @@ export default function AppHeader({ title, subtitle }: Props) {
             }}
         >
             <Pressable
-                onPress={() => router.push("/connexion/compte")}
+                onPress={handlePress}
                 style={{ width: 34, height: 34, borderRadius: 17, overflow: "hidden" }}
             >
                 <Image
-                    source={pp}
+                    source={user?.image ? { uri: user.image } : pp}
                     style={{ width: "100%", height: "100%" }}
                 />
             </Pressable>
