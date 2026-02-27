@@ -22,8 +22,6 @@ export default function CompteScreen() {
         logout();
     }
 
-    console.log("user = ", user);
-
     return (
         <ScrollView
             style={{
@@ -39,7 +37,6 @@ export default function CompteScreen() {
         >
             <View style={{ width: "100%", height: 100, flexDirection: "row", gap: 20, alignItems: "center", marginTop: 40 }}>
                 <View style={{ width: 100, height: 100 }}>
-
                     <Image
                         source={user?.image ? { uri: user.image } : pp}
                         style={{ width: "100%", height: "100%", borderRadius: 50 }}
@@ -49,7 +46,6 @@ export default function CompteScreen() {
                     <AppText size="3xl" >{user?.username || "Test"}</AppText>
                     <AppText size="xs" >XX amis - XX suivis</AppText>
                 </View>
-
             </View>
 
             <View style={{ width: "100%", marginTop: 20 }} >
