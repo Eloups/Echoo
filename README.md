@@ -36,6 +36,10 @@ npm run start
 ```
 Scannez avec le téléphone le QR code apparu et accédez à l'application.
 
+> Note: le compte pour se connecter est le suivant
+> - email: admin@admin.com
+> - mot de passe: Admin123! 
+
 ## Lancer l'Auth service
 Commande pour lancer l'Auth Service
 
@@ -66,6 +70,17 @@ npx prisma studio
 - Mot de passe : `Test1234_`
 
 **Pour vous reconnecter** : Entrez simplement `A` dans les champs email et mot de passe.
+
+## Lancer formunaile d'authentification web  
+lancé le formilaire d'authentification permettant de confirmé son mail ou de modifier s'on mot de passe
+
+Ouvrez un terminal PowerShell à la racine du projet puis tapez les commandes suivantes :  
+```bash
+cd .\apps\web-service-authentification\
+npm install
+cp .env.exemple .env
+npm run dev
+```
 
 ## Lancement de conteneurs docker
 

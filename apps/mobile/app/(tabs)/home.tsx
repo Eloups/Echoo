@@ -11,16 +11,19 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigation, useFocusEffect } from "expo-router";
 import { HomeService } from "@/lib/api/home.service";
 import { MusicService, apiClient } from "@/lib/api";
+import { useGlobalHook } from "@/hook";
 
 const placeholderImage = require("../../assets/images/react-logo.png");
 
 export default function home() {
     const { theme } = useTheme();
+    const { user } = useGlobalHook();
+
     const navigation = useNavigation();
     const [lastListenedMusics, setLastListenedMusics] = useState<Music[]>([]);
     const [latestReleases, setLatestReleases] = useState<Project[]>([]);
     const [monthArtists, setMonthArtists] = useState<Artist[]>([]);
-    
+
     useEffect(() => {
         navigation.setOptions({
             title: "Accueil",
@@ -29,24 +32,25 @@ export default function home() {
     }, [navigation]);
 
     useFocusEffect(
+
         useCallback(() => {
             const fetchLastListenedMusics = async () => {
                 try {
                     // TODO: Remplacer l'ID hardcodé par l'ID de l'utilisateur connecté
                     const userId = 3;
                     const data = await HomeService.getLastListenedMusics(userId);
-                    
+
                     // Vérifier si des musiques ont été retournées
                     if (!data.musics || data.musics.length === 0) {
                         setLastListenedMusics([]);
                         return;
                     }
-                    
+
                     // Récupérer les covers pour chaque musique
                     const mappedMusics: Music[] = await Promise.all(
                         data.musics.map(async (apiMusic) => {
                             let coverUri = placeholderImage;
-                            
+
                             try {
                                 const coverData = await MusicService.getMusicCoverPath(apiMusic.id);
                                 if (coverData.cover_path) {
@@ -55,7 +59,7 @@ export default function home() {
                             } catch (error) {
                                 console.error(`Erreur lors de la récupération de la cover pour la musique ${apiMusic.id}:`, error);
                             }
-                            
+
                             return {
                                 id: apiMusic.id,
                                 title: apiMusic.title,
@@ -69,7 +73,7 @@ export default function home() {
                             };
                         })
                     );
-                    
+
                     setLastListenedMusics(mappedMusics);
                 } catch (error) {
                     console.error("Erreur lors de la récupération des dernières musiques écoutées:", error);
@@ -91,11 +95,11 @@ export default function home() {
                     // Mapper les projets de l'API vers le type Project
                     const mappedProjects: Project[] = data.projects.map((apiProject) => {
                         let coverUri = placeholderImage;
-                        
+
                         if (apiProject.coverPath) {
                             coverUri = { uri: apiClient.getImageUrl(apiProject.coverPath) };
                         }
-                        
+
                         return {
                             id: apiProject.id,
                             cover: coverUri,
@@ -106,7 +110,7 @@ export default function home() {
                             musics: []
                         } as Project;
                     });
-                    
+
                     setLatestReleases(mappedProjects);
                 } catch (error) {
                     console.error("Erreur lors de la récupération des dernières sorties:", error);
@@ -125,29 +129,43 @@ export default function home() {
                     // Mapper les artistes de l'API vers le type Artist
                     const mappedArtists: Artist[] = data.artists.map((apiArtist) => {
                         let coverUri = placeholderImage;
-                        
+
                         if (apiArtist.imagePath) {
                             coverUri = { uri: apiClient.getImageUrl(apiArtist.imagePath) };
                         }
-                        
+
                         return {
                             id: apiArtist.id,
                             cover: coverUri,
                             title: apiArtist.name
                         };
                     });
-                    
+
                     setMonthArtists(mappedArtists);
                 } catch (error) {
                     console.error("Erreur lors de la récupération des artistes du mois:", error);
                 }
             };
 
-            fetchLastListenedMusics();
-            fetchLatestReleases();
-            fetchMonthArtists();
+            if (user && user.id) {
+                fetchLastListenedMusics();
+                fetchLatestReleases();
+                fetchMonthArtists();
+            }
         }, [])
     );
+
+    const handleAlbumPress = (album: Project) => {
+        const currentPath = '/' + segments.join('/');
+        router.push({
+            pathname: "/(tabs)/detail",
+            params: {
+                data: JSON.stringify(album),
+                from: currentPath
+            }
+        });
+    };
+
 
     const albumTemp: Project = {
         cover: placeholderImage,
@@ -209,19 +227,19 @@ export default function home() {
     const artistList: Artist[] = [artist1, artist2, artist3, artist1, artist2, artist3];
     const musicList: Music[] = [musicTemp, musicTemp2, musicTemp3, musicTemp];
     const releasedRecentlyList: Music[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
-    
+
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: theme.colors.background }} contentContainerStyle={{ paddingBottom: 100 }}>
-                            <SectionTitle text="Derniers morceaux écoutés"></SectionTitle>
+            <SectionTitle text="Derniers morceaux écoutés"></SectionTitle>
 
-            <View style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingHorizontal: 24}}>
+            <View style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingHorizontal: 24 }}>
 
                 {lastListenedMusics.length > 0 ? (
                     <View style={{ display: "flex", gap: 9, width: '100%' }}>
                         {lastListenedMusics.slice(0, 3).map((music, index) => (
                             <LastSongPlayedCard key={music.id} music={music}></LastSongPlayedCard>
-                        ))} 
+                        ))}
                     </View>
                 ) : (
                     <View style={{ width: '100%', paddingVertical: 20, alignItems: 'center' }}>
