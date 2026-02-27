@@ -67,8 +67,8 @@ export default function PresentationPage() {
                 {/* Morceaux populaires */}
                 <View>
                     <SectionTitle text="Morceaux populaires" />
-                    <View style={{ paddingHorizontal: 20 }}>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }}>
+                    <View>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15, paddingHorizontal: 20 }}>
                             {popularTracks.map((track, index) => (
                                 <View key={index}>
                                     <MusicCard
@@ -85,8 +85,8 @@ export default function PresentationPage() {
                 {/* Dernières sorties */}
                 <View style={{ marginTop: 20 }}>
                     <SectionTitle text="Dernières sorties" />
-                    <View style={{ paddingHorizontal: 20, marginBottom: 30 }}>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }}>
+                    <View style={{  marginBottom: 30 }}>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15, paddingHorizontal: 20 }}>
                             {recentReleases.map((release, index) => (
                                 <View key={index}>
                                     <MusicCard

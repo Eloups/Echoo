@@ -29,7 +29,14 @@ export default function MusicCard(props: PageProps) {
     };
 
     return (
-        <Pressable onPress={handlePress}>
+        <Pressable
+            onPress={handlePress}
+            unstable_pressDelay={120}
+            style={({ pressed }) => [
+                styles.pressableContainer,
+                pressed && { backgroundColor: theme.colors.background2 }
+            ]}
+        >
             <View>
                 {props.isSearch === false && props.isHome === true ? (
                     <View>
@@ -53,6 +60,11 @@ export default function MusicCard(props: PageProps) {
 }
 
 const styles = StyleSheet.create({
+    pressableContainer: {
+        borderRadius: 8,
+        paddingHorizontal: 4,
+        paddingVertical: 4,
+    },
     imageMusic: {
         height: 95,
         width: 95,
