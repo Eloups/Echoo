@@ -16,15 +16,6 @@ export default function PresentationPage() {
     const { theme } = useTheme();
     const { artist, popularTracks, recentReleases, loading } = useArtistPage();
 
-    if (loading) {
-        return (
-            <View style={{ flex: 1, backgroundColor: theme.colors.background, justifyContent: 'center', alignItems: 'center' }}>
-                <LoadingSpinner size={26} color={theme.colors.primary} />
-                <AppText style={{ marginTop: 10 }}>Chargement des informations de l'artiste...</AppText>
-            </View>
-        );
-    }
-
     const userId = "3";
 
     const [isArtistLike, setIsArtistLike] = useState<boolean>(false);
@@ -35,7 +26,16 @@ export default function PresentationPage() {
             ArtistService.getIsArtistIsLike(userId, artist.id)
             .then(setIsArtistLike);
         }
-    }, [])
+    }, [artist.id])
+
+    if (loading) {
+        return (
+            <View style={{ flex: 1, backgroundColor: theme.colors.background, justifyContent: 'center', alignItems: 'center' }}>
+                <LoadingSpinner size={26} color={theme.colors.primary} />
+                <AppText style={{ marginTop: 10 }}>Chargement des informations de l'artiste...</AppText>
+            </View>
+        );
+    }
 
     const handleArtistLike = () => {
         if (artist.id != null) {

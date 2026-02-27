@@ -74,6 +74,10 @@ export interface ArtistAlbumsResponse {
   albums: ArtistAlbum[];
 }
 
+export interface ArtistSinglesResponse {
+  singles: ArtistAlbum[];
+}
+
 export interface Music {
   id: number;
   titre: string;
