@@ -1,4 +1,4 @@
-import { View, ScrollView, Image, Pressable, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, ScrollView, Image, Pressable, TouchableOpacity, StyleSheet } from 'react-native';
 import { useEffect, useMemo, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@/lib/theme/provider';
@@ -9,6 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import DetailMusicCard from '@/lib/components/detailMusicCard';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { AlbumService, apiClient } from '@/lib/api';
+import { LoadingSpinner } from './global/BtnConnexion';
 
 const IMAGE_SIZE = 200;
 const placeholderImage = require("../../assets/images/react-logo.png");
@@ -129,7 +130,7 @@ export default function ProjectDetailsPage() {
     if (loading && !project) {
         return (
             <View style={{ flex: 1, backgroundColor: theme.colors.background, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size="large" color={theme.colors.primary} />
+                <LoadingSpinner size={20} color={theme.colors.primary} />
                 <AppText style={{ marginTop: 10 }}>Chargement de l'album...</AppText>
             </View>
         );

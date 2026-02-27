@@ -1,4 +1,4 @@
-import { Modal, View, Image, Pressable, StyleSheet, Dimensions, ScrollView, ActivityIndicator } from 'react-native';
+import { Modal, View, Image, Pressable, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
 import usePlayerStore from '@/hook/usePlayerStore';
@@ -9,6 +9,7 @@ import Slider from '@react-native-community/slider';
 import QueueModal from './queueModal';
 import { UserService } from '../api/user.service';
 import { MusicService } from '../api';
+import { LoadingSpinner } from './global/BtnConnexion';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -136,7 +137,7 @@ export default function PlayerModal() {
             {/* Indicateur de chargement pendant le seek */}
             {isLoading && (
               <View style={styles.loadingOverlay}>
-                <ActivityIndicator size="large" color={theme.colors.primary} />
+                <LoadingSpinner size={20} color={theme.colors.primary} />
                 <AppText size="sm" color="text2" style={{ marginTop: 10 }}>
                   Chargement...
                 </AppText>
