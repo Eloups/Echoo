@@ -128,6 +128,7 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
       const nextIndex = (currentIndex + 1) % queue.length;
       const nextTrack = queue[nextIndex];
       const fileName = nextTrack.audioFile || 'default.mp3';
+      set({ isLoading: true });
       
       // TODO: Récupérer l'ID utilisateur depuis un contexte d'authentification
       const userId = 3;
@@ -146,9 +147,11 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
           progress: 0,
           duration: nextTrack.duration || 0,
           isPlaying: true,
+          isLoading: false,
         });
       } catch (error) {
         console.error('Erreur lors du changement de piste:', error);
+        set({ isLoading: false });
       }
     }
   },
@@ -164,6 +167,7 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
       const prevIndex = currentIndex === 0 ? queue.length - 1 : currentIndex - 1;
       const prevTrack = queue[prevIndex];
       const fileName = prevTrack.audioFile || 'default.mp3';
+      set({ isLoading: true });
       
       // TODO: Récupérer l'ID utilisateur depuis un contexte d'authentification
       const userId = 3;
@@ -181,9 +185,11 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
           progress: 0,
           duration: prevTrack.duration || 0,
           isPlaying: true,
+          isLoading: false,
         });
       } catch (error) {
         console.error('Erreur lors du changement de piste:', error);
+        set({ isLoading: false });
       }
     }
   },
