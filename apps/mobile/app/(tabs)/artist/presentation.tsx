@@ -43,12 +43,11 @@ export default function PresentationPage() {
 
     //Vérifie si l'artiste est déjà liké par un utilisateur
     useEffect(() => {
-    if (artistData !== null) {
-        ArtistService.getIsArtistIsLike(userId, artistData.id)
-        .then(setIsArtistLike);
-    }
-    
-    }, [artistData])
+        if (artistData !== null) {
+            ArtistService.getIsArtistIsLike(userId, artistData.id)
+            .then(setIsArtistLike);
+        }
+    }, [])
 
     const handleArtistLike = () => {
         setIsArtistLike(!isArtistLike);
@@ -87,9 +86,9 @@ export default function PresentationPage() {
                                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                                     
                                     <Pressable
-                                        onPress={handleArtistLike}
+                                        onPress={() => handleArtistLike()}
                                     >
-                                        <MaterialIcons name="favorite-border" size={32} color="white" />
+                                        <MaterialIcons name={isArtistLike ? "favorite" : "favorite-border"} size={32} color={isArtistLike ? '#DB1151' : "white"} />
                                     </Pressable>
                                 </View>
                         </View>
