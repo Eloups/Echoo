@@ -1,3 +1,4 @@
+import { Project } from '../types/types';
 import { apiClient } from './client';
 import { Artist, ArtistPage } from './types';
 
@@ -29,4 +30,12 @@ export const ArtistService = {
   getAllArtistsByUserID: async (userId: number): Promise<any> => {
     return await apiClient.get<any>(`/artist/library/${userId}/all`);
   },
+
+  /**
+   * Récupérer tous les albums likés de l'tilisateur
+   * GET /project/library/3/all
+   */
+  getAllProjectsByUserID: async (userId: string): Promise<Project> => {
+    return await apiClient.get<Project>(`/project/library/${userId}/all`)
+  }
 };

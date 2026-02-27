@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_2neSpXdsMV
 createdAt: 2025-12-10T14:18:16.752837600
-updatedAt: 2025-12-10T14:50:41.428345800
+updatedAt: 2026-02-22T17:35:40.095241400
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_WSmhPPxA8Y
 authentication: {}
@@ -14,5 +14,5 @@ headers: []
 method: GET
 name: get one project
 sortPriority: -1765376296750.0
-url: ${[ API_HOST ]}/project/3
+url: ${[ API_HOST ]}/project/5
 urlParameters: []

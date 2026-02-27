@@ -5,6 +5,7 @@
 
 export * from './types';
 export * from './client';
+export { AlbumService } from './album.service';
 export { ArtistService } from './artist.service';
 export { MusicService } from './music.service';
 export { PlaylistService } from './playlist.service';

@@ -6,9 +6,7 @@ use Api\Adapter\MusicDrivenAdapter;
 use Api\Domain\Class\Music;
 use Api\Domain\Class\Rating;
 use Api\Domain\Ports\MusicServiceInterface;
-use DateTime;
 use Exception;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Classe de service des musiques
@@ -34,11 +32,11 @@ class MusicService implements MusicServiceInterface
 
     /**
      * Action de l'ajout d'un like sur une musique
-     * @param int $id_user
+     * @param string $id_user
      * @param int $id_music
      * @return void
      */
-    public function likeMusic(int $id_user, int $id_music): void
+    public function likeMusic(string $id_user, int $id_music): void
     {
         $driven = new MusicDrivenAdapter();
         $driven->addLike($id_user, $id_music);
@@ -75,5 +73,17 @@ class MusicService implements MusicServiceInterface
         $cover_path = $driven->getCoverFileProject($id_music);
 
         return $cover_path;
+    }
+
+    /**
+     * Action de la vérification si une musique est likée par un utilisateur
+     * @param string $id_user
+     * @param int $id_music
+     * @return bool
+     */
+    public function getIsMusicLikeByUser(string $id_user, int $id_music): bool {
+        $driven = new MusicDrivenAdapter();
+        $isLike = $driven->getIsMusicLikeByUser($id_user, $id_music);
+        return $isLike;
     }
 }

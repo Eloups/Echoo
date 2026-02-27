@@ -55,6 +55,7 @@ export default function PlaylistCard(props: PlaylistCardProps) {
                             <AppText size={"lg"}>
                                 {props.infos.title.length > 36 ? props.infos.title.slice(0, 34) + "..." : props.infos.title}
                             </AppText>
+                            <AppText size="sm" color="text2">{props.infos.nbMusics} morceaux</AppText>
                         </View>
                     </View>
                 )}

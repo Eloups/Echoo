@@ -35,10 +35,9 @@ export default function Playlists() {
                     artist: `${playlist.musics?.length || 0} morceaux`,
                     color1: "#965F4C",
                     color2: "#291A15",
-                    nbStreams: 0,
                     type: "playlist" as const,
                     description: playlist.description || "",
-                    nbMusics: playlist.musics?.length || 0,
+                    nbMusics: playlist.nbMusics,
                     musicList: playlist.musics?.map((music: any) => ({
                         id: music.id,
                         cover: music.coverPath 
