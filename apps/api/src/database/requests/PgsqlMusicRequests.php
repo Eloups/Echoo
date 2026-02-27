@@ -202,6 +202,23 @@ class PgsqlMusicRequests
     }
 
     /**
+     * Requête pour récupérer les colors d'un projet à partir de l'id d'une musique
+     * @param int $id_music
+     * @return array
+     */
+    public function getColorsProject(int $id_music): array {
+        $getColorsProject = "SELECT p.color1, p.color2
+        FROM project p
+        JOIN project_music pm ON pm.id_project = p.id
+        WHERE pm.id_music = :id_music LIMIT 1;";
+
+        $request = $this->pdo->prepare(query: $getColorsProject);
+        $request->execute([":id_music" => $id_music]);
+
+        return $request->fetchAll();
+    }
+
+    /**
      * Requête pour vérifier si une musique est like par un utilisateur
      * @param string $id_user
      * @param int $id_music
