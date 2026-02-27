@@ -5,15 +5,18 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 
 
-export async function sendEmail({ to, URL_RESET_PASSWORD }: { to: string, URL_RESET_PASSWORD: string }) {
+export async function sendEmail({ to, URL_RESET_PASSWORD ="", URL_VERIFICATION = "" }: { to: string, URL_RESET_PASSWORD?: string, URL_VERIFICATION?: string }) {
+  
+  let urlUse = URL_RESET_PASSWORD ? URL_RESET_PASSWORD : URL_VERIFICATION;
+  let templateId = URL_RESET_PASSWORD ? 'reset-mdp' : 'confirme-mail';
   try {
     return await resend.emails.send({
       from: 'Echoo_no-reply@resend.dev',
       to,
       template: {
-        id: 'test-init-mdp', //c'est l'id du template crée sur resend
+        id: templateId, //c'est l'id du template crée sur resend
         variables: {
-          URL_RESET_PASSWORD
+          URL_REDIRECTION: urlUse,
         }
       },
     });

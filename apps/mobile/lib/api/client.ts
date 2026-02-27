@@ -1,11 +1,10 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { MusicService } from './music.service';
+import { useAuthHook } from '../../hook/authHook';
+import { config } from 'better-auth';
 
 // Configuration de l'URL de base de l'API depuis les variables d'environnement
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
-
-
-
 // Client API centralisé avec Axios
 // Gère toutes les requêtes HTTP vers l'API backend
 class ApiClient {
@@ -24,6 +23,11 @@ class ApiClient {
     // Intercepteur de requêtes (pour ajouter des tokens, logs, etc.)
     this.client.interceptors.request.use(
       (config) => {
+        // Ajouter le token d'authentification si disponible
+        const token = useAuthHook.getState().token;
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
         return config;
       },
       (error: any) => {
@@ -54,7 +58,7 @@ class ApiClient {
       console.log('Backend error response:', error.response.data);
 
       const message = error.response.data || error.message;
-      
+
       switch (status) {
         case 400:
           return new Error(`Requête invalide: ${message}`);
@@ -78,64 +82,62 @@ class ApiClient {
     }
   }
 
-  
+
   // Méthode GET
   async get<T>(url: string, params?: Record<string, any>): Promise<T> {
     const response = await this.client.get<T>(url, { params });
     return response.data;
   }
 
-  
+
   // Méthode POST
   async post<T>(url: string, data?: any, isFile: boolean = false): Promise<T> {
-    let config = {};
-    if (isFile) {
-      config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Accept': 'application/json',
-        },
-      };
-    }
+    const config = isFile ? {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Accept': 'application/json',
+      },
+    } : {};
+
     const response = await this.client.post<T>(url, data, config);
     return response.data;
   }
-  
+
   // Méthode DELETE
   async delete<T>(url: string, data?: any): Promise<T> {
     const response = await this.client.delete<T>(url, { data });
     return response.data;
   }
-  
+
   // Méthode PUT
   async put<T>(url: string, data?: any): Promise<T> {
     const response = await this.client.put<T>(url, data);
     return response.data;
   }
 
-  
+
   // Méthode PATCH
   async patch<T>(url: string, data?: any): Promise<T> {
     const response = await this.client.patch<T>(url, data);
     return response.data;
   }
 
-  
 
-  
+
+
   // Récupérer l'URL complète d'une image
   getImageUrl(fileName: string): string {
     return `${API_BASE_URL}/images/${fileName}`;
   }
 
-  
+
   // Récupérer l'URL complète d'un stream audio et enregistrer dans l'historique
   async getStreamUrl(fileName: string, userId: number, musicId: number): Promise<string> {
     // Enregistrer la musique dans l'historique d'écoute (fire-and-forget)
     MusicService.addListenedMusic(userId, musicId).catch(error => {
       console.error("Erreur lors de l'enregistrement de la musique dans l'historique:", error);
     });
-    
+
     return `${API_BASE_URL}/stream/${fileName}`;
   }
 }

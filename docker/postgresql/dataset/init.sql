@@ -291,7 +291,7 @@ insert into project (id, title, release, color1, color2, cover_path, id_type) va
 (22, 'Silence Between Songs', '2023-09-15 12:00:00', '#c9daf8', '#a4c2f4', 'SilenceBetweenSongs.jpg', 1);
 
 insert into library (id) values
-('1'), ('2'), ('3'), ('4'), ('5'), ('6'), ('7'), ('8'), ('9'), ('10');
+('1'), ('2'), ('3'), ('4'), ('5'), ('6'), ('7'), ('8'), ('9'), ('10'), ('322EZBMz9mlGPzuJM0UmhQv8BkBiO3EC');
 
 insert into playlist (title, isPublic, description, cover_path) values
 ('Playlist 1', TRUE, 'Description for playlist 1', 'playlist_1.jpg'),
@@ -312,7 +312,8 @@ insert into playlist (title, isPublic, description, cover_path) values
 ('liked', FALSE, 'Description for playlist liked', 'playlist_16.jpg'),
 ('liked', FALSE, 'Description for playlist liked', 'playlist_17.jpg'),
 ('liked', FALSE, 'Description for playlist liked', 'playlist_18.jpg'),
-('liked', FALSE, 'Description for playlist liked', 'playlist_19.jpg');
+('liked', FALSE, 'Description for playlist liked', 'playlist_19.jpg'),
+('liked', FALSE, 'Playlist des titres likés', '/liked.png');
 
 insert into "user" (id, username, email, image_path, id_library, id_role, id_artist) values
 ('1', 'user1', 'user1@example.com', 'user_1.jpg', '1', 2, 1),
@@ -324,7 +325,8 @@ insert into "user" (id, username, email, image_path, id_library, id_role, id_art
 ('7', 'user7', 'user7@example.com', 'user_7.jpg', '7', 3, 7),
 ('8', 'user8', 'user8@example.com', 'user_8.jpg', '8', 2, NULL),
 ('9', 'user9', 'user9@example.com', 'user_9.jpg', '9', 2, 9),
-('10', 'user10', 'user10@example.com', 'user_10.jpg', '10', 4, NULL);
+('10', 'user10', 'user10@example.com', 'user_10.jpg', '10', 4, NULL),
+('322EZBMz9mlGPzuJM0UmhQv8BkBiO3EC', 'Admin', 'admin@admin.com', '', '322EZBMz9mlGPzuJM0UmhQv8BkBiO3EC', 1, NULL);
 
 insert into conversation (id, created_at, name, image_path, id_creator) values
 (1, '2023-05-15 12:00:00', 'Conversation 1', 'conversation_1.jpg', '1'),
@@ -486,7 +488,8 @@ insert into library_project (id_library, id_project) values
 insert into library_playlist (id_library, id_playlist) values
 ('1', 1), ('1', 2), ('2', 3), ('2', 4), ('3', 5), ('3', 6), ('4', 7), ('4', 8), ('5', 9),
 ('1', 3), ('2', 5), ('3', 7), ('4', 9), ('5', 1),
-('1', 10), ('2', 11), ('3', 12), ('4', 13), ('5', 14), ('6', 15), ('7', 16), ('8', 17), ('9', 18), ('10', 19);
+('1', 10), ('2', 11), ('3', 12), ('4', 13), ('5', 14), ('6', 15), ('7', 16), ('8', 17), ('9', 18), ('10', 19),
+('322EZBMz9mlGPzuJM0UmhQv8BkBiO3EC', 20);
 
 insert into playlist_music (id_playlist, id_music) values
 (1, 1), (1, 2), (2, 3), (2, 4), (3, 5), (3, 6), (4, 7), (4, 8), (5, 9), (5, 10),
