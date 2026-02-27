@@ -98,4 +98,24 @@ class MusicDrivenAdapter implements MusicDrivenAdapterInterface
         $isLike = $request->getIsMusicLikeByUser($id_user, $id_music);
         return $isLike;
     }
+
+    /**
+     * Méthode pour récupérer les colors d'un projet à partir de l'id musique
+     * @param int $id_music
+     * @return array
+     */
+    public function getColorsProject(int $id_music): array
+    {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $request = new PgsqlMusicRequests($pdo);
+
+        $colorsRows = $request->getColorsProject($id_music);
+        $colors = [
+            "color1" => $colorsRows[0]["color1"],
+            "color2" => $colorsRows[0]["color2"]
+        ];
+        return $colors;
+    }
 }
