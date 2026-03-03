@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, Pressable, TouchableOpacity } from "react-native";
+import { View, Image, StyleSheet, Pressable, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
 import { Music } from "../types/types";
 import AppText from "./global/appText";
@@ -9,17 +9,23 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AddToPlaylistModal from './addToPlaylistModal';
 import { MusicService } from "../api";
 import { UserService } from "../api/user.service";
+import { LoadingSpinner } from "./global/BtnConnexion";
 
 type PageProps = {
     infos: Music,
     isSearch: boolean,
-    isHome?: boolean
+    isHome?: boolean,
+    variant?: 'default' | 'playlistToggle',
+    isInPlaylist?: boolean,
+    onTogglePlaylist?: (music: Music, isInPlaylist: boolean) => void | Promise<void>,
+    isToggleLoading?: boolean
 }
 
 // Permet d'afficher une musique
 export default function MusicCard(props: PageProps) {
     const { theme } = useTheme();
     const { playTrack, addToQueue, playNext } = usePlayerStore();
+    const variant = props.variant ?? 'default';
     const [menuVisible, setMenuVisible] = useState(false);
     const [addToPlaylistModalVisible, setAddToPlaylistModalVisible] = useState(false);
     const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
@@ -28,11 +34,12 @@ export default function MusicCard(props: PageProps) {
     props.isHome ?? false;
 
     useEffect(() => {
+        if (!(props.isSearch && variant === 'default')) return;
         if (props.infos !== null) {
             MusicService.getIsMusicIsLike(userId, props.infos.id)
                 .then(setIsMusicLike);
         }
-    }, [props.infos]);
+    }, [props.infos, props.isSearch, variant]);
 
     const handlePress = () => {
         const fileName = props.infos.audioFile;
@@ -75,7 +82,7 @@ export default function MusicCard(props: PageProps) {
                 </View>
             </Pressable>
 
-            {props.isSearch && (
+            {props.isSearch && variant === 'default' && (
                 <View style={styles.rightSection}>
                     <Pressable
                         style={styles.menuButton}
@@ -86,7 +93,27 @@ export default function MusicCard(props: PageProps) {
                 </View>
             )}
 
-            {props.isSearch && menuVisible && (
+            {props.isSearch && variant === 'playlistToggle' && (
+                <View style={styles.rightSection}>
+                    <Pressable
+                        style={styles.menuButton}
+                        disabled={!!props.isToggleLoading}
+                        onPress={() => props.onTogglePlaylist?.(props.infos, !!props.isInPlaylist)}
+                    >
+                        {props.isToggleLoading ? (
+                            <LoadingSpinner size={20} color={theme.colors.primary} />
+                        ) : (
+                            <MaterialIcons
+                                name={props.isInPlaylist ? "remove" : "add"}
+                                size={24}
+                                color={theme.colors.text}
+                            />
+                        )}
+                    </Pressable>
+                </View>
+            )}
+
+            {props.isSearch && variant === 'default' && menuVisible && (
                 <>
                     <Pressable
                         style={styles.menuOverlay}
@@ -143,14 +170,16 @@ export default function MusicCard(props: PageProps) {
                 </>
             )}
 
-            <AddToPlaylistModal
-                visible={addToPlaylistModalVisible}
-                onClose={() => setAddToPlaylistModalVisible(false)}
-                musicId={props.infos.id}
-                onSuccess={() => {
-                    console.log('Musique ajoutée aux playlists avec succès');
-                }}
-            />
+            {variant === 'default' && (
+                <AddToPlaylistModal
+                    visible={addToPlaylistModalVisible}
+                    onClose={() => setAddToPlaylistModalVisible(false)}
+                    musicId={props.infos.id}
+                    onSuccess={() => {
+                        console.log('Musique ajoutée aux playlists avec succès');
+                    }}
+                />
+            )}
         </View>
     )
 }

@@ -1,4 +1,4 @@
-import { View, ScrollView, Image, Pressable, StyleSheet, Modal, TouchableOpacity, Alert } from 'react-native';
+import { View, ScrollView, Image, Pressable, StyleSheet, Modal, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/lib/theme/provider';
@@ -8,9 +8,13 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from './musicCard';
 import DetailMusicCard from './detailMusicCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import Feather from '@expo/vector-icons/Feather';
 import { PlaylistService, apiClient, MusicService, ImageService } from '@/lib/api';
+import { HomeService } from '@/lib/api/home.service';
 import EditPlaylistModal from './editPlaylistModal';
 import { LoadingSpinner } from './global/BtnConnexion';
+
+const placeholderImage = require('../../assets/images/react-logo.png');
 
 type PlaylistDetailPageProps = {
     data: Playlist;
@@ -26,6 +30,10 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
     const [loading, setLoading] = useState(true);
     const [musicList, setMusicList] = useState<Music[]>([]);
     const [totalDuration, setTotalDuration] = useState(0);
+    const [searchField, setSearchField] = useState('');
+    const [searchMusics, setSearchMusics] = useState<Music[]>([]);
+    const [searchLoading, setSearchLoading] = useState(false);
+    const [pendingToggleMusicIds, setPendingToggleMusicIds] = useState<number[]>([]);
 
     const fetchPlaylistDetails = async () => {
         if (!data.id) return;
@@ -81,6 +89,68 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
     useEffect(() => {
         fetchPlaylistDetails();
     }, [data.id]);
+
+    useEffect(() => {
+        if (!modalVisible) return;
+
+        const trimmed = searchField.trim();
+
+        if (trimmed.length === 0) {
+            setSearchMusics([]);
+            setSearchLoading(false);
+            return;
+        }
+
+        if (trimmed.length < 3) {
+            setSearchMusics([]);
+            setSearchLoading(false);
+            return;
+        }
+
+        setSearchLoading(true);
+
+        const debounceTimer = setTimeout(async () => {
+            try {
+                const data = await HomeService.searchInDB(trimmed);
+
+                const mappedMusics: Music[] = await Promise.all(
+                    (data.musics || []).map(async (music: any) => {
+                        let coverUri: any = placeholderImage;
+
+                        try {
+                            const coverData = await MusicService.getMusicCoverPath(music.id);
+                            if (coverData?.cover_path) {
+                                coverUri = { uri: apiClient.getImageUrl(coverData.cover_path) };
+                            }
+                        } catch (error) {
+                            console.error(`Erreur cover musique ${music.id}:`, error);
+                        }
+
+                        return {
+                            ...music,
+                            artist: music.nameArtist ?? music.artist ?? "Artiste inconnu",
+                            cover: coverUri,
+                            color1: "#04131D",
+                            color2: "#082840",
+                            audioFile: music.filePath,
+                            duration: music.duration || 0,
+                        } as Music;
+                    })
+                );
+
+                setSearchMusics(mappedMusics);
+            } catch (error: any) {
+                if (error?.response?.status !== 400) {
+                    console.error('Erreur recherche musiques :', error);
+                }
+                setSearchMusics([]);
+            } finally {
+                setSearchLoading(false);
+            }
+        }, 500);
+
+        return () => clearTimeout(debounceTimer);
+    }, [searchField, modalVisible]);
 
     const formatDuration = (seconds: number): string => {
         const mins = Math.floor(seconds / 60);
@@ -150,6 +220,27 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                 }
             ]
         );
+    };
+
+    const handleToggleMusicInPlaylist = async (music: Music, isInPlaylist: boolean) => {
+        if (!data.id) return;
+
+        try {
+            setPendingToggleMusicIds((prev) => prev.includes(music.id) ? prev : [...prev, music.id]);
+
+            if (isInPlaylist) {
+                await PlaylistService.deleteMusicFromPlaylist(data.id, music.id);
+            } else {
+                await PlaylistService.addMusicToPlaylist(data.id, music.id);
+            }
+
+            await fetchPlaylistDetails();
+        } catch (err) {
+            console.error('Erreur lors de la mise à jour de la playlist:', err);
+            Alert.alert('Erreur', 'Impossible de mettre à jour la playlist');
+        } finally {
+            setPendingToggleMusicIds((prev) => prev.filter((id) => id !== music.id));
+        }
     };
 
     return (
@@ -293,7 +384,11 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
 
                 {/* Bouton pour ajouter des musiques à la playlist */}
                 <Pressable
-                    onPress={() => setModalVisible(true)}
+                    onPress={() => {
+                        setSearchField('');
+                        setSearchMusics([]);
+                        setModalVisible(true);
+                    }}
                     style={{
                         position: 'absolute',
                         bottom: 90,
@@ -314,7 +409,7 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                     <MaterialIcons name="add" size={30} color="#fff" />
                 </Pressable>
 
-                {/* Modale vide */}
+                {/* Modale ajout de musiques */}
                 <Modal
                     animationType="slide"
                     visible={modalVisible}
@@ -323,14 +418,54 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                 >
                     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
                         <View style={[styles.modalContent, { backgroundColor: theme.colors.background }]}>
-                            <Pressable
-                                onPress={() => setModalVisible(false)}
-                                style={{ alignSelf: 'flex-end', padding: 10 }}
-                            >
-                                <MaterialIcons name="close" size={24} color={theme.colors.text} />
-                            </Pressable>
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                <AppText size="lg">Modale vide</AppText>
+                            <View style={styles.modalHeader}>
+                                <View style={[styles.searchInputContainer, { borderColor: theme.colors.primary }]}> 
+                                    <TextInput
+                                        style={[styles.searchInput, { color: theme.colors.text }]}
+                                        placeholder="Rechercher une musique"
+                                        placeholderTextColor={theme.colors.text2}
+                                        value={searchField}
+                                        onChangeText={setSearchField}
+                                    />
+                                    <Feather name="search" size={20} color={theme.colors.text} />
+                                </View>
+                                <Pressable
+                                    onPress={() => setModalVisible(false)}
+                                    style={{ padding: 10 }}
+                                >
+                                    <MaterialIcons name="close" size={24} color={theme.colors.text} />
+                                </Pressable>
+                            </View>
+
+                            <View style={{ flex: 1, marginTop: 12 }}>
+                                {searchLoading ? (
+                                    <View style={styles.centeredState}>
+                                        <LoadingSpinner size={20} color={theme.colors.primary} />
+                                    </View>
+                                ) : searchField.trim().length < 3 ? (
+                                    <View style={styles.centeredState}>
+                                        <AppText color="text2">Tape au moins 3 caractères</AppText>
+                                    </View>
+                                ) : searchMusics.length === 0 ? (
+                                    <View style={styles.centeredState}>
+                                        <AppText color="text2">Aucune musique trouvée</AppText>
+                                    </View>
+                                ) : (
+                                    <ScrollView contentContainerStyle={{ gap: 10, paddingBottom: 20 }}>
+                                        {searchMusics.map((music, index) => (
+                                            <MusicCard
+                                                key={`search-music-${music.id || index}`}
+                                                infos={music}
+                                                isSearch={true}
+                                                isHome={true}
+                                                variant="playlistToggle"
+                                                isInPlaylist={musicList.some((item) => item.id === music.id)}
+                                                onTogglePlaylist={handleToggleMusicInPlaylist}
+                                                isToggleLoading={pendingToggleMusicIds.includes(music.id)}
+                                            />
+                                        ))}
+                                    </ScrollView>
+                                )}
                             </View>
                         </View>
                     </SafeAreaView>
@@ -399,6 +534,31 @@ const styles = StyleSheet.create({
     modalContent: {
         flex: 1,
         padding: 20,
+    },
+    modalHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 10,
+    },
+    searchInputContainer: {
+        flex: 1,
+        height: 44,
+        borderWidth: 2,
+        borderRadius: 8,
+        paddingHorizontal: 12,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    searchInput: {
+        flex: 1,
+        marginRight: 8,
+    },
+    centeredState: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     dropdownMenu: {
         position: 'absolute',
