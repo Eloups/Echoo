@@ -28,20 +28,29 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
     const buttonRef = useRef<View>(null);
     const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
     const userId = "3";
-    
+
     const MENU_HEIGHT = 300; // Hauteur approximative du menu
     const NAV_BAR_HEIGHT = 60; // Hauteur de la barre de navigation
     const screenHeight = Dimensions.get('window').height;
 
-    //Vérifie si la musique est déjà likée par un utilisateur
-      useEffect(() => {
-        if (infos !== null) {
-          MusicService.getIsMusicIsLike(userId, infos.id)
-          .then(setIsMusicLike);
+    //Vérifie si l'artiste est déjà liké par un utilisateur
+    useEffect(() => {
+        if (infos.id != null) {
+            const fetchIsMusicLike = async () => {
+                try {
+                    const result = await MusicService.getIsMusicIsLike(userId, infos.id);
+                    setIsMusicLike(result.isLike);
+                } catch (error) {
+                    console.error("Erreur lors de la récupération:", error);
+                }
+            };
+
+            fetchIsMusicLike();
         }
-        
-      }, [infos])
-      
+    }, [infos]);
+
+    console.log(isMusicLike);
+
     const handleMenuPress = () => {
         if (!menuVisible) {
             buttonRef.current?.measureInWindow((x, y) => {
@@ -64,16 +73,16 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
         playTrack(infos, fileName, queue.length > 0 ? queue : [infos], index);
     };
 
-    const deleteFromPlaylist = async(playlistId: number, musicId: number) => {
+    const deleteFromPlaylist = async (playlistId: number, musicId: number) => {
         await PlaylistService.deleteMusicFromPlaylist(musicId, playlistId)
         if (onRemove) onRemove();
     }
 
     // Like d'une musique
-  const handleMusicLike = () => {
-    setIsMusicLike(!isMusicLike);
-    UserService.postLikeMusic(userId, infos.id);
-  }
+    const handleMusicLike = () => {
+        setIsMusicLike(!isMusicLike);
+        UserService.postLikeMusic(userId, infos.id);
+    }
 
     return (
         <View style={styles.container}>
