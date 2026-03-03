@@ -30,6 +30,13 @@ export type ProjectDetailResponse = {
   project: ProjectDetail;
 };
 
+export type MusicColorsResponse = {
+  colors: {
+    color1: string;
+    color2: string;
+  };
+};
+
 /**
  * Service API pour les projets (albums, EP, singles)
  * Correspond au ProjectController de l'API backend
@@ -41,5 +48,13 @@ export const AlbumService = {
    */
   getProjectById: async (projectId: number): Promise<ProjectDetailResponse> => {
     return await apiClient.get<ProjectDetailResponse>(`/project/${projectId}`);
+  },
+
+  /**
+   * Récupérer les couleurs dominantes d'une musique
+   * GET /music/{idMusic}/colors
+   */
+  getMusicColors: async (musicId: number): Promise<MusicColorsResponse> => {
+    return await apiClient.get<MusicColorsResponse>(`/music/${musicId}/colors`);
   },
 };

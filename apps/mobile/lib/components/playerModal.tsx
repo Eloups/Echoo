@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import Slider from '@react-native-community/slider';
 import QueueModal from './queueModal';
 import { UserService } from '../api/user.service';
-import { MusicService } from '../api';
+import { AlbumService, MusicService } from '../api';
 import { LoadingSpinner } from './global/BtnConnexion';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -39,6 +39,7 @@ export default function PlayerModal() {
   const [queueVisible, setQueueVisible] = useState(false);
   const seekTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
+  const [trackColors, setTrackColors] = useState<{ color1: string; color2: string } | null>(null);
 
   //Vérifie si la musique est déjà likée par un utilisateur
   useEffect(() => {
@@ -47,7 +48,29 @@ export default function PlayerModal() {
       .then(setIsMusicLike);
     }
     
-  }, [currentTrack])
+  }, [currentTrack]);
+
+  useEffect(() => {
+    const fetchTrackColors = async () => {
+      if (!currentTrack) return;
+
+      try {
+        const response = await AlbumService.getMusicColors(currentTrack.id);
+        if (response?.colors?.color1 && response?.colors?.color2) {
+          setTrackColors({
+            color1: response.colors.color1,
+            color2: response.colors.color2,
+          });
+        } else {
+          setTrackColors(null);
+        }
+      } catch (error) {
+        setTrackColors(null);
+      }
+    };
+
+    fetchTrackColors();
+  }, [currentTrack?.id]);
 
   // Synchroniser le slider avec la progression réelle
   useEffect(() => {
@@ -59,6 +82,9 @@ export default function PlayerModal() {
   if (!currentTrack) {
     return null;
   }
+
+  const gradientColor1 = trackColors?.color1 || currentTrack.color1 || '#04131D';
+  const gradientColor2 = trackColors?.color2 || currentTrack.color2 || '#082840';
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -113,7 +139,7 @@ export default function PlayerModal() {
       onRequestClose={hidePlayerModal}
     >
       <LinearGradient
-        colors={[currentTrack.color1 || '#04131D', currentTrack.color2 || '#082840', theme.colors.background]}
+        colors={[gradientColor1, gradientColor2, theme.colors.background]}
         style={styles.container}
         locations={[0, 0.4, 1]}
       >
