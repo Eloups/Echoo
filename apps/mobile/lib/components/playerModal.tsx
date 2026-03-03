@@ -117,10 +117,6 @@ export default function PlayerModal() {
         style={styles.container}
         locations={[0, 0.4, 1]}
       >
-        <ScrollView 
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-        >
           {/* Bouton retour */}
           <View style={styles.header}>
             <Pressable onPress={hidePlayerModal} style={styles.backButton}>
@@ -246,9 +242,6 @@ export default function PlayerModal() {
               <Entypo name="menu" size={24} color={theme.colors.text} />
             </Pressable>
           </View>
-
-          
-        </ScrollView>
       </LinearGradient>
 
       {/* Modale de la liste d'attente */}
