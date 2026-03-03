@@ -67,7 +67,7 @@ export const ArtistService = {
    * Vérifier si une musique est déjà liké par l'utilisateur
    * GET /music/user/isLike
    */
-  getIsArtistIsLike: async (userId: string, artistId: number): Promise<boolean> => {
+  getIsArtistIsLike: async (userId: string, artistId: number): Promise<{isLike: boolean}> => {
     return await apiClient.post('/artist/user/isLike', {
       id_user: userId.toString(),
       id_artist: artistId

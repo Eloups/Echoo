@@ -44,6 +44,7 @@ $routes->add('playlist|updatePlaylist', new Route('/playlist/{id}', methods: 'PA
 $routes->add('project|like', new Route('/project/like', methods: 'POST'));
 $routes->add('project|projectsInLibrary', new Route('/project/library/{id}/all', methods: 'GET'));
 $routes->add('project|getProjectById', new Route('/project/{id}', methods: 'GET'));
+$routes->add('project|isProjectLiked', new Route('/project/user/isLike', methods: 'POST'));
 
 // User
 $routes->add('user|listenedMusics', new Route('/user/{id}/listened/musics', methods: 'GET'));

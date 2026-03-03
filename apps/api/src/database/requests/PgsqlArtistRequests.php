@@ -205,12 +205,10 @@ class PgsqlArtistRequests
                 ":id_artist" => $id_artist
             ]);
         }
-
-        
     }
 
     /**
-     * Requête pour ajouter un like à un artiste
+     * Requête pour vérifier si un artiste est like
      * @param string $id_user
      * @param int $id_artist
      * @return bool

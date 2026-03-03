@@ -2,10 +2,11 @@ import ArtistCard from "@/lib/components/artistCard";
 import { useTheme } from "@/lib/theme/provider";
 import { Artist } from "@/lib/types/types";
 import { ScrollView, View } from "react-native";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ArtistService, apiClient } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
 import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
+import { useFocusEffect } from "expo-router";
 
 export default function Artists() {
     const { theme } = useTheme();
@@ -13,8 +14,7 @@ export default function Artists() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchArtists = async () => {
+    const fetchArtists = useCallback(async () => {
             try {
                 setLoading(true);
                 const userId = 3; // ID utilisateur
@@ -40,11 +40,14 @@ export default function Artists() {
                 setError('Impossible de charger les artistes');
             } finally {
                 setLoading(false);
-            }
+            
         };
-
-        fetchArtists();
     }, []);
+
+    useFocusEffect(useCallback(() => {
+        fetchArtists();
+        }, [fetchArtists])
+    );
 
     if (loading) {
         return (

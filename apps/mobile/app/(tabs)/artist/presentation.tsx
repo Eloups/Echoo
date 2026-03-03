@@ -22,11 +22,20 @@ export default function PresentationPage() {
 
     //Vérifie si l'artiste est déjà liké par un utilisateur
     useEffect(() => {
-        if (artist.id != null) {
-            ArtistService.getIsArtistIsLike(userId, artist.id)
-            .then(setIsArtistLike);
-        }
-    }, [artist.id])
+    if (artist.id != null) {
+        const fetchIsArtistLike = async () => {
+            try {
+                const result = await ArtistService.getIsArtistIsLike(userId, artist.id);
+                console.log(result);
+                setIsArtistLike(result.isLike);
+            } catch (error) {
+                console.error("Erreur lors de la récupération:", error);
+            }
+        };
+
+        fetchIsArtistLike();
+    }
+}, [artist.id]);
 
     if (loading) {
         return (

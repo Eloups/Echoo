@@ -11,11 +11,11 @@ interface ProjectServiceInterface {
 
     /**
      * Action de l'ajout d'un like sur un projet par un utilisateur
-     * @param int $id_user
+     * @param string $id_user
      * @param int $id_project
      * @return void
      */
-    public function likeProject(int $id_user, int $id_project): void;
+    public function likeProject(string $id_user, int $id_project): void;
 
     /**
      * Action de la récupération des projets d'une library
@@ -30,4 +30,12 @@ interface ProjectServiceInterface {
      * @return Project
      */
     public function getOneProjectWithMusics(int $id_project): Project;
+
+    /**
+     * Action de la vérification si un projet est liké
+     * @param string $id_user
+     * @param int $id_project
+     * @return bool
+     */
+    public function isProjectLiked(string $id_user, int $id_project): bool;
 }

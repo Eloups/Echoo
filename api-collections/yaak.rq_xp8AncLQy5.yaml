@@ -1,8 +1,8 @@
 type: http_request
 model: http_request
-id: rq_m6exAy8Xo8
-createdAt: 2025-12-08T13:23:58.864421600
-updatedAt: 2026-03-03T11:20:51.024277300
+id: rq_xp8AncLQy5
+createdAt: 2026-03-03T11:19:01.872403200
+updatedAt: 2026-03-03T11:20:37.934279200
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_WSmhPPxA8Y
 authentication: {}
@@ -19,9 +19,9 @@ headers:
 - enabled: true
   name: Content-Type
   value: application/json
-  id: Rwzc6NNj8n
+  id: pKuTKRptV8
 method: POST
-name: like a project
+name: get is project is like by user
 sortPriority: -1760599398215.0
-url: ${[ API_HOST ]}/project/like
+url: ${[ API_HOST ]}/project/user/isLike
 urlParameters: []

@@ -10,6 +10,7 @@ import DetailMusicCard from '@/lib/components/detailMusicCard';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { AlbumService, apiClient } from '@/lib/api';
 import { LoadingSpinner } from './global/BtnConnexion';
+import { UserService } from '../api/user.service';
 
 const IMAGE_SIZE = 200;
 const placeholderImage = require("../../assets/images/react-logo.png");
@@ -24,6 +25,8 @@ export default function ProjectDetailsPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [totalDuration, setTotalDuration] = useState(0);
+    const [isProjectLiked, setIsProjectLiked] = useState<boolean>(false);
+    const userId = "3";
 
     const rawData = useMemo(() => {
         if (!params.data) return null;
@@ -141,6 +144,23 @@ export default function ProjectDetailsPage() {
         };
     }, [projectId, rawData]);
 
+    //Vérifier si le projet est déjà like ici
+    useEffect(() => {
+        if (projectId != null) {
+            const fetchIsProjectLike = async () => {
+                try {
+                    const result = await AlbumService.getIsProjectIsLike(userId, projectId);
+                    console.log(result);
+                    setIsProjectLiked(result.isLike);
+                } catch (error) {
+                    console.error("Erreur lors de la récupération:", error);
+                }
+            };
+    
+            fetchIsProjectLike();
+        }
+    }, [projectId]);
+
     if (loading && !project) {
         return (
             <View style={{ flex: 1, backgroundColor: theme.colors.background, justifyContent: 'center', alignItems: 'center' }}>
@@ -168,6 +188,14 @@ export default function ProjectDetailsPage() {
         return `${mins}min${secs.toString().padStart(2, '0')}`;
     };
 
+    const handleProjectLike = () => {
+        if (projectId != null) {
+            setIsProjectLiked(!isProjectLiked);
+            UserService.postLikeProject(userId, projectId);
+        }
+    }
+
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['top']}>
             <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -190,7 +218,7 @@ export default function ProjectDetailsPage() {
 
                 <View style={{ position: 'absolute', top: 10, right: 20, zIndex: 10 }}>
                 <Pressable
-                    onPress={() => setMenuVisible(!menuVisible)}
+                    onPress={() => handleProjectLike()}
                     style={{
                         width: 40,
                         height: 40,
@@ -199,37 +227,10 @@ export default function ProjectDetailsPage() {
                         alignItems: 'center'
                     }}
                 >
-                    <MaterialIcons name="more-vert" size={28} color={theme.colors.text} />
+                    <MaterialIcons name={isProjectLiked ? "favorite" : "favorite-border"} size={32} color={isProjectLiked ? '#DB1151' : "white"} />
                 </Pressable>
 
-                {menuVisible && (
-                    <View style={[
-                        styles.dropdownMenu,
-                        { backgroundColor: theme.colors.background2 }
-                    ]}>
-                        <TouchableOpacity
-                            style={styles.menuItem}
-                            onPress={() => {
-                                setMenuVisible(false);
-                                console.log('Partager');
-                            }}
-                        >
-                            <MaterialIcons name="share" size={20} color={theme.colors.text} />
-                            <AppText style={{ marginLeft: 12 }}>Partager</AppText>
-                        </TouchableOpacity>
-                        <View style={{ height: 1, backgroundColor: theme.colors.background, marginVertical: 4 }} />
-                        <TouchableOpacity
-                            style={styles.menuItem}
-                            onPress={() => {
-                                setMenuVisible(false);
-                                console.log('Ajouter à une playlist');
-                            }}
-                        >
-                            <MaterialIcons name="playlist-add" size={20} color={theme.colors.text} />
-                            <AppText style={{ marginLeft: 12 }}>Ajouter à une playlist</AppText>
-                        </TouchableOpacity>
-                    </View>
-                )}
+                
             </View>
 
             <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
