@@ -3,6 +3,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import AppText from "./global/appText";
 import { Music } from "../types/types";
 import usePlayerStore from "@/hook/usePlayerStore";
+import { useEffect, useState } from "react";
+import { AlbumService } from "../api";
 
 type PageProps = {
     music: Music
@@ -10,10 +12,32 @@ type PageProps = {
 
 export default function LastSongPlayedCard(props: PageProps) {
     const { playTrack } = usePlayerStore();
+    const [trackColors, setTrackColors] = useState<{ color1: string; color2: string } | null>(null);
+
+    useEffect(() => {
+        const fetchTrackColors = async () => {
+            try {
+                const response = await AlbumService.getMusicColors(props.music.id);
+
+                if (response?.colors?.color1 && response?.colors?.color2) {
+                    setTrackColors({
+                        color1: response.colors.color1,
+                        color2: response.colors.color2,
+                    });
+                } else {
+                    setTrackColors(null);
+                }
+            } catch (error) {
+                setTrackColors(null);
+            }
+        };
+
+        fetchTrackColors();
+    }, [props.music.id]);
     
-    const colors = [
-        props.music.color1 || '#1a1a1a',
-        props.music.color2 || '#2a2a2a'
+    const colors: [string, string] = [
+        trackColors?.color1 || props.music.color1 || '#1a1a1a',
+        trackColors?.color2 || props.music.color2 || '#2a2a2a'
     ];
 
     const handlePress = () => {
@@ -51,7 +75,7 @@ export default function LastSongPlayedCard(props: PageProps) {
                     <AppText size={"lg"} style={{ transform: [{ translateY: 3 }] }}>
                         {props.music.title.length > 30 ? props.music.title.slice(0, 30) + "..." : props.music.title}
                     </AppText>
-                    <AppText size={"xs"} color="text2" style={{ transform: [{ translateY: -3 }] }}>
+                    <AppText size={"xs"} color="text" style={{ transform: [{ translateY: -3 }] }}>
                         {artistDisplay.length > 30 ? artistDisplay.slice(0, 30) + "..." : artistDisplay}
                     </AppText>
                 </View>

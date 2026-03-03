@@ -443,8 +443,7 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
                                         <LoadingSpinner size={20} color={theme.colors.primary} />
                                     </View>
                                 ) : searchField.trim().length < 3 ? (
-                                    <View style={styles.centeredState}>
-                                        <AppText color="text2">Tape au moins 3 caractères</AppText>
+                                    <View>
                                     </View>
                                 ) : searchMusics.length === 0 ? (
                                     <View style={styles.centeredState}>
