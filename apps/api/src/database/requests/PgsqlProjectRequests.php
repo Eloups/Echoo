@@ -38,17 +38,75 @@ class PgsqlProjectRequests
 
         $request = $this->pdo->prepare($getIdLibrary);
         $request->execute([":id_user" => $id_user]);
-        $idLibrary = intval($request->fetchAll());
+        $idLibrary = $request->fetch()['id_library'];
+
 
         $request = $this->pdo->prepare("
-            INSERT INTO library_project (id_library, id_project)
-            VALUES (:id_library, :id_project)
+            SELECT * FROM library_project 
+            WHERE id_library = :id_library AND id_project = :id_project;
         ");
 
         $request->execute([
             ":id_library" => $idLibrary,
             ":id_project" => $id_project
         ]);
+        $isLike = $request->fetch();
+        if ($isLike == null) {
+            $request = $this->pdo->prepare("
+            INSERT INTO library_project (id_library, id_project)
+            VALUES (:id_library, :id_project)
+            ");
+
+            $request->execute([
+                ":id_library" => $idLibrary,
+                ":id_project" => $id_project
+            ]);
+        }
+        else {
+            $request = $this->pdo->prepare("
+            DELETE FROM library_project 
+            WHERE id_library = :id_library AND id_project = :id_project
+            ");
+
+            $request->execute([
+                ":id_library" => $idLibrary,
+                ":id_project" => $id_project
+            ]);
+        }
+    }
+
+    /**
+     * Requête pour vérifier si un projet est liké ou non
+     * @param string $id_user
+     * @param int $id_project
+     * @return bool
+     */
+    public function isProjectLiked(string $id_user, int $id_project): bool
+    {
+        $getIdLibrary = "SELECT id_library
+        FROM \"user\"
+        WHERE \"user\".id = :id_user;";
+
+        $request = $this->pdo->prepare($getIdLibrary);
+        $request->execute([":id_user" => $id_user]);
+        $idLibrary = $request->fetch()['id_library'];
+
+        $request = $this->pdo->prepare("
+            SELECT * FROM library_project 
+            WHERE id_library = :id_library AND id_project = :id_project;
+        ");
+
+        $request->execute([
+            ":id_library" => $idLibrary,
+            ":id_project" => $id_project
+        ]);
+        $isLike = $request->fetch();
+        if ($isLike == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     /**

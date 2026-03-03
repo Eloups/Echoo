@@ -42,4 +42,15 @@ export const AlbumService = {
   getProjectById: async (projectId: number): Promise<ProjectDetailResponse> => {
     return await apiClient.get<ProjectDetailResponse>(`/project/${projectId}`);
   },
+
+  /**
+   * Vérifier si une musique est déjà liké par l'utilisateur
+   * GET /project/user/isLike
+   */
+  getIsProjectIsLike: async (userId: string, projectId: number): Promise<boolean> => {
+    return await apiClient.post('/project/user/isLike', {
+      id_user: userId.toString(),
+      id_artist: projectId
+    });
+  },
 };

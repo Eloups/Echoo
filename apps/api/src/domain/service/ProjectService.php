@@ -53,4 +53,15 @@ class ProjectService implements ProjectServiceInterface {
         $project = $driven->getOneProjectWithMusics($id_project);
         return $project;
     }
+
+      /**
+     * Action de la vérification si un artiste est liké
+     * @param string $id_user
+     * @param int $id_project
+     * @return bool
+     */
+    public function isProjectLiked(string $id_user, int $id_project): bool {
+        $driven = new ProjectDrivenAdapter();
+        return $driven->isProjectLiked($id_user, $id_project);
+    }
 }
