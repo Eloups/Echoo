@@ -141,7 +141,19 @@ export function ArtistPageProvider({ params, children }: ArtistPageProviderProps
     };
 
     const mapAlbumsToProjects = (albums: ArtistAlbum[], fallbackArtistName: string): ArtistProjectCard[] => {
-        return albums.map((album) => {
+        const sortedAlbums = [...albums].sort((a, b) => {
+            const getTimestamp = (album: ArtistAlbum) => {
+                const dateValue = (album as any).dateRelease || album.release;
+                if (!dateValue) return 0;
+
+                const timestamp = new Date(dateValue).getTime();
+                return Number.isNaN(timestamp) ? 0 : timestamp;
+            };
+
+            return getTimestamp(b) - getTimestamp(a);
+        });
+
+        return sortedAlbums.map((album) => {
             const releaseYear = typeof album.release === 'string' ? album.release.slice(0, 4) : undefined;
 
             return {
