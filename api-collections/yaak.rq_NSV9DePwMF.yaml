@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_NSV9DePwMF
 createdAt: 2026-02-05T13:44:51.965180100
-updatedAt: 2026-02-09T17:05:08.468301500
+updatedAt: 2026-03-03T10:04:05.692911100
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_XGNPk28yhy
 authentication: {}
@@ -14,5 +14,5 @@ headers: []
 method: GET
 name: Get liked playlist
 sortPriority: 4000.001
-url: ${[ API_HOST ]}/users/WeyHEUSDcLatuVqUMb1X38D9KMorSyHY/liked/playlist
+url: ${[ API_HOST ]}/users/322EZBMz9mlGPzuJM0UmhQv8BkBiO3EC/liked/playlist
 urlParameters: []
