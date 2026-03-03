@@ -1,60 +1,69 @@
 import { View, ScrollView, Image, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
-import { Artist, Music } from '@/lib/types/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from '@/lib/components/musicCard';
 import SectionTitle from '@/lib/components/sectionTitle';
+import { useArtistPage } from './artistPageContext';
+import { LoadingSpinner } from '@/lib/components/global/BtnConnexion';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { User } from '@/lib/types/auth';
+import { UserService } from '@/lib/api/user.service';
+import { ArtistService } from '@/lib/api';
 
 export default function PresentationPage() {
     const { theme } = useTheme();
-    const router = useRouter();
-    const params = useLocalSearchParams();
-    const [menuVisible, setMenuVisible] = useState(false);
+    const { artist, popularTracks, recentReleases, loading } = useArtistPage();
 
-    // Récupérer les données de l'artiste depuis les params
-    const artistData = params.data ? JSON.parse(params.data as string) : {
-        title: params.title as string || "Artiste",
-        cover: params.cover
-    };
-    
-    const data: Artist = artistData;
-    const from = params.from as string;
+    const userId = "3";
 
-    const handleBack = () => {
-        if (from) {
-            router.push(from as any);
-        } else {
-            router.push('/(tabs)/home');
+    const [isArtistLike, setIsArtistLike] = useState<boolean>(false);
+
+    //Vérifie si l'artiste est déjà liké par un utilisateur
+    useEffect(() => {
+        if (artist.id != null) {
+            ArtistService.getIsArtistIsLike(userId, artist.id)
+            .then(setIsArtistLike);
         }
-    };
+    }, [artist.id])
 
-    // Données temporaires
-    const popularTracks: Music[] = data.popular_musics?.slice(0, 5) || [];
-    const recentReleases: Music[] = data.last_releases?.slice(0, 4) || [];
+    if (loading) {
+        return (
+            <View style={{ flex: 1, backgroundColor: theme.colors.background, justifyContent: 'center', alignItems: 'center' }}>
+                <LoadingSpinner size={26} color={theme.colors.primary} />
+                <AppText style={{ marginTop: 10 }}>Chargement des informations de l'artiste...</AppText>
+            </View>
+        );
+    }
+
+    const handleArtistLike = () => {
+        if (artist.id != null) {
+            setIsArtistLike(!isArtistLike);
+            UserService.postLikeArtist(userId, artist.id);
+        }
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-            <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
+            <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
                 {/* Header avec image de fond */}
                 <View style={{ position: 'relative', height: 220 }}>
                     {/* Image de fond avec overlay */}
-                    <Image 
-                        source={data.cover} 
-                        style={{ 
-                            width: '100%', 
+                    <Image
+                        source={artist.cover}
+                        style={{
+                            width: '100%',
                             height: '100%',
                             position: 'absolute'
                         }}
                     />
 
                     {/* Nom et stats en bas */}
-                    <View style={{ 
-                        position: 'absolute', 
-                        bottom: 10, 
-                        left: 20, 
+                    <View style={{
+                        position: 'absolute',
+                        bottom: 10,
+                        left: 20,
                         right: 20,
                         flexDirection: 'row',
                         justifyContent: 'space-between',
@@ -62,22 +71,16 @@ export default function PresentationPage() {
                     }}>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
                             <AppText size="3xl" weight='bold' style={{ fontWeight: 'bold', color: 'white' }}>
-                                {data.title}
+                                {artist.title}
                             </AppText>
-                            {data.nbStreams && (
                                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                                    <AppText size="lg" style={{ color: 'white' }}>
-                                        {(data.nbStreams / 1000000).toFixed(1)}M
-                                    </AppText>
+                                    
                                     <Pressable
-                                        onPress={() => {
-                                            console.log('Suivre l\'artiste');
-                                        }}
+                                        onPress={() => handleArtistLike()}
                                     >
-                                        <MaterialIcons name="favorite-border" size={32} color="white" />
+                                        <MaterialIcons name={isArtistLike ? "favorite" : "favorite-border"} size={32} color={isArtistLike ? '#DB1151' : "white"} />
                                     </Pressable>
                                 </View>
-                            )}
                         </View>
                     </View>
                 </View>
@@ -85,13 +88,12 @@ export default function PresentationPage() {
                 {/* Morceaux populaires */}
                 <View>
                     <SectionTitle text="Morceaux populaires" />
-                    <View style={{ paddingHorizontal: 20 }}>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }}>
+                    <View>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15, paddingHorizontal: 20 }}>
                             {popularTracks.map((track, index) => (
                                 <View key={index}>
-                                    <MusicCard 
+                                    <MusicCard
                                         infos={track}
-                                        type="music"
                                         isHome={true}
                                         isSearch={false}
                                     />
@@ -104,13 +106,12 @@ export default function PresentationPage() {
                 {/* Dernières sorties */}
                 <View style={{ marginTop: 20 }}>
                     <SectionTitle text="Dernières sorties" />
-                    <View style={{ paddingHorizontal: 20, marginBottom: 30 }}>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }}>
+                    <View style={{  marginBottom: 30 }}>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15, paddingHorizontal: 20 }}>
                             {recentReleases.map((release, index) => (
                                 <View key={index}>
-                                    <MusicCard 
+                                    <MusicCard
                                         infos={release}
-                                        type="music"
                                         isHome={true}
                                         isSearch={false}
                                     />

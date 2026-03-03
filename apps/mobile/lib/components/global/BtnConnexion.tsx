@@ -13,32 +13,26 @@ type BtnConnexionProps = {
     isLoading?: boolean;
 };
 
-export function BtnConnexion(props: BtnConnexionProps) {
-    const { theme } = useTheme();
-    const spinValue = useRef(new Animated.Value(0)).current;
+type LoadingSpinnerProps = {
+    size?: number;
+    color?: string;
+};
 
+export function LoadingSpinner({ size = 20, color = "#ffffff" }: LoadingSpinnerProps) {
+    const spinValue = useRef(new Animated.Value(0)).current;
     const loopRef = React.useRef<Animated.CompositeAnimation | null>(null);
 
     useEffect(() => {
-        if (props.isLoading) {
-            spinValue.setValue(0);
-            loopRef.current = Animated.loop(
-                Animated.timing(spinValue, {
-                    toValue: 1,
-                    duration: 400,
-                    easing: Easing.linear,
-                    useNativeDriver: true,
-                })
-            );
-            loopRef.current.start();
-        } else {
-            if (loopRef.current) {
-                loopRef.current.stop();
-                loopRef.current = null;
-            }
-            spinValue.stopAnimation();
-            spinValue.setValue(0);
-        }
+        spinValue.setValue(0);
+        loopRef.current = Animated.loop(
+            Animated.timing(spinValue, {
+                toValue: 1,
+                duration: 400,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            })
+        );
+        loopRef.current.start();
 
         return () => {
             if (loopRef.current) {
@@ -48,12 +42,22 @@ export function BtnConnexion(props: BtnConnexionProps) {
             spinValue.stopAnimation();
             spinValue.setValue(0);
         };
-    }, [props.isLoading, spinValue]);
+    }, [spinValue]);
 
     const spin = spinValue.interpolate({
         inputRange: [0, 1],
         outputRange: ['0deg', '360deg'],
     });
+
+    return (
+        <Animated.View style={{ transform: [{ rotate: spin }] }}>
+            <AntDesign name="loading" size={size} color={color} />
+        </Animated.View>
+    );
+}
+
+export function BtnConnexion(props: BtnConnexionProps) {
+    const { theme } = useTheme();
 
     return (
         <TouchableOpacity
@@ -72,9 +76,7 @@ export function BtnConnexion(props: BtnConnexionProps) {
             disabled={props.isLoading}
         >
             {props.isLoading ? (
-                <Animated.View style={{ transform: [{ rotate: spin }] }}>
-                    <AntDesign name="loading" size={20} color="#ffffff" />
-                </Animated.View>
+                <LoadingSpinner size={20} color="#ffffff" />
             ) : (
                 <AppText color="#ffffff" size="lg">
                     {props.title}

@@ -20,6 +20,7 @@ export default function PlaylistCard(props: PlaylistCardProps) {
             pathname: "/(tabs)/detail",
             params: {
                 data: JSON.stringify(props.infos),
+                detailType: 'playlist',
                 from: currentPath
             }
         });

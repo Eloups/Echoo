@@ -3,13 +3,10 @@
 namespace Api\Database\Requests;
 
 use Api\Domain\Class\Project;
-use Api\Exception\ApiCustomException;
 use Api\Utils\ConvertUtils;
-use Api\Utils\RequestUtils;
 use DateInterval;
 use DateTime;
 use PDO;
-use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
 /**
  * Classe permettant de lancer des requêtes SQL sur les artistes de la base de données
@@ -177,14 +174,73 @@ class PgsqlArtistRequests
         $idLibrary = $request->fetch()['id_library'];
 
         $request = $this->pdo->prepare("
-            INSERT INTO library_artist (id_library, id_artist)
-            VALUES (:id_library, :id_artist)
+            SELECT * FROM library_artist 
+            WHERE id_library = :id_library AND id_artist = :id_artist;
         ");
 
         $request->execute([
             ":id_library" => $idLibrary,
             ":id_artist" => $id_artist
         ]);
+        $isLike = $request->fetch();
+        if ($isLike == null) {
+            $request = $this->pdo->prepare("
+            INSERT INTO library_artist (id_library, id_artist)
+            VALUES (:id_library, :id_artist)
+            ");
+
+            $request->execute([
+                ":id_library" => $idLibrary,
+                ":id_artist" => $id_artist
+            ]);
+        }
+        else {
+            $request = $this->pdo->prepare("
+            DELETE FROM library_artist 
+            WHERE id_library = :id_library AND id_artist = :id_artist
+            ");
+
+            $request->execute([
+                ":id_library" => $idLibrary,
+                ":id_artist" => $id_artist
+            ]);
+        }
+
+        
+    }
+
+    /**
+     * Requête pour ajouter un like à un artiste
+     * @param string $id_user
+     * @param int $id_artist
+     * @return bool
+     */
+    public function isArtistLiked(string $id_user, int $id_artist): bool
+    {
+        $getIdLibrary = "SELECT id_library
+        FROM \"user\"
+        WHERE \"user\".id = :id_user;";
+
+        $request = $this->pdo->prepare($getIdLibrary);
+        $request->execute([":id_user" => $id_user]);
+        $idLibrary = $request->fetch()['id_library'];
+
+        $request = $this->pdo->prepare("
+            SELECT * FROM library_artist 
+            WHERE id_library = :id_library AND id_artist = :id_artist;
+        ");
+
+        $request->execute([
+            ":id_library" => $idLibrary,
+            ":id_artist" => $id_artist
+        ]);
+        $isLike = $request->fetch();
+        if ($isLike == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     /**
@@ -266,8 +322,8 @@ class PgsqlArtistRequests
             pr.created_at,
             pr.id_user,
             pt.name AS project_type
-        FROM project_rating pr
-        INNER JOIN project p ON p.id = pr.id_project
+        FROM project p
+        LEFT JOIN project_rating pr ON p.id = pr.id_project
         INNER JOIN project_type pt ON pt.id = p.id_type
         WHERE p.id = :id_album;";
 
@@ -333,8 +389,8 @@ class PgsqlArtistRequests
      */
     public function searchProjects(string $search, int $limit): array
     {
-        $sql = 'SELECT p.id, p.title, p."release", p.color1, p.color2, p.cover_path, pt."name" project_type FROM project p
-            JOIN project_type pt ON p.id_type = pt.id
+        $sql = 'SELECT p.id, p.title, p."release", p.color1, p.color2, p.cover_path, pt."name" project_type, a.name AS artist_name FROM project p
+            JOIN project_type pt ON p.id_type = pt.id JOIN artist_project ap ON ap.id_project = p.id JOIN artist a ON a.id = ap.id_artist
             WHERE LOWER(p.title) LIKE :search
             LIMIT :limit;';
 

@@ -1,7 +1,7 @@
 import PlaylistCard from "@/lib/components/playlistCard";
 import { useTheme } from "@/lib/theme/provider";
 import { Playlist } from "@/lib/types/types";
-import { ScrollView, View, ActivityIndicator, Pressable, Alert } from "react-native";
+import { ScrollView, View, Pressable, Alert } from "react-native";
 import { useEffect, useState } from "react";
 import { PlaylistService, apiClient, ImageService } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
@@ -9,6 +9,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import MaterialIcons from "@expo/vector-icons/build/MaterialIcons";
 import AddPlaylistModal from "@/lib/components/addPlaylistModal";
+import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
 
 export default function Playlists() {
     const { theme } = useTheme();
@@ -72,7 +73,7 @@ export default function Playlists() {
     if (loading) {
         return (
             <View style={{ backgroundColor: theme.colors.background, height: "100%", justifyContent: "center", alignItems: "center" }}>
-                <ActivityIndicator size="large" color={theme.colors.primary} />
+                <LoadingSpinner size={20} color={theme.colors.primary} />
                 <AppText style={{ marginTop: 10 }}>Chargement des playlists...</AppText>
             </View>
         );
