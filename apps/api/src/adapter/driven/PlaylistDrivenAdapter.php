@@ -33,10 +33,10 @@ class PlaylistDrivenAdapter implements PlaylistDrivenAdapterInterface
 
     /**
      * Méthode pour récupérer les playlists d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return array
      */
-    public function getPlaylistsInLibrary(int $id_library): array
+    public function getPlaylistsInLibrary(string $id_library): array
     {
         $pgslserver = new PgsqlServer();
 
@@ -71,7 +71,7 @@ class PlaylistDrivenAdapter implements PlaylistDrivenAdapterInterface
 
     /** 
      * Méthode pour créer une nouvelle playlist
-     * @param int $id_library
+     * @param string $id_library
      * @param string $title
      * @param bool $isPublic
      * @param string $description
@@ -79,7 +79,7 @@ class PlaylistDrivenAdapter implements PlaylistDrivenAdapterInterface
      * @param array $musics
      * @return void
      */
-    public function addPlaylist(int $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics)
+    public function addPlaylist(string $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics)
     {
         $pgslserver = new PgsqlServer();
 

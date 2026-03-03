@@ -18,10 +18,10 @@ interface PlaylistServiceInterface
 
     /**
      * Action du listage des playlists d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return array
      */
-    public function getPlaylistsInLibrary(int $id_library): array;
+    public function getPlaylistsInLibrary(string $id_library): array;
 
     /**
      * Action de l'ajout d'une musique à une playlist
@@ -39,7 +39,7 @@ interface PlaylistServiceInterface
     public function deletePlaylist(int $id_playlist): void;
 
     /** Action de la création d'une playlist
-     * @param int $id_library
+     * @param string $id_library
      * @param string $title
      * @param bool $isPublic
      * @param string $description
@@ -47,7 +47,7 @@ interface PlaylistServiceInterface
      * @param array $musics
      * @return void
      */
-    public function addPlaylist(int $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics);
+    public function addPlaylist(string $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics);
 
     /**
      * Action de la suppression d'une musique d'une playlist
