@@ -13,8 +13,9 @@ import { PlaylistService, apiClient, MusicService, ImageService } from '@/lib/ap
 import { HomeService } from '@/lib/api/home.service';
 import EditPlaylistModal from './editPlaylistModal';
 import { LoadingSpinner } from './global/BtnConnexion';
+import { PlaylistCoverDefault } from '@/lib/constants/images';
 
-const placeholderImage = require('../../assets/images/react-logo.png');
+const placeholderImage = PlaylistCoverDefault;
 
 type PlaylistDetailPageProps = {
     data: Playlist;

@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { Artist, Music, Project } from '@/lib/types/types';
 import { apiClient, ArtistService, ImageService, MusicService } from '@/lib/api';
 import { ArtistAlbum } from '@/lib/api/types';
+import { PlaylistCoverDefault } from '@/lib/constants/images';
 
 type ArtistProjectCard = Project & {
     id?: number;
@@ -19,7 +20,7 @@ type ArtistPageContextValue = {
     loading: boolean;
 };
 
-const placeholderImage = require('../../../assets/images/react-logo.png');
+const placeholderImage = PlaylistCoverDefault;
 
 const defaultArtist: Artist = {
     title: 'Artiste',

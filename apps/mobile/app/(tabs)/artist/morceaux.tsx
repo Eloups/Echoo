@@ -6,6 +6,7 @@ import { ArtistService, MusicService, apiClient } from '@/lib/api';
 import { Music } from '@/lib/types/types';
 import DetailMusicCard from '@/lib/components/detailMusicCard';
 import { useArtistPage } from './artistPageContext';
+import { PlaylistCoverDefault } from '@/lib/constants/images';
 
 
 export default function MorceauxPage() {
@@ -15,7 +16,7 @@ export default function MorceauxPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const placeholderCover = require("../../../assets/images/react-logo.png");
+    const placeholderCover = PlaylistCoverDefault;
 
     const mapMusicWithCover = async (music: any): Promise<Music> => {
         let cover: any = placeholderCover;

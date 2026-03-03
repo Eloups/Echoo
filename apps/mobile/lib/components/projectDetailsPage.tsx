@@ -10,9 +10,10 @@ import DetailMusicCard from '@/lib/components/detailMusicCard';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { AlbumService, apiClient } from '@/lib/api';
 import { LoadingSpinner } from './global/BtnConnexion';
+import { PlaylistCoverDefault } from '@/lib/constants/images';
 
 const IMAGE_SIZE = 200;
-const placeholderImage = require("../../assets/images/react-logo.png");
+const placeholderImage = PlaylistCoverDefault;
 
 export default function ProjectDetailsPage() {
     const { theme } = useTheme();

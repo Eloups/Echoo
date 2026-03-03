@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { ArtistService, apiClient } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
 import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
+import { PlaylistCoverDefault } from "@/lib/constants/images";
 
 export default function Artists() {
     const { theme } = useTheme();
@@ -27,7 +28,7 @@ export default function Artists() {
                     id: artist.id,
                     cover: artist.imagePath 
                         ? { uri: apiClient.getImageUrl(artist.imagePath) }
-                        : require("../../../assets/images/react-logo.png"),
+                        : PlaylistCoverDefault,
                     title: artist.name,
                     name: artist.name,
                     isVerified: artist.isVerified,

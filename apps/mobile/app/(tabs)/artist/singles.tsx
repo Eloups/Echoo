@@ -7,6 +7,7 @@ import { ArtistService, apiClient } from '@/lib/api';
 import { Project } from '@/lib/types/types';
 import { useArtistPage } from './artistPageContext';
 import { useLocalSearchParams } from 'expo-router';
+import { PlaylistCoverDefault } from '@/lib/constants/images';
 
 type ArtistSingleCard = Project & {
     id?: number;
@@ -53,7 +54,7 @@ export default function SinglesPage() {
                     id: single.id,
                     cover: single.coverPath
                         ? { uri: apiClient.getImageUrl(single.coverPath) }
-                        : require('../../../assets/images/react-logo.png'),
+                        : PlaylistCoverDefault,
                     type: (single.projectType || 'single').toLowerCase(),
                     title: single.title || 'Single',
                     description: '',

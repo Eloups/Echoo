@@ -10,6 +10,7 @@ import { useCallback } from "react";
 import MaterialIcons from "@expo/vector-icons/build/MaterialIcons";
 import ProjectCard from "@/lib/components/projectCard";
 import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
+import { PlaylistCoverDefault } from "@/lib/constants/images";
 
 export default function projects() {
     const { theme } = useTheme();
@@ -29,7 +30,7 @@ export default function projects() {
                     id: project.id,
                     cover: project.coverPath 
                         ? { uri: apiClient.getImageUrl(project.coverPath) }
-                        : require("../../../assets/images/react-logo.png"),
+                        : PlaylistCoverDefault,
                     title: project.title || "project",
                     artist: project.artistName,
                     color1: "#965F4C",
@@ -42,7 +43,7 @@ export default function projects() {
                         id: music.id,
                         cover: music.coverPath 
                             ? { uri: apiClient.getImageUrl(music.coverPath) }
-                            : require("../../../assets/images/react-logo.png"),
+                            : PlaylistCoverDefault,
                         title: music.titre || music.title,
                         artist: music.artisteNom || music.nameArtist || music.artist || "Artiste inconnu",
                         color1: "#04131D",

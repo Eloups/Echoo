@@ -12,8 +12,9 @@ import { useNavigation, useFocusEffect } from "expo-router";
 import { HomeService } from "@/lib/api/home.service";
 import { MusicService, apiClient } from "@/lib/api";
 import { useGlobalHook } from "@/hook";
+import { PlaylistCoverDefault } from "@/lib/constants/images";
 
-const placeholderImage = require("../../assets/images/react-logo.png");
+const placeholderImage = PlaylistCoverDefault;
 
 export default function home() {
     const { theme } = useTheme();

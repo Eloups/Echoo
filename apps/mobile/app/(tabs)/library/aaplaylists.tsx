@@ -10,6 +10,7 @@ import { useCallback } from "react";
 import MaterialIcons from "@expo/vector-icons/build/MaterialIcons";
 import AddPlaylistModal from "@/lib/components/addPlaylistModal";
 import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
+import { PlaylistCoverDefault } from "@/lib/constants/images";
 
 export default function Playlists() {
     const { theme } = useTheme();
@@ -31,7 +32,7 @@ export default function Playlists() {
                     id: playlist.id,
                     cover: playlist.coverPath 
                         ? { uri: apiClient.getImageUrl(playlist.coverPath) }
-                        : require("../../../assets/images/react-logo.png"),
+                        : PlaylistCoverDefault,
                     title: playlist.title || "Playlist",
                     artist: `${playlist.musics?.length || 0} morceaux`,
                     color1: "#965F4C",
@@ -43,7 +44,7 @@ export default function Playlists() {
                         id: music.id,
                         cover: music.coverPath 
                             ? { uri: apiClient.getImageUrl(music.coverPath) }
-                            : require("../../../assets/images/react-logo.png"),
+                            : PlaylistCoverDefault,
                         title: music.titre || music.title,
                         artist: music.artisteNom || music.nameArtist || music.artist || "Artiste inconnu",
                         color1: "#04131D",
