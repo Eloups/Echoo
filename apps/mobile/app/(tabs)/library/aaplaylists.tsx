@@ -25,7 +25,7 @@ export default function Playlists() {
             const userId = 3; // ID utilisateur
             const response: any = await PlaylistService.getAllPlaylistsByUserID(userId);
             
-            const playlistsArray = response.playlists || [];
+            const playlistsArray = (response.playlists || []).filter((playlist: any) => playlist?.title !== "liked");
             
             // Convertir les données de l'API au format Playlist du front
             const formattedPlaylists: Playlist[] = playlistsArray.map((playlist: any) => ({
