@@ -77,7 +77,14 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
 
     return (
         <View style={styles.container}>
-            <Pressable style={styles.leftSection} onPress={handlePlayMusic}>
+            <Pressable
+                style={({ pressed }) => [
+                    styles.leftSection,
+                    pressed && { backgroundColor: theme.colors.background2 }
+                ]}
+                unstable_pressDelay={120}
+                onPress={handlePlayMusic}
+            >
                 <Image
                     source={infos.cover}
                     style={styles.coverImage}
@@ -91,13 +98,6 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
             </Pressable>
 
             <View style={styles.rightSection} ref={buttonRef}>
-
-
-                {/* Bouton message */}
-                <Pressable style={styles.iconButton}>
-                    <Ionicons name="chatbubble-outline" size={20} color={theme.colors.text} />
-                </Pressable>
-
                 {/* Bouton menu hamburger */}
                 <Pressable
                     style={styles.menuButton}
@@ -207,6 +207,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 12,
+        borderRadius: 8,
+        paddingVertical: 4,
+        paddingHorizontal: 6,
     },
     coverImage: {
         width: 50,
@@ -223,12 +226,6 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     menuButton: {
-        width: 36,
-        height: 36,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    iconButton: {
         width: 36,
         height: 36,
         justifyContent: 'center',

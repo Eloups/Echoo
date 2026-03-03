@@ -21,7 +21,11 @@ export default function Detail() {
         }
     };
 
-    const isProjectPayload = detailType === 'project' || (typeof parsedData === 'object' && parsedData !== null && 'type' in parsedData);
+    const parsedType = typeof parsedData === 'object' && parsedData !== null && 'type' in parsedData
+        ? (parsedData as any).type
+        : undefined;
+
+    const isProjectPayload = detailType === 'project' || (detailType !== 'playlist' && parsedType && parsedType !== 'playlist');
 
     if (isProjectPayload) {
         return <ProjectDetailsPage />;

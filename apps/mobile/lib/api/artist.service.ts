@@ -1,6 +1,6 @@
 import { Project } from '../types/types';
 import { apiClient } from './client';
-import { Artist, ArtistPage } from './types';
+import { Artist, ArtistAlbumsResponse, ArtistPage, ArtistPageMusic, ArtistSinglesResponse } from './types';
 
 /**
  * Service API pour les artistes
@@ -29,6 +29,30 @@ export const ArtistService = {
    */
   getAllArtistsByUserID: async (userId: number): Promise<any> => {
     return await apiClient.get<any>(`/artist/library/${userId}/all`);
+  },
+
+  /**
+   * Récupérer les albums/EP d'un artiste
+   * GET /artist/{id}/albums
+   */
+  getArtistAlbums: async (artistId: number): Promise<ArtistAlbumsResponse> => {
+    return await apiClient.get<ArtistAlbumsResponse>(`/artist/${artistId}/albums`);
+  },
+
+  /**
+   * Récupérer les singles d'un artiste
+   * GET /artist/{idArtist}/singles
+   */
+  getArtistSingles: async (artistId: number): Promise<ArtistSinglesResponse> => {
+    return await apiClient.get<ArtistSinglesResponse>(`/artist/${artistId}/singles`);
+  },
+
+  /**
+   * Récupérer tous les morceaux d'un artiste
+   * GET /musics/artist/{idArtist}
+   */
+  getArtistMusics: async (artistId: number): Promise<{ musics: ArtistPageMusic[] }> => {
+    return await apiClient.get<{ musics: ArtistPageMusic[] }>(`/musics/artist/${artistId}`);
   },
 
   /**

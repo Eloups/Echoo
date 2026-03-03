@@ -1,14 +1,15 @@
-import { Modal, View, Image, Pressable, StyleSheet, Dimensions, ScrollView, ActivityIndicator } from 'react-native';
+import { Modal, View, Image, Pressable, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
 import usePlayerStore from '@/hook/usePlayerStore';
 import { Ionicons, MaterialIcons, FontAwesome5, Entypo } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Slider from '@react-native-community/slider';
 import QueueModal from './queueModal';
 import { UserService } from '../api/user.service';
 import { MusicService } from '../api';
+import { LoadingSpinner } from './global/BtnConnexion';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -36,7 +37,7 @@ export default function PlayerModal() {
   const [localProgress, setLocalProgress] = useState(progress);
   const [isSeeking, setIsSeeking] = useState(false);
   const [queueVisible, setQueueVisible] = useState(false);
-  const seekTimeoutRef = useState<NodeJS.Timeout | null>(null)[0];
+  const seekTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
 
   //Vérifie si la musique est déjà likée par un utilisateur
@@ -81,8 +82,8 @@ export default function PlayerModal() {
       await seekTo(value);
       
       // Attendre un peu avant de réactiver la synchronisation
-      if (seekTimeoutRef) {
-        clearTimeout(seekTimeoutRef);
+      if (seekTimeoutRef.current) {
+        clearTimeout(seekTimeoutRef.current);
       }
       
       const timeout = setTimeout(() => {
@@ -90,7 +91,7 @@ export default function PlayerModal() {
       }, 300);
       
       // Stocker le timeout pour le cleanup
-      Object.assign(seekTimeoutRef, { current: timeout });
+      seekTimeoutRef.current = timeout;
     } catch (error) {
       // Gérer l'erreur silencieusement si le seek échoue
       setIsSeeking(false);
@@ -133,15 +134,6 @@ export default function PlayerModal() {
               source={currentTrack.cover}
               style={styles.cover}
             />
-            {/* Indicateur de chargement pendant le seek */}
-            {isLoading && (
-              <View style={styles.loadingOverlay}>
-                <ActivityIndicator size="large" color={theme.colors.primary} />
-                <AppText size="sm" color="text2" style={{ marginTop: 10 }}>
-                  Chargement...
-                </AppText>
-              </View>
-            )}
             {/* Titre de l'album sur l'image */}
             <View style={styles.albumTitleOverlay}>
             </View>
@@ -194,7 +186,13 @@ export default function PlayerModal() {
 
           {/* Contrôles de lecture */}
           <View style={styles.controlsContainer}>
-            <Pressable onPress={previousTrack} style={styles.controlButton}>
+            <Pressable
+              onPress={previousTrack}
+              style={({ pressed }) => [
+                styles.controlButton,
+                pressed && { backgroundColor: 'rgba(50, 67, 223, 0.25)' }
+              ]}
+            >
               <Ionicons name="play-skip-back" size={36} color={theme.colors.text} />
             </Pressable>
 
@@ -205,15 +203,25 @@ export default function PlayerModal() {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
               >
-                <Ionicons
-                  name={isPlaying ? 'pause' : 'play'}
-                  size={40}
-                  color="white"
-                />
+                {isLoading ? (
+                  <LoadingSpinner size={20} color={theme.colors.text} />
+                ) : (
+                  <Ionicons
+                    name={isPlaying ? 'pause' : 'play'}
+                    size={40}
+                    color="white"
+                  />
+                )}
               </LinearGradient>
             </Pressable>
 
-            <Pressable onPress={nextTrack} style={styles.controlButton}>
+            <Pressable
+              onPress={nextTrack}
+              style={({ pressed }) => [
+                styles.controlButton,
+                pressed && { backgroundColor: 'rgba(50, 67, 223, 0.25)' }
+              ]}
+            >
               <Ionicons name="play-skip-forward" size={36} color={theme.colors.text} />
             </Pressable>
           </View>
@@ -228,7 +236,13 @@ export default function PlayerModal() {
               <Ionicons name="create-outline" size={24} color={theme.colors.text} />
             </Pressable> */}
 
-            <Pressable style={styles.bottomButton} onPress={() => setQueueVisible(true)}>
+            <Pressable
+              onPress={() => setQueueVisible(true)}
+              style={({ pressed }) => [
+                styles.bottomButton,
+                pressed && { backgroundColor: 'rgba(50, 67, 223, 0.25)' }
+              ]}
+            >
               <Entypo name="menu" size={24} color={theme.colors.text} />
             </Pressable>
           </View>
@@ -273,17 +287,6 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.75,
     height: SCREEN_WIDTH * 0.75,
     borderRadius: 12,
-  },
-  loadingOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   albumTitleOverlay: {
     position: 'absolute',
@@ -344,6 +347,7 @@ const styles = StyleSheet.create({
   },
   controlButton: {
     padding: 10,
+    borderRadius: 999,
   },
   playButton: {
     marginHorizontal: 10,
@@ -364,6 +368,7 @@ const styles = StyleSheet.create({
   },
   bottomButton: {
     padding: 10,
+    borderRadius: 999,
   },
   tabsContainer: {
     flexDirection: 'row',

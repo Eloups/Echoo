@@ -17,6 +17,7 @@ export default function SmallArtist(props: Pageprops){
         router.push({
             pathname: "/(tabs)/artist/presentation",
             params: {
+                artistId: props.artist.id,
                 title: props.artist.title,
                 data: JSON.stringify(props.artist),
                 from: currentPath

@@ -1,10 +1,11 @@
-import { View, Modal, Pressable, StyleSheet, ScrollView, ActivityIndicator, Alert } from 'react-native';
+import { View, Modal, Pressable, StyleSheet, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { PlaylistService } from '@/lib/api';
+import { LoadingSpinner } from './global/BtnConnexion';
 
 type AddToPlaylistModalProps = {
     visible: boolean;
@@ -119,7 +120,7 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
                     {/* Liste des playlists */}
                     {loading ? (
                         <View style={styles.centerContainer}>
-                            <ActivityIndicator size="large" color={theme.colors.primary} />
+                            <LoadingSpinner size={20} color={theme.colors.primary} />
                             <AppText style={{ marginTop: 10 }}>Chargement des playlists...</AppText>
                         </View>
                     ) : playlists.length === 0 ? (
@@ -176,7 +177,7 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
                                     disabled={submitting || selectedPlaylists.size === 0}
                                 >
                                     {submitting ? (
-                                        <ActivityIndicator color="#fff" />
+                                        <LoadingSpinner size={20} color={theme.colors.primary} />
                                     ) : (
                                         <AppText size="md" style={{ color: '#fff', fontWeight: '600' }}>
                                             Ajouter ({selectedPlaylists.size})
