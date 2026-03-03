@@ -87,7 +87,7 @@ export default function Liked() {
 
     return (
         <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>
-            <ScrollView horizontal={false} showsHorizontalScrollIndicator={false}  style={{ height: "100%", paddingBottom: 130 }}>
+            <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} style={{ height: "100%", paddingBottom: 130 }}>
                 <View style={{ alignItems: 'center', paddingTop: 10, paddingHorizontal: 20 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12, gap: 10, width: '100%', justifyContent: 'space-between' }}>
                         <AppText size="sm" color="text">
@@ -96,7 +96,7 @@ export default function Liked() {
                     </View>
                 </View>
                 <View style={{ height: 1, marginHorizontal: 20 }}>
-                    <View style={{width: '100%', backgroundColor: theme.colors.text, height: "100%"}}></View>
+                    <View style={{ width: '100%', backgroundColor: theme.colors.text, height: "100%" }}></View>
                 </View>
                 {musics.length > 0 ? (
                     <View style={{ marginTop: 30, paddingHorizontal: 20 }}>
