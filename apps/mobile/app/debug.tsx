@@ -4,7 +4,7 @@ import { useTheme } from "@/lib/theme/provider";
 
 export default function DebugScreen() {
   const router = useRouter();
-  const { theme, setThemeByName } = useTheme();
+  const { theme } = useTheme();
   
   return (
     <View
@@ -16,7 +16,7 @@ export default function DebugScreen() {
       }}
     >
       <Pressable 
-        onPress={() => router.push("/bases/connexion")}
+        onPress={() => router.push("/connexion/connexion")}
         style={{
           marginTop: 20,
           padding: 10,
@@ -39,32 +39,6 @@ export default function DebugScreen() {
         <Text style={{ color: "white" }}>Accueil</Text>
       </Pressable>
 
-      <Pressable
-        onPress={() => setThemeByName("light")}
-        style={{
-          backgroundColor: theme.colors.primary,
-          padding: 12,
-          borderRadius: 10,
-          borderWidth: 1,
-          borderColor: theme.colors.primaryLight,
-          marginBottom: 10,
-        }}
-      >
-        <Text style={{ color: theme.colors.text, textAlign: "center" }}>Thème clair</Text>
-      </Pressable>
-
-      <Pressable
-        onPress={() => setThemeByName("dark")}
-        style={{
-          backgroundColor: theme.colors.primary,
-          padding: 12,
-          borderRadius: 10,
-        }}
-      >
-        <Text style={{ color: theme.colors.background, textAlign: "center" }}>
-          Thème sombre
-        </Text>
-      </Pressable>
     </View>
   );
 }
