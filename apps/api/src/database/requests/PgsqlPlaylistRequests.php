@@ -77,7 +77,7 @@ class PgsqlPlaylistRequests
 
     /**
      * Requête pour récupérer les playlists d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return array
      */
     public function getPlaylistsInLibrary(string $id_library): array
