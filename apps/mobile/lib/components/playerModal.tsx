@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef, useState } from 'react';
 import Slider from '@react-native-community/slider';
 import QueueModal from './queueModal';
+import AddToPlaylistModal from './addToPlaylistModal';
 import { UserService } from '../api/user.service';
 import { AlbumService, MusicService } from '../api';
 import { LoadingSpinner } from './global/BtnConnexion';
@@ -37,6 +38,7 @@ export default function PlayerModal() {
   const [localProgress, setLocalProgress] = useState(progress);
   const [isSeeking, setIsSeeking] = useState(false);
   const [queueVisible, setQueueVisible] = useState(false);
+  const [addToPlaylistModalVisible, setAddToPlaylistModalVisible] = useState(false);
   const seekTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
   const [trackColors, setTrackColors] = useState<{ color1: string; color2: string } | null>(null);
@@ -173,7 +175,10 @@ export default function PlayerModal() {
                 </AppText>
               </View>
               <View style={styles.actionsRow}>
-                <Pressable style={styles.actionButton}>
+                <Pressable
+                  style={styles.actionButton}
+                  onPress={() => setAddToPlaylistModalVisible(true)}
+                >
                   <MaterialIcons name="playlist-add" size={28} color={theme.colors.text} />
                 </Pressable>
                 <Pressable onPress={handleMusicLike} style={styles.actionButton}>
@@ -272,6 +277,13 @@ export default function PlayerModal() {
 
       {/* Modale de la liste d'attente */}
       <QueueModal visible={queueVisible} onClose={() => setQueueVisible(false)} />
+
+      {/* Modale d'ajout à une playlist */}
+      <AddToPlaylistModal
+        visible={addToPlaylistModalVisible}
+        onClose={() => setAddToPlaylistModalVisible(false)}
+        musicId={currentTrack.id}
+      />
     </Modal>
   );
 }
