@@ -26,11 +26,11 @@ class PgsqlProjectRequests
 
     /**
      * Requête pour ajouter un like à un projet
-     * @param int $id_user
+     * @param string $id_user
      * @param int $id_project
      * @return void
      */
-    public function addLike(int $id_user, int $id_project): void
+    public function addLike(string $id_user, int $id_project): void
     {
         $getIdLibrary = "SELECT id_library
         FROM \"user\"

@@ -15,11 +15,11 @@ class ProjectDrivenAdapter implements ProjectDrivenAdapterInterface
 {
     /**
      * Méthode pour ajouter un like à un projet
-     * @param int $id_user
+     * @param string $id_user
      * @param int $id_project
      * @return void
      */
-    public function addLike(int $id_user, int $id_project): void
+    public function addLike(string $id_user, int $id_project): void
     {
         $pgslserver = new PgsqlServer();
 
