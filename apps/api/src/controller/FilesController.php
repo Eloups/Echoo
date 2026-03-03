@@ -4,6 +4,7 @@ namespace Api\Controller;
 
 use Api\Adapter\FilesDrivingAdapter;
 use Api\Controller\ControllerInterface;
+use Api\Utils\AuthUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -41,6 +42,11 @@ class FilesController implements ControllerInterface
     public function run(Request $request): Response
     {
         $adapter = new FilesDrivingAdapter();
+
+        if ($this->action === 'addImage') {
+            // Authentification
+            AuthUtils::authenticate($request);
+        }
 
         return match ($this->action) {
             'getImage' => $adapter->getImageFile($this->params['fileName']),

@@ -20,9 +20,6 @@ try {
     // On récupère la requête utilisateur
     $request = Request::createFromGlobals();
 
-    // Authentification
-    AuthUtils::authenticate($request);
-
     // On récupère la collection de routes pour le routeur
     $routeCollection = include __DIR__ . '/../src/router/routes.php';
 

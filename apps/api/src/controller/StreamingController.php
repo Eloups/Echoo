@@ -3,6 +3,7 @@ namespace Api\Controller;
 
 use Api\Adapter\StreamingDrivingAdapter;
 use Api\Controller\ControllerInterface;
+use Api\Utils\AuthUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -41,6 +42,9 @@ class StreamingController implements ControllerInterface
      */
     public function run(Request $request): Response
     {
+        // Authentification
+        AuthUtils::authenticate($request);
+
         $adapter = new StreamingDrivingAdapter();
         $fileName = $this->params['fileName'];
 
