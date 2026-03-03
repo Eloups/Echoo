@@ -19,10 +19,11 @@ export default function ProjectCard(props: ProjectCardProps) {
         const currentPath = '/' + segments.join('/');
         
         router.push({
-            pathname: "/(tabs)/album/musiques",
+            pathname: "/(tabs)/detail",
             params: {
                 data: JSON.stringify(props.infos),
-                from: currentPath
+                from: currentPath,
+                detailType: 'project',
             }
         });
     };
@@ -96,7 +97,7 @@ export default function ProjectCard(props: ProjectCardProps) {
                                 {props.infos.title.length > 36 ? props.infos.title.slice(0, 34) + "..." : props.infos.title}
                             </AppText>
                             <AppText size={"sm"} color="text2" style={{ transform: [{ translateY: -5 }] }}>
-                                {formatArtist(props.infos.artist, 16)}
+                                {formatArtist(props.infos.artist, 50)}
                             </AppText>
                         </View>
                     </View>

@@ -16,6 +16,7 @@ export type Playlist = {
     title : string,
     description : string,
     musics? : Music[],
+    nbMusics: number,
 }
 
 export type Project = {

@@ -2,7 +2,6 @@
 
 namespace Api\Database\Requests;
 
-use Api\Utils\RequestUtils;
 use PDO;
 
 /**
@@ -107,7 +106,8 @@ class PgsqlProjectRequests
             m.release AS music_release,
             m.nb_streams,
             m.file_path,
-            pt.name AS project_type
+            pt.name AS project_type,
+            a.name AS name_artist
 
         FROM project p
         LEFT JOIN project_music pm 
@@ -116,6 +116,10 @@ class PgsqlProjectRequests
             ON pm.id_music = m.id
         LEFT JOIN project_type pt 
             ON p.id_type = pt.id
+        LEFT JOIN artist_project ap
+            ON p.id = ap.id_project
+        LEFT JOIN artist a
+            ON ap.id_artist = a.id
 
         WHERE p.id = :id_project;";
 

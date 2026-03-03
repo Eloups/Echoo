@@ -1,3 +1,4 @@
+import { Artist, Music, Project } from '../types/types';
 import { apiClient } from './client';
 
 /**
@@ -34,6 +35,12 @@ export interface APIProject {
 
 export interface FollowedArtistsReleasesResponse {
   projects: APIProject[];
+}
+
+export interface SearchList {
+  artists: Artist[],
+  projects: Project[],
+  musics: Music[]
 }
 
 export interface APIArtist {
@@ -79,4 +86,12 @@ export const HomeService = {
   getMonthArtists: async (): Promise<MonthArtistsResponse> => {
     return await apiClient.get<MonthArtistsResponse>('/artist/listened/month');
   },
+
+  /***
+   * Rechercher une musique ou un artiste dans la base de données
+   * GET /artist/search/(ce que je veux chercher)
+   */
+  searchInDB: async (search: string): Promise<SearchList> => {
+    return await apiClient.get<SearchList>(`/artist/search/${search}`);
+  }
 };

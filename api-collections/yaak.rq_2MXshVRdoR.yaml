@@ -1,8 +1,8 @@
 type: http_request
 model: http_request
-id: rq_dEopj8nDYp
-createdAt: 2025-12-03T10:13:05.287676800
-updatedAt: 2026-02-09T12:31:39.763878900
+id: rq_2MXshVRdoR
+createdAt: 2026-02-13T17:03:13.832066700
+updatedAt: 2026-02-13T17:08:57.250592500
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_k7AiE9NFCL
 authentication: {}
@@ -11,7 +11,7 @@ body:
   text: |-
     {
       "id_user": "3",
-      "id_music": 9
+      "id_music": 6
     }
 bodyType: application/json
 description: ''
@@ -19,9 +19,9 @@ headers:
 - enabled: true
   name: Content-Type
   value: application/json
-  id: 3E02VknxF8
+  id: 6evmmkgIhv
 method: POST
-name: like a music
+name: get is music is like by user
 sortPriority: -1760599398215.0
-url: ${[ API_HOST ]}/music/like
+url: ${[ API_HOST ]}/music/user/isLike
 urlParameters: []

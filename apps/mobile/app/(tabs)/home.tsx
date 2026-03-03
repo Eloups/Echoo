@@ -8,7 +8,7 @@ import MusicCard from "@/lib/components/musicCard";
 import ProjectCard from "@/lib/components/projectCard";
 import MonthArtists from "@/lib/components/monthArtists";
 import { useEffect, useState, useCallback } from "react";
-import { useNavigation, router, useSegments, useFocusEffect } from "expo-router";
+import { useNavigation, useFocusEffect } from "expo-router";
 import { HomeService } from "@/lib/api/home.service";
 import { MusicService, apiClient } from "@/lib/api";
 import { useGlobalHook } from "@/hook";
@@ -20,7 +20,6 @@ export default function home() {
     const { user } = useGlobalHook();
 
     const navigation = useNavigation();
-    const segments = useSegments();
     const [lastListenedMusics, setLastListenedMusics] = useState<Music[]>([]);
     const [latestReleases, setLatestReleases] = useState<Project[]>([]);
     const [monthArtists, setMonthArtists] = useState<Artist[]>([]);
@@ -102,13 +101,14 @@ export default function home() {
                         }
 
                         return {
+                            id: apiProject.id,
                             cover: coverUri,
                             type: apiProject.projectType.toLowerCase(),
                             title: apiProject.title,
                             description: "",
-                            artist: "", // TODO: Récupérer le nom de l'artiste si nécessaire
+                            artist: "Artiste inconnu",
                             musics: []
-                        };
+                        } as Project;
                     });
 
                     setLatestReleases(mappedProjects);
