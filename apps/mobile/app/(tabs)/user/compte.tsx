@@ -44,16 +44,16 @@ export default function CompteScreen() {
                 </View>
                 <View style={{ flex: 1, height: "100%", justifyContent: "center" }}>
                     <AppText size="3xl" >{user?.username || "Test"}</AppText>
-                    <AppText size="xs" >XX amis - XX suivis</AppText>
+                    {/* <AppText size="xs" >XX amis - XX suivis</AppText> */}
                 </View>
             </View>
 
             <View style={{ width: "100%", marginTop: 20 }} >
                 <BtnConnexion title="Modifier le profil" onClick={() => { console.log("Modification du profil") }} />
             </View>
-            <View style={{ width: "100%", marginTop: 20 }} >
+            {/* <View style={{ width: "100%", marginTop: 20 }} >
                 <StatsProfil />
-            </View>
+            </View> */}
 
             <View style={{ width: "100%", marginTop: 20 }} >
                 <BtnConnexion title="Se déconnecter" onClick={() => { handleLogout() }} />
