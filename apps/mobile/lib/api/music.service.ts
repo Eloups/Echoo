@@ -33,6 +33,10 @@ export const MusicService = {
     });
   },
 
+  /**
+   * Vérifier si une musique est déjà liké par l'utilisateur
+   * GET /music/user/isLike
+   */
   getIsMusicIsLike: async (userId: string, musicId: number): Promise<boolean> => {
     return await apiClient.post('/music/user/isLike', {
       id_user: userId.toString(),

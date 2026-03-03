@@ -1,4 +1,4 @@
-import { View, ScrollView, Image, Pressable, StyleSheet, Modal, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { View, ScrollView, Image, Pressable, StyleSheet, Modal, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/lib/theme/provider';
@@ -10,6 +10,7 @@ import DetailMusicCard from './detailMusicCard';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { PlaylistService, apiClient, MusicService, ImageService } from '@/lib/api';
 import EditPlaylistModal from './editPlaylistModal';
+import { LoadingSpinner } from './global/BtnConnexion';
 
 type PlaylistDetailPageProps = {
     data: Playlist;
@@ -224,7 +225,7 @@ export default function PlaylistDetailPage({ data, onBack }: PlaylistDetailPageP
 
                 {loading ? (
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <ActivityIndicator size="large" color={theme.colors.primary} />
+                        <LoadingSpinner size={20} color={theme.colors.primary} />
                         <AppText style={{ marginTop: 10 }}>Chargement de la playlist...</AppText>
                     </View>
                 ) : (

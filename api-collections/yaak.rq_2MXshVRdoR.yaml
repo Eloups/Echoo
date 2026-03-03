@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_2MXshVRdoR
 createdAt: 2026-02-13T17:03:13.832066700
-updatedAt: 2026-02-13T17:08:57.250592500
+updatedAt: 2026-02-27T13:03:56.692359800
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_k7AiE9NFCL
 authentication: {}
@@ -21,7 +21,7 @@ headers:
   value: application/json
   id: 6evmmkgIhv
 method: POST
-name: get is music is like by user
+name: get is music is liked by user
 sortPriority: -1760599398215.0
 url: ${[ API_HOST ]}/music/user/isLike
 urlParameters: []

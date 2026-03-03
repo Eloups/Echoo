@@ -1,10 +1,11 @@
 import ArtistCard from "@/lib/components/artistCard";
 import { useTheme } from "@/lib/theme/provider";
 import { Artist } from "@/lib/types/types";
-import { ScrollView, View, ActivityIndicator } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useEffect, useState } from "react";
 import { ArtistService, apiClient } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
+import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
 
 export default function Artists() {
     const { theme } = useTheme();
@@ -48,7 +49,7 @@ export default function Artists() {
     if (loading) {
         return (
             <View style={{ backgroundColor: theme.colors.background, height: "100%", justifyContent: "center", alignItems: "center" }}>
-                <ActivityIndicator size="large" color={theme.colors.primary} />
+                <LoadingSpinner size={20} color={theme.colors.primary} />
                 <AppText style={{ marginTop: 10 }}>Chargement des artistes...</AppText>
             </View>
         );

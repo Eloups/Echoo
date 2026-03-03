@@ -174,14 +174,73 @@ class PgsqlArtistRequests
         $idLibrary = $request->fetch()['id_library'];
 
         $request = $this->pdo->prepare("
-            INSERT INTO library_artist (id_library, id_artist)
-            VALUES (:id_library, :id_artist)
+            SELECT * FROM library_artist 
+            WHERE id_library = :id_library AND id_artist = :id_artist;
         ");
 
         $request->execute([
             ":id_library" => $idLibrary,
             ":id_artist" => $id_artist
         ]);
+        $isLike = $request->fetch();
+        if ($isLike == null) {
+            $request = $this->pdo->prepare("
+            INSERT INTO library_artist (id_library, id_artist)
+            VALUES (:id_library, :id_artist)
+            ");
+
+            $request->execute([
+                ":id_library" => $idLibrary,
+                ":id_artist" => $id_artist
+            ]);
+        }
+        else {
+            $request = $this->pdo->prepare("
+            DELETE FROM library_artist 
+            WHERE id_library = :id_library AND id_artist = :id_artist
+            ");
+
+            $request->execute([
+                ":id_library" => $idLibrary,
+                ":id_artist" => $id_artist
+            ]);
+        }
+
+        
+    }
+
+    /**
+     * Requête pour ajouter un like à un artiste
+     * @param string $id_user
+     * @param int $id_artist
+     * @return bool
+     */
+    public function isArtistLiked(string $id_user, int $id_artist): bool
+    {
+        $getIdLibrary = "SELECT id_library
+        FROM \"user\"
+        WHERE \"user\".id = :id_user;";
+
+        $request = $this->pdo->prepare($getIdLibrary);
+        $request->execute([":id_user" => $id_user]);
+        $idLibrary = $request->fetch()['id_library'];
+
+        $request = $this->pdo->prepare("
+            SELECT * FROM library_artist 
+            WHERE id_library = :id_library AND id_artist = :id_artist;
+        ");
+
+        $request->execute([
+            ":id_library" => $idLibrary,
+            ":id_artist" => $id_artist
+        ]);
+        $isLike = $request->fetch();
+        if ($isLike == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     /**

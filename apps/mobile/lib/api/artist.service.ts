@@ -1,6 +1,6 @@
 import { Project } from '../types/types';
 import { apiClient } from './client';
-import { Artist, ArtistPage } from './types';
+import { Artist, ArtistAlbumsResponse, ArtistPage, ArtistPageMusic, ArtistSinglesResponse } from './types';
 
 /**
  * Service API pour les artistes
@@ -32,10 +32,45 @@ export const ArtistService = {
   },
 
   /**
+   * Récupérer les albums/EP d'un artiste
+   * GET /artist/{id}/albums
+   */
+  getArtistAlbums: async (artistId: number): Promise<ArtistAlbumsResponse> => {
+    return await apiClient.get<ArtistAlbumsResponse>(`/artist/${artistId}/albums`);
+  },
+
+  /**
+   * Récupérer les singles d'un artiste
+   * GET /artist/{idArtist}/singles
+   */
+  getArtistSingles: async (artistId: number): Promise<ArtistSinglesResponse> => {
+    return await apiClient.get<ArtistSinglesResponse>(`/artist/${artistId}/singles`);
+  },
+
+  /**
+   * Récupérer tous les morceaux d'un artiste
+   * GET /musics/artist/{idArtist}
+   */
+  getArtistMusics: async (artistId: number): Promise<{ musics: ArtistPageMusic[] }> => {
+    return await apiClient.get<{ musics: ArtistPageMusic[] }>(`/musics/artist/${artistId}`);
+  },
+
+  /**
    * Récupérer tous les albums likés de l'tilisateur
    * GET /project/library/3/all
    */
   getAllProjectsByUserID: async (userId: string): Promise<Project> => {
     return await apiClient.get<Project>(`/project/library/${userId}/all`)
-  }
+  },
+
+  /**
+   * Vérifier si une musique est déjà liké par l'utilisateur
+   * GET /music/user/isLike
+   */
+  getIsArtistIsLike: async (userId: string, artistId: number): Promise<boolean> => {
+    return await apiClient.post('/artist/user/isLike', {
+      id_user: userId.toString(),
+      id_artist: artistId
+    });
+  },
 };

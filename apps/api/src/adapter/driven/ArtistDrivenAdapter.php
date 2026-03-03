@@ -218,4 +218,19 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface
 
         return [$artists, $projects, $musics];
     }
+
+    /**
+     * Méthode pour vérifier si un artiste est liké
+     * @param string $id_user
+     * @param int $id_artist
+     * @return bool
+     */
+    public function isArtistLiked(string $id_user, int $id_artist): bool {
+        $pgslserver = new PgsqlServer();
+
+        $pdo = $pgslserver->getConnection();
+        $requests = new PgsqlArtistRequests($pdo);
+
+        return $requests->isArtistLiked($id_user, $id_artist);
+    }
 }

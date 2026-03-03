@@ -170,7 +170,8 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(255, 255, 255, 0.1)',
   },
   listContent: {
-    paddingVertical: 10,
+    paddingTop: 10,
+    paddingBottom: 110
   },
   trackItem: {
     flexDirection: 'row',

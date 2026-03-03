@@ -4,13 +4,14 @@ import AppText from './global/appText';
 import usePlayerStore from '@/hook/usePlayerStore';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LoadingSpinner } from './global/BtnConnexion';
 
 /**
  * Barre minimale du lecteur qui s'affiche au-dessus de la navigation
  */
 export default function MiniPlayer() {
   const { theme } = useTheme();
-  const { currentTrack, isPlaying, togglePlayPause, showPlayerModal } = usePlayerStore();
+  const { currentTrack, isPlaying, isLoading, togglePlayPause, showPlayerModal } = usePlayerStore();
   const insets = useSafeAreaInsets();
 
   const handleOpenPlayer = () => {
@@ -48,21 +49,33 @@ export default function MiniPlayer() {
                 </AppText>
               </View>
 
-              {/* Bouton Play/Pause */}
-              <Pressable onPress={handleTogglePlay} style={styles.playButton}>
-                <Ionicons 
-                  name={isPlaying ? 'pause' : 'play'} 
-                  size={28} 
-                  color={theme.colors.text}
-                />
-              </Pressable>
+              {/* Bouton Play/Pause ou spinner pendant chargement */}
+              {isLoading ? (
+                <View style={styles.playButton}>
+                  <LoadingSpinner size={20} color={theme.colors.primary} />
+                </View>
+              ) : (
+                <Pressable onPress={handleTogglePlay} style={styles.playButton}>
+                  <Ionicons 
+                    name={isPlaying ? 'pause' : 'play'} 
+                    size={28} 
+                    color={theme.colors.text}
+                  />
+                </Pressable>
+              )}
             </>
           ) : (
             <View style={styles.noMusicContainer}>
-              <Ionicons name="musical-notes-outline" size={24} color={theme.colors.text2} />
-              <AppText size="sm" color="text2" style={{ marginLeft: 12 }}>
-                Aucune musique en cours de lecture
-              </AppText>
+              {isLoading ? (
+                <LoadingSpinner size={20} color={theme.colors.primary} />
+              ) : (
+                <>
+                  <Ionicons name="musical-notes-outline" size={24} color={theme.colors.text2} />
+                  <AppText size="sm" color="text2" style={{ marginLeft: 12 }}>
+                    Aucune musique en cours de lecture
+                  </AppText>
+                </>
+              )}
             </View>
           )}
         </View>
