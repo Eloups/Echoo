@@ -26,7 +26,7 @@ export default function PresentationPage() {
             ArtistService.getIsArtistIsLike(userId, artist.id)
             .then(setIsArtistLike);
         }
-    }, [artist.id])
+    }, [])
 
     if (loading) {
         return (

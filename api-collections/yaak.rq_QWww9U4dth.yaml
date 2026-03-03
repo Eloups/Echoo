@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_QWww9U4dth
 createdAt: 2026-02-27T13:04:03.292309700
-updatedAt: 2026-02-27T13:05:13.462483500
+updatedAt: 2026-03-03T10:06:27.642545100
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_zuMHoGGruW
 authentication: {}
@@ -10,8 +10,8 @@ authenticationType: null
 body:
   text: |-
     {
-      "id_user": "2",
-      "id_artist": 8
+      "id_user": "3",
+      "id_artist": 1
     }
 bodyType: application/json
 description: ''
