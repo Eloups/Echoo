@@ -86,4 +86,17 @@ class MusicService implements MusicServiceInterface
         $isLike = $driven->getIsMusicLikeByUser($id_user, $id_music);
         return $isLike;
     }
+
+    /**
+     * Action de la récupération des colors d'un projet à partir de l'id d'une musique
+     * @param int $id_music
+     * @return array
+     */
+    public function getColorsProject(int $id_music): array
+    {
+        $driven = new MusicDrivenAdapter();
+        $colors = $driven->getColorsProject($id_music);
+
+        return $colors;
+    }
 }

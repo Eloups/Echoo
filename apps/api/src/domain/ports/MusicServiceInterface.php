@@ -44,4 +44,11 @@ interface MusicServiceInterface
      * @return bool
      */
     public function getIsMusicLikeByUser(string $id_user, int $id_music): bool;
+
+    /**
+     * Action de la récupération des colors d'un projet à partir de l'id d'une musique
+     * @param int $id_music
+     * @return array
+     */
+    public function getColorsProject(int $id_music): array;
 }

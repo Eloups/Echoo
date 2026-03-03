@@ -322,8 +322,8 @@ class PgsqlArtistRequests
             pr.created_at,
             pr.id_user,
             pt.name AS project_type
-        FROM project_rating pr
-        INNER JOIN project p ON p.id = pr.id_project
+        FROM project p
+        LEFT JOIN project_rating pr ON p.id = pr.id_project
         INNER JOIN project_type pt ON pt.id = p.id_type
         WHERE p.id = :id_album;";
 
@@ -389,8 +389,8 @@ class PgsqlArtistRequests
      */
     public function searchProjects(string $search, int $limit): array
     {
-        $sql = 'SELECT p.id, p.title, p."release", p.color1, p.color2, p.cover_path, pt."name" project_type FROM project p
-            JOIN project_type pt ON p.id_type = pt.id
+        $sql = 'SELECT p.id, p.title, p."release", p.color1, p.color2, p.cover_path, pt."name" project_type, a.name AS artist_name FROM project p
+            JOIN project_type pt ON p.id_type = pt.id JOIN artist_project ap ON ap.id_project = p.id JOIN artist a ON a.id = ap.id_artist
             WHERE LOWER(p.title) LIKE :search
             LIMIT :limit;';
 

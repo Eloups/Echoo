@@ -99,4 +99,17 @@ class MusicDrivingAdapter
         $isLike = $service->getIsMusicLikeByUser($body['id_user'], $body['id_music']);
         return new Response(json_encode(['isLike' => $isLike]));
     }
+
+    /**
+     * Récupération des colors d'un projet à partir de l'id musique
+     * @param int $id_music
+     * @return Response
+     */
+    public function getColorsProject(int $id_music): Response
+    {
+        $service = new MusicService();
+        $colors = $service->getColorsProject($id_music);
+
+        return new Response(SerializerUtils::get()->serialize(['colors' => $colors], "json"));
+    }
 }
