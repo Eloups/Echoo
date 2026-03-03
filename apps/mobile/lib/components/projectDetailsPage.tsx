@@ -24,6 +24,7 @@ export default function ProjectDetailsPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [totalDuration, setTotalDuration] = useState(0);
+    const [isProjectLiked, setIsProjectLiked] = useState<boolean>(false);
 
     const rawData = useMemo(() => {
         if (!params.data) return null;
@@ -167,6 +168,8 @@ export default function ProjectDetailsPage() {
         const secs = seconds % 60;
         return `${mins}min${secs.toString().padStart(2, '0')}`;
     };
+
+    //Vérifier si le projet est déjà like ici
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['top']}>
