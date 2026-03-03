@@ -3,6 +3,7 @@
 namespace Api\Controller;
 
 use Api\Adapter\MusicDrivingAdapter;
+use Api\Utils\AuthUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -41,6 +42,9 @@ class MusicController implements ControllerInterface
      */
     public function run(Request $request): Response
     {
+        // Authentification
+        AuthUtils::authenticate($request);
+
         $adapter = new MusicDrivingAdapter();
         $response = match ($this->action) {
             'list' => $adapter->listMusics($this->params["id"]),
