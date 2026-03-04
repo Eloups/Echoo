@@ -7,8 +7,9 @@ import MusicCard from "@/lib/components/musicCard";
 import { useTheme } from "@/lib/theme/provider";
 import { Music, Playlist } from "@/lib/types/types";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ScrollView, View } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 
 const placeholderImage = require("../../../assets/images/react-logo.png");
 
@@ -25,7 +26,7 @@ export default function Liked() {
         return `${mins}min${secs.toString().padStart(2, '0')}`;
     };
 
-    const fetchPlaylist = async () => {
+    const fetchPlaylist = useCallback(async () => {
         try {
             const { data: session, error } = await authClient.getSession();
 
@@ -79,11 +80,13 @@ export default function Liked() {
         } catch (err) {
             console.error('Erreur lors du chargement de la playlist:', err);
         }
-    }
-
-    useEffect(() => {
-        fetchPlaylist();
     }, []);
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchPlaylist();
+        }, [fetchPlaylist])
+    );
 
     return (
         <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>
