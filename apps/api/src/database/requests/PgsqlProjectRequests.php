@@ -111,10 +111,10 @@ class PgsqlProjectRequests
 
     /**
      * Requête pour récupérer les projets d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return array
      */
-    public function getProjectsInLibrary(int $id_library): array
+    public function getProjectsInLibrary(string $id_library): array
     {
         $getArtistsInLibrary = 'SELECT p.id, p.title, p.release, p.color1, p.color2, p.cover_path, pt.name AS project_type, a.name AS artist_name
             FROM "library" l

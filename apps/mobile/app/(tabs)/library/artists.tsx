@@ -7,9 +7,11 @@ import { ArtistService, apiClient } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
 import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
 import { useFocusEffect } from "expo-router";
+import useAuthHook from "@/hook/authHook";
 
 export default function Artists() {
     const { theme } = useTheme();
+    const { userId } = useAuthHook();
     const [artists, setArtists] = useState<Artist[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -17,9 +19,14 @@ export default function Artists() {
     const fetchArtists = useCallback(async () => {
             try {
                 setLoading(true);
-                const userId = 3; // ID utilisateur
+                if (!userId) {
+                    setArtists([]);
+                    setError("Utilisateur non connecté");
+                    return;
+                }
+
                 const response: any = await ArtistService.getAllArtistsByUserID(userId);
-                
+                console.log(userId);
                 const artistsArray = response.artists || [];
                 
                 // Convertir les données de l'API au format Artist
@@ -35,6 +42,7 @@ export default function Artists() {
                 }));
                 
                 setArtists(formattedArtists);
+                setError(null);
             } catch (err) {
                 console.error('Erreur lors du chargement des artistes:', err);
                 setError('Impossible de charger les artistes');
@@ -42,7 +50,7 @@ export default function Artists() {
                 setLoading(false);
             
         };
-    }, []);
+    }, [userId]);
 
     useFocusEffect(useCallback(() => {
         fetchArtists();

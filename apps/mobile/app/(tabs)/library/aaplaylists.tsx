@@ -10,9 +10,11 @@ import { useCallback } from "react";
 import MaterialIcons from "@expo/vector-icons/build/MaterialIcons";
 import AddPlaylistModal from "@/lib/components/addPlaylistModal";
 import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
+import useAuthHook from "@/hook/authHook";
 
 export default function Playlists() {
     const { theme } = useTheme();
+    const { userId } = useAuthHook();
     const [playlists, setPlaylists] = useState<Playlist[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -21,7 +23,12 @@ export default function Playlists() {
     const fetchPlaylists = useCallback(async () => {
         try {
             setLoading(true);
-            const userId = 3; // ID utilisateur
+            if (!userId) {
+                setPlaylists([]);
+                setError("Utilisateur non connecté");
+                return;
+            }
+
             const response: any = await PlaylistService.getAllPlaylistsByUserID(userId);
             
             const playlistsArray = response.playlists || [];
@@ -56,13 +63,14 @@ export default function Playlists() {
                 }));
                 
                 setPlaylists(formattedPlaylists);
+                setError(null);
             } catch (err) {
                 console.error('Erreur lors du chargement des playlists:', err);
                 setError('Impossible de charger les playlists');
             } finally {
                 setLoading(false);
             }
-        }, []);
+        }, [userId]);
 
     useFocusEffect(
         useCallback(() => {
@@ -89,6 +97,11 @@ export default function Playlists() {
 
     const handleCreatePlaylist = async (title: string, description: string, coverBase64: string | null) => {
         try {
+            if (!userId) {
+                Alert.alert("Erreur", "Utilisateur non connecté");
+                return;
+            }
+
             let coverPath = "";
             
             // Si une image a été sélectionnée, l'uploader d'abord
@@ -105,7 +118,7 @@ export default function Playlists() {
 
             // Préparer les données de la playlist
             const playlistData = {
-                id_library: "3",
+                id_library: userId,
                 title: title,
                 isPublic: false,
                 description: description,

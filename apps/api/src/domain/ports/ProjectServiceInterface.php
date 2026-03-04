@@ -19,10 +19,10 @@ interface ProjectServiceInterface {
 
     /**
      * Action de la récupération des projets d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return array
      */
-    public function getProjectsInLibrary(int $id_library): array;
+    public function getProjectsInLibrary(string $id_library): array;
 
     /**
      * Action de la récupération d'un projet avec ses musiques

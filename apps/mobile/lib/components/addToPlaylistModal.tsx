@@ -6,6 +6,7 @@ import AppText from '@/lib/components/global/appText';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { PlaylistService } from '@/lib/api';
 import { LoadingSpinner } from './global/BtnConnexion';
+import useAuthHook from '@/hook/authHook';
 
 type AddToPlaylistModalProps = {
     visible: boolean;
@@ -26,6 +27,10 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
     const [selectedPlaylists, setSelectedPlaylists] = useState<Set<number>>(new Set());
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    let { userId } = useAuthHook();
+    if (!userId) {
+        userId = "";
+    }
 
     useEffect(() => {
         if (visible) {
@@ -37,18 +42,17 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
     const fetchPlaylists = async () => {
         try {
             setLoading(true);
-            
+
             // Utiliser le même userId que dans aaplaylists.tsx
-            const userId = 3;
             console.log('User ID:', userId);
-            
+
             const response: any = await PlaylistService.getAllPlaylistsByUserID(userId);
             console.log('Response complète:', JSON.stringify(response, null, 2));
-            
+
             // Extraire les playlists selon la structure de la réponse
             const playlistsData = response.playlists || response || [];
             console.log('Playlists extraites:', playlistsData);
-            
+
             setPlaylists(playlistsData.map((p: any) => ({
                 id: p.id,
                 title: p.title,
@@ -80,14 +84,14 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
 
         try {
             setSubmitting(true);
-            
+
             // Appeler l'endpoint pour chaque playlist sélectionnée
-            const promises = Array.from(selectedPlaylists).map(playlistId => 
+            const promises = Array.from(selectedPlaylists).map(playlistId =>
                 PlaylistService.addMusicToPlaylist(playlistId, musicId)
             );
-            
+
             await Promise.all(promises);
-            
+
             Alert.alert("Succès", `Musique ajoutée à ${selectedPlaylists.size} playlist${selectedPlaylists.size > 1 ? 's' : ''} !`);
             onSuccess?.();
             onClose();
@@ -141,10 +145,10 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
                                         onPress={() => togglePlaylist(playlist.id)}
                                     >
                                         <View style={styles.playlistInfo}>
-                                            <MaterialIcons 
-                                                name="queue-music" 
-                                                size={24} 
-                                                color={theme.colors.text2} 
+                                            <MaterialIcons
+                                                name="queue-music"
+                                                size={24}
+                                                color={theme.colors.text2}
                                             />
                                             <AppText size="md" style={{ marginLeft: 12, flex: 1 }}>
                                                 {playlist.title}

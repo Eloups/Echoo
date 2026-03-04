@@ -243,10 +243,10 @@ class PgsqlArtistRequests
 
     /**
      * Requête pour récupérer les artistes d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return array
      */
-    public function getArtistsInLibrary(int $id_library): array
+    public function getArtistsInLibrary(string $id_library): array
     {
         $getArtistsInLibrary = "SELECT a.* FROM artist a
         INNER JOIN library_artist 

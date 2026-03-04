@@ -26,7 +26,7 @@ export const MusicService = {
    * Ajouter une musique à l'historique d'écoute de l'utilisateur
    * POST /user/listened/musics/add
    */
-  addListenedMusic: async (userId: number, musicId: number): Promise<void> => {
+  addListenedMusic: async (userId: string, musicId: number): Promise<void> => {
     return await apiClient.post('/user/listened/musics/add', {
       id_user: userId.toString(),
       id_music: musicId

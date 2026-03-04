@@ -27,7 +27,7 @@ export const ArtistService = {
    * Récupérer tous les artistes de la bibliothèque d'un utilisateur
    * GET /artist/library/{userId}/all
    */
-  getAllArtistsByUserID: async (userId: number): Promise<any> => {
+  getAllArtistsByUserID: async (userId: string): Promise<any> => {
     return await apiClient.get<any>(`/artist/library/${userId}/all`);
   },
 

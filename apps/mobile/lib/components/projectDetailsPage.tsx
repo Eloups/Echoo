@@ -11,6 +11,7 @@ import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { AlbumService, apiClient } from '@/lib/api';
 import { LoadingSpinner } from './global/BtnConnexion';
 import { UserService } from '../api/user.service';
+import useAuthHook from '@/hook/authHook';
 
 const IMAGE_SIZE = 200;
 const placeholderImage = require("../../assets/images/react-logo.png");
@@ -26,7 +27,7 @@ export default function ProjectDetailsPage() {
     const [error, setError] = useState<string | null>(null);
     const [totalDuration, setTotalDuration] = useState(0);
     const [isProjectLiked, setIsProjectLiked] = useState<boolean>(false);
-    const userId = "3";
+    const { userId } = useAuthHook();
 
     const rawData = useMemo(() => {
         if (!params.data) return null;
@@ -189,7 +190,7 @@ export default function ProjectDetailsPage() {
     };
 
     const handleProjectLike = () => {
-        if (projectId != null) {
+        if (projectId != null && userId) {
             setIsProjectLiked(!isProjectLiked);
             UserService.postLikeProject(userId, projectId);
         }
