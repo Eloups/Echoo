@@ -10,6 +10,7 @@ import { HomeService, SearchList } from "@/lib/api/home.service";
 import { apiClient, MusicService } from "@/lib/api";
 import ProjectCard from "@/lib/components/projectCard";
 import useAuthHook from "@/hook/authHook";
+import { useFocusEffect } from "@react-navigation/native";
 
 const placeholderImage = require("../../assets/images/react-logo.png");
 
@@ -70,9 +71,11 @@ export default function Discover() {
         }
     };
 
-    useEffect(() => {
-        fetchLatestReleases();
-    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchLatestReleases();
+        }, [userId])
+    );
 
     useEffect(() => {
 
