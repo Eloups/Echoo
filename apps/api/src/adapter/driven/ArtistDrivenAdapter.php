@@ -114,10 +114,10 @@ class ArtistDrivenAdapter implements ArtistDrivenAdapterInterface
 
     /**
      * Méthode pour récupérer les artistes d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return array
      */
-    public function getArtistsInLibrary(int $id_library): array
+    public function getArtistsInLibrary(string $id_library): array
     {
         $pgslserver = new PgsqlServer();
 

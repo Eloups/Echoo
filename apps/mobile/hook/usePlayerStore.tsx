@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { Music } from '@/lib/types/types';
 import { audioService } from '@/lib/api/audioService';
 import { AVPlaybackStatus } from 'expo-av';
+import useAuthHook from './authHook';
 
 interface PlayerState {
   // État
@@ -14,7 +15,7 @@ interface PlayerState {
   currentIndex: number;
   isPlayerModalVisible: boolean;
   isLoading: boolean;
-  
+
   // Actions
   playTrack: (track: Music, fileName: string, queue?: Music[], startIndex?: number) => Promise<void>;
   pause: () => Promise<void>;
@@ -54,21 +55,24 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
   // Jouer une piste
   playTrack: async (track: Music, fileName: string, queue: Music[] = [], startIndex: number = 0) => {
     set({ isLoading: true });
-    
+
     try {
+      const userId = useAuthHook.getState().userId ?? '';
+      const normalizedQueue = Array.isArray(queue) && queue.length > 0 ? queue : [track];
+      const safeStartIndex = Math.max(0, Math.min(startIndex, normalizedQueue.length - 1));
+
       // Initialiser le mode audio si nécessaire
       await audioService.initialize();
-      
+
       // Préparer les métadonnées pour le lecteur système
       const metadata = {
         title: track.title,
         artist: Array.isArray(track.artist) ? track.artist.join(', ') : track.artist,
         imageUri: typeof track.cover === 'object' && 'uri' in track.cover ? track.cover.uri : undefined,
       };
-      
-      // TODO: Récupérer l'ID utilisateur depuis un contexte d'authentification
-      const userId = 3;
-      
+
+
+
       // Charger et jouer la musique avec métadonnées
       await audioService.loadAndPlay(
         fileName,
@@ -79,17 +83,17 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
         },
         metadata
       );
-      
+
       const trackDuration = track.duration || 0;
-      
+
       set({
         currentTrack: track,
         currentFileName: fileName,
         isPlaying: true,
         progress: 0,
         duration: trackDuration,
-        queue: queue.length > 0 ? queue : [track],
-        currentIndex: startIndex,
+        queue: normalizedQueue,
+        currentIndex: safeStartIndex,
         isPlayerModalVisible: false,
         isLoading: false,
       });
@@ -125,21 +129,21 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
   nextTrack: async () => {
     const { queue, currentIndex } = get();
     if (queue.length > 0) {
+      const userId = useAuthHook.getState().userId ?? '';
       const nextIndex = (currentIndex + 1) % queue.length;
       const nextTrack = queue[nextIndex];
       const fileName = nextTrack.audioFile || 'default.mp3';
       set({ isLoading: true });
-      
+
       // TODO: Récupérer l'ID utilisateur depuis un contexte d'authentification
-      const userId = 3;
-      
+
       // Charger et jouer la nouvelle piste
       try {
         await audioService.loadAndPlay(fileName, userId, nextTrack.id, (status) => {
           get().updatePlaybackStatus(status);
         });
-        
-        
+
+
         set({
           currentTrack: nextTrack,
           currentFileName: fileName,
@@ -159,6 +163,7 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
   // Piste précédente
   previousTrack: async () => {
     const { queue, currentIndex, progress } = get();
+    const userId = useAuthHook.getState().userId ?? '';
     // Si on est à plus de 3 secondes, on recommence la chanson
     if (progress > 3) {
       await audioService.seekTo(0);
@@ -168,16 +173,15 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
       const prevTrack = queue[prevIndex];
       const fileName = prevTrack.audioFile || 'default.mp3';
       set({ isLoading: true });
-      
+
       // TODO: Récupérer l'ID utilisateur depuis un contexte d'authentification
-      const userId = 3;
-      
+
       // Charger et jouer la nouvelle piste
       try {
         await audioService.loadAndPlay(fileName, userId, prevTrack.id, (status) => {
           get().updatePlaybackStatus(status);
         });
-        
+
         set({
           currentTrack: prevTrack,
           currentFileName: fileName,
@@ -220,12 +224,12 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
     if (status.isLoaded) {
       const progressSeconds = Math.floor((status.positionMillis || 0) / 1000);
       const durationSeconds = Math.floor((status.durationMillis || 0) / 1000);
-      
+
       const currentState = get();
-      
+
       // Ne mettre à jour la durée que si elle est disponible et qu'on n'a pas déjà une durée du backend
       const finalDuration = currentState.duration > 0 ? currentState.duration : durationSeconds;
-      
+
       set({
         progress: progressSeconds,
         duration: finalDuration,
@@ -258,7 +262,7 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
   removeFromQueue: (index: number) => {
     const { queue, currentIndex } = get();
     const newQueue = queue.filter((_, i) => i !== index);
-    
+
     // Ajuster currentIndex si nécessaire
     let newCurrentIndex = currentIndex;
     if (index < currentIndex) {
@@ -268,7 +272,7 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
       // mais il faudra passer à la suivante quand elle se termine
       newCurrentIndex = Math.min(currentIndex, newQueue.length - 1);
     }
-    
+
     set({ queue: newQueue, currentIndex: newCurrentIndex });
   },
 

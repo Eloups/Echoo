@@ -9,6 +9,7 @@ import usePlayerStore from "@/hook/usePlayerStore";
 import AddToPlaylistModal from './addToPlaylistModal';
 import { MusicService, PlaylistService } from "../api";
 import { UserService } from "../api/user.service";
+import useAuthHook from "@/hook/authHook";
 
 type DetailMusicCardProps = {
     infos: Music;
@@ -27,7 +28,10 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
     const [addToPlaylistModalVisible, setAddToPlaylistModalVisible] = useState(false);
     const buttonRef = useRef<View>(null);
     const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
-    const userId = "3";
+    let { userId } = useAuthHook();
+    if (!userId) {
+        userId = "";
+    }
 
     const MENU_HEIGHT = 300; // Hauteur approximative du menu
     const NAV_BAR_HEIGHT = 60; // Hauteur de la barre de navigation
@@ -70,7 +74,8 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
     const handlePlayMusic = () => {
         // Si une queue est fournie, on l'utilise, sinon on joue juste cette musique
         const fileName = infos.audioFile || 'default.mp3';
-        playTrack(infos, fileName, queue.length > 0 ? queue : [infos], index);
+        const safeQueue = Array.isArray(queue) && queue.length > 0 ? queue : [infos];
+        playTrack(infos, fileName, safeQueue, index);
     };
 
     const deleteFromPlaylist = async (playlistId: number, musicId: number) => {

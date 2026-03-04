@@ -45,10 +45,10 @@ class ProjectDrivingAdapter
 
     /**
      * Méthode pour récupérer les projets d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return Response
      */
-    public function getProjectsInLibrary(int $id_library): Response {
+    public function getProjectsInLibrary(string $id_library): Response {
         $service = new ProjectService();
         $projects = $service->getProjectsInLibrary($id_library);
 

@@ -67,10 +67,10 @@ class ArtistDrivingAdapter
 
     /**
      * Méthode pour récupérer les artistes d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return Response
      */
-    public function getArtistsInLibrary(int $id_library): Response
+    public function getArtistsInLibrary(string $id_library): Response
     {
         $service = new ArtistService();
         $artists = $service->getArtistsInLibrary($id_library);

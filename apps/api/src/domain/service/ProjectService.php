@@ -24,11 +24,11 @@ class ProjectService implements ProjectServiceInterface {
 
     /**
      * Action de la récupération des projets de la library
-     * @param int $id_library
+     * @param string $id_library
      * @throws Exception
      * @return array
      */
-    public function getProjectsInLibrary(int $id_library): array
+    public function getProjectsInLibrary(string $id_library): array
     {
         $driven = new ProjectDrivenAdapter();
         $projects = $driven->getProjectsInLibrary($id_library);

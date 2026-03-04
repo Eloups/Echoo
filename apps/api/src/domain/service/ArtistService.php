@@ -45,11 +45,11 @@ class ArtistService implements ArtistServiceInterface
 
     /**
      * Action de la récupération des artistes de la library
-     * @param int $id_library
+     * @param string $id_library
      * @throws Exception
      * @return array
      */
-    public function getArtistsInLibrary(int $id_library): array
+    public function getArtistsInLibrary(string $id_library): array
     {
         $driven = new ArtistDrivenAdapter();
         $artists = $driven->getArtistsInLibrary($id_library);

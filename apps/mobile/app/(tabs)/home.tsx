@@ -12,12 +12,14 @@ import { useNavigation, useFocusEffect } from "expo-router";
 import { HomeService } from "@/lib/api/home.service";
 import { MusicService, apiClient } from "@/lib/api";
 import { useGlobalHook } from "@/hook";
+import useAuthHook from "@/hook/authHook";
 
 const placeholderImage = require("../../assets/images/react-logo.png");
 
 export default function home() {
     const { theme } = useTheme();
     const { user } = useGlobalHook();
+    const { userId } = useAuthHook();
 
     const navigation = useNavigation();
     const [lastListenedMusics, setLastListenedMusics] = useState<Music[]>([]);
@@ -35,46 +37,49 @@ export default function home() {
 
         useCallback(() => {
             const fetchLastListenedMusics = async () => {
+
                 try {
-                    // TODO: Remplacer l'ID hardcodé par l'ID de l'utilisateur connecté
-                    const userId = 3;
-                    const data = await HomeService.getLastListenedMusics(userId);
+                    if (userId) {
 
-                    // Vérifier si des musiques ont été retournées
-                    if (!data.musics || data.musics.length === 0) {
-                        setLastListenedMusics([]);
-                        return;
-                    }
+                        // TODO: Remplacer l'ID hardcodé par l'ID de l'utilisateur connecté
+                        const data = await HomeService.getLastListenedMusics(userId);
 
-                    // Récupérer les covers pour chaque musique
-                    const mappedMusics: Music[] = await Promise.all(
-                        data.musics.map(async (apiMusic) => {
-                            let coverUri = placeholderImage;
+                        // Vérifier si des musiques ont été retournées
+                        if (!data.musics || data.musics.length === 0) {
+                            setLastListenedMusics([]);
+                            return;
+                        }
 
-                            try {
-                                const coverData = await MusicService.getMusicCoverPath(apiMusic.id);
-                                if (coverData.cover_path) {
-                                    coverUri = { uri: apiClient.getImageUrl(coverData.cover_path) };
+                        // Récupérer les covers pour chaque musique
+                        const mappedMusics: Music[] = await Promise.all(
+                            data.musics.map(async (apiMusic) => {
+                                let coverUri = placeholderImage;
+
+                                try {
+                                    const coverData = await MusicService.getMusicCoverPath(apiMusic.id);
+                                    if (coverData.cover_path) {
+                                        coverUri = { uri: apiClient.getImageUrl(coverData.cover_path) };
+                                    }
+                                } catch (error) {
+                                    console.error(`Erreur lors de la récupération de la cover pour la musique ${apiMusic.id}:`, error);
                                 }
-                            } catch (error) {
-                                console.error(`Erreur lors de la récupération de la cover pour la musique ${apiMusic.id}:`, error);
-                            }
 
-                            return {
-                                id: apiMusic.id,
-                                title: apiMusic.title,
-                                artist: apiMusic.nameArtist || "Artiste inconnu",
-                                cover: coverUri,
-                                color1: "#04131D", // TODO: Générer ou récupérer les couleurs depuis l'API
-                                color2: "#082840",
-                                duration: apiMusic.duration,
-                                nbStreams: apiMusic.nbStreams,
-                                audioFile: apiMusic.filePath
-                            };
-                        })
-                    );
+                                return {
+                                    id: apiMusic.id,
+                                    title: apiMusic.title,
+                                    artist: apiMusic.nameArtist || "Artiste inconnu",
+                                    cover: coverUri,
+                                    color1: "#04131D", // TODO: Générer ou récupérer les couleurs depuis l'API
+                                    color2: "#082840",
+                                    duration: apiMusic.duration,
+                                    nbStreams: apiMusic.nbStreams,
+                                    audioFile: apiMusic.filePath
+                                };
+                            })
+                        );
 
-                    setLastListenedMusics(mappedMusics);
+                        setLastListenedMusics(mappedMusics);
+                    }
                 } catch (error) {
                     console.error("Erreur lors de la récupération des dernières musiques écoutées:", error);
                     setLastListenedMusics([]);
@@ -83,35 +88,35 @@ export default function home() {
 
             const fetchLatestReleases = async () => {
                 try {
-                    // TODO: Remplacer l'ID hardcodé par l'ID de l'utilisateur connecté
-                    const userId = 3;
-                    const data = await HomeService.getFollowedArtistsReleases(userId);
+                    if (userId) {
+                        const data = await HomeService.getFollowedArtistsReleases(userId);
 
-                    //Vérification de la data
-                    if (!data || !data.projects || data.projects.length === 0) {
-                        setLatestReleases([]);
-                        return;
-                    }
-                    // Mapper les projets de l'API vers le type Project
-                    const mappedProjects: Project[] = data.projects.map((apiProject) => {
-                        let coverUri = placeholderImage;
-
-                        if (apiProject.coverPath) {
-                            coverUri = { uri: apiClient.getImageUrl(apiProject.coverPath) };
+                        //Vérification de la data
+                        if (!data || !data.projects || data.projects.length === 0) {
+                            setLatestReleases([]);
+                            return;
                         }
+                        // Mapper les projets de l'API vers le type Project
+                        const mappedProjects: Project[] = data.projects.map((apiProject) => {
+                            let coverUri = placeholderImage;
 
-                        return {
-                            id: apiProject.id,
-                            cover: coverUri,
-                            type: apiProject.projectType.toLowerCase(),
-                            title: apiProject.title,
-                            description: "",
-                            artist: "Artiste inconnu",
-                            musics: []
-                        } as Project;
-                    });
+                            if (apiProject.coverPath) {
+                                coverUri = { uri: apiClient.getImageUrl(apiProject.coverPath) };
+                            }
 
-                    setLatestReleases(mappedProjects);
+                            return {
+                                id: apiProject.id,
+                                cover: coverUri,
+                                type: apiProject.projectType.toLowerCase(),
+                                title: apiProject.title,
+                                description: "",
+                                artist: "Artiste inconnu",
+                                musics: []
+                            } as Project;
+                        });
+
+                        setLatestReleases(mappedProjects);
+                    }
                 } catch (error) {
                     console.error("Erreur lors de la récupération des dernières sorties:", error);
                 }

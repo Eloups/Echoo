@@ -12,6 +12,7 @@ const API_BASE_AUTH = process.env.EXPO_PUBLIC_API_AUTH_URL
 
 interface AuthHook {
   token: string | null;
+  userId: string | null;
 
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string, PdpB64: string | null) => Promise<void>;
@@ -31,6 +32,7 @@ interface AuthHook {
 
 export const useAuthHook = create<AuthHook>((set, get) => ({
   token: null,
+  userId: null,
 
   isLoading: false,
   authError: null,
@@ -47,6 +49,7 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     }
 
     useGlobalHook.setState({ user: null })
+    set({ token: null, userId: null });
     router.push('/connexion/connexion');
   },
 
@@ -80,7 +83,7 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
       // (dont l'id pour ensouite prendre les infos supplémentaire dans l'API backend)
       if (JWT && JWT?.data && JWT?.data?.token) {
         const tokenValue = JWT.data.token;
-        set({ token: tokenValue ?? null });
+        set({ token: tokenValue ?? null, userId: data.user.id ?? null });
 
         let decodedToken: JWTPayload | undefined;
         try {

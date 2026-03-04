@@ -74,7 +74,7 @@ class AudioService {
    */
   async loadAndPlay(
     fileName: string,
-    userId: number,
+    userId: string,
     musicId: number,
     onPlaybackStatusUpdate?: (status: any) => void,
     metadata?: { title: string; artist: string; imageUri?: string }

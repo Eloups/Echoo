@@ -32,10 +32,10 @@ class ProjectDrivenAdapter implements ProjectDrivenAdapterInterface
 
     /**
      * Méthode pour récupérer les projets d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return array
      */
-    public function getProjectsInLibrary(int $id_library): array
+    public function getProjectsInLibrary(string $id_library): array
     {
         $pgslserver = new PgsqlServer();
         
