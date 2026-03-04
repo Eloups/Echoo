@@ -127,8 +127,6 @@ export default function Playlists() {
                 musics: []
             };
 
-            console.log('Données envoyées pour créer la playlist:', playlistData);
-
             // Créer la playlist
             await PlaylistService.createPlaylist(playlistData);
             setAddPlaylistVisible(false);

@@ -106,6 +106,9 @@ class PgsqlUserRequests
 
     public function getUserLikedArtistlastReleases(array $artistIds, int $limit): array
     {
+        if (empty($artistIds)) {
+            return [];
+        }
         $placeholders = [];
         foreach ($artistIds as $i => $id) {
             $placeholders[] = ":id$i";
