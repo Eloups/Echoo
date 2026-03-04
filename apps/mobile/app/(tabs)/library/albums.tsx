@@ -10,6 +10,7 @@ import { useCallback } from "react";
 import MaterialIcons from "@expo/vector-icons/build/MaterialIcons";
 import ProjectCard from "@/lib/components/projectCard";
 import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
+import { PlaylistCoverDefault } from "@/lib/constants/images";
 import useAuthHook from "@/hook/authHook";
 
 export default function projects() {

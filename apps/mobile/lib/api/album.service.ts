@@ -30,6 +30,13 @@ export type ProjectDetailResponse = {
   project: ProjectDetail;
 };
 
+export type MusicColorsResponse = {
+  colors: {
+    color1: string;
+    color2: string;
+  };
+};
+
 /**
  * Service API pour les projets (albums, EP, singles)
  * Correspond au ProjectController de l'API backend
@@ -44,9 +51,17 @@ export const AlbumService = {
   },
 
   /**
-   * Vérifier si une musique est déjà liké par l'utilisateur
+   * Récupérer les couleurs dominantes d'une musique
+   * GET /music/{idMusic}/colors
+   */
+  getMusicColors: async (musicId: number): Promise<MusicColorsResponse> => {
+    return await apiClient.get<MusicColorsResponse>(`/music/${musicId}/colors`);
+  },
+
+  /** Vérifier si une musique est déjà liké par l'utilisateur
    * GET /project/user/isLike
    */
+
   getIsProjectIsLike: async (userId: string, projectId: number): Promise<{isLike: boolean}> => {
     return await apiClient.post('/project/user/isLike', {
       id_user: userId.toString(),

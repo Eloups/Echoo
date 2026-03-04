@@ -9,10 +9,11 @@ import Feather from '@expo/vector-icons/Feather';
 import { HomeService, SearchList } from "@/lib/api/home.service";
 import { apiClient, MusicService } from "@/lib/api";
 import ProjectCard from "@/lib/components/projectCard";
+import { PlaylistCoverDefault } from "@/lib/constants/images";
 import useAuthHook from "@/hook/authHook";
 import { useFocusEffect } from "@react-navigation/native";
 
-const placeholderImage = require("../../assets/images/react-logo.png");
+const placeholderImage = PlaylistCoverDefault;
 
 // Type guards pour différencier les types
 const isArtist = (item: Music | Artist): item is Artist => {

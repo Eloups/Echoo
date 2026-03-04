@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { Artist, Music, Project } from '@/lib/types/types';
 import { apiClient, ArtistService, ImageService, MusicService } from '@/lib/api';
 import { ArtistAlbum } from '@/lib/api/types';
+import { PlaylistCoverDefault } from '@/lib/constants/images';
 
 type ArtistProjectCard = Project & {
     id?: number;
@@ -19,7 +20,7 @@ type ArtistPageContextValue = {
     loading: boolean;
 };
 
-const placeholderImage = require('../../../assets/images/react-logo.png');
+const placeholderImage = PlaylistCoverDefault;
 
 const defaultArtist: Artist = {
     title: 'Artiste',
@@ -140,7 +141,19 @@ export function ArtistPageProvider({ params, children }: ArtistPageProviderProps
     };
 
     const mapAlbumsToProjects = (albums: ArtistAlbum[], fallbackArtistName: string): ArtistProjectCard[] => {
-        return albums.map((album) => {
+        const sortedAlbums = [...albums].sort((a, b) => {
+            const getTimestamp = (album: ArtistAlbum) => {
+                const dateValue = (album as any).dateRelease || album.release;
+                if (!dateValue) return 0;
+
+                const timestamp = new Date(dateValue).getTime();
+                return Number.isNaN(timestamp) ? 0 : timestamp;
+            };
+
+            return getTimestamp(b) - getTimestamp(a);
+        });
+
+        return sortedAlbums.map((album) => {
             const releaseYear = typeof album.release === 'string' ? album.release.slice(0, 4) : undefined;
 
             return {

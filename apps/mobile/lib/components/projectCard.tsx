@@ -198,6 +198,5 @@ const styles = StyleSheet.create({
     },
     artistPageChevron: {
         marginLeft: 8,
-        transform: [{ rotate: '180deg' }],
     },
 });

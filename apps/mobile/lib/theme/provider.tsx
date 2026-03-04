@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useColorScheme } from "react-native";
 import { themes, ThemeName, AppTheme } from "./index";
 
 type ThemeContextType = {
@@ -13,23 +12,22 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const STORAGE_KEY = "app_theme_name";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const system = (useColorScheme() ?? "light") as ThemeName;
-    const [name, setName] = useState<ThemeName>(system);
+    const [name, setName] = useState<ThemeName>("dark");
 
     // charge la préférence sauvegardée 
     useEffect(() => {
         (async () => {
             const saved = (await AsyncStorage.getItem(STORAGE_KEY)) as ThemeName | null;
-            if (saved && themes[saved]) setName(saved);
+            if (saved === "dark") setName("dark");
         })();
     }, []);
 
     const setThemeByName = (n: ThemeName) => {
-        setName(n);
-        AsyncStorage.setItem(STORAGE_KEY, n).catch(() => { });
+        setName("dark");
+        AsyncStorage.setItem(STORAGE_KEY, "dark").catch(() => { });
     };
 
-    const toggleTheme = () => setThemeByName(name === "light" ? "dark" : "light");
+    const toggleTheme = () => setThemeByName("dark");
 
     const value = useMemo(
         () => ({ theme: themes[name], setThemeByName, toggleTheme }),

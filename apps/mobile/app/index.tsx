@@ -8,7 +8,7 @@ export default function Index() {
 
 export function DebugScreen() {
   const router = useRouter();
-  const { theme, setThemeByName } = useTheme();
+  const { theme } = useTheme();
   return (
     <View
       style={{
@@ -42,32 +42,6 @@ export function DebugScreen() {
         <Text style={{ color: "white" }}>Accueil</Text>
       </Pressable>
 
-      <Pressable
-        onPress={() => setThemeByName("light")}
-        style={{
-          backgroundColor: theme.colors.primary,
-          padding: 12,
-          borderRadius: 10,
-          borderWidth: 1,
-          borderColor: theme.colors.primaryLight,
-          marginBottom: 10,
-        }}
-      >
-        <Text style={{ color: theme.colors.text, textAlign: "center" }}>Thème clair</Text>
-      </Pressable>
-
-      <Pressable
-        onPress={() => setThemeByName("dark")}
-        style={{
-          backgroundColor: theme.colors.primary,
-          padding: 12,
-          borderRadius: 10,
-        }}
-      >
-        <Text style={{ color: theme.colors.background, textAlign: "center" }}>
-          Thème sombre
-        </Text>
-      </Pressable>
     </View>
   );
 }

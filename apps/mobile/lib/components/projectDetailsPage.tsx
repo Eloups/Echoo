@@ -10,11 +10,12 @@ import DetailMusicCard from '@/lib/components/detailMusicCard';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { AlbumService, apiClient } from '@/lib/api';
 import { LoadingSpinner } from './global/BtnConnexion';
+import { PlaylistCoverDefault } from '@/lib/constants/images';
 import { UserService } from '../api/user.service';
 import useAuthHook from '@/hook/authHook';
 
 const IMAGE_SIZE = 200;
-const placeholderImage = require("../../assets/images/react-logo.png");
+const placeholderImage = PlaylistCoverDefault;
 
 export default function ProjectDetailsPage() {
     const { theme } = useTheme();
@@ -27,7 +28,8 @@ export default function ProjectDetailsPage() {
     const [error, setError] = useState<string | null>(null);
     const [totalDuration, setTotalDuration] = useState(0);
     const [isProjectLiked, setIsProjectLiked] = useState<boolean>(false);
-    const { userId } = useAuthHook();
+    const { userId: authUserId } = useAuthHook();
+    const userId = authUserId ?? '';
 
     const rawData = useMemo(() => {
         if (!params.data) return null;
@@ -147,7 +149,7 @@ export default function ProjectDetailsPage() {
 
     //Vérifier si le projet est déjà like ici
     useEffect(() => {
-        if (projectId != null) {
+        if (projectId != null && userId) {
             const fetchIsProjectLike = async () => {
                 try {
                     const result = await AlbumService.getIsProjectIsLike(userId, projectId);
@@ -160,7 +162,7 @@ export default function ProjectDetailsPage() {
     
             fetchIsProjectLike();
         }
-    }, [projectId]);
+    }, [projectId, userId]);
 
     if (loading && !project) {
         return (

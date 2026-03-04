@@ -32,10 +32,18 @@ export default function AddPlaylistModal({ visible, onClose, onSubmit }: AddPlay
     const [coverImage, setCoverImage] = useState<string | null>(null);
 
     const handleSubmit = () => {
-        if (!title.trim()) {
+        const normalizedTitle = title.trim().toLowerCase();
+
+        if (!normalizedTitle) {
             Alert.alert("Erreur", "Veuillez entrer un nom pour la playlist");
             return;
         }
+
+        if (normalizedTitle === "liked") {
+            Alert.alert("Erreur", "Le nom \"liked\" est réservé");
+            return;
+        }
+
         onSubmit(title, description, coverImage);
         // Réinitialiser le formulaire
         setTitle("");

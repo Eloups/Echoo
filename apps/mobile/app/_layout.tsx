@@ -18,7 +18,7 @@ function ThemedRoot() {
     if (Platform.OS === "android") {
       NavigationBar.setBackgroundColorAsync(theme.colors.background);
       NavigationBar.setButtonStyleAsync(
-        theme.name === "dark" ? "light" : "dark"
+        "dark"
       );
     }
   }, [theme]);
@@ -44,7 +44,7 @@ function ThemedRoot() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <StatusBar barStyle={theme.name === "dark" ? "light-content" : "dark-content"} />
+      <StatusBar barStyle="light-content" />
       <Stack
         screenOptions={{
           headerShown: false,

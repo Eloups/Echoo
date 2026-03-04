@@ -9,9 +9,10 @@ import { Music, Playlist } from "@/lib/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { useCallback, useState } from "react";
 import { ScrollView, View } from "react-native";
+import { PlaylistCoverDefault } from "@/lib/constants/images";
 import { useFocusEffect } from "@react-navigation/native";
 
-const placeholderImage = require("../../../assets/images/react-logo.png");
+const placeholderImage = PlaylistCoverDefault;
 
 export default function Liked() {
     const { theme } = useTheme();

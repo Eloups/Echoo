@@ -7,8 +7,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useRef, useState } from 'react';
 import Slider from '@react-native-community/slider';
 import QueueModal from './queueModal';
+import AddToPlaylistModal from './addToPlaylistModal';
 import { UserService } from '../api/user.service';
-import { MusicService } from '../api';
+import { AlbumService, MusicService } from '../api';
 import { LoadingSpinner } from './global/BtnConnexion';
 import useAuthHook from '@/hook/authHook';
 
@@ -41,8 +42,10 @@ export default function PlayerModal() {
   const [localProgress, setLocalProgress] = useState(progress);
   const [isSeeking, setIsSeeking] = useState(false);
   const [queueVisible, setQueueVisible] = useState(false);
+  const [addToPlaylistModalVisible, setAddToPlaylistModalVisible] = useState(false);
   const seekTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
+  const [trackColors, setTrackColors] = useState<{ color1: string; color2: string } | null>(null);
 
   //Vérifie si la musique est déjà likée par un utilisateur
   useEffect(() => {
@@ -50,8 +53,30 @@ export default function PlayerModal() {
       MusicService.getIsMusicIsLike(userId, currentTrack.id)
         .then(setIsMusicLike);
     }
+    
+  }, [currentTrack]);
 
-  }, [currentTrack])
+  useEffect(() => {
+    const fetchTrackColors = async () => {
+      if (!currentTrack) return;
+
+      try {
+        const response = await AlbumService.getMusicColors(currentTrack.id);
+        if (response?.colors?.color1 && response?.colors?.color2) {
+          setTrackColors({
+            color1: response.colors.color1,
+            color2: response.colors.color2,
+          });
+        } else {
+          setTrackColors(null);
+        }
+      } catch (error) {
+        setTrackColors(null);
+      }
+    };
+
+    fetchTrackColors();
+  }, [currentTrack?.id]);
 
   // Synchroniser le slider avec la progression réelle
   useEffect(() => {
@@ -63,6 +88,9 @@ export default function PlayerModal() {
   if (!currentTrack) {
     return null;
   }
+
+  const gradientColor1 = trackColors?.color1 || currentTrack.color1 || '#04131D';
+  const gradientColor2 = trackColors?.color2 || currentTrack.color2 || '#082840';
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -117,14 +145,10 @@ export default function PlayerModal() {
       onRequestClose={hidePlayerModal}
     >
       <LinearGradient
-        colors={[currentTrack.color1 || '#04131D', currentTrack.color2 || '#082840', theme.colors.background]}
+        colors={[gradientColor1, gradientColor2, theme.colors.background]}
         style={styles.container}
         locations={[0, 0.4, 1]}
       >
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-        >
           {/* Bouton retour */}
           <View style={styles.header}>
             <Pressable onPress={hidePlayerModal} style={styles.backButton}>
@@ -155,7 +179,10 @@ export default function PlayerModal() {
                 </AppText>
               </View>
               <View style={styles.actionsRow}>
-                <Pressable style={styles.actionButton}>
+                <Pressable
+                  style={styles.actionButton}
+                  onPress={() => setAddToPlaylistModalVisible(true)}
+                >
                   <MaterialIcons name="playlist-add" size={28} color={theme.colors.text} />
                 </Pressable>
                 <Pressable onPress={handleMusicLike} style={styles.actionButton}>
@@ -250,13 +277,17 @@ export default function PlayerModal() {
               <Entypo name="menu" size={24} color={theme.colors.text} />
             </Pressable>
           </View>
-
-
-        </ScrollView>
       </LinearGradient>
 
       {/* Modale de la liste d'attente */}
       <QueueModal visible={queueVisible} onClose={() => setQueueVisible(false)} />
+
+      {/* Modale d'ajout à une playlist */}
+      <AddToPlaylistModal
+        visible={addToPlaylistModalVisible}
+        onClose={() => setAddToPlaylistModalVisible(false)}
+        musicId={currentTrack.id}
+      />
     </Modal>
   );
 }

@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_WPPMHJvJcp
 createdAt: 2025-12-01T07:55:41.154469500
-updatedAt: 2026-02-02T08:44:55.189961500
+updatedAt: 2026-03-04T14:41:29.632558100
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_enbuuoZuT3
 authentication: {}
@@ -22,5 +22,5 @@ headers:
 method: GET
 name: Get a music file
 sortPriority: 1000.0
-url: ${[ API_HOST ]}/stream/vampire.mp3
+url: ${[ API_HOST ]}/stream/ComeOutAndPlay.mp3
 urlParameters: []

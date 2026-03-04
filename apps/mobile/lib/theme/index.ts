@@ -1,4 +1,4 @@
-export type ThemeName = "light" | "dark";
+export type ThemeName = "dark";
 
 export type AppTheme = {
     name: ThemeName;
@@ -11,19 +11,6 @@ export type AppTheme = {
         primaryLight: string;
         error: string;
     };
-};
-
-export const LightTheme: AppTheme = {
-    name: "light",
-    colors: {
-        background: "#FFFFFF",
-        background2: "#2B2F69",
-        text: "#161616",
-        text2: "#2B2F69",
-        primary: "#3243DF",
-        primaryLight: "#5061F7",
-        error: "#DF3232",
-    },
 };
 
 export const DarkTheme: AppTheme = {
@@ -40,6 +27,5 @@ export const DarkTheme: AppTheme = {
 };
 
 export const themes: Record<ThemeName, AppTheme> = {
-    light: LightTheme,
     dark: DarkTheme,
 };

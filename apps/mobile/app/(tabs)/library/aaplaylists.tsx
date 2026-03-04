@@ -10,6 +10,7 @@ import { useCallback } from "react";
 import MaterialIcons from "@expo/vector-icons/build/MaterialIcons";
 import AddPlaylistModal from "@/lib/components/addPlaylistModal";
 import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
+import { PlaylistCoverDefault } from "@/lib/constants/images";
 import useAuthHook from "@/hook/authHook";
 
 export default function Playlists() {
@@ -31,14 +32,14 @@ export default function Playlists() {
 
             const response: any = await PlaylistService.getAllPlaylistsByUserID(userId);
             
-            const playlistsArray = response.playlists || [];
+            const playlistsArray = (response.playlists || []).filter((playlist: any) => playlist?.title !== "liked");
             
             // Convertir les données de l'API au format Playlist du front
             const formattedPlaylists: Playlist[] = playlistsArray.map((playlist: any) => ({
                     id: playlist.id,
                     cover: playlist.coverPath 
                         ? { uri: apiClient.getImageUrl(playlist.coverPath) }
-                        : require("../../../assets/images/react-logo.png"),
+                        : PlaylistCoverDefault,
                     title: playlist.title || "Playlist",
                     artist: `${playlist.musics?.length || 0} morceaux`,
                     color1: "#965F4C",
@@ -50,7 +51,7 @@ export default function Playlists() {
                         id: music.id,
                         cover: music.coverPath 
                             ? { uri: apiClient.getImageUrl(music.coverPath) }
-                            : require("../../../assets/images/react-logo.png"),
+                            : PlaylistCoverDefault,
                         title: music.titre || music.title,
                         artist: music.artisteNom || music.nameArtist || music.artist || "Artiste inconnu",
                         color1: "#04131D",
@@ -125,8 +126,6 @@ export default function Playlists() {
                 cover_path: coverPath || "", // Toujours envoyer cover_path (vide si pas d'image)
                 musics: []
             };
-
-            console.log('Données envoyées pour créer la playlist:', playlistData);
 
             // Créer la playlist
             await PlaylistService.createPlaylist(playlistData);
