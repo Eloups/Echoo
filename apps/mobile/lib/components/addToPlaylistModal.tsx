@@ -6,6 +6,7 @@ import AppText from '@/lib/components/global/appText';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { PlaylistService } from '@/lib/api';
 import { LoadingSpinner } from './global/BtnConnexion';
+import useAuthHook from '@/hook/authHook';
 
 type AddToPlaylistModalProps = {
     visible: boolean;
@@ -27,6 +28,10 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
     const [initialSelectedPlaylists, setInitialSelectedPlaylists] = useState<Set<number>>(new Set());
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    let { userId } = useAuthHook();
+    if (!userId) {
+        userId = "";
+    }
 
     useEffect(() => {
         if (visible) {
@@ -39,13 +44,13 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
             setLoading(true);
             setSelectedPlaylists(new Set());
             
+
             // Utiliser le même userId que dans aaplaylists.tsx
-            const userId = 3;
             console.log('User ID:', userId);
-            
+
             const response: any = await PlaylistService.getAllPlaylistsByUserID(userId);
             console.log('Response complète:', JSON.stringify(response, null, 2));
-            
+
             // Extraire les playlists selon la structure de la réponse
             const playlistsData = response.playlists || response || [];
             console.log('Playlists extraites:', playlistsData);
@@ -172,10 +177,10 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
                                         onPress={() => togglePlaylist(playlist.id)}
                                     >
                                         <View style={styles.playlistInfo}>
-                                            <MaterialIcons 
-                                                name="queue-music" 
-                                                size={24} 
-                                                color={theme.colors.text2} 
+                                            <MaterialIcons
+                                                name="queue-music"
+                                                size={24}
+                                                color={theme.colors.text2}
                                             />
                                             <AppText size="md" style={{ marginLeft: 12, flex: 1 }}>
                                                 {playlist.title}

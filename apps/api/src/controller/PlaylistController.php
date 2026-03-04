@@ -2,8 +2,8 @@
 
 namespace Api\Controller;
 
-use Api\Adapter\ArtistDrivingAdapter;
 use Api\Adapter\PlaylistDrivingAdapter;
+use Api\Utils\AuthUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -42,6 +42,9 @@ class PlaylistController implements ControllerInterface
      */
     public function run(Request $request): Response
     {
+        // Authentification
+        AuthUtils::authenticate($request);
+
         $adapter = new PlaylistDrivingAdapter();
 
         return match ($this->action) {

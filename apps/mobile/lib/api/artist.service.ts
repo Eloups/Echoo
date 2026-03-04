@@ -27,7 +27,7 @@ export const ArtistService = {
    * Récupérer tous les artistes de la bibliothèque d'un utilisateur
    * GET /artist/library/{userId}/all
    */
-  getAllArtistsByUserID: async (userId: number): Promise<any> => {
+  getAllArtistsByUserID: async (userId: string): Promise<any> => {
     return await apiClient.get<any>(`/artist/library/${userId}/all`);
   },
 
@@ -67,7 +67,7 @@ export const ArtistService = {
    * Vérifier si une musique est déjà liké par l'utilisateur
    * GET /music/user/isLike
    */
-  getIsArtistIsLike: async (userId: string, artistId: number): Promise<boolean> => {
+  getIsArtistIsLike: async (userId: string, artistId: number): Promise<{isLike: boolean}> => {
     return await apiClient.post('/artist/user/isLike', {
       id_user: userId.toString(),
       id_artist: artistId

@@ -58,6 +58,18 @@ export const UserService = {
     return retour;
   },
 
+   /**
+   * Liker un projet
+   * @returns 
+   */
+  postLikeProject: async (idUser: string, idProject: number): Promise<any> => {
+    let retour = await apiClient.post<any>('/project/like', {
+      id_user: idUser,
+      id_project: idProject
+    });
+    return retour;
+  },
+
   /**
  * Récupérer la playliste de titres likés
  */

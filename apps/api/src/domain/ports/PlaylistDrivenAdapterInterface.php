@@ -18,10 +18,10 @@ interface PlaylistDrivenAdapterInterface
 
     /**
      * Méthode pour récupérer les playlists d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return array
      */
-    public function getPlaylistsInLibrary(int $id_library): array;
+    public function getPlaylistsInLibrary(string $id_library): array;
 
     /**
      * Méthode pour ajouter une musique à une playlist
@@ -32,7 +32,7 @@ interface PlaylistDrivenAdapterInterface
     public function addMusicInPlaylist(int $id_playlist, int $id_music): void;
 
     /** Méthode pour créer une library
-     * @param int $id_library
+     * @param string $id_library
      * @param string $title
      * @param bool $isPublic
      * @param string $description
@@ -40,7 +40,7 @@ interface PlaylistDrivenAdapterInterface
      * @param array $musics
      * @return void
      */
-    public function addPlaylist(int $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics);
+    public function addPlaylist(string $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics);
 
     /**
      * Méthode pour supprimer une musique d'une playlist

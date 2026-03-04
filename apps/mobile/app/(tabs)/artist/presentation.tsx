@@ -11,22 +11,32 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { User } from '@/lib/types/auth';
 import { UserService } from '@/lib/api/user.service';
 import { ArtistService } from '@/lib/api';
+import useAuthHook from '@/hook/authHook';
 
 export default function PresentationPage() {
     const { theme } = useTheme();
     const { artist, popularTracks, recentReleases, loading } = useArtistPage();
-
-    const userId = "3";
+    const { userId } = useAuthHook();
 
     const [isArtistLike, setIsArtistLike] = useState<boolean>(false);
 
     //Vérifie si l'artiste est déjà liké par un utilisateur
     useEffect(() => {
-        if (artist.id != null) {
-            ArtistService.getIsArtistIsLike(userId, artist.id)
-            .then(setIsArtistLike);
-        }
-    }, [artist.id])
+    const artistId = artist.id;
+    if (typeof artistId === "number" && userId) {
+        const fetchIsArtistLike = async () => {
+            try {
+                const result = await ArtistService.getIsArtistIsLike(userId, artistId);
+                console.log(result);
+                setIsArtistLike(result.isLike);
+            } catch (error) {
+                console.error("Erreur lors de la récupération:", error);
+            }
+        };
+
+        fetchIsArtistLike();
+    }
+}, [artist.id, userId]);
 
     if (loading) {
         return (
@@ -38,9 +48,10 @@ export default function PresentationPage() {
     }
 
     const handleArtistLike = () => {
-        if (artist.id != null) {
+        const artistId = artist.id;
+        if (typeof artistId === "number" && userId) {
             setIsArtistLike(!isArtistLike);
-            UserService.postLikeArtist(userId, artist.id);
+            UserService.postLikeArtist(userId, artistId);
         }
     }
 

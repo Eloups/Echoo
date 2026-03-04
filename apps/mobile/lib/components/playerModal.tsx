@@ -11,6 +11,7 @@ import AddToPlaylistModal from './addToPlaylistModal';
 import { UserService } from '../api/user.service';
 import { AlbumService, MusicService } from '../api';
 import { LoadingSpinner } from './global/BtnConnexion';
+import useAuthHook from '@/hook/authHook';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -33,7 +34,10 @@ export default function PlayerModal() {
     isLoading,
   } = usePlayerStore();
 
-  const userId = "3";
+  let { userId } = useAuthHook();
+  if (!userId) {
+    userId = "";
+  }
 
   const [localProgress, setLocalProgress] = useState(progress);
   const [isSeeking, setIsSeeking] = useState(false);
@@ -47,7 +51,7 @@ export default function PlayerModal() {
   useEffect(() => {
     if (currentTrack !== null) {
       MusicService.getIsMusicIsLike(userId, currentTrack.id)
-      .then(setIsMusicLike);
+        .then(setIsMusicLike);
     }
     
   }, [currentTrack]);
@@ -105,19 +109,19 @@ export default function PlayerModal() {
     try {
       // Empêcher la synchronisation pendant un court moment
       setLocalProgress(value);
-      
+
       // Effectuer le seek
       await seekTo(value);
-      
+
       // Attendre un peu avant de réactiver la synchronisation
       if (seekTimeoutRef.current) {
         clearTimeout(seekTimeoutRef.current);
       }
-      
+
       const timeout = setTimeout(() => {
         setIsSeeking(false);
       }, 300);
-      
+
       // Stocker le timeout pour le cleanup
       seekTimeoutRef.current = timeout;
     } catch (error) {

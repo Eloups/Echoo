@@ -67,7 +67,7 @@ export const HomeService = {
    * Récupérer les dernières musiques écoutées par un utilisateur
    * GET /user/{id}/listened/musics
    */
-  getLastListenedMusics: async (userId: number): Promise<LastListenedMusicsResponse> => {
+  getLastListenedMusics: async (userId: string): Promise<LastListenedMusicsResponse> => {
     return await apiClient.get<LastListenedMusicsResponse>(`/user/${userId}/listened/musics`);
   },
 
@@ -75,7 +75,7 @@ export const HomeService = {
    * Récupérer les dernières sorties des artistes suivis par un utilisateur
    * GET /user/{id}/follows/artists/releases
    */
-  getFollowedArtistsReleases: async (userId: number): Promise<FollowedArtistsReleasesResponse> => {
+  getFollowedArtistsReleases: async (userId: string): Promise<FollowedArtistsReleasesResponse> => {
     return await apiClient.get<FollowedArtistsReleasesResponse>(`/user/${userId}/follows/artists/releases`);
   },
 

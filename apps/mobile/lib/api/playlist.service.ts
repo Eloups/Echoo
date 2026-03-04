@@ -14,7 +14,7 @@ export const PlaylistService = {
     return await apiClient.get<Playlist>(`/playlist/${playlistId}`);
   },
 
-  getAllPlaylistsByUserID: async (userId: number): Promise<Playlist> => {
+  getAllPlaylistsByUserID: async (userId: string): Promise<Playlist> => {
     return await apiClient.get<Playlist>(`/playlist/library/${userId}/all`);
   },
 

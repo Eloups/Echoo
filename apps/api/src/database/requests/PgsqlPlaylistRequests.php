@@ -77,10 +77,10 @@ class PgsqlPlaylistRequests
 
     /**
      * Requête pour récupérer les playlists d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return array
      */
-    public function getPlaylistsInLibrary(int $id_library): array
+    public function getPlaylistsInLibrary(string $id_library): array
     {
         $getPlaylistsInLibrary = "SELECT 
         p.id AS playlist_id,
@@ -92,6 +92,7 @@ class PgsqlPlaylistRequests
         INNER JOIN library_playlist 
             ON p.id = library_playlist.id_playlist 
         WHERE library_playlist.id_library = :id_library
+        AND p.title != 'liked'
         GROUP BY p.id;";
 
         $request = $this->pdo->prepare($getPlaylistsInLibrary);
@@ -136,10 +137,10 @@ class PgsqlPlaylistRequests
      * @param string $description
      * @param string $cover_path
      * @param array $musics
-     * @param int $id_library
+     * @param string $id_library
      * @return void
      */
-    public function addPlaylist(int $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics): void
+    public function addPlaylist(string $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics): void
     {
         $addPlaylist = "INSERT INTO playlist (title, ispublic, description, cover_path)
             VALUES (:title, :isPublic, :description, :cover_path)
