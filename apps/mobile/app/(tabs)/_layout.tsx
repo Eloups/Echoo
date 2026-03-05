@@ -72,13 +72,6 @@ export default function TabLayout() {
                     }}
                 />
                 <Tabs.Screen
-                    name="album"
-                    options={{
-                        href: null,
-                        title: 'Album',
-                    }}
-                />
-                <Tabs.Screen
                     name="user"
                     options={{
                         href: null,

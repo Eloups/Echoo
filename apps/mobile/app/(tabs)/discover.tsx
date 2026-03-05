@@ -128,9 +128,7 @@ export default function Discover() {
                 const mappedProjects = (data.projects || []).map((project: any) => {
                     const projectCoverPath = project?.coverPath ?? project?.cover_path;
                     const projectArtist =
-                        project?.artist ??
-                        project?.nameArtist ??
-                        project?.artists ??
+                        project?.artistName ??
                         "Artiste inconnu";
 
                     return {

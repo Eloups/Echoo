@@ -37,7 +37,7 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
     const NAV_BAR_HEIGHT = 60; // Hauteur de la barre de navigation
     const screenHeight = Dimensions.get('window').height;
 
-    //Vérifie si l'artiste est déjà liké par un utilisateur
+    //Vérifie si la musique est déjà liké par un utilisateur
     useEffect(() => {
         if (infos.id != null) {
             const fetchIsMusicLike = async () => {
