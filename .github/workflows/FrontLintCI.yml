@@ -20,6 +20,7 @@ jobs:
             with:
               node-version: ${{ matrix.node-version }}
               cache: 'npm'
+              cache-dependency-path: 'apps/mobile/package-lock.json'
           
           - name: lint test
             run: cd apps/mobile && npm run lint

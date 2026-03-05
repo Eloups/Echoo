@@ -78,7 +78,7 @@ export default function Artists() {
         return (
             <View style={{ backgroundColor: theme.colors.background, height: "100%", justifyContent: "center", alignItems: "center", padding: 20 }}>
                 <AppText color="text2" style={{ textAlign: "center" }}>
-                    Aucun artiste n'as été liké.
+                    Aucun artiste n&apos;as été liké.
                 </AppText>
             </View>
         );
