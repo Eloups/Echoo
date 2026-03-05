@@ -27,7 +27,6 @@ export default function Artists() {
                 }
 
                 const response: any = await ArtistService.getAllArtistsByUserID(userId);
-                console.log(userId);
                 const artistsArray = response.artists || [];
                 
                 // Convertir les données de l'API au format Artist
@@ -71,6 +70,16 @@ export default function Artists() {
         return (
             <View style={{ backgroundColor: theme.colors.background, height: "100%", justifyContent: "center", alignItems: "center", padding: 20 }}>
                 <AppText color="text2" style={{ textAlign: "center" }}>{error}</AppText>
+            </View>
+        );
+    }
+
+    if (artists.length === 0) {
+        return (
+            <View style={{ backgroundColor: theme.colors.background, height: "100%", justifyContent: "center", alignItems: "center", padding: 20 }}>
+                <AppText color="text2" style={{ textAlign: "center" }}>
+                    Aucun artiste n'as été liké.
+                </AppText>
             </View>
         );
     }

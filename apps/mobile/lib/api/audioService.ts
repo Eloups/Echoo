@@ -1,5 +1,6 @@
 import { createAudioPlayer, AudioPlayer, AudioSource, setAudioModeAsync } from 'expo-audio';
 import { apiClient } from '@/lib/api';
+import useAuthHook from '@/hook/authHook';
 
 /**
  * Service de gestion de la lecture audio
@@ -10,6 +11,7 @@ class AudioService {
   private currentUri: string | null = null;
   private statusUpdateCallback: ((status: any) => void) | null = null;
   private statusInterval: number | null = null;
+  private hasEmittedDidJustFinish = false;
 
   /**
    * Initialise le lecteur audio et configure le mode audio pour l'arrière-plan
@@ -42,12 +44,28 @@ class AudioService {
 
     this.statusInterval = setInterval(() => {
       if (this.player && this.statusUpdateCallback) {
+        const durationSeconds = this.player.duration || 0;
+        const positionSeconds = this.player.currentTime || 0;
+        const nearEndThreshold = 0.25;
+        const isNearOrAtEnd =
+          durationSeconds > 0 && positionSeconds >= Math.max(0, durationSeconds - nearEndThreshold);
+        const didJustFinish = isNearOrAtEnd && !this.player.playing && !this.hasEmittedDidJustFinish;
+
+        if (didJustFinish) {
+          this.hasEmittedDidJustFinish = true;
+        }
+
+        if (this.player.playing && !isNearOrAtEnd) {
+          this.hasEmittedDidJustFinish = false;
+        }
+
         const status = {
           isLoaded: this.player.isLoaded,
           isPlaying: this.player.playing,
-          positionMillis: this.player.currentTime * 1000,
-          durationMillis: this.player.duration * 1000,
+          positionMillis: positionSeconds * 1000,
+          durationMillis: durationSeconds * 1000,
           isBuffering: this.player.isBuffering,
+          didJustFinish,
         };
         this.statusUpdateCallback(status);
       }
@@ -87,6 +105,7 @@ class AudioService {
 
       // Arrêter les anciennes mises à jour
       this.stopStatusUpdates();
+      this.hasEmittedDidJustFinish = false;
 
       // Construire l'URL de streaming et enregistrer dans l'historique
       const streamUrl = await apiClient.getStreamUrl(fileName, userId, musicId);
@@ -98,9 +117,17 @@ class AudioService {
       }
 
       // Créer la source audio
-      const audioSource: AudioSource = {
-        uri: streamUrl,
-      };
+      const token = useAuthHook.getState().token;
+      const audioSource: AudioSource = token
+        ? ({
+            uri: streamUrl,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          } as any)
+        : {
+            uri: streamUrl,
+          };
 
       // Charger et jouer
       if (this.player) {
@@ -186,6 +213,9 @@ class AudioService {
         // Convertir en secondes pour expo-audio
         const positionSeconds = positionMillis / 1000;
         await this.player.seekTo(positionSeconds);
+        if (positionSeconds < (this.player.duration || 0)) {
+          this.hasEmittedDidJustFinish = false;
+        }
         
         // Attendre un peu que la nouvelle position se charge
         await new Promise(resolve => setTimeout(resolve, 100));

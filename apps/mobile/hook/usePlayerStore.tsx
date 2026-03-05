@@ -15,6 +15,7 @@ interface PlayerState {
   currentIndex: number;
   isPlayerModalVisible: boolean;
   isLoading: boolean;
+  isAdvancingToNext: boolean;
 
   // Actions
   playTrack: (track: Music, fileName: string, queue?: Music[], startIndex?: number) => Promise<void>;
@@ -51,6 +52,7 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
   currentIndex: 0,
   isPlayerModalVisible: false,
   isLoading: false,
+  isAdvancingToNext: false,
 
   // Jouer une piste
   playTrack: async (track: Music, fileName: string, queue: Music[] = [], startIndex: number = 0) => {
@@ -96,6 +98,7 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
         currentIndex: safeStartIndex,
         isPlayerModalVisible: false,
         isLoading: false,
+        isAdvancingToNext: false,
       });
     } catch (error) {
       console.error('Erreur lors de la lecture:', error);
@@ -152,11 +155,14 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
           duration: nextTrack.duration || 0,
           isPlaying: true,
           isLoading: false,
+          isAdvancingToNext: false,
         });
       } catch (error) {
         console.error('Erreur lors du changement de piste:', error);
-        set({ isLoading: false });
+        set({ isLoading: false, isAdvancingToNext: false });
       }
+    } else {
+      set({ isAdvancingToNext: false, isPlaying: false });
     }
   },
 
@@ -190,10 +196,11 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
           duration: prevTrack.duration || 0,
           isPlaying: true,
           isLoading: false,
+          isAdvancingToNext: false,
         });
       } catch (error) {
         console.error('Erreur lors du changement de piste:', error);
-        set({ isLoading: false });
+        set({ isLoading: false, isAdvancingToNext: false });
       }
     }
   },
@@ -227,8 +234,17 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
 
       const currentState = get();
 
-      // Ne mettre à jour la durée que si elle est disponible et qu'on n'a pas déjà une durée du backend
-      const finalDuration = currentState.duration > 0 ? currentState.duration : durationSeconds;
+      // Prioriser la vraie durée du fichier audio, puis fallback sur la durée backend.
+      const finalDuration = durationSeconds > 0 ? durationSeconds : currentState.duration;
+
+      // Fallback robuste: considérer la piste terminée même si didJustFinish n'est pas fourni.
+      const didReachRealEnd =
+        !!status.durationMillis &&
+        !!status.positionMillis &&
+        status.durationMillis > 0 &&
+        status.positionMillis >= status.durationMillis - 300 &&
+        !status.isPlaying;
+      const didFinish = !!status.didJustFinish || didReachRealEnd;
 
       set({
         progress: progressSeconds,
@@ -237,7 +253,8 @@ const usePlayerStore = create<PlayerState>((set, get) => ({
       });
 
       // Si la musique est terminée, passer à la suivante
-      if (status.didJustFinish) {
+      if (didFinish && !currentState.isAdvancingToNext) {
+        set({ isAdvancingToNext: true });
         get().nextTrack();
       }
     }

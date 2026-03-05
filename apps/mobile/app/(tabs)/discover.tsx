@@ -12,6 +12,7 @@ import ProjectCard from "@/lib/components/projectCard";
 import { PlaylistCoverDefault } from "@/lib/constants/images";
 import useAuthHook from "@/hook/authHook";
 import { useFocusEffect } from "@react-navigation/native";
+import AppText from "@/lib/components/global/appText";
 
 const placeholderImage = PlaylistCoverDefault;
 
@@ -214,11 +215,17 @@ export default function Discover() {
                 <View>
                     <SectionTitle text="Dernières sorties"></SectionTitle>
 
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
-                        {latestReleases.map((item, key) =>
-                            <ProjectCard key={key} infos={item} isSearch={false} isHome={true}></ProjectCard>
-                        )}
-                    </ScrollView>
+                    {latestReleases.length > 0 ? (
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }} style={{ paddingLeft: 24 }}>
+                            {latestReleases.map((project, key) =>
+                                <ProjectCard key={key} infos={project} isSearch={false} isHome={true}></ProjectCard>
+                            )}
+                        </ScrollView>
+                    ) : (
+                        <View style={{ width: '100%', paddingVertical: 20, alignItems: 'center', paddingHorizontal: 24 }}>
+                            <AppText size={"md"} color="text2">Likez des artistes pour voir leur dernières sorties</AppText>
+                        </View>
+                    )}
                 </View>
             ) :
                 <View>

@@ -142,8 +142,16 @@ export default function Playlists() {
     return (
         <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>
             <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15, paddingBottom: 150 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
-                {playlists.map((playlist, key) =>
-                    <PlaylistCard key={key} infos={playlist} isSearch={false}></PlaylistCard>
+                {playlists.length === 0 ? (
+                    <View style={{ flex: 1, minHeight: 600, justifyContent: "center", alignItems: "center", paddingRight: 20 }}>
+                        <AppText color="text2" style={{ textAlign: "center" }}>
+                            Créez une playlist pour commencer.
+                        </AppText>
+                    </View>
+                ) : (
+                    playlists.map((playlist, key) =>
+                        <PlaylistCard key={key} infos={playlist} isSearch={false}></PlaylistCard>
+                    )
                 )}
             </ScrollView>
             
