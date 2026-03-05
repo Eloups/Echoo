@@ -153,7 +153,6 @@ export default function ProjectDetailsPage() {
             const fetchIsProjectLike = async () => {
                 try {
                     const result = await AlbumService.getIsProjectIsLike(userId, projectId);
-                    console.log(result);
                     setIsProjectLiked(result.isLike);
                 } catch (error) {
                     console.error("Erreur lors de la récupération:", error);

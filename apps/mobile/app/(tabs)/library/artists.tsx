@@ -27,7 +27,6 @@ export default function Artists() {
                 }
 
                 const response: any = await ArtistService.getAllArtistsByUserID(userId);
-                console.log(userId);
                 const artistsArray = response.artists || [];
                 
                 // Convertir les données de l'API au format Artist
