@@ -1,7 +1,6 @@
 /database
 vendor
 .env
-/docker/file-server/files
 /apps/api/tests/e2e/_output
 /apps/api/tests/e2e/Support
 .pest.xml
