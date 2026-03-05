@@ -2,8 +2,8 @@
 
 namespace Api\Controller;
 
-use Api\Adapter\MusicDrivingAdapter;
 use Api\Adapter\ProjectDrivingAdapter;
+use Api\Utils\AuthUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -42,12 +42,16 @@ class ProjectController implements ControllerInterface
      */
     public function run(Request $request): Response
     {
+        // Authentification
+        AuthUtils::authenticate($request);
+
         $adapter = new ProjectDrivingAdapter();
 
         $response = match ($this->action) {
             'like' => $adapter->likeProject($request->getContent()),
             'projectsInLibrary' => $adapter->getProjectsInLibrary($this->params["id"]),
             'getProjectById' => $adapter->getOneProject($this->params["id"]),
+            'isProjectLiked' => $adapter->isProjectLiked($request->getContent()),
             default => throw new ResourceNotFoundException(),
         };
 

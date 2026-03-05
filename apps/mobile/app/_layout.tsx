@@ -1,4 +1,4 @@
-import { Stack, useRouter } from "expo-router";
+import { Stack, useRootNavigationState, useRouter } from "expo-router";
 import { StatusBar, View, Platform } from "react-native";
 import { ThemeProvider, useTheme } from "@/lib/theme/provider";
 import { useFonts } from "expo-font";
@@ -12,34 +12,39 @@ function ThemedRoot() {
 
   const { theme } = useTheme();
   const router = useRouter();
+  const rootNavigationState = useRootNavigationState();
 
-  if (Platform.OS == "android") {
-    useEffect(() => {
+  useEffect(() => {
+    if (Platform.OS === "android") {
       NavigationBar.setBackgroundColorAsync(theme.colors.background);
       NavigationBar.setButtonStyleAsync(
-        theme.name === "dark" ? "light" : "dark"
+        "dark"
       );
-    }, [theme]);
-  }
+    }
+  }, [theme]);
 
   // Vérifier le token au démarrage de l'application 
   //////////// METTRE DANS L'APLICATION FINALE ICIIIIIIII
   useEffect(() => {
+    if (!rootNavigationState?.key) {
+      return;
+    }
+
     (async () => {
       try {
         const expired = await useAuthHook.getState().checkToken();
         if (expired) {
-          router.push('/connexion/connexion');
+          router.replace('/connexion/connexion');
         }
       } catch (e) {
         console.error('checkToken error', e);
       }
     })();
-  }, [router]);
+  }, [rootNavigationState?.key, router]);
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <StatusBar barStyle={theme.name === "dark" ? "light-content" : "dark-content"} />
+      <StatusBar barStyle="light-content" />
       <Stack
         screenOptions={{
           headerShown: false,

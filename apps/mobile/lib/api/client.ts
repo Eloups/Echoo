@@ -140,7 +140,7 @@ class ApiClient {
 
 
   // Récupérer l'URL complète d'un stream audio et enregistrer dans l'historique
-  async getStreamUrl(fileName: string, userId: number, musicId: number): Promise<string> {
+  async getStreamUrl(fileName: string, userId: string, musicId: number): Promise<string> {
     // Enregistrer la musique dans l'historique d'écoute (fire-and-forget)
     MusicService.addListenedMusic(userId, musicId).catch(error => {
       console.error("Erreur lors de l'enregistrement de la musique dans l'historique:", error);

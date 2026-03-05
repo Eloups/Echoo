@@ -6,6 +6,7 @@ import AppText from '@/lib/components/global/appText';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { PlaylistService } from '@/lib/api';
 import { LoadingSpinner } from './global/BtnConnexion';
+import useAuthHook from '@/hook/authHook';
 
 type AddToPlaylistModalProps = {
     visible: boolean;
@@ -24,36 +25,63 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
     const { theme } = useTheme();
     const [playlists, setPlaylists] = useState<PlaylistItem[]>([]);
     const [selectedPlaylists, setSelectedPlaylists] = useState<Set<number>>(new Set());
+    const [initialSelectedPlaylists, setInitialSelectedPlaylists] = useState<Set<number>>(new Set());
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    let { userId } = useAuthHook();
+    if (!userId) {
+        userId = "";
+    }
 
     useEffect(() => {
         if (visible) {
             fetchPlaylists();
-            setSelectedPlaylists(new Set());
         }
-    }, [visible]);
+    }, [visible, musicId]);
 
     const fetchPlaylists = async () => {
         try {
             setLoading(true);
+            setSelectedPlaylists(new Set());
             
+
             // Utiliser le même userId que dans aaplaylists.tsx
-            const userId = 3;
             console.log('User ID:', userId);
-            
+
             const response: any = await PlaylistService.getAllPlaylistsByUserID(userId);
             console.log('Response complète:', JSON.stringify(response, null, 2));
-            
+
             // Extraire les playlists selon la structure de la réponse
             const playlistsData = response.playlists || response || [];
             console.log('Playlists extraites:', playlistsData);
             
-            setPlaylists(playlistsData.map((p: any) => ({
+            const mappedPlaylists = playlistsData.map((p: any) => ({
                 id: p.id,
                 title: p.title,
                 coverPath: p.coverPath
-            })));
+            }));
+
+            const playlistDetailsResults = await Promise.allSettled(
+                mappedPlaylists.map((playlist) => PlaylistService.getPlaylistById(playlist.id))
+            );
+
+            const preSelected = new Set<number>();
+
+            playlistDetailsResults.forEach((result, index) => {
+                if (result.status !== 'fulfilled') return;
+
+                const payload: any = result.value;
+                const playlistDetail = payload?.playlist || payload;
+                const musics = playlistDetail?.musics || [];
+
+                if (Array.isArray(musics) && musics.some((music: any) => music?.id === musicId)) {
+                    preSelected.add(mappedPlaylists[index].id);
+                }
+            });
+
+            setPlaylists(mappedPlaylists);
+            setSelectedPlaylists(preSelected);
+            setInitialSelectedPlaylists(new Set(preSelected));
         } catch (err) {
             console.error('Erreur lors du chargement des playlists:', err);
             Alert.alert("Erreur", "Impossible de charger les playlists");
@@ -73,31 +101,39 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
     };
 
     const handleSubmit = async () => {
-        if (selectedPlaylists.size === 0) {
-            Alert.alert("Attention", "Veuillez sélectionner au moins une playlist");
+        const toAdd = Array.from(selectedPlaylists).filter((playlistId) => !initialSelectedPlaylists.has(playlistId));
+        const toRemove = Array.from(initialSelectedPlaylists).filter((playlistId) => !selectedPlaylists.has(playlistId));
+
+        if (toAdd.length === 0 && toRemove.length === 0) {
+            onClose();
             return;
         }
 
         try {
             setSubmitting(true);
             
-            // Appeler l'endpoint pour chaque playlist sélectionnée
-            const promises = Array.from(selectedPlaylists).map(playlistId => 
+            const addPromises = toAdd.map((playlistId) =>
                 PlaylistService.addMusicToPlaylist(playlistId, musicId)
             );
+
+            const removePromises = toRemove.map((playlistId) =>
+                PlaylistService.deleteMusicFromPlaylist(playlistId, musicId)
+            );
             
-            await Promise.all(promises);
+            await Promise.all([...addPromises, ...removePromises]);
             
-            Alert.alert("Succès", `Musique ajoutée à ${selectedPlaylists.size} playlist${selectedPlaylists.size > 1 ? 's' : ''} !`);
             onSuccess?.();
             onClose();
         } catch (err) {
             console.error('Erreur lors de l\'ajout aux playlists:', err);
-            Alert.alert("Erreur", "Impossible d'ajouter la musique aux playlists");
+            Alert.alert("Erreur", "Impossible de mettre à jour les playlists");
         } finally {
             setSubmitting(false);
         }
     };
+
+    const hasChanges = Array.from(selectedPlaylists).some((id) => !initialSelectedPlaylists.has(id))
+        || Array.from(initialSelectedPlaylists).some((id) => !selectedPlaylists.has(id));
 
     return (
         <Modal
@@ -111,7 +147,7 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
                 <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
                     {/* Header */}
                     <View style={styles.header}>
-                        <AppText size="xl" style={{ flex: 1 }}>Ajouter à une playlist</AppText>
+                        <AppText size="xl" style={{ flex: 1 }}>Ajouter ou retirer des playlists</AppText>
                         <Pressable onPress={onClose} style={styles.closeButton}>
                             <MaterialIcons name="close" size={24} color={theme.colors.text} />
                         </Pressable>
@@ -141,10 +177,10 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
                                         onPress={() => togglePlaylist(playlist.id)}
                                     >
                                         <View style={styles.playlistInfo}>
-                                            <MaterialIcons 
-                                                name="queue-music" 
-                                                size={24} 
-                                                color={theme.colors.text2} 
+                                            <MaterialIcons
+                                                name="queue-music"
+                                                size={24}
+                                                color={theme.colors.text2}
                                             />
                                             <AppText size="md" style={{ marginLeft: 12, flex: 1 }}>
                                                 {playlist.title}
@@ -171,16 +207,16 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
                                     style={[
                                         styles.submitButton,
                                         { backgroundColor: theme.colors.primary },
-                                        (submitting || selectedPlaylists.size === 0) && styles.submitButtonDisabled
+                                        (submitting || !hasChanges) && styles.submitButtonDisabled
                                     ]}
                                     onPress={handleSubmit}
-                                    disabled={submitting || selectedPlaylists.size === 0}
+                                    disabled={submitting || !hasChanges}
                                 >
                                     {submitting ? (
                                         <LoadingSpinner size={20} color={theme.colors.primary} />
                                     ) : (
                                         <AppText size="md" style={{ color: '#fff', fontWeight: '600' }}>
-                                            Ajouter ({selectedPlaylists.size})
+                                            Valider
                                         </AppText>
                                     )}
                                 </Pressable>

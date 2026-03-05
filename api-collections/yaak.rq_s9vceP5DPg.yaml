@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_s9vceP5DPg
 createdAt: 2025-12-31T10:03:59.851063500
-updatedAt: 2026-02-03T17:29:18.572119800
+updatedAt: 2026-03-04T14:32:35.869296200
 workspaceId: wk_uYbS3VsxD9
 folderId: fl_XGNPk28yhy
 authentication: {}
@@ -14,7 +14,7 @@ headers: []
 method: GET
 name: Get last follow artists releases
 sortPriority: 2000.0
-url: ${[ API_HOST ]}/user/2/follows/artists/releases
+url: ${[ API_HOST ]}/user/322EZBMz9mlGPzuJM0UmhQv8BkBiO3EC/follows/artists/releases
 urlParameters:
 - enabled: true
   name: limit

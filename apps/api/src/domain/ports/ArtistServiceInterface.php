@@ -26,10 +26,10 @@ interface ArtistServiceInterface
 
     /**
      * Action de la récupération des artistes d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return array
      */
-    public function getArtistsInLibrary(int $id_library): array;
+    public function getArtistsInLibrary(string $id_library): array;
 
     /**
      * action de récupération des albums d'un artiste

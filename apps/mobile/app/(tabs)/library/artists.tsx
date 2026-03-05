@@ -2,24 +2,32 @@ import ArtistCard from "@/lib/components/artistCard";
 import { useTheme } from "@/lib/theme/provider";
 import { Artist } from "@/lib/types/types";
 import { ScrollView, View } from "react-native";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ArtistService, apiClient } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
 import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
+import { PlaylistCoverDefault } from "@/lib/constants/images";
+import { useFocusEffect } from "expo-router";
+import useAuthHook from "@/hook/authHook";
 
 export default function Artists() {
     const { theme } = useTheme();
+    const { userId } = useAuthHook();
     const [artists, setArtists] = useState<Artist[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchArtists = async () => {
+    const fetchArtists = useCallback(async () => {
             try {
                 setLoading(true);
-                const userId = 3; // ID utilisateur
+                if (!userId) {
+                    setArtists([]);
+                    setError("Utilisateur non connecté");
+                    return;
+                }
+
                 const response: any = await ArtistService.getAllArtistsByUserID(userId);
-                
+                console.log(userId);
                 const artistsArray = response.artists || [];
                 
                 // Convertir les données de l'API au format Artist
@@ -27,7 +35,7 @@ export default function Artists() {
                     id: artist.id,
                     cover: artist.imagePath 
                         ? { uri: apiClient.getImageUrl(artist.imagePath) }
-                        : require("../../../assets/images/react-logo.png"),
+                        : PlaylistCoverDefault,
                     title: artist.name,
                     name: artist.name,
                     isVerified: artist.isVerified,
@@ -35,16 +43,20 @@ export default function Artists() {
                 }));
                 
                 setArtists(formattedArtists);
+                setError(null);
             } catch (err) {
                 console.error('Erreur lors du chargement des artistes:', err);
                 setError('Impossible de charger les artistes');
             } finally {
                 setLoading(false);
-            }
+            
         };
+    }, [userId]);
 
+    useFocusEffect(useCallback(() => {
         fetchArtists();
-    }, []);
+        }, [fetchArtists])
+    );
 
     if (loading) {
         return (

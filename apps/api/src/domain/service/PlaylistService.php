@@ -27,10 +27,10 @@ class PlaylistService implements PlaylistServiceInterface
 
     /**
      * Action du listage des playlists d'une library
-     * @param int $id_library
+     * @param string $id_library
      * @return array
      */
-    public function getPlaylistsInLibrary(int $id_library): array
+    public function getPlaylistsInLibrary(string $id_library): array
     {
         $driven = new PlaylistDrivenAdapter();
 
@@ -57,7 +57,7 @@ class PlaylistService implements PlaylistServiceInterface
     }
 
     /** Action de la création d'une playlist
-     * @param int $id_library
+     * @param string $id_library
      * @param string $title
      * @param bool $isPublic
      * @param string $description
@@ -65,7 +65,7 @@ class PlaylistService implements PlaylistServiceInterface
      * @param array $musics
      * @return void
      */
-    public function addPlaylist(int $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics)
+    public function addPlaylist(string $id_library, string $title, bool $isPublic, string $description, string $cover_path, array $musics)
     {
         $driven = new PlaylistDrivenAdapter();
         $driven->addPlaylist($id_library, $title, $isPublic, $description, $cover_path, $musics);
