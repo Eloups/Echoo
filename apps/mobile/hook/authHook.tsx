@@ -59,8 +59,6 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     })
 
     if (error) {
-      // ICIIIIIII a voir pour mettre un message d'erreur a la main pour l'avoir en français 
-      // et pour que ce ne soit pas dirrectement l'erreur du serveur
       if (error.status === 403 && error.code == 'EMAIL_NOT_VERIFIED') {
         // redirection vers un écran d'attente de vérification de l'email
         set({ waitVerificationMail: true, isLoading: false });
@@ -96,9 +94,28 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
         }
 
         try {
-          //Recupération des infos utilisateur dans l'API backend
           let expirationTime = decodedToken?.exp;
-          const userData = await UserService.getUser(data.user.id);
+          let userData: any;
+
+          try {
+            userData = await UserService.getUser(data.user.id);
+          } catch (e: any) {
+            if (e?.message?.includes('Ressource non trouvée')) {
+              const request: CreateUserRequest = {
+                id: data.user.id,
+                username: data.user.name ?? email.split('@')[0],
+                email: data.user.email ?? email,
+                image_path: data.user.image ?? "",
+                id_role: 1,
+              };
+
+              await UserService.createUser(request);
+              userData = await UserService.getUser(data.user.id);
+            } else {
+              throw e;
+            }
+          }
+
           if (userData) {
             let userRender = new User(userData.user);
             userRender.expirationTime = expirationTime;
@@ -132,63 +149,12 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     });
 
     if (error) {
+      console.error('SignUp rror:', error);
       set({ authError: error.message, isLoading: false });
       return;
     }
 
     if (data) {
-      const JWT = await authClient.token()
-      // console.log("JWT =", JWT);
-
-      // décoder le JWT pour avoir les infos de l'utilisateur 
-      // (dont l'id pour ensouite prendre les infos supplémentaire dans l'API backend)
-      if (JWT && JWT?.data && JWT?.data?.token) {
-        const tokenValue = JWT.data.token;
-        set({ token: tokenValue ?? null });
-        // ajout de la photo de profil si elle est présente 
-        let imagePath = "";
-        try {
-          if (PdpB64) {
-            // Utilise le hook global pour sauvegarder l'image et récupérer le nom du fichier
-            const { AddImage } = useGlobalHook.getState();
-
-            const fileName: string = await AddImage(PdpB64);
-            if (fileName) {
-              imagePath = fileName;
-            }
-          }
-
-        } catch (e: any) {
-
-          set({ authError: e.message ?? String(e) });
-          set({ isLoading: false });
-          return;
-        }
-
-        // Creation de l'utilisateur dans l'API backend avec l'ID du signUp
-        try {
-          let request: CreateUserRequest = {
-            id: data.user.id,
-            username: name,
-            email: email,
-            image_path: imagePath,
-            id_role: 1,
-          }
-
-          //Creation de l'utilisateur dans l'API backend
-          let val = await UserService.createUser(request);
-
-          if (val.code !== 201) {
-            throw new Error("Failed to create user in backend");
-          }
-        } catch (e: any) {
-
-          set({ authError: e.message ?? String(e) });
-          set({ isLoading: false });
-          return;
-        }
-      }
-
       // redirection vers un écran d'attente de vérification de l'email
       set({ waitVerificationMail: true, isLoading: false });
       // Stocker l'email pour permettre le renvoi

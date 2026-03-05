@@ -12,7 +12,7 @@ export default function VerifyEmailPage() {
     useEffect(() => {
         const verifyEmail = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_AUTH_URL}/api/auth/verify-email`, {
+                const response = await fetch(`/api/verify-email`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

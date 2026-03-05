@@ -1,14 +1,13 @@
 import React from "react";
 import { View, Image, ScrollView } from "react-native";
-import { TextInputGlobal } from "@/lib/components/global/TextInput";
-import EchoCompleteLogo from "@/assets/img/EchoCompleteLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
 import useAuthHook from '@/hook/authHook';
 import { useTheme } from "@/lib/theme/provider";
 import { useGlobalHook } from "@/hook";
-import StatsProfil from "@/lib/components/statsProfil";
+import UpdateUserProfilModal from "@/lib/components/updateUserProfilModal";
+// import UpdateUserProfilModal from "@/lib/components/updateUserProfilModal";
 
 const pp = require("../../../assets/img/pp.jpg");
 
@@ -17,6 +16,8 @@ export default function CompteScreen() {
     const { logout } = useAuthHook();
     const { user } = useGlobalHook();
     const { theme } = useTheme();
+
+    const [visibelModifProfil, setVisibleModifProfil] = React.useState(false);
 
     function handleLogout() {
         logout();
@@ -49,11 +50,8 @@ export default function CompteScreen() {
             </View>
 
             <View style={{ width: "100%", marginTop: 20 }} >
-                <BtnConnexion title="Modifier le profil" onClick={() => { console.log("Modification du profil") }} />
+                <BtnConnexion title="Modifier le profil" onClick={() => { setVisibleModifProfil(true); console.log("Modification du profil"); }} />
             </View>
-            {/* <View style={{ width: "100%", marginTop: 20 }} >
-                <StatsProfil />
-            </View> */}
 
             <View style={{ width: "100%", marginTop: 20 }} >
                 <BtnConnexion title="Se déconnecter" onClick={() => { handleLogout() }} />
@@ -61,7 +59,12 @@ export default function CompteScreen() {
             <View style={{ width: "100%", marginTop: 20 }} >
                 <BtnConnexion title="Supprimer son compte" color={theme.colors.error} onClick={() => { console.log("Supprimer le compte"); }} />
             </View>
-
+           
+            <UpdateUserProfilModal
+                visible={visibelModifProfil}
+                onClose={() => setVisibleModifProfil(false)}
+                onSubmit={() => { console.log("Modification du profil"); }}
+            />
         </ScrollView >
     )
 }

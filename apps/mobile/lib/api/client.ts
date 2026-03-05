@@ -10,6 +10,12 @@ const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
 class ApiClient {
   private client: AxiosInstance;
 
+  private isExpectedUserBootstrap404(error: AxiosError): boolean {
+    const status = error.response?.status;
+    const url = error.config?.url ?? '';
+    return status === 404 && /^\/users\/[^/]+$/.test(url);
+  }
+
   constructor() {
     this.client = axios.create({
       baseURL: API_BASE_URL,
@@ -42,7 +48,7 @@ class ApiClient {
         return response;
       },
       (error: AxiosError) => {
-        if (__DEV__) {
+        if (__DEV__ && !this.isExpectedUserBootstrap404(error)) {
           console.error(`API Error: ${error.config?.url}`, error.response?.status);
         }
         return Promise.reject(this.handleError(error));
@@ -55,7 +61,9 @@ class ApiClient {
     if (error.response) {
       // Le serveur a répondu avec un code d'erreur
       const status = error.response.status;
-      console.log('Backend error response:', error.response.data);
+      if (!this.isExpectedUserBootstrap404(error)) {
+        console.log('Backend error response:', error.response.data);
+      }
 
       const message = error.response.data || error.message;
 

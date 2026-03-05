@@ -6,32 +6,51 @@ import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
 import useAuthHook from '@/hook/authHook';
+import { emailSchema, passwordSchema } from "@/lib/validations/authSchema";
 
 export default function ConnexionScreen() {
     const router = useRouter();
-    const {login, isLoading, authError} = useAuthHook();
+    const { login, isLoading, authError } = useAuthHook();
     const [email, setEmail] = React.useState<string>("");
     const [mdp, setMdp] = React.useState<string>("");
+    const [validationErrors, setValidationErrors] = React.useState<{ email?: string; mdp?: string }>({});
 
     function handleConect() {
-        if (email.trim() !== ""  && mdp.trim() !== "") {
-            // pass pour le dev Tempo 
-            if (email == "A" && mdp == "A") {
-                login("test@gmail.com", "Test1234_");
-            }
-            else {
-                login(email, mdp);
-            }
-        }
-        else {
-            let messageError = "";
-            if (email.trim() === "") {
-                messageError += "L'email ne peut pas être vide.\n";
-            }
-            if (mdp.trim() === "") {
-                messageError += "Le mot de passe ne peut pas être vide.\n";
+        // Réinitialiser les erreurs de validation
+        setValidationErrors({});
+
+        const errors: { email?: string; mdp?: string } = {};
+        let hasErrors = false;
+
+        // Valider l'email
+        try {
+            emailSchema.parse(email);
+        } catch (error: any) {
+            if (error?.issues?.[0]?.message) {
+                errors.email = error.issues[0].message;
+                hasErrors = true;
             }
         }
+
+        // Valider le mot de passe
+        try {
+            passwordSchema.parse(mdp);
+        } catch (error: any) {
+            if (error?.issues?.[0]?.message) {
+                errors.mdp = error.issues[0].message;
+                hasErrors = true;
+            }
+        }
+
+        // Si erreurs, les afficher et arrêter
+        if (hasErrors) {
+            console.log("Validation errors:", errors);
+            setValidationErrors(errors);
+            return;
+        }
+
+        // Si validation réussie, procéder à la connexion
+        login(email.trim(), mdp.trim());
     }
 
     return (
@@ -61,11 +80,17 @@ export default function ConnexionScreen() {
                 >
                     <View style={{ width: "100%" }}>
                         <TextInputGlobal text={email} setText={setEmail} label="Email" />
+                        {validationErrors.email && (
+                            <AppText color="error" size="sm">{validationErrors.email}</AppText>
+                        )}
                     </View>
                     <View style={{ width: "100%" }}>
                         <TextInputGlobal text={mdp} setText={setMdp} label="Mot de passe" star={true} />
+                        {validationErrors.mdp && (
+                            <AppText color="error" size="sm">{validationErrors.mdp}</AppText>
+                        )}
                     </View>
-                    <AppText color="primary" size="lg" onPress={() => {router.push("/connexion/mdpOublie"); console.log("Mot de passe oublié") }}>Mot de passe oublié ?</AppText>
+                    <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/mdpOublie"); console.log("Mot de passe oublié") }}>Mot de passe oublié ?</AppText>
                     <View style={{ width: "100%", height: 50 }}>
                         <BtnConnexion title="Se connecter" onClick={() => { handleConect() }} isLoading={isLoading} />
                     </View>
