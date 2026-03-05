@@ -95,6 +95,16 @@ export default function projects() {
         );
     }
 
+    if (projects.length === 0) {
+        return (
+            <View style={{ backgroundColor: theme.colors.background, height: "100%", justifyContent: "center", alignItems: "center", padding: 20 }}>
+                <AppText color="text2" style={{ textAlign: "center" }}>
+                    Aucun album n'as été liké.
+                </AppText>
+            </View>
+        );
+    }
+
 
     return (
         <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>

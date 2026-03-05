@@ -74,6 +74,16 @@ export default function Artists() {
         );
     }
 
+    if (artists.length === 0) {
+        return (
+            <View style={{ backgroundColor: theme.colors.background, height: "100%", justifyContent: "center", alignItems: "center", padding: 20 }}>
+                <AppText color="text2" style={{ textAlign: "center" }}>
+                    Aucun artiste n'as été liké.
+                </AppText>
+            </View>
+        );
+    }
+
     return (
         <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>
             <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
