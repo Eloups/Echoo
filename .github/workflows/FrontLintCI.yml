@@ -22,5 +22,8 @@ jobs:
               cache: 'npm'
               cache-dependency-path: 'apps/mobile/package-lock.json'
           
+          - name: install dependencies
+            run: cd apps/mobile && npm install      
+
           - name: lint test
             run: cd apps/mobile && npm run lint
