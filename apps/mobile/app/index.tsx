@@ -1,5 +1,5 @@
-import { Pressable, Text, View, KeyboardAvoidingView, Platform } from "react-native";
-import { Stack, useRouter, Redirect } from "expo-router";
+import { Pressable, Text, View } from "react-native";
+import { useRouter, Redirect } from "expo-router";
 import { useTheme } from "@/lib/theme/provider";
 
 export default function Index() {

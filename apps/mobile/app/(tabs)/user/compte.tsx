@@ -2,8 +2,7 @@ import React from "react";
 import { View, Image, ScrollView } from "react-native";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
-import { useRouter } from "expo-router";
-import useAuthHook from '@/hook/authHook';
+import { useAuthHook } from '@/hook/authHook';
 import { useTheme } from "@/lib/theme/provider";
 import { useGlobalHook } from "@/hook";
 import UpdateUserProfilModal from "@/lib/components/updateUserProfilModal";
@@ -11,7 +10,6 @@ import UpdateUserProfilModal from "@/lib/components/updateUserProfilModal";
 const pp = require("../../../assets/img/pp.jpg");
 
 export default function CompteScreen() {
-    const router = useRouter();
     const { logout } = useAuthHook();
     const { user } = useGlobalHook();
     const { theme } = useTheme();

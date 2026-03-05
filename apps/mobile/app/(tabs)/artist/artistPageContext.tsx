@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Artist, Music, Project } from '@/lib/types/types';
 import { apiClient, ArtistService, ImageService, MusicService } from '@/lib/api';
 import { ArtistAlbum } from '@/lib/api/types';
@@ -56,7 +56,7 @@ export function ArtistPageProvider({ params, children }: ArtistPageProviderProps
         }
     };
 
-    const normalizeList = (value: unknown): any[] => {
+    const normalizeList = useCallback((value: unknown): any[] => {
         const parsed = parseJsonSafely(value);
         if (!Array.isArray(parsed)) return [];
 
@@ -64,7 +64,7 @@ export function ArtistPageProvider({ params, children }: ArtistPageProviderProps
             if (Array.isArray(item)) return item;
             return item ? [item] : [];
         });
-    };
+    }, []);
 
     const resolveCover = (coverValue: unknown) => {
         if (!coverValue) return placeholderImage;
@@ -110,7 +110,7 @@ export function ArtistPageProvider({ params, children }: ArtistPageProviderProps
         );
     };
 
-    const normalizeProjects = (artistSource: any, fallbackArtistName: string): ArtistProjectCard[] => {
+    const normalizeProjects = useCallback((artistSource: any, fallbackArtistName: string): ArtistProjectCard[] => {
         const rawProjects =
             artistSource?.projects ??
             artistSource?.allProjects ??
@@ -138,9 +138,9 @@ export function ArtistPageProvider({ params, children }: ArtistPageProviderProps
                 nbTitles: project?.nbTitles || project?.nbMusics || project?.musics?.length || 0,
             };
         });
-    };
+    }, [normalizeList, params.projects]);
 
-    const mapAlbumsToProjects = (albums: ArtistAlbum[], fallbackArtistName: string): ArtistProjectCard[] => {
+    const mapAlbumsToProjects = useCallback((albums: ArtistAlbum[], fallbackArtistName: string): ArtistProjectCard[] => {
         const sortedAlbums = [...albums].sort((a, b) => {
             const getTimestamp = (album: ArtistAlbum) => {
                 const dateValue = (album as any).dateRelease || album.release;
@@ -170,7 +170,7 @@ export function ArtistPageProvider({ params, children }: ArtistPageProviderProps
                 nbTitles: Array.isArray(album.musics) ? album.musics.length : 0,
             };
         });
-    };
+    }, []);
 
     useEffect(() => {
         let isMounted = true;
@@ -273,7 +273,7 @@ export function ArtistPageProvider({ params, children }: ArtistPageProviderProps
                     setArtist(normalizedArtist);
                     setProjects(albumsProjects.length ? albumsProjects : (normalizedProjects.length ? normalizedProjects : fallbackProjects));
                 }
-            } catch (error) {
+            } catch {
                 const rawData = parseJsonSafely(params.data);
                 const rawArtist = (rawData as any)?.artist ?? rawData ?? {};
                 if (isMounted) {
@@ -298,7 +298,7 @@ export function ArtistPageProvider({ params, children }: ArtistPageProviderProps
         return () => {
             isMounted = false;
         };
-    }, [params.artistId, params.id, params.data, params.projects]);
+    }, [params, mapAlbumsToProjects, normalizeList, normalizeProjects]);
 
     const value = useMemo<ArtistPageContextValue>(() => ({
         artist,

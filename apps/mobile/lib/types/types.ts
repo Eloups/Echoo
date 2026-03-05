@@ -1,31 +1,34 @@
 export type Music = {
     id: number,
     cover: any,
-    title : string,
-    artist : string[] | string,
+    title: string,
+    artist: string[] | string,
     color1: string,
     color2: string,
     nbStreams?: number,
     audioFile?: string,
     duration?: number,
+    nameArtist?: string,
+    filePath?: string,
+    rates?: any[],
 }
 
 export type Playlist = {
     id?: number,
     cover: any,
-    title : string,
-    description : string,
-    musics? : Music[],
+    title: string,
+    description: string,
+    musics?: Music[],
     nbMusics: number,
 }
 
 export type Project = {
     cover: any,
     type: string,
-    title : string,
-    description : string,
-    artist : string[] | string,
-    musics? : Music[],
+    title: string,
+    description: string,
+    artist: string[] | string,
+    musics?: Music[],
 }
 
 export type Artist = {
@@ -51,12 +54,12 @@ type APIMusic = {
 }
 
 export type APIArtist = {
-    id : number,
+    id: number,
     name: string,
     isVerified: boolean,
     description?: string,
     image_path?: string,
     nb_likes: number,
     popular_musics: APIMusic[],
-    last_releases : APIMusic[] 
+    last_releases: APIMusic[]
 }

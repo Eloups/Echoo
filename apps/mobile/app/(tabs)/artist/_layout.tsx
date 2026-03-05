@@ -45,8 +45,8 @@ export default function ArtistLayout() {
         navigation.setOptions({
             title: artistName,
         } as any);
-    }, [navigation, params.title]);
-    
+    }, [navigation, params.title, params.data]);
+
     return (
         <ArtistPageProvider params={params as Record<string, any>}>
             <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -102,8 +102,8 @@ export default function ArtistLayout() {
                             borderRadius: 20,
                         },
                         tabBarLabel: ({ focused, children }) => (
-                            <AppText 
-                                size="sm" 
+                            <AppText
+                                size="sm"
                                 color={theme.colors.text}
                             >
                                 {children}
