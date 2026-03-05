@@ -157,7 +157,7 @@ class AudioService {
               });
             }
           } catch (error) {
-            console.log('Lock screen controls not available:', error);
+            console.error('Lock screen controls not available:', error);
           }
         }
 

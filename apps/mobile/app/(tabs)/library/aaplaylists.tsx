@@ -109,7 +109,6 @@ export default function Playlists() {
                 try {
                     const uploadResult = await ImageService.AddImage(coverBase64, 'image/jpeg');
                     coverPath = uploadResult.filename; // Utiliser le nom du fichier retourné
-                    console.log('Image uploadée avec succès:', coverPath);
                 } catch (uploadError) {
                     console.error('Erreur lors de l\'upload de l\'image:', uploadError);
                     Alert.alert("Avertissement", "L'image n'a pas pu être uploadée, la playlist sera créée sans image");

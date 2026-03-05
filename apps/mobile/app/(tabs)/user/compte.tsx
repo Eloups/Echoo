@@ -46,7 +46,7 @@ export default function CompteScreen() {
             </View>
 
             <View style={{ width: "100%", marginTop: 20 }} >
-                <BtnConnexion title="Modifier le profil" onClick={() => { setVisibleModifProfil(true); console.log("Modification du profil"); }} />
+                <BtnConnexion title="Modifier le profil" onClick={() => { setVisibleModifProfil(true); }} />
             </View>
 
             <View style={{ width: "100%", marginTop: 20 }} >

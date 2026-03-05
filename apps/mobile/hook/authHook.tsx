@@ -75,7 +75,6 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     }
     if (data) {
       const JWT = await authClient.token()
-      // console.log("JWT =", JWT);
 
       // décoder le JWT pour avoir les infos de l'utilisateur 
       // (dont l'id pour ensouite prendre les infos supplémentaire dans l'API backend)
@@ -167,9 +166,8 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
   },
   checkToken: async () => {
     const { tokenIsExpired } = get();
-    // ICIIIIIIIIIIII Mettre le reload du token quand j'aurais le temps
+    // TODO: Mettre le reload du token
     if (tokenIsExpired()) {
-      console.log("TOKEN EXPIRED - REDIRECT TO LOGIN");
       return true;
     }
     return false;
@@ -214,8 +212,6 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
   },
 
   sendVerificationEmail: async (email: string) => {
-    // set({ isLoading: true, waitVerificationMail: true });
-
     try {
       let val = await authClient.sendVerificationEmail({
         email: email,

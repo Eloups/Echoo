@@ -20,17 +20,16 @@ export default function PresentationPage() {
 
     //Vérifie si l'artiste est déjà liké par un utilisateur
     useEffect(() => {
-        const artistId = artist.id;
-        if (typeof artistId === "number" && userId) {
-            const fetchIsArtistLike = async () => {
-                try {
-                    const result = await ArtistService.getIsArtistIsLike(userId, artistId);
-                    console.log(result);
-                    setIsArtistLike(result.isLike);
-                } catch (error) {
-                    console.error("Erreur lors de la récupération:", error);
-                }
-            };
+    const artistId = artist.id;
+    if (typeof artistId === "number" && userId) {
+        const fetchIsArtistLike = async () => {
+            try {
+                const result = await ArtistService.getIsArtistIsLike(userId, artistId);
+                setIsArtistLike(result.isLike);
+            } catch (error) {
+                console.error("Erreur lors de la récupération:", error);
+            }
+        };
 
             fetchIsArtistLike();
         }

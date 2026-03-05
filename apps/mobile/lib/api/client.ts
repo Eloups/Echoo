@@ -62,7 +62,7 @@ class ApiClient {
       // Le serveur a répondu avec un code d'erreur
       const status = error.response.status;
       if (!this.isExpectedUserBootstrap404(error)) {
-        console.log('Backend error response:', error.response.data);
+        console.error('Backend error response:', error.response.data);
       }
 
       const message = error.response.data || error.message;

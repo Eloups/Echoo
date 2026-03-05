@@ -44,7 +44,6 @@ export default function ConnexionScreen() {
 
         // Si erreurs, les afficher et arrêter
         if (hasErrors) {
-            console.log("Validation errors:", errors);
             setValidationErrors(errors);
             return;
         }
@@ -90,7 +89,7 @@ export default function ConnexionScreen() {
                             <AppText color="error" size="sm">{validationErrors.mdp}</AppText>
                         )}
                     </View>
-                    <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/mdpOublie"); console.log("Mot de passe oublié") }}>Mot de passe oublié ?</AppText>
+                    <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/mdpOublie"); }}>Mot de passe oublié ?</AppText>
                     <View style={{ width: "100%", height: 50 }}>
                         <BtnConnexion title="Se connecter" onClick={() => { handleConect() }} isLoading={isLoading} />
                     </View>
