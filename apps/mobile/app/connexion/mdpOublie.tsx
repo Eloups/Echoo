@@ -6,29 +6,33 @@ import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
 import useAuthHook from '@/hook/authHook';
-import { set } from "better-auth";
+import { emailSchema } from "@/lib/validations/authSchema";
 
 export default function mdpOublieScreen() {
     const router = useRouter();
     const { sendResetPassword, isLoading, authError } = useAuthHook();
     const [email, setEmail] = React.useState<string>("");
     const [waitResetPassword, setWaitResetPassword] = React.useState<boolean>(false);
+    const [validationError, setValidationError] = React.useState<string>("");
 
     function handleSendEmail() {
-        if (email.trim() !== "") {
-            // pass pour le dev Tempo ICIIIII
-            if (!waitResetPassword) { setWaitResetPassword(true); }
-            if (email == "A") {
-                sendResetPassword("thibaultcallerand@gmail.com");
+        // Réinitialiser les erreurs de validation
+        setValidationError("");
+
+        try {
+            // Valider l'email
+            emailSchema.parse(email.trim());
+            
+            // Si validation réussie, envoyer l'email de réinitialisation
+            if (!waitResetPassword) { 
+                setWaitResetPassword(true); 
             }
-            else {
-                sendResetPassword(email);
-            }
+            sendResetPassword(email.trim());
         }
-        else {
-            let messageError = "";
-            if (email.trim() === "") {
-                messageError += "L'email ne peut pas être vide.\n";
+        catch(error: any) {
+            // Gérer les erreurs de validation
+            if (error.errors?.[0]?.message) {
+                setValidationError(error.errors[0].message);
             }
         }
     }
@@ -66,6 +70,9 @@ export default function mdpOublieScreen() {
 
                     <View style={{ width: "100%" }}>
                         <TextInputGlobal text={email} setText={setEmail} label="Email*" />
+                        {validationError && (
+                            <AppText color="error" size="sm">{validationError}</AppText>
+                        )}
                     </View>
 
                     <View style={{ width: "100%", height: 50 }}>
@@ -79,7 +86,7 @@ export default function mdpOublieScreen() {
                             <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/connexion") }}>Se connecter</AppText>
                         </View>
                     ) : null}
-                    
+
                     {authError ? (
                         <AppText color="error" size="md">{authError}</AppText>
                     ) : null}

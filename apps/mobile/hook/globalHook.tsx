@@ -33,8 +33,8 @@ const useGlobalHook = create<GlobalHook>((set, get) => ({
 
     GetImage: async (imagePath: string) => {
         try {
+            // Le retour c'est le fichier binaire
             const res = await ImageService.GetImage(imagePath);
-            // Selon la réponse, adapter le retour (ex: url, base64, etc.)
             return res;
         } catch (e) {
             console.error('Erreur lors de la récupération de l\'image:', e);

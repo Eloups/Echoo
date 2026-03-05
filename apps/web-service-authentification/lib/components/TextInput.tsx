@@ -6,6 +6,7 @@ type TextInputProps = {
     text: string;
     star?: boolean;
     setText?: (text: string) => void;
+    error?: string;
 };
 
 export function TextInputGlobal(props: TextInputProps) {
@@ -53,6 +54,11 @@ export function TextInputGlobal(props: TextInputProps) {
                     </button>
                 )}
             </div>
+            {props.error && (
+                <p style={{ color: "#FF4444", fontSize: "0.875rem", marginTop: 4, paddingLeft: 5 }}>
+                    {props.error}
+                </p>
+            )}
         </div>
     );
 }

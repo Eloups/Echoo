@@ -36,6 +36,7 @@ export default function Liked() {
             }
 
             const playlist = await UserService.getLikedPlaylist(session.user.id);
+
             if (!playlist.playlist) { // null si playlist vide
                 return
             }
