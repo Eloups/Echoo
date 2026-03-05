@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
-import useAuthHook from '../../hook/authHook';
 import EchoCompleteLogo from '@/assets/img/EchoCompleteLogo';
 import AppText from '@/lib/components/global/appText';
 import { BtnConnexion } from '@/lib/components/global/BtnConnexion';
+import { useAuthHook } from '@/hook/authHook';
 
 export default function WaitingVerificationScreen() {
     const router = useRouter();
@@ -21,7 +21,7 @@ export default function WaitingVerificationScreen() {
         };
         loadEmail();
     }, []);
-    
+
     const handleResendEmail = () => {
         if (email && email.trim() !== "") {
             sendVerificationEmail(email);
@@ -50,7 +50,7 @@ export default function WaitingVerificationScreen() {
                         {email}
                     </AppText>
                     <AppText size="md" style={{ textAlign: "center", marginTop: 10 }}>
-                        Cliquez sur le lien dans l'email pour activer votre compte.
+                        Cliquez sur le lien dans l&apos;email pour activer votre compte.
                         Le lien ouvrira une page web pour confirmer votre adresse.
                     </AppText>
                 </View>

@@ -1,5 +1,5 @@
 import { View, ScrollView } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
 import { ArtistService, MusicService, apiClient } from '@/lib/api';
@@ -18,7 +18,7 @@ export default function MorceauxPage() {
 
     const placeholderCover = PlaylistCoverDefault;
 
-    const mapMusicWithCover = async (music: any): Promise<Music> => {
+    const mapMusicWithCover = useCallback(async (music: any): Promise<Music> => {
         let cover: any = placeholderCover;
 
         try {
@@ -40,7 +40,7 @@ export default function MorceauxPage() {
             audioFile: music.filePath,
             duration: music.duration,
         };
-    };
+    }, [artist.title, placeholderCover]);
 
     useEffect(() => {
         let isMounted = true;
@@ -82,7 +82,7 @@ export default function MorceauxPage() {
         return () => {
             isMounted = false;
         };
-    }, [artist?.id]);
+    }, [artist?.id, mapMusicWithCover]);
 
     return (
         <View style={{ flex: 1, backgroundColor: theme.colors.background }}>

@@ -1,4 +1,4 @@
-import { View, ScrollView, Image, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Image, Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
@@ -7,11 +7,9 @@ import MusicCard from '@/lib/components/musicCard';
 import SectionTitle from '@/lib/components/sectionTitle';
 import { useArtistPage } from './artistPageContext';
 import { LoadingSpinner } from '@/lib/components/global/BtnConnexion';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { User } from '@/lib/types/auth';
 import { UserService } from '@/lib/api/user.service';
 import { ArtistService } from '@/lib/api';
-import useAuthHook from '@/hook/authHook';
+import { useAuthHook } from '@/hook/authHook';
 
 export default function PresentationPage() {
     const { theme } = useTheme();
@@ -22,27 +20,27 @@ export default function PresentationPage() {
 
     //Vérifie si l'artiste est déjà liké par un utilisateur
     useEffect(() => {
-    const artistId = artist.id;
-    if (typeof artistId === "number" && userId) {
-        const fetchIsArtistLike = async () => {
-            try {
-                const result = await ArtistService.getIsArtistIsLike(userId, artistId);
-                console.log(result);
-                setIsArtistLike(result.isLike);
-            } catch (error) {
-                console.error("Erreur lors de la récupération:", error);
-            }
-        };
+        const artistId = artist.id;
+        if (typeof artistId === "number" && userId) {
+            const fetchIsArtistLike = async () => {
+                try {
+                    const result = await ArtistService.getIsArtistIsLike(userId, artistId);
+                    console.log(result);
+                    setIsArtistLike(result.isLike);
+                } catch (error) {
+                    console.error("Erreur lors de la récupération:", error);
+                }
+            };
 
-        fetchIsArtistLike();
-    }
-}, [artist.id, userId]);
+            fetchIsArtistLike();
+        }
+    }, [artist.id, userId]);
 
     if (loading) {
         return (
             <View style={{ flex: 1, backgroundColor: theme.colors.background, justifyContent: 'center', alignItems: 'center' }}>
                 <LoadingSpinner size={26} color={theme.colors.primary} />
-                <AppText style={{ marginTop: 10 }}>Chargement des informations de l'artiste...</AppText>
+                <AppText style={{ marginTop: 10 }}>Chargement des informations de l&apos;artiste...</AppText>
             </View>
         );
     }
@@ -84,14 +82,14 @@ export default function PresentationPage() {
                             <AppText size="3xl" weight='bold' style={{ fontWeight: 'bold', color: 'white' }}>
                                 {artist.title}
                             </AppText>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                                    
-                                    <Pressable
-                                        onPress={() => handleArtistLike()}
-                                    >
-                                        <MaterialIcons name={isArtistLike ? "favorite" : "favorite-border"} size={32} color={isArtistLike ? '#DB1151' : "white"} />
-                                    </Pressable>
-                                </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+
+                                <Pressable
+                                    onPress={() => handleArtistLike()}
+                                >
+                                    <MaterialIcons name={isArtistLike ? "favorite" : "favorite-border"} size={32} color={isArtistLike ? '#DB1151' : "white"} />
+                                </Pressable>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -117,7 +115,7 @@ export default function PresentationPage() {
                 {/* Dernières sorties */}
                 <View style={{ marginTop: 20 }}>
                     <SectionTitle text="Dernières sorties" />
-                    <View style={{  marginBottom: 30 }}>
+                    <View style={{ marginBottom: 30 }}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15, paddingHorizontal: 20 }}>
                             {recentReleases.map((release, index) => (
                                 <View key={index}>
@@ -135,26 +133,3 @@ export default function PresentationPage() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    dropdownMenu: {
-        position: 'absolute',
-        top: 45,
-        right: 0,
-        width: 180,
-        borderRadius: 8,
-        paddingVertical: 8,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        zIndex: 1000,
-    },
-    menuItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 16,
-        paddingVertical: 12,
-    },
-});
