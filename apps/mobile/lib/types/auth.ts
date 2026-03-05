@@ -15,7 +15,6 @@ export interface JWTPayload {
 }
 
 export interface GetUserPayload {
-    // ICIIII voir pour le plus avoir de any
     id: string;
     username: string;
     email: string;

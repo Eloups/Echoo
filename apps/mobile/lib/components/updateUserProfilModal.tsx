@@ -73,8 +73,8 @@ export default function UpdateUserProfilModal({ visible, onClose, onSubmit }: Up
         console.log("Changer de mot de passe");
     }
     const handleChangeEmail = () => {
-        // Le plant ici c'est de faire une vérification du nouveau mail et 
-        // envoillé un mail pour dire de contacté le support
+        // Le plan ici c'est de faire une vérification du nouveau mail et 
+        // envoyer un mail pour dire de contacter le support
         // en cas de piratage du compte et de changement d'email frauduleux
 
         console.log("Changer d'email");

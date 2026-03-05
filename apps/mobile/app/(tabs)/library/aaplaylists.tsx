@@ -34,7 +34,7 @@ export default function Playlists() {
             
             const playlistsArray = (response.playlists || []).filter((playlist: any) => playlist?.title !== "liked");
             
-            // Convertir les données de l'API au format Playlist du front
+            Convertir les données de l'API au format Playlist du front
             const formattedPlaylists: Playlist[] = playlistsArray.map((playlist: any) => ({
                     id: playlist.id,
                     cover: playlist.coverPath 
@@ -110,7 +110,6 @@ export default function Playlists() {
                 try {
                     const uploadResult = await ImageService.AddImage(coverBase64, 'image/jpeg');
                     coverPath = uploadResult.filename; // Utiliser le nom du fichier retourné
-                    console.log('Image uploadée avec succès:', coverPath);
                 } catch (uploadError) {
                     console.error('Erreur lors de l\'upload de l\'image:', uploadError);
                     Alert.alert("Avertissement", "L'image n'a pas pu être uploadée, la playlist sera créée sans image");

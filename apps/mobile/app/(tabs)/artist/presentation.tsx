@@ -27,7 +27,6 @@ export default function PresentationPage() {
         const fetchIsArtistLike = async () => {
             try {
                 const result = await ArtistService.getIsArtistIsLike(userId, artistId);
-                console.log(result);
                 setIsArtistLike(result.isLike);
             } catch (error) {
                 console.error("Erreur lors de la récupération:", error);

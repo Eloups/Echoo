@@ -199,9 +199,6 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
                 visible={addToPlaylistModalVisible}
                 onClose={() => setAddToPlaylistModalVisible(false)}
                 musicId={infos.id}
-                onSuccess={() => {
-                    console.log('Musique ajoutée aux playlists avec succès');
-                }}
             />
         </View>
     );

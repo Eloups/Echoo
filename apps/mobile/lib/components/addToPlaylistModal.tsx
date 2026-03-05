@@ -43,17 +43,11 @@ export default function AddToPlaylistModal({ visible, onClose, musicId, onSucces
         try {
             setLoading(true);
             setSelectedPlaylists(new Set());
-            
-
-            // Utiliser le même userId que dans aaplaylists.tsx
-            console.log('User ID:', userId);
 
             const response: any = await PlaylistService.getAllPlaylistsByUserID(userId);
-            console.log('Response complète:', JSON.stringify(response, null, 2));
 
             // Extraire les playlists selon la structure de la réponse
             const playlistsData = response.playlists || response || [];
-            console.log('Playlists extraites:', playlistsData);
             
             const mappedPlaylists = playlistsData.map((p: any) => ({
                 id: p.id,
