@@ -9,9 +9,6 @@ import { authClient } from "@/lib/auth/auth-client";
 import { passwordSchema } from "@/lib/validations/authSchema";
 import { z } from "zod";
 
-const AUTH_URL = process.env.NEXT_PUBLIC_API_AUTH_URL
-
-
 export default function ResetPassword() {
     const params = useParams<{ token: string }>();
     const token = params?.token;
@@ -54,15 +51,15 @@ export default function ResetPassword() {
                     newPassword: mdp,
                     token: token,
                 });
-                
-                if(data.error){
+
+                if (data.error) {
                     setGeneralError(data.error.message || "Une erreur est survenue");
                 }
-                else{
+                else {
                     router.push('/reset-password/success');
                 }
             }
-            catch (e) { 
+            catch (e) {
                 console.error(e);
                 setGeneralError("Une erreur est survenue lors de la réinitialisation");
             }

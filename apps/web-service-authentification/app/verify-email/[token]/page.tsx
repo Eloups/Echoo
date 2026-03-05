@@ -29,7 +29,7 @@ export default function VerifyEmailPage() {
                     setStatus('error');
                     setMessage(error.message || 'Le lien de vérification est invalide ou a expiré.');
                 }
-            } catch (error) {
+            } catch {
                 setStatus('error');
                 setMessage('Une erreur est survenue lors de la vérification.');
             }
@@ -63,7 +63,7 @@ export default function VerifyEmailPage() {
                     <h1 style={{ fontSize: '24px', marginBottom: '10px', color: 'green' }}>Email vérifié !</h1>
                     <p>{message}</p>
                     <p style={{ marginTop: '20px', color: '#666' }}>
-                        Vous pouvez maintenant fermer cette page et vous connecter sur l'application mobile Echoo.
+                        Vous pouvez maintenant fermer cette page et vous connecter sur l&apos;application mobile Echoo.
                     </p>
                 </>
             )}

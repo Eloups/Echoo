@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react";
-import EchooSmallLogo from "@/assets/img/EchooSmallLogo";
 import EchoCompleteLogo from "@/assets/img/EchoCompleteLogo";
 import { TextInputGlobal } from "@/lib/components/TextInput";
 import { BtnConnexion } from "@/lib/components/BtnConnexion";
@@ -18,7 +17,7 @@ export default function PageTestResetPassword() {
             </div>
             <div style={{ flex: 1, width: "100%", justifyContent: "center", alignItems: "start", paddingTop: 50, display: "flex" }}>
                 <div style={{ padding: 30, borderRadius: 10, width: 350, backgroundColor: "#161616", alignItems: "center", display: "flex", flexDirection: "column", gap: 30 }}>
-                    <p style={{fontSize: "1.5rem",  color: "#ffffff"}}>Reset Password</p>
+                    <p style={{ fontSize: "1.5rem", color: "#ffffff" }}>Reset Password</p>
                     <div style={{ width: 300, display: "flex", flexDirection: "column", gap: 30 }}>
                         <TextInputGlobal text={mdp} setText={setMdp} label="Nouveau Mot de Passe*" star={true} />
                         <TextInputGlobal text={confirmMdp} setText={setConfirmMdp} label="Confirmer Nouveau Mot de Passe*" star={true} />
