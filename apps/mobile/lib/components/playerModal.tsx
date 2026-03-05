@@ -47,14 +47,21 @@ export default function PlayerModal() {
   const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
   const [trackColors, setTrackColors] = useState<{ color1: string; color2: string } | null>(null);
 
-  //Vérifie si la musique est déjà likée par un utilisateur
-  useEffect(() => {
-    if (currentTrack !== null) {
-      MusicService.getIsMusicIsLike(userId, currentTrack.id)
-        .then(setIsMusicLike);
-    }
-    
-  }, [currentTrack]);
+  //Vérifie si la musique est déjà liké par un utilisateur
+    useEffect(() => {
+        if (currentTrack != null) {
+            const fetchIsMusicLike = async () => {
+                try {
+                    const result = await MusicService.getIsMusicIsLike(userId, currentTrack.id);
+                    setIsMusicLike(result.isLike);
+                } catch (error) {
+                    console.error("Erreur lors de la récupération:", error);
+                }
+            };
+
+            fetchIsMusicLike();
+        }
+    }, [currentTrack]);
 
   useEffect(() => {
     const fetchTrackColors = async () => {
