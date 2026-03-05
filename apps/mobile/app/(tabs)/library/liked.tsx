@@ -3,29 +3,17 @@ import { UserService } from "@/lib/api/user.service";
 import { authClient } from "@/lib/auth/auth-client";
 import DetailMusicCard from "@/lib/components/detailMusicCard";
 import AppText from "@/lib/components/global/appText";
-import MusicCard from "@/lib/components/musicCard";
 import { useTheme } from "@/lib/theme/provider";
 import { Music, Playlist } from "@/lib/types/types";
-import { Ionicons } from "@expo/vector-icons";
 import { useCallback, useState } from "react";
 import { ScrollView, View } from "react-native";
-import { PlaylistCoverDefault } from "@/lib/constants/images";
 import { useFocusEffect } from "@react-navigation/native";
-
-const placeholderImage = PlaylistCoverDefault;
 
 export default function Liked() {
     const { theme } = useTheme();
 
-    const [totalDuration, setTotalDuration] = useState(0); // TODO set après fetch
     const [playlist, setPlaylist] = useState<Playlist | null>(null);
     const [musics, setMusics] = useState<Music[]>([]);
-
-    const formatDuration = (seconds: number): string => {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${mins}min${secs.toString().padStart(2, '0')}`;
-    };
 
     const fetchPlaylist = useCallback(async () => {
         try {

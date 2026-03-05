@@ -5,10 +5,10 @@ import EchoCompleteLogo from "@/assets/img/EchoCompleteLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
-import useAuthHook from '@/hook/authHook';
+import { useAuthHook } from '@/hook/authHook';
 import { emailSchema } from "@/lib/validations/authSchema";
 
-export default function mdpOublieScreen() {
+export default function MdpOublieScreen() {
     const router = useRouter();
     const { sendResetPassword, isLoading, authError } = useAuthHook();
     const [email, setEmail] = React.useState<string>("");
@@ -22,14 +22,14 @@ export default function mdpOublieScreen() {
         try {
             // Valider l'email
             emailSchema.parse(email.trim());
-            
+
             // Si validation réussie, envoyer l'email de réinitialisation
-            if (!waitResetPassword) { 
-                setWaitResetPassword(true); 
+            if (!waitResetPassword) {
+                setWaitResetPassword(true);
             }
             sendResetPassword(email.trim());
         }
-        catch(error: any) {
+        catch (error: any) {
             // Gérer les erreurs de validation
             if (error.errors?.[0]?.message) {
                 setValidationError(error.errors[0].message);
@@ -82,7 +82,7 @@ export default function mdpOublieScreen() {
                     {waitResetPassword ? (
                         <View style={{ width: "100%", paddingLeft: 20, paddingRight: 20, alignItems: "center" }}>
                             <AppText size="md" align="center">Un email de réinitialisation a été envoyé. Veuillez vérifier votre boîte de réception.</AppText>
-                            <AppText size="md" align="center">Si c'est fait, reconecté vous.</AppText>
+                            <AppText size="md" align="center">Si c&apos;est fait, reconecté vous.</AppText>
                             <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/connexion") }}>Se connecter</AppText>
                         </View>
                     ) : null}
@@ -91,7 +91,7 @@ export default function mdpOublieScreen() {
                         <AppText color="error" size="md">{authError}</AppText>
                     ) : null}
                     <View style={{ width: "100%", alignItems: "center", marginTop: 33 }}>
-                        <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/inscription") }}>Pas de compte ? S'inscrire</AppText>
+                        <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/inscription") }}>Pas de compte ? S&apos;inscrire</AppText>
                     </View>
                 </View>
             </View>

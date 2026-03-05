@@ -2,13 +2,13 @@ import ArtistCard from "@/lib/components/artistCard";
 import { useTheme } from "@/lib/theme/provider";
 import { Artist } from "@/lib/types/types";
 import { ScrollView, View } from "react-native";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ArtistService, apiClient } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
 import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
 import { PlaylistCoverDefault } from "@/lib/constants/images";
 import { useFocusEffect } from "expo-router";
-import useAuthHook from "@/hook/authHook";
+import { useAuthHook } from "@/hook/authHook";
 
 export default function Artists() {
     const { theme } = useTheme();
@@ -18,43 +18,43 @@ export default function Artists() {
     const [error, setError] = useState<string | null>(null);
 
     const fetchArtists = useCallback(async () => {
-            try {
-                setLoading(true);
-                if (!userId) {
-                    setArtists([]);
-                    setError("Utilisateur non connecté");
-                    return;
-                }
+        try {
+            setLoading(true);
+            if (!userId) {
+                setArtists([]);
+                setError("Utilisateur non connecté");
+                return;
+            }
 
-                const response: any = await ArtistService.getAllArtistsByUserID(userId);
-                const artistsArray = response.artists || [];
-                
-                // Convertir les données de l'API au format Artist
-                const formattedArtists: Artist[] = artistsArray.map((artist: any) => ({
-                    id: artist.id,
-                    cover: artist.imagePath 
-                        ? { uri: apiClient.getImageUrl(artist.imagePath) }
-                        : PlaylistCoverDefault,
-                    title: artist.name,
-                    name: artist.name,
-                    isVerified: artist.isVerified,
-                    description: artist.description
-                }));
-                
-                setArtists(formattedArtists);
-                setError(null);
-            } catch (err) {
-                console.error('Erreur lors du chargement des artistes:', err);
-                setError('Impossible de charger les artistes');
-            } finally {
-                setLoading(false);
-            
+            const response: any = await ArtistService.getAllArtistsByUserID(userId);
+            const artistsArray = response.artists || [];
+
+            // Convertir les données de l'API au format Artist
+            const formattedArtists: Artist[] = artistsArray.map((artist: any) => ({
+                id: artist.id,
+                cover: artist.imagePath
+                    ? { uri: apiClient.getImageUrl(artist.imagePath) }
+                    : PlaylistCoverDefault,
+                title: artist.name,
+                name: artist.name,
+                isVerified: artist.isVerified,
+                description: artist.description
+            }));
+
+            setArtists(formattedArtists);
+            setError(null);
+        } catch (err) {
+            console.error('Erreur lors du chargement des artistes:', err);
+            setError('Impossible de charger les artistes');
+        } finally {
+            setLoading(false);
+
         };
     }, [userId]);
 
     useFocusEffect(useCallback(() => {
         fetchArtists();
-        }, [fetchArtists])
+    }, [fetchArtists])
     );
 
     if (loading) {

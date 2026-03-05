@@ -1,30 +1,24 @@
 import MusicCard from "@/lib/components/musicCard";
 import ArtistCard from "@/lib/components/artistCard";
-import { Music, Artist, Project } from "@/lib/types/types";
+import { Project } from "@/lib/types/types";
 import { ScrollView, TextInput, View, StyleSheet } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import SectionTitle from "@/lib/components/sectionTitle";
 import Feather from '@expo/vector-icons/Feather';
 import { HomeService, SearchList } from "@/lib/api/home.service";
 import { apiClient, MusicService } from "@/lib/api";
 import ProjectCard from "@/lib/components/projectCard";
 import { PlaylistCoverDefault } from "@/lib/constants/images";
-import useAuthHook from "@/hook/authHook";
+import { useAuthHook } from "@/hook/authHook";
 import { useFocusEffect } from "@react-navigation/native";
 import AppText from "@/lib/components/global/appText";
 
 const placeholderImage = PlaylistCoverDefault;
 
-// Type guards pour différencier les types
-const isArtist = (item: Music | Artist): item is Artist => {
-    return !('id' in item && 'audioFile' in item);
-};
-
-
 export default function Discover() {
     // Appel à la gestion de thème pour les couleurs
-    const { theme, toggleTheme } = useTheme();
+    const { theme } = useTheme();
     const { userId } = useAuthHook();
 
     const [latestReleases, setLatestReleases] = useState<Project[]>([]);
@@ -34,10 +28,8 @@ export default function Discover() {
     const [searchField, setSearchField] = React.useState("");
 
 
-    const fetchLatestReleases = async () => {
+    const fetchLatestReleases = useCallback(async () => {
         try {
-            // TODO: Remplacer l'ID hardcodé par l'ID de l'utilisateur connecté
-
             if (userId) {
                 const data = await HomeService.getFollowedArtistsReleases(userId);
 
@@ -71,12 +63,12 @@ export default function Discover() {
         } catch (error) {
             console.error("Erreur lors de la récupération des dernières sorties:", error);
         }
-    };
+    }, [userId]);
 
     useFocusEffect(
         React.useCallback(() => {
             fetchLatestReleases();
-        }, [userId])
+        }, [fetchLatestReleases])
     );
 
     useEffect(() => {
@@ -211,7 +203,7 @@ export default function Discover() {
                 </View>
             </View>
 
-            {searchField == "" ? (
+            {searchField === "" ? (
                 <View>
                     <SectionTitle text="Dernières sorties"></SectionTitle>
 
