@@ -48,7 +48,6 @@ const app = new Elysia()
       const JWKS = createRemoteJWKSet(jwksUrl);
 
       const { payload } = await jwtVerify(token, JWKS);
-      // console.log("[VERIFY] JWT verified, payload:", payload);
       return {
         status: "SUCCESS",
         decoded: payload,
@@ -78,7 +77,6 @@ const app = new Elysia()
   .post("/api/auth/verify-email", async ({ body, set }) => {
     try {
       const { token } = body;
-      console.log("[VERIFY-EMAIL] Received token:", token);
       
       if (!token) {
         set.status = 400;
@@ -90,7 +88,6 @@ const app = new Elysia()
         const secret = new TextEncoder().encode(env.BETTER_AUTH_SECRET);
         const { payload } = await jwtVerify(token, secret);
         
-        console.log("[VERIFY-EMAIL] JWT verified, payload:", payload);
         
         if (!payload.email) {
           set.status = 400;
@@ -112,7 +109,6 @@ const app = new Elysia()
           data: { emailVerified: true },
         });
 
-        console.log("[VERIFY-EMAIL] User email verified successfully:", payload.email);
 
         return {
           status: "SUCCESS",
@@ -138,7 +134,6 @@ const app = new Elysia()
   })
   .all('/api/auth/*', betterAuthView)
   .delete('/users/:id', async ({ params }) => {
-    console.log('Deleting user ' + params.id)
     return await prisma.user.delete({ where: { id: params.id } })
   }, {
     params: t.Object({
@@ -146,7 +141,3 @@ const app = new Elysia()
     })
   })
   .get("/", () => "Hello Elysia").listen(env.AUTH_SERVICE_PORT);
-
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);

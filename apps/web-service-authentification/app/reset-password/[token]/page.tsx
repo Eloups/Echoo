@@ -17,10 +17,6 @@ export default function ResetPassword() {
     const token = params?.token;
     const router = useRouter();
 
-    React.useEffect(() => {
-        console.log("token:", token);
-    }, [token]);
-
     const [mdp, setMdp] = React.useState("");
     const [confirmMdp, setConfirmMdp] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
@@ -51,8 +47,6 @@ export default function ResetPassword() {
         }
 
         if (mdp && token) {
-            console.log("mdp = ", mdp);
-            console.log("token = ", token);
 
             setIsLoading(true);
             try {
@@ -60,8 +54,6 @@ export default function ResetPassword() {
                     newPassword: mdp,
                     token: token,
                 });
-
-                console.log("Password reset successful:", data);
                 
                 if(data.error){
                     setGeneralError(data.error.message || "Une erreur est survenue");
@@ -71,7 +63,7 @@ export default function ResetPassword() {
                 }
             }
             catch (e) { 
-                console.log(e);
+                console.error(e);
                 setGeneralError("Une erreur est survenue lors de la réinitialisation");
             }
             finally {

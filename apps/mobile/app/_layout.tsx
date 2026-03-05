@@ -4,8 +4,7 @@ import { ThemeProvider, useTheme } from "@/lib/theme/provider";
 import { useFonts } from "expo-font";
 import * as NavigationBar from "expo-navigation-bar";
 import { useEffect } from "react";
-// import useGlobalHook from '@/hook/globalHook';
-import useAuthHook from "@/hook/authHook";
+import { useAuthHook } from "@/hook/authHook";
 
 
 function ThemedRoot() {

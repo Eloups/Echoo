@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet, Image, ScrollView, Pressable } from "react-native";
+import { View, ScrollView } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
 import AppText from "@/lib/components/global/appText";
 import LastSongPlayedCard from "@/lib/components/home_last_song_played_card";
 import { Music, Artist, Project } from "@/lib/types/types";
 import SectionTitle from "@/lib/components/sectionTitle";
-import MusicCard from "@/lib/components/musicCard";
 import ProjectCard from "@/lib/components/projectCard";
 import MonthArtists from "@/lib/components/monthArtists";
 import { useEffect, useState, useCallback } from "react";
@@ -13,11 +12,11 @@ import { HomeService } from "@/lib/api/home.service";
 import { MusicService, apiClient } from "@/lib/api";
 import { useGlobalHook } from "@/hook";
 import { PlaylistCoverDefault } from "@/lib/constants/images";
-import useAuthHook from "@/hook/authHook";
+import { useAuthHook } from "@/hook/authHook";
 
 const placeholderImage = PlaylistCoverDefault;
 
-export default function home() {
+export default function Home() {
     const { theme } = useTheme();
     const { user } = useGlobalHook();
     const { userId } = useAuthHook();
@@ -158,82 +157,8 @@ export default function home() {
                 fetchLatestReleases();
                 fetchMonthArtists();
             }
-        }, [])
+        }, [user, userId])
     );
-
-    const handleAlbumPress = (album: Project) => {
-        const currentPath = '/' + segments.join('/');
-        router.push({
-            pathname: "/(tabs)/detail",
-            params: {
-                data: JSON.stringify(album),
-                from: currentPath
-            }
-        });
-    };
-
-
-    const albumTemp: Project = {
-        cover: placeholderImage,
-        title: "HIT ME HARD AND SOFT",
-        artist: "Billie Eilish",
-        type: "album",
-        description: ""
-    }
-
-    const musicTemp: Music = {
-        id: 1,
-        cover: placeholderImage,
-        title: "CHIHIRO",
-        artist: "Billie Eilish",
-        color1: "#04131D",
-        color2: "#082840",
-        nbStreams: 46,
-        audioFile: "music_1.mp3"
-    }
-
-    const musicTemp2: Music = {
-        id: 2,
-        cover: placeholderImage,
-        title: "Rich Man",
-        artist: "aespa",
-        color1: "#000000",
-        color2: "#0E0E0E",
-        nbStreams: 24,
-        audioFile: "music_2.mp3"
-    }
-
-    const musicTemp3: Music = {
-        id: 3,
-        cover: placeholderImage,
-        title: "What do you want from me ?",
-        artist: "Jann",
-        color1: "#965F4C",
-        color2: "#291A15",
-        nbStreams: 11,
-        audioFile: "music_3.mp3"
-    }
-
-    const artist1: Artist = {
-        cover: placeholderImage,
-        title: "Madison Beer"
-    }
-
-    const artist2: Artist = {
-        cover: placeholderImage,
-        title: "Billie Eilish"
-    }
-
-    const artist3: Artist = {
-        cover: placeholderImage,
-        title: "aespa"
-    }
-
-    // TODO : remplacer les infos par celles de la BDD
-    const artistList: Artist[] = [artist1, artist2, artist3, artist1, artist2, artist3];
-    const musicList: Music[] = [musicTemp, musicTemp2, musicTemp3, musicTemp];
-    const releasedRecentlyList: Music[] = [musicTemp, musicTemp2, musicTemp3, musicTemp, musicTemp2, musicTemp3];
-
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: theme.colors.background }} contentContainerStyle={{ paddingBottom: 100 }}>

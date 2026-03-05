@@ -175,9 +175,6 @@ export default function MusicCard(props: PageProps) {
                     visible={addToPlaylistModalVisible}
                     onClose={() => setAddToPlaylistModalVisible(false)}
                     musicId={props.infos.id}
-                    onSuccess={() => {
-                        console.log('Musique ajoutée aux playlists avec succès');
-                    }}
                 />
             )}
         </View>

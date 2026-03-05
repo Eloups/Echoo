@@ -6,7 +6,7 @@ import EchooSmallLogo from "@/assets/img/EchooSmallLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
-import useAuthHook from '@/hook/authHook';
+import { useAuthHook } from '@/hook/authHook';
 import { emailSchema, passwordSchema, usernameSchema } from "@/lib/validations/authSchema";
 
 

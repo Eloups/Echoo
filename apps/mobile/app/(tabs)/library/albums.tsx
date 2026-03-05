@@ -1,19 +1,15 @@
-import projectCard from "@/lib/components/projectCard";
 import { useTheme } from "@/lib/theme/provider";
 import { Project } from "@/lib/types/types";
-import { ScrollView, View, Pressable, Alert } from "react-native";
-import { useEffect, useState } from "react";
-import { apiClient, ImageService, ArtistService } from "@/lib/api";
+import { ScrollView, View } from "react-native";
+import { useState, useCallback } from "react";
+import { apiClient, ArtistService } from "@/lib/api";
 import AppText from "@/lib/components/global/appText";
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback } from "react";
-import MaterialIcons from "@expo/vector-icons/build/MaterialIcons";
 import ProjectCard from "@/lib/components/projectCard";
 import { LoadingSpinner } from "@/lib/components/global/BtnConnexion";
-import { PlaylistCoverDefault } from "@/lib/constants/images";
-import useAuthHook from "@/hook/authHook";
+import { useAuthHook } from "@/hook/authHook";
 
-export default function projects() {
+export default function Projects() {
     const { theme } = useTheme();
     const { userId } = useAuthHook();
     const [projects, setprojects] = useState<Project[]>([]);
@@ -99,7 +95,7 @@ export default function projects() {
         return (
             <View style={{ backgroundColor: theme.colors.background, height: "100%", justifyContent: "center", alignItems: "center", padding: 20 }}>
                 <AppText color="text2" style={{ textAlign: "center" }}>
-                    Aucun album n'as été liké.
+                    Aucun album n&apos;as été liké.
                 </AppText>
             </View>
         );

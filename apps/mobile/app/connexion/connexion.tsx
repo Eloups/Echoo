@@ -5,7 +5,7 @@ import EchoCompleteLogo from "@/assets/img/EchoCompleteLogo";
 import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
-import useAuthHook from '@/hook/authHook';
+import { useAuthHook } from '@/hook/authHook';
 import { emailSchema, passwordSchema } from "@/lib/validations/authSchema";
 
 export default function ConnexionScreen() {
@@ -44,7 +44,6 @@ export default function ConnexionScreen() {
 
         // Si erreurs, les afficher et arrêter
         if (hasErrors) {
-            console.log("Validation errors:", errors);
             setValidationErrors(errors);
             return;
         }
@@ -90,7 +89,7 @@ export default function ConnexionScreen() {
                             <AppText color="error" size="sm">{validationErrors.mdp}</AppText>
                         )}
                     </View>
-                    <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/mdpOublie"); console.log("Mot de passe oublié") }}>Mot de passe oublié ?</AppText>
+                    <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/mdpOublie"); }}>Mot de passe oublié ?</AppText>
                     <View style={{ width: "100%", height: 50 }}>
                         <BtnConnexion title="Se connecter" onClick={() => { handleConect() }} isLoading={isLoading} />
                     </View>
@@ -99,7 +98,7 @@ export default function ConnexionScreen() {
                         <AppText color="error" size="md">{authError}</AppText>
                     ) : null}
                     <View style={{ width: "100%", alignItems: "center", marginTop: 33 }}>
-                        <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/inscription") }}>Pas de compte ? S'inscrire</AppText>
+                        <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/inscription") }}>Pas de compte ? S&apos;inscrire</AppText>
                     </View>
                 </View>
             </View>

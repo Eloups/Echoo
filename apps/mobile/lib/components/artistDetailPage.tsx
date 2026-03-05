@@ -56,7 +56,6 @@ function ArtistHeader({ data, theme, onBack, menuVisible, setMenuVisible }: any)
                             style={styles.menuItem}
                             onPress={() => {
                                 setMenuVisible(false);
-                                console.log('Partager');
                             }}
                         >
                             <MaterialIcons name="share" size={20} color={theme.colors.text} />
@@ -67,7 +66,6 @@ function ArtistHeader({ data, theme, onBack, menuVisible, setMenuVisible }: any)
                             style={styles.menuItem}
                             onPress={() => {
                                 setMenuVisible(false);
-                                console.log('Suivre');
                             }}
                         >
                             <MaterialIcons name="person-add" size={20} color={theme.colors.text} />
