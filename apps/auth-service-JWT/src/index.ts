@@ -17,7 +17,7 @@ const betterAuthView = (context: Context) => {
 }
 
 
-const app = new Elysia()
+new Elysia()
   // affiche dans la console pour dire quel requète est appelée
   .onRequest(({ request }) => {
     console.log(`[AUTH-SERVICE] ${request.method} ${request.url}`);
