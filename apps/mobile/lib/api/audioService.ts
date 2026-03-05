@@ -1,5 +1,6 @@
 import { createAudioPlayer, AudioPlayer, AudioSource, setAudioModeAsync } from 'expo-audio';
 import { apiClient } from '@/lib/api';
+import useAuthHook from '@/hook/authHook';
 
 /**
  * Service de gestion de la lecture audio
@@ -116,9 +117,17 @@ class AudioService {
       }
 
       // Créer la source audio
-      const audioSource: AudioSource = {
-        uri: streamUrl,
-      };
+      const token = useAuthHook.getState().token;
+      const audioSource: AudioSource = token
+        ? ({
+            uri: streamUrl,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          } as any)
+        : {
+            uri: streamUrl,
+          };
 
       // Charger et jouer
       if (this.player) {
