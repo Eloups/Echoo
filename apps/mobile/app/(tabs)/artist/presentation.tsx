@@ -5,7 +5,7 @@ import AppText from '@/lib/components/global/appText';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MusicCard from '@/lib/components/musicCard';
 import SectionTitle from '@/lib/components/sectionTitle';
-import { useArtistPage } from './artistPageContext';
+import { useArtistPage } from '@/lib/context/artistPageContext';
 import { LoadingSpinner } from '@/lib/components/global/BtnConnexion';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { User } from '@/lib/types/auth';
@@ -27,7 +27,6 @@ export default function PresentationPage() {
         const fetchIsArtistLike = async () => {
             try {
                 const result = await ArtistService.getIsArtistIsLike(userId, artistId);
-                console.log(result);
                 setIsArtistLike(result.isLike);
             } catch (error) {
                 console.error("Erreur lors de la récupération:", error);

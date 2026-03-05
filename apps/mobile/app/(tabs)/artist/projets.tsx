@@ -2,7 +2,7 @@ import { View, ScrollView } from 'react-native';
 import { useTheme } from '@/lib/theme/provider';
 import AppText from '@/lib/components/global/appText';
 import ProjectCardArtistPage from '@/lib/components/projectCardArtistPage';
-import { useArtistPage } from './artistPageContext';
+import { useArtistPage } from '@/lib/context/artistPageContext';
 import { useLocalSearchParams } from 'expo-router';
 
 

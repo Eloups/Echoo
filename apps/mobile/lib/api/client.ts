@@ -1,14 +1,12 @@
-import axios, { AxiosError, AxiosInstance } from 'axios';
-import { MusicService } from './music.service';
-import { useAuthHook } from '../../hook/authHook';
-import { config } from 'better-auth';
+import axios from 'axios';
+import { getAuthToken } from '@/lib/auth/tokenBridge';
 
 // Configuration de l'URL de base de l'API depuis les variables d'environnement
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
 // Client API centralisé avec Axios
 // Gère toutes les requêtes HTTP vers l'API backend
 class ApiClient {
-  private client: AxiosInstance;
+  private client: any;
 
   constructor() {
     this.client = axios.create({
@@ -22,9 +20,9 @@ class ApiClient {
 
     // Intercepteur de requêtes (pour ajouter des tokens, logs, etc.)
     this.client.interceptors.request.use(
-      (config) => {
+      (config: any) => {
         // Ajouter le token d'authentification si disponible
-        const token = useAuthHook.getState().token;
+        const token = getAuthToken();
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
@@ -38,10 +36,10 @@ class ApiClient {
 
     // Intercepteur de réponses (pour gérer les erreurs globalement)
     this.client.interceptors.response.use(
-      (response) => {
+      (response: any) => {
         return response;
       },
-      (error: AxiosError) => {
+      (error: any) => {
         if (__DEV__) {
           console.error(`API Error: ${error.config?.url}`, error.response?.status);
         }
@@ -51,7 +49,7 @@ class ApiClient {
   }
 
   // Gestion centralisée des erreurs
-  private handleError(error: AxiosError): Error {
+  private handleError(error: any): Error {
     if (error.response) {
       // Le serveur a répondu avec un code d'erreur
       const status = error.response.status;
@@ -85,8 +83,8 @@ class ApiClient {
 
   // Méthode GET
   async get<T>(url: string, params?: Record<string, any>): Promise<T> {
-    const response = await this.client.get<T>(url, { params });
-    return response.data;
+    const response = await this.client.get(url, { params });
+    return response.data as T;
   }
 
 
@@ -99,27 +97,27 @@ class ApiClient {
       },
     } : {};
 
-    const response = await this.client.post<T>(url, data, config);
-    return response.data;
+    const response = await this.client.post(url, data, config);
+    return response.data as T;
   }
 
   // Méthode DELETE
   async delete<T>(url: string, data?: any): Promise<T> {
-    const response = await this.client.delete<T>(url, { data });
-    return response.data;
+    const response = await this.client.delete(url, { data });
+    return response.data as T;
   }
 
   // Méthode PUT
   async put<T>(url: string, data?: any): Promise<T> {
-    const response = await this.client.put<T>(url, data);
-    return response.data;
+    const response = await this.client.put(url, data);
+    return response.data as T;
   }
 
 
   // Méthode PATCH
   async patch<T>(url: string, data?: any): Promise<T> {
-    const response = await this.client.patch<T>(url, data);
-    return response.data;
+    const response = await this.client.patch(url, data);
+    return response.data as T;
   }
 
 
@@ -134,9 +132,14 @@ class ApiClient {
   // Récupérer l'URL complète d'un stream audio et enregistrer dans l'historique
   async getStreamUrl(fileName: string, userId: string, musicId: number): Promise<string> {
     // Enregistrer la musique dans l'historique d'écoute (fire-and-forget)
-    MusicService.addListenedMusic(userId, musicId).catch(error => {
-      console.error("Erreur lors de l'enregistrement de la musique dans l'historique:", error);
-    });
+    if (userId) {
+      this.post('/user/listened/musics/add', {
+        id_user: userId.toString(),
+        id_music: musicId,
+      }).catch((error) => {
+        console.error("Erreur lors de l'enregistrement de la musique dans l'historique:", error);
+      });
+    }
 
     return `${API_BASE_URL}/stream/${fileName}`;
   }

@@ -5,7 +5,7 @@ import AppText from '@/lib/components/global/appText';
 import { ArtistService, MusicService, apiClient } from '@/lib/api';
 import { Music } from '@/lib/types/types';
 import DetailMusicCard from '@/lib/components/detailMusicCard';
-import { useArtistPage } from './artistPageContext';
+import { useArtistPage } from '@/lib/context/artistPageContext';
 import { PlaylistCoverDefault } from '@/lib/constants/images';
 
 

@@ -6,7 +6,7 @@ import { View, Pressable } from 'react-native';
 import AppText from '@/lib/components/global/appText';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useEffect } from 'react';
-import { ArtistPageProvider } from './artistPageContext';
+import { ArtistPageProvider } from '@/lib/context/artistPageContext';
 
 const { Navigator } = createMaterialTopTabNavigator();
 

@@ -56,7 +56,6 @@ function ThemedRoot() {
         <Stack.Screen name="connexion/connexion" options={{ headerShown: false }} />
         <Stack.Screen name="connexion/inscription" options={{ headerShown: false }} />
         <Stack.Screen name="connexion/mdpOublie" options={{ headerShown: false }} />
-        <Stack.Screen name="connexion/compte" />
       </Stack>
     </View>
   );
