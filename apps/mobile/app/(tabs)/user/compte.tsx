@@ -44,7 +44,6 @@ export default function CompteScreen() {
                 </View>
                 <View style={{ flex: 1, height: "100%", justifyContent: "center" }}>
                     <AppText size="3xl" >{user?.username || "Test"}</AppText>
-                    {/* <AppText size="xs" >XX amis - XX suivis</AppText> */}
                 </View>
             </View>
 
@@ -54,9 +53,6 @@ export default function CompteScreen() {
 
             <View style={{ width: "100%", marginTop: 20 }} >
                 <BtnConnexion title="Se déconnecter" onClick={() => { handleLogout() }} />
-            </View>
-            <View style={{ width: "100%", marginTop: 20 }} >
-                <BtnConnexion title="Supprimer son compte" color={theme.colors.error} onClick={() => { console.log("Supprimer le compte"); }} />
             </View>
            
             <UpdateUserProfilModal
