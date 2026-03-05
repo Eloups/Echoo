@@ -1,6 +1,6 @@
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
-import { View, Alert, Image, TouchableOpacity, Modal, Pressable, Dimensions } from "react-native";
+import { View, Alert, Image, TouchableOpacity, Modal, Pressable } from "react-native";
 import { useTheme } from "@/lib/theme/provider";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -18,6 +18,30 @@ export function ProfilImagePickerModal(props: ProfilImagePickerProps) {
     const { theme } = useTheme();
 
     const [modalVisible, setModalVisible] = React.useState(false);
+
+    const getImageUri = (value: unknown): string | null => {
+        if (typeof value !== "string") {
+            return null;
+        }
+
+        const trimmedValue = value.trim();
+        if (!trimmedValue) {
+            return null;
+        }
+
+        if (
+            trimmedValue.startsWith("data:") ||
+            trimmedValue.startsWith("file:") ||
+            trimmedValue.startsWith("http://") ||
+            trimmedValue.startsWith("https://")
+        ) {
+            return trimmedValue;
+        }
+
+        return `data:image/jpeg;base64,${trimmedValue}`;
+    };
+
+    const imageUri = getImageUri(props.imagePdp);
 
     const pickFromGallery = async () => {
         setModalVisible(false);
@@ -55,10 +79,11 @@ export function ProfilImagePickerModal(props: ProfilImagePickerProps) {
             allowsEditing: true,
             aspect: [1, 1],
             quality: 1,
+            base64: true,
         });
 
         if (!result.canceled) {
-            props.setImagePdp(result.assets[0].uri);
+            props.setImagePdp(result.assets[0].base64 || result.assets[0].uri || null);
         }
     };
 
@@ -72,9 +97,9 @@ export function ProfilImagePickerModal(props: ProfilImagePickerProps) {
             backgroundColor: theme.colors.primary,
         }}>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
-                {props.imagePdp ? (
+                {imageUri ? (
                     <Image
-                        source={{ uri: `data:image/jpeg;base64,${props.imagePdp}` }}
+                        source={{ uri: imageUri }}
                         style={{
                             height: props.height ? props.height : 74,
                             width: props.width ? props.width : 74,
@@ -84,8 +109,8 @@ export function ProfilImagePickerModal(props: ProfilImagePickerProps) {
                 ) : (
                     <MaterialCommunityIcons
                         name="image-plus"
-                        size={38}
-                        color="#ffffff46"
+                        size={50}
+                        color={theme.colors.background}
                     />
                 )}
             </TouchableOpacity>

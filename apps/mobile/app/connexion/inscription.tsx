@@ -7,6 +7,7 @@ import AppText from "@/lib/components/global/appText";
 import { BtnConnexion } from "@/lib/components/global/BtnConnexion";
 import { useRouter } from "expo-router";
 import useAuthHook from '@/hook/authHook';
+import { emailSchema, passwordSchema, usernameSchema } from "@/lib/validations/authSchema";
 
 
 export default function InscriptionScreen() {
@@ -18,11 +19,59 @@ export default function InscriptionScreen() {
     const [mdp, setMdp] = React.useState("");
     const [mdpConf, setMdpConf] = React.useState("");
     const [imagePdp, setImagePdp] = React.useState<string | null>(null);
+    const [validationErrors, setValidationErrors] = React.useState<{ username?: string; email?: string; mdp?: string; mdpConf?: string }>({});
 
     function verifCreation() {
-        // ICIIII TODO Mettre la vérification front des champs
+        // Réinitialiser les erreurs de validation
+        setValidationErrors({});
 
-        register(pseudo, email, mdp, imagePdp);
+        const errors: { username?: string; email?: string; mdp?: string; mdpConf?: string } = {};
+        let hasErrors = false;
+
+        // Valider le username
+        try {
+            usernameSchema.parse(pseudo.trim());
+        } catch (error: any) {
+            if (error.errors?.[0]?.message) {
+                errors.username = error.errors[0].message;
+                hasErrors = true;
+            }
+        }
+
+        // Valider l'email
+        try {
+            emailSchema.parse(email.trim());
+        } catch (error: any) {
+            if (error.errors?.[0]?.message) {
+                errors.email = error.errors[0].message;
+                hasErrors = true;
+            }
+        }
+
+        // Valider le mot de passe
+        try {
+            passwordSchema.parse(mdp.trim());
+        } catch (error: any) {
+            if (error.errors?.[0]?.message) {
+                errors.mdp = error.errors[0].message;
+                hasErrors = true;
+            }
+        }
+
+        // Vérifier la confirmation du mot de passe
+        if (mdp.trim() !== mdpConf.trim()) {
+            errors.mdpConf = "Les mots de passe ne correspondent pas";
+            hasErrors = true;
+        }
+
+        // Si erreurs, les afficher et arrêter
+        if (hasErrors) {
+            setValidationErrors(errors);
+            return;
+        }
+
+        // Si validation réussie, procéder à l'inscription
+        register(pseudo.trim(), email.trim(), mdp.trim(), imagePdp);
     }
 
     return (
@@ -52,6 +101,9 @@ export default function InscriptionScreen() {
 
                 <View style={{ width: "100%", paddingTop: 20 }}>
                     <TextInputGlobal text={pseudo} setText={setPseudo} label="Pseudo*" />
+                    {validationErrors.username && (
+                        <AppText color="error" size="sm">{validationErrors.username}</AppText>
+                    )}
                 </View>
 
                 <View
@@ -85,6 +137,9 @@ export default function InscriptionScreen() {
 
                 <View style={{ width: "100%" }}>
                     <TextInputGlobal text={email} setText={setEmail} label="Email*" />
+                    {validationErrors.email && (
+                        <AppText color="error" size="sm">{validationErrors.email}</AppText>
+                    )}
                 </View>
                 <View style={{ width: "100%" }}>
                     <TextInputGlobal
@@ -93,6 +148,9 @@ export default function InscriptionScreen() {
                         label="Mot de passe*"
                         star={true}
                     />
+                    {validationErrors.mdp && (
+                        <AppText color="error" size="sm">{validationErrors.mdp}</AppText>
+                    )}
                 </View>
                 <View style={{ width: "100%" }}>
                     <TextInputGlobal
@@ -101,6 +159,9 @@ export default function InscriptionScreen() {
                         label="Confirmer le mot de passe*"
                         star={true}
                     />
+                    {validationErrors.mdpConf && (
+                        <AppText color="error" size="sm">{validationErrors.mdpConf}</AppText>
+                    )}
                 </View>
 
                 <View style={{ width: "100%", height: 50, marginTop: 20 }}>
