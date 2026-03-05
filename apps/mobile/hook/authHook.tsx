@@ -7,7 +7,6 @@ import useGlobalHook from './globalHook'
 import { UserService } from '../lib/api/user.service';
 import * as SecureStore from 'expo-secure-store';
 import { CreateUserRequest } from '@/lib/api'
-import { setAuthTokenGetter } from '@/lib/auth/tokenBridge';
 
 const API_BASE_AUTH = process.env.EXPO_PUBLIC_API_AUTH_URL
 
@@ -259,7 +258,5 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     } catch (e: any) { }
   },
 }))
-
-setAuthTokenGetter(() => useAuthHook.getState().token);
 
 export default useAuthHook;

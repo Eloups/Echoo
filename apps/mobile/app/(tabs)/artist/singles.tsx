@@ -5,7 +5,7 @@ import AppText from '@/lib/components/global/appText';
 import ProjectCard from '@/lib/components/projectCard';
 import { ArtistService, apiClient } from '@/lib/api';
 import { Project } from '@/lib/types/types';
-import { useArtistPage } from '@/lib/context/artistPageContext';
+import { useArtistPage } from './artistPageContext';
 import { useLocalSearchParams } from 'expo-router';
 import { PlaylistCoverDefault } from '@/lib/constants/images';
 
@@ -59,7 +59,7 @@ export default function SinglesPage() {
                     title: single.title || 'Single',
                     description: '',
                     artist: single.artistName || artist.title || 'Artiste inconnu',
-                    musics: Array.isArray(single.musics) ? (single.musics as any[]) : [],
+                    musics: Array.isArray(single.musics) ? single.musics : [],
                     year: typeof single.release === 'string' ? single.release.slice(0, 4) : undefined,
                 }));
 

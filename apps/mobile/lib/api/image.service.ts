@@ -1,5 +1,6 @@
 import { apiClient } from './client';
-import { getAuthToken } from '@/lib/auth/tokenBridge';
+import { CreateUserRequest } from './types';
+import { useAuthHook } from '@/hook/authHook';
 
 // @ts-ignore
 import { File } from 'expo-file-system';
@@ -15,7 +16,7 @@ export const ImageService = {
      * Post 
      */
     AddImage: async (imageBase64: string, mimeType: string = 'image/jpeg'): Promise<{ filename: string }> => {
-        const token = getAuthToken();
+        const token = useAuthHook.getState().token;
 
         // Nettoyer le base64 si nécessaire
         const cleanBase64 = imageBase64.replace(/^data:image\/\w+;base64,/, '');
