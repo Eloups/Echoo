@@ -53,8 +53,6 @@ export default function DetailMusicCard({ infos, onRemove, isAlbum = false, queu
         }
     }, [infos]);
 
-    console.log(isMusicLike);
-
     const handleMenuPress = () => {
         if (!menuVisible) {
             buttonRef.current?.measureInWindow((x, y) => {
