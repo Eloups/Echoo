@@ -7,7 +7,6 @@ import useAuthHook from '@/hook/authHook';
 import { useTheme } from "@/lib/theme/provider";
 import { useGlobalHook } from "@/hook";
 import UpdateUserProfilModal from "@/lib/components/updateUserProfilModal";
-// import UpdateUserProfilModal from "@/lib/components/updateUserProfilModal";
 
 const pp = require("../../../assets/img/pp.jpg");
 

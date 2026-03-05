@@ -89,8 +89,6 @@ services:
       dockerfile: ./docker/auth-service/Dockerfile
     ports:
       - 3333:3333
-    volumes:
-      - ./apps/auth-service-JWT/.env.docker:/api/.env
     networks:
       - net1 
 
