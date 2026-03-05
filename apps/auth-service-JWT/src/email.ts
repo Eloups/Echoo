@@ -158,8 +158,8 @@ const getVerificationTemplate = (url: string) => `
 </html>
 `;
 
-export async function sendEmail({ to, URL_RESET_PASSWORD ="", URL_VERIFICATION = "" }: { to: string, URL_RESET_PASSWORD?: string, URL_VERIFICATION?: string }) {
-  
+export async function sendEmail({ to, URL_RESET_PASSWORD = "", URL_VERIFICATION = "" }: { to: string, URL_RESET_PASSWORD?: string, URL_VERIFICATION?: string }) {
+
   const isResetPassword = !!URL_RESET_PASSWORD;
   const url = isResetPassword ? URL_RESET_PASSWORD : URL_VERIFICATION;
 

@@ -1,5 +1,5 @@
 import { Elysia, Context, t } from "elysia";
-import { auth, jwtPlugin } from "./auth";
+import { auth } from "./auth";
 import { createRemoteJWKSet, jwtVerify } from 'jose';
 import { cors } from '@elysiajs/cors';
 import { prisma } from "./prisma";
@@ -77,7 +77,7 @@ const app = new Elysia()
   .post("/api/auth/verify-email", async ({ body, set }) => {
     try {
       const { token } = body;
-      
+
       if (!token) {
         set.status = 400;
         return { status: "ERROR", message: "Missing token" };
@@ -87,8 +87,8 @@ const app = new Elysia()
       try {
         const secret = new TextEncoder().encode(env.BETTER_AUTH_SECRET);
         const { payload } = await jwtVerify(token, secret);
-        
-        
+
+
         if (!payload.email) {
           set.status = 400;
           return { status: "ERROR", message: "Invalid token format - missing email" };
