@@ -188,7 +188,7 @@ export default function Home() {
                 </ScrollView>
             ) : (
                 <View style={{ width: '100%', paddingVertical: 20, alignItems: 'center', paddingHorizontal: 24 }}>
-                    <AppText size={"md"} color="text2">Likez des artistes pour voir leur dernières sorties</AppText>
+                    <AppText size={"md"} color="text2">Likez des artistes pour voir leurs dernières sorties</AppText>
                 </View>
             )}
 
