@@ -71,7 +71,7 @@ export default function QueueModal({ visible, onClose }: QueueModalProps) {
                 numberOfLines={1}
                 style={[styles.trackTitle, isCurrentTrack && { color: theme.colors.primary }]}
               >
-                {item.title}
+                {item.title.length > 40 ? item.title.slice(0, 26) + "..." : item.title}
               </AppText>
               <AppText size="sm" color="text2" numberOfLines={1}>
                 {Array.isArray(item.artist) ? item.artist.join(', ') : item.artist}
