@@ -82,7 +82,7 @@ export default function MdpOublieScreen() {
                     {waitResetPassword ? (
                         <View style={{ width: "100%", paddingLeft: 20, paddingRight: 20, alignItems: "center" }}>
                             <AppText size="md" align="center">Un email de réinitialisation a été envoyé. Veuillez vérifier votre boîte de réception.</AppText>
-                            <AppText size="md" align="center">Si c&apos;est fait, reconecté vous.</AppText>
+                            <AppText size="md" align="center">Si c&apos;est fait, reconnectez-vous.</AppText>
                             <AppText color="primary" size="lg" onPress={() => { router.push("/connexion/connexion") }}>Se connecter</AppText>
                         </View>
                     ) : null}

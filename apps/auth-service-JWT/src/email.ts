@@ -54,14 +54,14 @@ const getResetPasswordTemplate = () => `
                               <span>Cliquer </span
                               ><span
                                 ><a
-                                  href="{{{URL_REDIRECTION}}}"
+                                  href="${url}"
                                   rel="noopener noreferrer nofollow"
                                   style="color:#0670DB;text-decoration-line:none;text-decoration:underline"
                                   target="_blank"
                                   >ICI</a
                                 ></span
                               ><span>
-                                pour réinitialisé votre mot de passe Echoo</span
+                                pour réinitialiser votre mot de passe Echoo</span
                               >
                             </p>
                           </td>
@@ -133,7 +133,7 @@ const getVerificationTemplate = () => `
                               <span>Cliquer </span
                               ><span
                                 ><a
-                                  href="{{{URL_REDIRECTION}}}"
+                                  href="${url}"
                                   rel="noopener noreferrer nofollow"
                                   style="color:#0670DB;text-decoration-line:none;text-decoration:underline"
                                   target="_blank"
@@ -167,7 +167,8 @@ export async function sendEmail({ to, URL_RESET_PASSWORD = "" }: { to: string, U
 
   try {
     return await resend.emails.send({
-      from: 'Echoo_no-reply@resend.dev',
+      // from: 'Echoo_no-reply@resend.dev',
+      from: 'Echoo_no-reply@echoo.underscore.systems',
       to,
       subject,
       html: htmlContent,
