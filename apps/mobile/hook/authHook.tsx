@@ -151,7 +151,7 @@ export const useAuthHook = create<AuthHook>((set, get) => ({
     });
 
     if (error) {
-      console.error('SignUp rror:', error);
+      console.error('SignUp error:', error);
       set({ authError: error.message, isLoading: false });
       return;
     }

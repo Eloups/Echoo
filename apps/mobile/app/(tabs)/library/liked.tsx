@@ -105,7 +105,7 @@ export default function Liked() {
                         ))}
                     </View>
                 ) : <View style={{ marginTop: 30, paddingHorizontal: 20 }}>
-                    <AppText style={{ textAlign: 'center' }} color="text2">Aucun titres likés</AppText>
+                    <AppText style={{ textAlign: 'center' }} color="text2">Aucun titre liké</AppText>
                 </View>}
             </ScrollView >
         </View >
