@@ -2,7 +2,7 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const getResetPasswordTemplate = () => `
+const getResetPasswordTemplate = (url : string) => `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html dir="ltr" lang="en">
   <head>
@@ -81,7 +81,7 @@ const getResetPasswordTemplate = () => `
 </html>
 `;
 
-const getVerificationTemplate = () => `
+const getVerificationTemplate = (url : string) => `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html dir="ltr" lang="en">
   <head>
@@ -158,12 +158,12 @@ const getVerificationTemplate = () => `
 </html>
 `;
 
-export async function sendEmail({ to, URL_RESET_PASSWORD = "" }: { to: string, URL_RESET_PASSWORD?: string, URL_VERIFICATION?: string }) {
+export async function sendEmail({ to, URL_RESET_PASSWORD = "", URL_VERIFICATION = "" }: { to: string, URL_RESET_PASSWORD?: string, URL_VERIFICATION?: string }) {
 
   const isResetPassword = !!URL_RESET_PASSWORD;
 
   const subject = isResetPassword ? 'Réinitialisation de votre mot de passe' : 'Vérification de votre email';
-  const htmlContent = isResetPassword ? getResetPasswordTemplate() : getVerificationTemplate();
+  const htmlContent = isResetPassword ? getResetPasswordTemplate(URL_RESET_PASSWORD) : getVerificationTemplate(URL_VERIFICATION);
 
   try {
     return await resend.emails.send({

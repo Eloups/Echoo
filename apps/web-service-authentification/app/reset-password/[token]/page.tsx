@@ -76,8 +76,8 @@ export default function ResetPassword() {
                 <EchoCompleteLogo height={80} style={{ marginRight: 14 }} />
             </div>
             <div style={{ flex: 1, width: "100%", justifyContent: "center", alignItems: "start", paddingTop: 50, display: "flex" }}>
-                <div style={{ padding: 30, borderRadius: 10, width: 350, backgroundColor: "#161616", alignItems: "center", display: "flex", flexDirection: "column", gap: 30 }}>
-                    <p style={{ fontSize: "1.5rem", color: "#ffffff" }}>Reset Password Page</p>
+                <div style={{ padding: 30, borderRadius: 10, width: 400, backgroundColor: "#161616", alignItems: "center", display: "flex", flexDirection: "column", gap: 30 }}>
+                    <p style={{ fontSize: "1.5rem", color: "#ffffff" }}>Réinitialiser votre mot de passe</p>
                     {generalError && (
                         <p style={{ color: "#FF4444", fontSize: "0.875rem", textAlign: "center" }}>
                             {generalError}
