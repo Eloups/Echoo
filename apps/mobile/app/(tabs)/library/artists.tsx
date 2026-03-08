@@ -86,7 +86,7 @@ export default function Artists() {
 
     return (
         <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>
-            <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
+            <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15, paddingBottom: 150 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
                 {artists.map((artist, key) =>
                     <ArtistCard key={key} infos={artist} isSearch={false}></ArtistCard>
                 )}

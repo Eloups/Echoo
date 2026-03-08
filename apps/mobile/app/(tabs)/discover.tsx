@@ -219,7 +219,7 @@ export default function Discover() {
                 </View>
             ) :
                 <View>
-                    <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
+                    <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 15, paddingBottom: 150 }} style={{ paddingLeft: 20, height: "100%", paddingTop: 20 }}>
                         {searchList?.artists.map((item, key) => (
                             <ArtistCard key={`artist-${key}`} infos={item} isSearch={true} isHome={true} />
                         ))}
