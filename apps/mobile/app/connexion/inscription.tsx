@@ -30,36 +30,36 @@ export default function InscriptionScreen() {
 
         // Valider le username
         try {
-            usernameSchema.parse(pseudo.trim());
+            usernameSchema.parse(pseudo);
         } catch (error: any) {
-            if (error.errors?.[0]?.message) {
-                errors.username = error.errors[0].message;
+            if (error?.issues?.[0]?.message) {
+                errors.username = error.issues[0].message;
                 hasErrors = true;
             }
         }
 
         // Valider l'email
         try {
-            emailSchema.parse(email.trim());
+            emailSchema.parse(email);
         } catch (error: any) {
-            if (error.errors?.[0]?.message) {
-                errors.email = error.errors[0].message;
+            if (error?.issues?.[0]?.message) {
+                errors.email = error.issues[0].message;
                 hasErrors = true;
             }
         }
 
         // Valider le mot de passe
         try {
-            passwordSchema.parse(mdp.trim());
+            passwordSchema.parse(mdp);
         } catch (error: any) {
-            if (error.errors?.[0]?.message) {
-                errors.mdp = error.errors[0].message;
+            if (error?.issues?.[0]?.message) {
+                errors.mdp = error.issues[0].message;
                 hasErrors = true;
             }
         }
 
         // Vérifier la confirmation du mot de passe
-        if (mdp.trim() !== mdpConf.trim()) {
+        if (mdp.trim() !== mdpConf) {
             errors.mdpConf = "Les mots de passe ne correspondent pas";
             hasErrors = true;
         }
