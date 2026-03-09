@@ -1,0 +1,79 @@
+import { Playlist } from '../types/types';
+import { apiClient } from './client';
+import { CreateUserRequest } from './types';
+
+/**
+ * Service API pour les utilisateurs
+ * Correspond au UserController de l'API backend
+ */
+export const UserService = {
+  /**
+   * Crée un utilisateur
+   * Post 
+   */
+  createUser: async (request: CreateUserRequest): Promise<any> => {
+    let retour = await apiClient.post<any>('/users', {
+      id: request.id,
+      username: request.username,
+      email: request.email,
+      password: "",
+      image_path: request.image_path,
+      id_role: 1,
+      id_artist: null,
+    });
+
+    return retour;
+  },
+
+  /**
+   * récupérer les info d'un utilisateur
+   * Get
+   */
+  getUser: async (idUser: string): Promise<any> => {
+    let retour = await apiClient.get<any>('/users' + `/${idUser}`);
+    return retour;
+  },
+
+  /**
+   * Liker une musique
+   * POST
+   */
+  postLikeMusic: async (idUser: string, idMusic: number): Promise<any> => {
+    let retour = await apiClient.post<any>('/music/like', {
+      id_user: idUser,
+      id_music: idMusic
+    });
+    return retour;
+  },
+
+  /**
+   * Liker un artiste
+   * @returns 
+   */
+  postLikeArtist: async (idUser: string, idArtist: number): Promise<any> => {
+    let retour = await apiClient.post<any>('/artist/like', {
+      id_user: idUser,
+      id_artist: idArtist
+    });
+    return retour;
+  },
+
+   /**
+   * Liker un projet
+   * @returns 
+   */
+  postLikeProject: async (idUser: string, idProject: number): Promise<any> => {
+    let retour = await apiClient.post<any>('/project/like', {
+      id_user: idUser,
+      id_project: idProject
+    });
+    return retour;
+  },
+
+  /**
+ * Récupérer la playliste de titres likés
+ */
+  getLikedPlaylist: async (idUser: string): Promise<{ playlist: Playlist }> => {
+    return await apiClient.get<{ playlist: Playlist }>(`/users/${idUser}/liked/playlist`);
+  }
+};

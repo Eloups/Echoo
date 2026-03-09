@@ -1,0 +1,27 @@
+type: http_request
+model: http_request
+id: rq_dEopj8nDYp
+createdAt: 2025-12-03T10:13:05.287676800
+updatedAt: 2026-03-03T10:34:22.484869100
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_k7AiE9NFCL
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "id_user": "3",
+      "id_music": 6
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: 3E02VknxF8
+method: POST
+name: like a music
+sortPriority: -1760599398215.0
+url: ${[ API_HOST ]}/music/like
+urlParameters: []

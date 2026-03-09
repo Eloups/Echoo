@@ -1,0 +1,26 @@
+type: http_request
+model: http_request
+id: rq_yzMAwzRi2d
+createdAt: 2026-01-02T08:03:17.468994500
+updatedAt: 2026-02-11T13:48:18.988839600
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_XGNPk28yhy
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Get most listened musics of the month
+sortPriority: -1760599398214.998
+url: ${[ API_HOST ]}/user/3/lastListened/musics
+urlParameters:
+- enabled: true
+  name: limit
+  value: '6'
+  id: GhhX20bbX9
+- enabled: true
+  name: ''
+  value: ''
+  id: nnKMcPP9Vi

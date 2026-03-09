@@ -1,0 +1,26 @@
+type: http_request
+model: http_request
+id: rq_WPPMHJvJcp
+createdAt: 2025-12-01T07:55:41.154469500
+updatedAt: 2026-03-04T14:41:29.632558100
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_enbuuoZuT3
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers:
+- enabled: false
+  name: Range
+  value: bytes=2000000-3000000
+  id: RYG5zPNfpn
+- enabled: true
+  name: ''
+  value: ''
+  id: M8nD0Cj8N8
+method: GET
+name: Get a music file
+sortPriority: 1000.0
+url: ${[ API_HOST ]}/stream/ComeOutAndPlay.mp3
+urlParameters: []

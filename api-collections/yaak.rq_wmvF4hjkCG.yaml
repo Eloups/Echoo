@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_wmvF4hjkCG
+createdAt: 2025-12-08T18:14:25.260854700
+updatedAt: 2026-03-04T09:51:07.832702400
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_zuMHoGGruW
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: get artists in library
+sortPriority: -1760599398215.0
+url: ${[ API_HOST ]}/artist/library/322EZBMz9mlGPzuJM0UmhQv8BkBiO3EC/all
+urlParameters: []

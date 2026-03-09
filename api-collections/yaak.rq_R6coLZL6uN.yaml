@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_R6coLZL6uN
+createdAt: 2025-12-09T14:11:50.252631900
+updatedAt: 2026-02-26T15:36:38.962517900
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_zuMHoGGruW
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: get albums from an artist
+sortPriority: -1760599398215.0
+url: ${[ API_HOST ]}/artist/7/albums
+urlParameters: []

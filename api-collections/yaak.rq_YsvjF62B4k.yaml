@@ -1,0 +1,29 @@
+type: http_request
+model: http_request
+id: rq_YsvjF62B4k
+createdAt: 2026-01-14T14:31:47.112269500
+updatedAt: 2026-01-22T20:25:08.961436300
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_XGNPk28yhy
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "username": "test",
+      "email": "tssest@test.com",
+      "image_path": "imgTest.png",
+      "id_role": 1
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: 3KCIR43Djh
+method: PUT
+name: Update User
+sortPriority: 1000.001
+url: ${[ API_HOST ]}/users/1
+urlParameters: []

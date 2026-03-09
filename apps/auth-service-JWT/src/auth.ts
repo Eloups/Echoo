@@ -1,0 +1,55 @@
+import { betterAuth } from "better-auth";
+import { jwt, openAPI } from "better-auth/plugins";
+import { prismaAdapter } from "better-auth/adapters/prisma";
+import { prisma } from "./prisma";
+import { sendEmail } from "./email";
+
+export const jwtPlugin = jwt();
+
+const WEB_SERVICE_PUBLIC_URL = process.env.WEB_SERVICE_PUBLIC_URL || "http://localhost:3000";
+
+export const auth = betterAuth({
+  baseURL: "http://localhost:3333",
+  emailAndPassword: {
+    enabled: true,
+    requireEmailVerification: true,
+    autoSignIn: false,
+    sendResetPassword: async ({ user, url, token }) => {
+      // Only send reset password email if email has been verified
+      if (!user.emailVerified) {
+        throw new Error("Email must be verified before resetting password");
+      }
+
+      url = `${WEB_SERVICE_PUBLIC_URL}/reset-password/${token}`;
+      await sendEmail({
+        to: user.email,
+        URL_RESET_PASSWORD: url,
+      });
+    },
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: false,
+    sendVerificationEmail: async ({ user, url, token }) => {
+
+      // L'URL pointera vers votre site web (accessible depuis le navigateur)
+      url = `${WEB_SERVICE_PUBLIC_URL}/verify-email/${token}`;
+
+      await sendEmail({
+        to: user.email,
+        URL_VERIFICATION: url,
+      });
+    },
+  },
+  jwt: {
+    expirationTime: 3600, // 1 hour en secondes
+  },
+  advanced: {
+    disableCSRFCheck: true,
+  },
+  trustedOrigins: [WEB_SERVICE_PUBLIC_URL],
+  database: prismaAdapter(prisma, {
+    provider: "postgresql",
+  }),
+  plugins: [jwtPlugin, openAPI()],
+});

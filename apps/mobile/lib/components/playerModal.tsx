@@ -1,0 +1,432 @@
+import { Modal, View, Image, Pressable, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { useTheme } from '@/lib/theme/provider';
+import AppText from '@/lib/components/global/appText';
+import usePlayerStore from '@/hook/usePlayerStore';
+import { Ionicons, MaterialIcons, FontAwesome5, Entypo } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useEffect, useRef, useState } from 'react';
+import Slider from '@react-native-community/slider';
+import QueueModal from './queueModal';
+import AddToPlaylistModal from './addToPlaylistModal';
+import { UserService } from '../api/user.service';
+import { AlbumService, MusicService } from '../api';
+import { LoadingSpinner } from './global/BtnConnexion';
+import useAuthHook from '@/hook/authHook';
+
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+
+/**
+ * Modale du lecteur de musique complet en plein écran
+ */
+export default function PlayerModal() {
+  const { theme } = useTheme();
+  const {
+    currentTrack,
+    isPlaying,
+    progress,
+    duration,
+    togglePlayPause,
+    nextTrack,
+    previousTrack,
+    seekTo,
+    isPlayerModalVisible,
+    hidePlayerModal,
+    isLoading,
+  } = usePlayerStore();
+
+  let { userId } = useAuthHook();
+  if (!userId) {
+    userId = "";
+  }
+
+  const [localProgress, setLocalProgress] = useState(progress);
+  const [isSeeking, setIsSeeking] = useState(false);
+  const [queueVisible, setQueueVisible] = useState(false);
+  const [addToPlaylistModalVisible, setAddToPlaylistModalVisible] = useState(false);
+  const seekTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isMusicLike, setIsMusicLike] = useState<boolean>(false);
+  const [trackColors, setTrackColors] = useState<{ color1: string; color2: string } | null>(null);
+
+  //Vérifie si la musique est déjà liké par un utilisateur
+    useEffect(() => {
+        if (currentTrack != null) {
+            const fetchIsMusicLike = async () => {
+                try {
+                    const result = await MusicService.getIsMusicIsLike(userId, currentTrack.id);
+                    setIsMusicLike(result.isLike);
+                } catch (error) {
+                    console.error("Erreur lors de la récupération:", error);
+                }
+            };
+
+            fetchIsMusicLike();
+        }
+    }, [currentTrack]);
+
+  useEffect(() => {
+    const fetchTrackColors = async () => {
+      if (!currentTrack) return;
+
+      try {
+        const response = await AlbumService.getMusicColors(currentTrack.id);
+        if (response?.colors?.color1 && response?.colors?.color2) {
+          setTrackColors({
+            color1: response.colors.color1,
+            color2: response.colors.color2,
+          });
+        } else {
+          setTrackColors(null);
+        }
+      } catch (error) {
+        setTrackColors(null);
+      }
+    };
+
+    fetchTrackColors();
+  }, [currentTrack?.id]);
+
+  // Synchroniser le slider avec la progression réelle
+  useEffect(() => {
+    if (!isSeeking) {
+      setLocalProgress(progress);
+    }
+  }, [progress, isSeeking]);
+
+  if (!currentTrack) {
+    return null;
+  }
+
+  const gradientColor1 = trackColors?.color1 || currentTrack.color1 || '#04131D';
+  const gradientColor2 = trackColors?.color2 || currentTrack.color2 || '#082840';
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const handleSliderChange = (value: number) => {
+    setLocalProgress(value);
+    if (!isSeeking) {
+      setIsSeeking(true);
+    }
+  };
+
+  const handleSliderComplete = async (value: number) => {
+    try {
+      // Empêcher la synchronisation pendant un court moment
+      setLocalProgress(value);
+
+      // Effectuer le seek
+      await seekTo(value);
+
+      // Attendre un peu avant de réactiver la synchronisation
+      if (seekTimeoutRef.current) {
+        clearTimeout(seekTimeoutRef.current);
+      }
+
+      const timeout = setTimeout(() => {
+        setIsSeeking(false);
+      }, 300);
+
+      // Stocker le timeout pour le cleanup
+      seekTimeoutRef.current = timeout;
+    } catch (error) {
+      // Gérer l'erreur silencieusement si le seek échoue
+      setIsSeeking(false);
+    }
+  };
+
+  // Like d'une musique
+  const handleMusicLike = () => {
+    setIsMusicLike(!isMusicLike);
+    UserService.postLikeMusic(userId, currentTrack.id);
+  }
+
+
+  return (
+    <Modal
+      visible={isPlayerModalVisible}
+      animationType="slide"
+      presentationStyle="pageSheet"
+      onRequestClose={hidePlayerModal}
+    >
+      <LinearGradient
+        colors={[gradientColor1, gradientColor2, theme.colors.background]}
+        style={styles.container}
+        locations={[0, 0.4, 1]}
+      >
+          {/* Bouton retour */}
+          <View style={styles.header}>
+            <Pressable onPress={hidePlayerModal} style={styles.backButton}>
+              <Ionicons name="chevron-down" size={32} color={theme.colors.text} />
+            </Pressable>
+          </View>
+
+          {/* Cover de la musique */}
+          <View style={styles.coverContainer}>
+            <Image
+              source={currentTrack.cover}
+              style={styles.cover}
+            />
+            {/* Titre de l'album sur l'image */}
+            <View style={styles.albumTitleOverlay}>
+            </View>
+          </View>
+
+          {/* Informations de la musique */}
+          <View style={styles.infoContainer}>
+            <View style={styles.titleRow}>
+              <View style={{ flex: 1 }}>
+                <AppText size="xl" style={styles.trackTitle}>
+                  {currentTrack.title}
+                </AppText>
+                <AppText size="md" color="text2" style={styles.artist}>
+                  {currentTrack.artist}
+                </AppText>
+              </View>
+              <View style={styles.actionsRow}>
+                <Pressable
+                  style={styles.actionButton}
+                  onPress={() => setAddToPlaylistModalVisible(true)}
+                >
+                  <MaterialIcons name="playlist-add" size={28} color={theme.colors.text} />
+                </Pressable>
+                <Pressable onPress={handleMusicLike} style={styles.actionButton}>
+                  <Ionicons name={isMusicLike ? "heart" : "heart-outline"} size={26} color={isMusicLike ? '#DB1151' : theme.colors.text} />
+                </Pressable>
+              </View>
+            </View>
+          </View>
+
+          {/* Barre de progression */}
+          <View style={styles.progressContainer}>
+            <Slider
+              style={styles.slider}
+              minimumValue={0}
+              maximumValue={duration}
+              value={localProgress}
+              onValueChange={handleSliderChange}
+              onSlidingComplete={handleSliderComplete}
+              minimumTrackTintColor={theme.colors.primary}
+              maximumTrackTintColor="rgba(255, 255, 255, 0.2)"
+              thumbTintColor={theme.colors.primary}
+            />
+            <View style={styles.timeContainer}>
+              <AppText size="sm" color="text2">
+                {formatTime(localProgress)}
+              </AppText>
+              <AppText size="sm" color="text2">
+                -{formatTime(duration - localProgress)}
+              </AppText>
+            </View>
+          </View>
+
+          {/* Contrôles de lecture */}
+          <View style={styles.controlsContainer}>
+            <Pressable
+              onPress={previousTrack}
+              style={({ pressed }) => [
+                styles.controlButton,
+                pressed && { backgroundColor: 'rgba(50, 67, 223, 0.25)' }
+              ]}
+            >
+              <Ionicons name="play-skip-back" size={36} color={theme.colors.text} />
+            </Pressable>
+
+            <Pressable onPress={togglePlayPause} style={styles.playButton}>
+              <LinearGradient
+                colors={[theme.colors.primary, theme.colors.primaryLight]}
+                style={styles.playButtonGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+              >
+                {isLoading ? (
+                  <LoadingSpinner size={20} color={theme.colors.text} />
+                ) : (
+                  <Ionicons
+                    name={isPlaying ? 'pause' : 'play'}
+                    size={40}
+                    color="white"
+                  />
+                )}
+              </LinearGradient>
+            </Pressable>
+
+            <Pressable
+              onPress={nextTrack}
+              style={({ pressed }) => [
+                styles.controlButton,
+                pressed && { backgroundColor: 'rgba(50, 67, 223, 0.25)' }
+              ]}
+            >
+              <Ionicons name="play-skip-forward" size={36} color={theme.colors.text} />
+            </Pressable>
+          </View>
+
+          {/* Boutons de partage et options */}
+          <View style={styles.bottomControls}>
+            {/* <Pressable style={styles.bottomButton}>
+              <FontAwesome5 name="bluetooth-b" size={20} color={theme.colors.primary} />
+            </Pressable>
+
+            <Pressable style={styles.bottomButton}>
+              <Ionicons name="create-outline" size={24} color={theme.colors.text} />
+            </Pressable> */}
+
+            <Pressable
+              onPress={() => setQueueVisible(true)}
+              style={({ pressed }) => [
+                styles.bottomButton,
+                pressed && { backgroundColor: 'rgba(50, 67, 223, 0.25)' }
+              ]}
+            >
+              <Entypo name="menu" size={24} color={theme.colors.text} />
+            </Pressable>
+          </View>
+      </LinearGradient>
+
+      {/* Modale de la liste d'attente */}
+      <QueueModal visible={queueVisible} onClose={() => setQueueVisible(false)} />
+
+      {/* Modale d'ajout à une playlist */}
+      <AddToPlaylistModal
+        visible={addToPlaylistModalVisible}
+        onClose={() => setAddToPlaylistModalVisible(false)}
+        musicId={currentTrack.id}
+      />
+    </Modal>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 40,
+  },
+  header: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    paddingHorizontal: 20,
+    paddingTop: 50,
+    marginBottom: 20,
+  },
+  backButton: {
+    padding: 8,
+  },
+  headerTitle: {
+    marginTop: 10,
+  },
+  coverContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 30,
+    position: 'relative',
+  },
+  cover: {
+    width: SCREEN_WIDTH * 0.75,
+    height: SCREEN_WIDTH * 0.75,
+    borderRadius: 12,
+  },
+  albumTitleOverlay: {
+    position: 'absolute',
+    bottom: 20,
+    left: '12.5%',
+    right: '12.5%',
+    paddingLeft: 20,
+  },
+  albumTitle: {
+    fontWeight: 'bold',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+  },
+  infoContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  trackTitle: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  artist: {
+    marginTop: 5,
+  },
+  actionsRow: {
+    flexDirection: 'row',
+    gap: 15,
+  },
+  actionButton: {
+    padding: 5,
+  },
+  progressContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+  slider: {
+    width: '100%',
+    height: 40,
+  },
+  timeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: -10,
+  },
+  controlsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    marginBottom: 30,
+    gap: 15,
+  },
+  controlButton: {
+    padding: 10,
+    borderRadius: 999,
+  },
+  playButton: {
+    marginHorizontal: 10,
+  },
+  playButtonGradient: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bottomControls: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 30,
+    paddingHorizontal: 20,
+    marginBottom: 30,
+  },
+  bottomButton: {
+    padding: 10,
+    borderRadius: 999,
+  },
+  tabsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 20,
+    paddingHorizontal: 20,
+  },
+  tab: {
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    borderRadius: 20,
+  },
+  tabActive: {
+    backgroundColor: 'rgba(50, 67, 223, 0.8)',
+  },
+  tabText: {
+    textAlign: 'center',
+  },
+});

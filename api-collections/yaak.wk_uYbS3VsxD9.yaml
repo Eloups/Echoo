@@ -1,0 +1,14 @@
+type: workspace
+model: workspace
+id: wk_uYbS3VsxD9
+createdAt: 2025-10-16T07:23:14.690134700
+updatedAt: 2025-10-16T07:23:14.690135600
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+name: Echoo
+encryptionKeyChallenge: null
+settingValidateCertificates: true
+settingFollowRedirects: true
+settingRequestTimeout: 0

@@ -1,0 +1,108 @@
+services:
+  api-nginx:
+    image: nginx:alpine
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./docker/api-nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./apps/api:/var/www/api
+      - ./apps/api/.env.docker:/var/www/api/.env
+    depends_on:
+      php:
+        condition: service_started
+    networks:
+      - net1
+
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    volumes:
+    - ./apps/api:/var/www/api
+    - ./apps/api/.env.docker:/var/www/api/.env
+    networks:
+      - net1
+
+  database:
+    build:
+      context: .
+      dockerfile: ./docker/postgresql/Dockerfile
+    restart: always
+    shm_size: 128mb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/postgresql/dataset:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: echoo
+    networks:
+      - net1
+
+  file-server:
+    image: nginx:alpine
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./docker/file-server/files/images:/usr/share/nginx/html/images
+      - ./docker/file-server/files/musics:/usr/share/nginx/html/musics
+      - ./docker/file-server/conf/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./apps/file-server:/usr/share/nginx/html/scripts
+    depends_on:
+      fs-php:
+        condition: service_started
+    networks:
+      - net1
+
+  fs-php:
+    build:
+      context: .
+      dockerfile: ./docker/fs-php-fpm/Dockerfile
+    volumes:
+    - ./apps/file-server:/usr/share/nginx/html/scripts
+    - ./docker/file-server/files/images:/usr/share/nginx/html/images
+    - ./docker/file-server/files/musics:/usr/share/nginx/html/musics
+    networks:
+      - net1  
+  
+  database-auth:
+    build:
+      context: .
+      dockerfile: ./docker/postgresql-auth/Dockerfile
+    restart: always
+    shm_size: 128mb
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./docker/postgresql-auth/dataset:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: echoo-auth
+    networks:
+      - net1 
+
+  api-auth:
+    build:
+      context: .
+      dockerfile: ./docker/auth-service/Dockerfile
+    ports:
+      - 3333:3333
+    networks:
+      - net1 
+
+  api-web:
+    build:
+      context: .
+      dockerfile: ./docker/auth-web/Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - net1 
+
+networks:
+  net1:
+    driver: bridge  
+
+

@@ -1,0 +1,26 @@
+type: http_request
+model: http_request
+id: rq_7tHwuB35EZ
+createdAt: 2026-01-15T13:40:44.297428900
+updatedAt: 2026-03-05T14:50:44.851643800
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_zuMHoGGruW
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Search in artist
+sortPriority: -1760599398214.999
+url: ${[ API_HOST ]}/artist/search/hit
+urlParameters:
+- enabled: true
+  name: limit
+  value: '6'
+  id: f6mp7xVKVa
+- enabled: true
+  name: ''
+  value: ''
+  id: x3ariAHpEJ

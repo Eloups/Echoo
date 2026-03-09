@@ -1,0 +1,61 @@
+<?php
+
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
+
+$routes = new RouteCollection();
+
+// On crée les routes ici
+// Musiques
+$routes->add('music|list', new Route('/musics/artist/{id}', methods: 'GET'));
+$routes->add('music|like', new Route('/music/like', methods: 'POST'));
+$routes->add('music|ratings', new Route('/musics/{id}/ratings', methods: 'GET'));
+$routes->add('music|coverPathProject', new Route('/music/{id}/coverPath', methods: 'GET'));
+$routes->add('music|isLikeByUser', new Route('/music/user/isLike', methods: 'POST'));
+$routes->add('music|getColorsProject', new Route('/music/{id}/colors', methods: 'GET'));
+
+// Streaming
+$routes->add('stream|getFile', new Route('/stream/{fileName}', methods: 'GET'));
+
+// Interractions file server
+$routes->add('files|getImage', new Route('/images/{fileName}', methods: 'GET'));
+$routes->add('files|addImage', new Route('/images', methods: 'POST'));
+
+// Artiste
+$routes->add('artist|page', new Route('/artist/{id}/page', methods: 'GET'));
+$routes->add('artist|like', new Route('/artist/like', methods: 'POST'));
+$routes->add('artist|artistInLibrary', new Route('/artist/library/{id}/all', methods: 'GET'));
+$routes->add('artist|albums', new Route('/artist/{id}/albums', methods: 'GET'));
+$routes->add('artist|singles', new Route('/artist/{id}/singles', methods: 'GET'));
+$routes->add('artist|mostMistenedMonth', new Route('/artist/listened/month', methods: 'GET'));
+$routes->add('artist|search', new Route('/artist/search/{search}', methods: 'GET'));
+$routes->add('artist|isArtistLiked', new Route('/artist/user/isLike', methods: 'POST'));
+
+// Playlist
+$routes->add('playlist|getOnePlaylist', new Route('/playlist/{id}', methods: 'GET'));
+$routes->add('playlist|getPlaylistsOfLibrary', new Route('/playlist/library/{id}/all', methods: 'GET'));
+$routes->add('playlist|addPlaylist', new Route('/playlist/add', methods: 'POST'));
+$routes->add('playlist|addMusicToPlaylist', new Route('/playlist/add/music', methods: 'POST'));
+$routes->add('playlist|deletePlaylist', new Route('/playlist/{id}', methods: 'DELETE'));
+$routes->add('playlist|deleteMusicToPlaylist', new Route('/playlist/delete/music', methods: 'DELETE'));
+$routes->add('playlist|updatePlaylist', new Route('/playlist/{id}', methods: 'PATCH'));
+
+// Projet
+$routes->add('project|like', new Route('/project/like', methods: 'POST'));
+$routes->add('project|projectsInLibrary', new Route('/project/library/{id}/all', methods: 'GET'));
+$routes->add('project|getProjectById', new Route('/project/{id}', methods: 'GET'));
+$routes->add('project|isProjectLiked', new Route('/project/user/isLike', methods: 'POST'));
+
+// User
+$routes->add('user|listenedMusics', new Route('/user/{id}/listened/musics', methods: 'GET'));
+$routes->add('user|addListenedMusics', new Route('/user/listened/musics/add', methods: 'POST'));
+$routes->add('user|artistsLastsReleases', new Route('/user/{id}/follows/artists/releases', methods: 'GET'));
+$routes->add('user|mostListenedMusicsOfTheMonth', new Route('/user/{id}/lastListened/musics', methods: 'GET'));
+$routes->add('user|create', new Route('/users', methods: 'POST'));
+$routes->add('user|getAll', new Route('/users', methods: 'GET'));
+$routes->add('user|getOne', new Route('/users/{id}', methods: 'GET'));
+$routes->add('user|update', new Route('/users/{id}', methods: 'PUT'));
+$routes->add('user|delete', new Route('/users/{id}', methods: 'DELETE'));
+$routes->add('user|likedPlaylist', new Route('/users/{id}/liked/playlist', methods: 'GET'));
+
+return $routes;

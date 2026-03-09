@@ -1,0 +1,27 @@
+type: http_request
+model: http_request
+id: rq_wAt6ZnevNm
+createdAt: 2025-12-30T10:48:50.760949300
+updatedAt: 2026-02-03T13:35:11.527112200
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_ZSpH79FmTY
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "id_playlist": 13,
+      "id_music": 11
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: 2S2HqJ8dgI
+method: DELETE
+name: delete music from playlist
+sortPriority: -1767091730753.0
+url: ${[ API_HOST ]}/playlist/delete/music
+urlParameters: []

@@ -1,0 +1,26 @@
+type: http_request
+model: http_request
+id: rq_hbAbT9s9wB
+createdAt: 2025-10-16T07:23:18.216639300
+updatedAt: 2026-02-26T15:36:31.680836200
+workspaceId: wk_uYbS3VsxD9
+folderId: fl_zuMHoGGruW
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Get artist page
+sortPriority: -1760599398215.0
+url: ${[ API_HOST ]}/artist/7/page
+urlParameters:
+- enabled: true
+  name: :id
+  value: ${[ response.body.path(request='rq_fo6VhmNmsw', path=b64'JC5pZA', behavior='smart') ]}
+  id: PH28Bs6Uvb
+- enabled: true
+  name: ''
+  value: ''
+  id: TDer5Rmtcg
