@@ -607,7 +607,7 @@ insert into music (id, title, duration, release, nb_streams, file_path) values
 (88, 'Six Feet Under', 189, '2016-11-17 12:00:00', 0, 'SixFeetUnder.mp3');
 
 insert into project (id, title, release, color1, color2, cover_path, id_type) values
-(24, 'Guess featuring billie eilish', '2024-08-01 12:00:00', '#9b9b9b', '#545454', 'GuessFeaturingBillieEilish.jpg', 2),
+(24, 'Guess featuring billie eilish', '2024-08-01 12:00:00', '#84cc16', '#65a30d', 'GuessFeaturingBillieEilish.jpg', 2),
 (25, 'L’AMOUR DE MA VIE [OVER NOW EXTENDED EDIT]', '2024-05-21 12:00:00', '#d3aa99', '#c09282', 'LAMOURDEMAVIEOverNowExtendedEdit.jpg', 2),
 (26, 'What Was I Made For? [From The Motion Picture "Barbie"]', '2023-07-13 12:00:00', '#8c9f67', '#83945d', 'WhatWasIMadeForBarbie.jpg', 2),
 (27, 'everything i wanted', '2019-11-13 12:00:00', '#d4a787', '#deac7b', 'EverythingIWanted.jpg', 2),
