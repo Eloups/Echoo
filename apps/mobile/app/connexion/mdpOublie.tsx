@@ -65,7 +65,7 @@ export default function MdpOublieScreen() {
 
 
                     <View style={{ width: "100%", paddingLeft: 20, paddingRight: 20, alignItems: "center" }}>
-                        <AppText size="md" align="center">Entrer votre adresse email pour réinitialiser votre mot de passe</AppText>
+                        <AppText size="md" align="center">Entrez votre adresse email pour réinitialiser votre mot de passe</AppText>
                     </View>
 
                     <View style={{ width: "100%" }}>
