@@ -78,7 +78,7 @@ export default function Liked() {
     );
 
     return (
-        <View style={{ backgroundColor: theme.colors.background, height: "100%" }}>
+        <View style={{ backgroundColor: theme.colors.background, height: "100%", paddingBottom: 120 }}>
             <ScrollView horizontal={false} showsHorizontalScrollIndicator={false} style={{ height: "100%", paddingBottom: 130 }}>
                 <View style={{ alignItems: 'center', paddingTop: 10, paddingHorizontal: 20 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12, gap: 10, width: '100%', justifyContent: 'space-between' }}>
