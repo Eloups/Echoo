@@ -2,7 +2,33 @@
 
 Une application musicale communautaire innovante permettant d'écouter de la musique et de la partager avec ses amis !
 
-## Installation du projet d'API
+## Installation du projet
+### Docker
+
+> Note : Il est nécessaire d'installer les dépendances localement pour que cela fonctionne.
+
+
+Pour lancer les conteneurs Docker: 
+
+```bash
+docker-compose up -d
+```
+
+Commande pour éteindre les conteneurs :
+
+```bash
+docker-compose stop
+```
+
+Commande pour supprimer les conteneurs :
+
+```bash
+docker-compose down -v
+```
+
+> Note: Il faut tout de même lancer l'application mobile à la main.
+
+### API
 
 Dirigez-vous dans le dossier de l'API:
 ```bash
@@ -14,7 +40,9 @@ Puis, installez les dépendances :
 composer install
 ```
 
-## Lancer l'application mobile 
+Enfin créez le fichier `.env` à partir du fichier `.env.exemple`
+
+### Application mobile
 
 Assurez-vous d'être sur le même réseau entre le PC qui fait tourner le conteneur Docker et le téléphone qui va utiliser l'application mobile.  
 
@@ -36,74 +64,60 @@ npm run start
 ```
 Scannez avec le téléphone le QR code apparu et accédez à l'application.
 
-> Note: le compte pour se connecter est le suivant
+> Note: le compte de test pour se connecter avec Docker est le suivant:
 > - email: admin@admin.com
-> - mot de passe: Admin123! 
+> - mot de passe: Admin123!
 
-## Lancer l'Auth service
-Commande pour lancer l'Auth Service
+### API authentification
+
+Dirigez-vous dans le dossier de l'API:
+```bash
+cd apps/auth-service-JWT
+```
+
+Puis, installez les dépendances :
+```bash
+npm install
+```
+
+Créez le fichier `.env` à partir du fichier `.env.exemple`
+
+Pour mettre en place la base de données, lancez les commandes suivantes:
 
 ```bash
-cd .\apps\auth-service-JWT\
-
-# bunx prisma generate
-# bunx prisma migrate dev
-# bunx prisma db push 
-# bun run dev
-
 npx prisma generate
 npx prisma migrate dev
 npx prisma db push 
-npm run dev
 ```
 
-Pour voir les donnée de la bdd : 
+Vous pouvez lancer l'API avec la commande suivante:
+
 ```bash
-# bunx prisma studio
+npm run dev
 
-npx prisma studio
 ```
 
-### 💡 Astuce pour le développement
-**Compte de test** :
-- Email : `test@gmail.com`
-- Mot de passe : `Test1234_`
+### Web authentification  
 
-**Pour vous reconnecter** : Entrez simplement `A` dans les champs email et mot de passe.
-
-## Lancer formunaile d'authentification web  
-lancé le formilaire d'authentification permettant de confirmé son mail ou de modifier s'on mot de passe
-
-Ouvrez un terminal PowerShell à la racine du projet puis tapez les commandes suivantes :  
+Dirigez-vous dans le dossier de l'API:
 ```bash
 cd .\apps\web-service-authentification\
+```
+
+Puis, installez les dépendances :
+```bash
 npm install
-cp .env.exemple .env
+```
+
+Enfin créez le fichier `.env` à partir du fichier `.env.exemple`
+
+Vous pouvez lancer l'application avec la commande suivante :
+```bash
 npm run dev
 ```
 
-## Lancement de conteneurs docker
-
-Note : Vous avez besoin de générer le fichier vendor localement avant de lancer les conteneurs Docker.\
-Commande pour lancer les conteneurs :
-
-```bash
-docker-compose up -d
-```
-
-Commande pour éteindre les conteneurs :
-
-```bash
-docker-compose stop
-```
-
-Commande pour supprimer les conteneurs :
-
-```bash
-docker-compose down -v
-```
-
-## Lancement des tests de l'application
+## Tests
+### API
 
 Dirigez-vous dans le dossier de l'API:
 ```bash
@@ -123,6 +137,47 @@ composer perf_test
 Pour lancer les tests de performances complets, lancez :
 ```bash
 composer full_perf_test
+```
+
+Pour lancer le linter, lancez:
+```bash
+composer lint
+```
+
+### Application mobile
+
+Dirigez-vous dans le dossier de l'API:
+```bash
+cd apps/mobile
+```
+
+Pour lancer le linter, lancez:
+```bash
+npm run lint
+```
+
+### API authentification
+
+Dirigez-vous dans le dossier de l'API:
+```bash
+cd apps/auth-service-JWT
+```
+
+Pour lancer le linter, lancez:
+```bash
+npm run lint
+```
+
+### Web authentification
+
+Dirigez-vous dans le dossier de l'API:
+```bash
+cd apps/web-service-authentification
+```
+
+Pour lancer le linter, lancez:
+```bash
+npm run lint
 ```
 
 ## Auteurs
