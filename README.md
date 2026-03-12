@@ -67,6 +67,10 @@ Scannez avec le téléphone le QR code apparu et accédez à l'application.
 > Note: le compte de test pour se connecter avec Docker est le suivant:
 > - email: admin@admin.com
 > - mot de passe: Admin123!
+---
+**Si jamais vous rencontrez une erreur à la première connexion, attendez quelques secondes et recommencez, il faut patienter pour l'initialisation complète de tous les conteneurs**
+
+Dans l'application, nous vous conseillions de faire vos tests avec l'artiste Billie Eilish, sa discographie est au complet.
 
 ### API authentification
 
